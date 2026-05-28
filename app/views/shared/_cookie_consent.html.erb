@@ -1,0 +1,28 @@
+<div class="cookie-consent"
+     data-controller="cookie-consent"
+     data-cookie-consent-storage-key-value="nexus_cookie_consent_v1"
+     hidden>
+  <div class="cookie-consent-inner">
+    <div class="cookie-consent-text">
+      <h2 class="cookie-consent-title">Използваме бисквитки</h2>
+      <p>
+        Този сайт използва бисквитки, необходими за основното му функциониране,
+        и по избор — анонимна статистика, която ни помага да го подобряваме.
+        Подробности можете да намерите в нашата
+        <%= link_to "Политика за поверителност", privacy_path, class: "cookie-consent-link" %>.
+      </p>
+    </div>
+    <div class="cookie-consent-actions">
+      <button type="button"
+              class="btn btn-secondary cookie-consent-btn"
+              data-action="cookie-consent#reject">
+        Само необходимите
+      </button>
+      <button type="button"
+              class="btn btn-primary cookie-consent-btn"
+              data-action="cookie-consent#accept">
+        Приемам всички
+      </button>
+    </div>
+  </div>
+</div>

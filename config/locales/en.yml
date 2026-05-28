@@ -1,0 +1,108 @@
+en:
+  nav:
+    book: "Book"
+    prices: "Prices"
+    check_order: "Check order"
+    faq: "FAQ"
+    contact: "Contact"
+    staff_login: "Staff login"
+
+  topbar:
+    hours_label: "Order intake"
+
+  home:
+    title: "Carpet washing — pickup, wash, delivery"
+    hero:
+      eyebrow: "Free pickup and delivery"
+      title: "Clean carpets — effortless."
+      subtitle: "We pick up your carpets after work hours, machine-wash them with care for every fibre, and bring them back fresh and packaged — again after hours. You stay home, we do the rest."
+      cta_book: "Book a pickup"
+      cta_status: "Check order"
+      bullets:
+        - "Pickup and delivery: %{pickup_window}"
+        - "Free transport in our service area"
+        - "Pay by card or cash on delivery"
+      chip_steps: "steps"
+      chip_eco_title: "Eco"
+      chip_eco_sub: "biodegradable"
+    why_us:
+      eyebrow: "Why us"
+      heading: "Built around your day"
+      lede: "The small details that turn another purchase into a service you rely on."
+      feature_1:
+        title: "Free pickup and delivery"
+        body: "Our couriers arrive between %{pickup_window} — after work hours. We bring carpets back at the same hours, so we don't disrupt your day."
+        tag: "%{pickup_window} · daily"
+      feature_2:
+        title: "Eco-friendly washing"
+        body: "Biodegradable detergents and frugal water use. Safe for kids, pets and heirloom carpets."
+        tag: "100%% biodegradable"
+      feature_3:
+        title: "Easy payment"
+        body: "Pay by card or cash on delivery. You receive a receipt with a unique reference number for easy tracking."
+        tag: "Card · cash"
+    how_it_works:
+      eyebrow: "How it works"
+      heading: "Six steps to a clean carpet"
+      step_label: "Step %{n} / 06"
+      step_1:
+        title: "Free pickup and return"
+        body: "Our couriers arrive at your door between %{pickup_window}. We pick up the carpets and return them washed — again after work hours. No transport fees."
+      step_2:
+        title: "Dusting"
+        body: "We extract dry dust, sand and hair before the wet wash, so they don't turn into mud during washing."
+      step_3:
+        title: "Washing"
+        body: "Machine washing with biodegradable detergents. Deep cleaning, no aggressive chemicals."
+      step_4:
+        title: "Spin drying"
+        body: "We remove excess water with a spin cycle to shorten drying time and preserve the carpet's shape."
+      step_5:
+        title: "Combing"
+        body: "We restore the shape and fluffiness of the fibres so the carpet looks fresh and full-bodied."
+      step_6:
+        title: "Scenting and packaging"
+        body: "A light, subtle scent and careful packaging for transport and storage until delivery to your door."
+    pricing:
+      eyebrow: "Prices"
+      heading: "Transparent prices, no hidden fees"
+      duvets_title: "Duvets, blankets"
+      duvets_price_html: "<span class='home-pricing-amount-num'>%{price}</span> <span class='home-pricing-unit'>%{currency} / kg</span>"
+      duvets_note: "Over %{threshold} kg — %{bulk_price} %{currency} / kg"
+      carpets_title: "Carpets, runners"
+      carpets_badge: "Most ordered"
+      quilts_title: "Lightweight quilts"
+      quilts_price_html: "<span class='home-pricing-amount-num'>%{price}</span> <span class='home-pricing-unit'>%{currency} / item</span>"
+    cta:
+      heading: "Ready for clean carpets?"
+      subtitle: "Book a pickup now — we'll be at your door soon."
+      button: "Book a pickup"
+    welcome:
+      title: "Welcome to %{name}!"
+      back: "Back"
+      next: "Next"
+      close: "Close"
+      login: "Take me to login"
+      step_1:
+        eyebrow: "Step 1 of 3"
+        heading: "This is your public site"
+        body: "Every visitor to <code>%{slug}.rugsuite.app</code> sees the page behind this dialog. It's where your customers book a wash and check their order status. We've prefilled placeholder pricing — you'll change that next."
+      step_2:
+        eyebrow: "Step 2 of 3"
+        heading: "Login is at the bottom of the page"
+        body: "Scroll all the way down and you'll see a small <strong>Staff login</strong> link in the footer. That's where you and your team sign in to manage orders, routes, couriers, SMS, reports and users. You can also bookmark <code>/login</code> directly."
+        show_me: "Show me where"
+      step_3:
+        eyebrow: "Step 3 of 3"
+        heading: "Roles your team will see"
+        body: "<strong>Admin</strong> — full access. <strong>Coordinator</strong> — orders &amp; routes. <strong>Operator</strong> — the wash floor. <strong>Courier</strong> — today's pickups and deliveries. Invite teammates from the Users page once you're logged in."
+    footer:
+      brand_blurb: "Professional machine washing of carpets with attention to detail. Modern equipment and eco-friendly detergents to remove stubborn stains, allergens and odours, so you can enjoy a clean and comfortable home."
+      service_heading: "Service"
+      contact_heading: "Contact"
+      intake_label: "Order intake"
+      pickup_label: "Pickup and return"
+      copyright: "© %{year} %{name}"
+      legal:
+        terms: "Terms"
+        privacy: "Privacy"

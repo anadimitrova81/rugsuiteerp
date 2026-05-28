@@ -1,0 +1,107 @@
+<nav class="status-tabs" aria-label="Поръчки за работа">
+  <% @operator_tabs.each do |tab, config| %>
+    <%= link_to admin_requests_path(tab: tab),
+                class: "status-tab #{'status-tab-active' if tab == @current_tab}" do %>
+      <span class="status-tab-label"><%= config[:label] %></span>
+      <span class="status-tab-count"><%= @tab_counts[tab] %></span>
+    <% end %>
+  <% end %>
+</nav>
+
+<% if @requests.any? %>
+  <div class="courier-list">
+    <% @requests.each do |req| %>
+      <% req = @failed_request if @failed_request&.id == req.id %>
+      <% has_error = @failed_request&.id == req.id %>
+      <details class="courier-row courier-row-<%= req.status %>" name="operator-row" <%= "open" if has_error %>>
+        <summary class="courier-row-summary">
+          <span class="courier-row-icon" aria-hidden="true">
+            <% if req.status == "picked_up" %>
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+            <% elsif req.status == "in_progress" %>
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="12" cy="14" r="4"/><path d="M7 7h.01"/><path d="M11 7h.01"/></svg>
+            <% else %>
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 11 3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+            <% end %>
+          </span>
+          <div class="courier-row-main">
+            <span class="courier-row-id">#<%= req.customer_id %></span>
+            <span class="courier-row-address">
+              <%= req.number_of_items %> бр.
+              <% if req.weight.present? %>
+                · <%= number_with_precision(req.weight, precision: 2, strip_insignificant_zeros: true) %> кг
+              <% end %>
+            </span>
+          </div>
+          <span class="status-badge status-<%= req.status %>"><%= Request::STATUS_LABELS[req.status] %></span>
+          <span class="courier-row-chevron" aria-hidden="true">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </span>
+        </summary>
+
+        <div class="courier-row-body">
+          <dl class="courier-row-details">
+            <div>
+              <dt>Артикули</dt>
+              <dd>
+                <%= req.number_of_items || "—" %>
+                <% if req.items_only %>
+                  <span class="operator-items-only-tag">само артикули (без теглене)</span>
+                <% end %>
+              </dd>
+            </div>
+            <% if req.weight.present? %>
+              <div>
+                <dt>Тегло</dt>
+                <dd><%= number_with_precision(req.weight, precision: 2, strip_insignificant_zeros: true) %> кг</dd>
+              </div>
+            <% end %>
+          </dl>
+
+          <% if req.status == "picked_up" %>
+            <%= form_with model: req,
+                          url: admin_request_path(req),
+                          scope: :request,
+                          method: :patch,
+                          namespace: "row#{req.id}",
+                          class: "courier-row-action" do |form| %>
+              <%= form.hidden_field :status, value: "in_progress" %>
+              <% unless req.items_only %>
+                <%= form.number_field :weight,
+                                      label: "Тегло (кг)",
+                                      placeholder: "Например 12.5",
+                                      min: 0.1,
+                                      step: 0.1 %>
+              <% end %>
+              <%= form.submit "Започни пране", class: "btn btn-primary btn-full" %>
+            <% end %>
+          <% elsif req.status == "in_progress" %>
+            <%= button_to admin_request_path(req, request: { status: "ready_for_delivery" }),
+                          method: :patch,
+                          class: "btn btn-primary btn-full" do %>
+              Маркирай като готова
+            <% end %>
+          <% end %>
+        </div>
+      </details>
+    <% end %>
+  </div>
+<% else %>
+  <div class="empty-state">
+    <div class="empty-state-icon" aria-hidden="true">
+      <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="12" cy="14" r="4"/><path d="M7 7h.01"/><path d="M11 7h.01"/></svg>
+    </div>
+    <p class="empty-state-title">
+      <% if @current_tab == "received" %>Няма взети поръчки
+      <% elsif @current_tab == "in_wash" %>Няма поръчки в пране
+      <% else %>Няма готови за доставка
+      <% end %>
+    </p>
+    <p class="empty-state-hint">
+      <% if @current_tab == "received" %>След като куриерите вземат килими, поръчките ще се появят тук.
+      <% elsif @current_tab == "in_wash" %>След като започнете пране, поръчките ще се появят тук.
+      <% else %>След като маркирате пране като готово, поръчката ще се появи тук.
+      <% end %>
+    </p>
+  </div>
+<% end %>

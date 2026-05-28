@@ -1,0 +1,78 @@
+# Kamal deploy configuration for Nexus Cleaning.
+#
+# Plug in the four <PLACEHOLDER> values below, fill .kamal/secrets, point DNS
+# at 93.94.140.141, then `bin/kamal setup` (first time) or `bin/kamal deploy`.
+
+service: nexus-cleaning
+image: anadimitrova81/nexus-cleaning
+
+servers:
+  web:
+    - 93.94.140.141
+
+# Let's Encrypt-issued SSL via the bundled Kamal proxy. Requires DNS for the
+# `host` to already resolve to 93.94.140.141 before the first deploy.
+# Start on a staging subdomain; flip to nexus-cleaning.com at cut-over time.
+proxy:
+  ssl: true
+  host: nexus-cleaning.com,www.nexus-cleaning.com,new.nexus-cleaning.com
+
+registry:
+  server: ghcr.io
+  username: anadimitrova81
+  password:
+    - KAMAL_REGISTRY_PASSWORD
+
+env:
+  secret:
+    - RAILS_MASTER_KEY
+    - BUGSY_DATABASE_PASSWORD
+    # smsapi.bg + Google Maps keys are read from encrypted credentials.
+  clear:
+    # Run Solid Queue inside Puma (fine for low volume; split out when we grow).
+    SOLID_QUEUE_IN_PUMA: true
+
+    # Kamal puts the Postgres accessory on the internal Docker network at
+    # <service>-<accessory>; this matches `service: nexus-cleaning` + `db:` below.
+    DB_HOST: nexus-cleaning-db
+
+    # No registered smsapi.bg sender yet — leaving SMSAPI_BG_SENDER unset so
+    # smsapi.bg uses its default short code (brand is in the SMS body itself).
+
+    # Leave SMS_LIVE unset on staging so we log instead of sending.
+    # Set to "1" only when cutting over to the real domain.
+    # SMS_LIVE: "1"
+
+aliases:
+  console: app exec --interactive --reuse "bin/rails console"
+  shell: app exec --interactive --reuse "bash"
+  logs: app logs -f
+  dbc: app exec --interactive --reuse "bin/rails dbconsole --include-password"
+
+# Persistent volume for Active Storage uploads. Back this up off-server.
+volumes:
+  - "nexus_cleaning_storage:/rails/storage"
+
+asset_path: /rails/public/assets
+
+builder:
+  arch: amd64
+  # Build the image on the VPS itself (no local Docker required).
+  remote: ssh://root@93.94.140.141
+
+# Postgres accessory — co-located on the same VPS for now. Single password is
+# shared with BUGSY_DATABASE_PASSWORD via .kamal/secrets so the app and DB stay
+# in sync if you ever rotate it.
+accessories:
+  db:
+    image: postgres:16
+    host: 93.94.140.141
+    port: "127.0.0.1:5432:5432"
+    env:
+      clear:
+        POSTGRES_USER: bugsy
+        POSTGRES_DB: rugsuiteerp_production
+      secret:
+        - POSTGRES_PASSWORD
+    directories:
+      - data:/var/lib/postgresql/data

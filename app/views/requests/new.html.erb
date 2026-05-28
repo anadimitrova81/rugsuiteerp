@@ -1,0 +1,74 @@
+<% content_for(:title) { "Заявка · Nexus Cleaning" } %>
+
+<% content_for :head do %>
+  <%# Force a full reload whenever Turbo would navigate to or from this page,
+      and disable Turbo's snapshot cache for it. grecaptcha v3 keeps internal
+      state on the document/window that doesn't survive Turbo's morphed
+      navigations or cached previews — without this, submitting from a Turbo
+      snapshot of /requests/new lands the form with an empty token. %>
+  <meta name="turbo-visit-control" content="reload">
+  <meta name="turbo-cache-control" content="no-preview">
+<% end %>
+
+<section class="request-hero">
+  <div class="request-hero-inner">
+    <span class="home-eyebrow">Заявка</span>
+    <h1>Поръчайте пране на килими</h1>
+    <p>Попълването отнема под минута. Ще се свържем с вас, за да потвърдим часа на вземане и да обсъдим приблизителната цена.</p>
+  </div>
+</section>
+
+<div class="container container-wide request-page">
+  <% if @request.errors.any? %>
+    <div class="flash flash-alert flash-icon">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      <span>Моля, коригирайте отбелязаните полета по-долу.</span>
+    </div>
+  <% end %>
+
+  <div class="request-layout">
+    <div class="request-form-col">
+      <%= render "form", request: @request %>
+    </div>
+
+    <aside class="request-aside">
+      <div class="request-aside-card">
+        <span class="request-aside-eyebrow">Какво следва</span>
+        <ol class="request-aside-steps">
+          <li>
+            <span class="request-aside-num">1</span>
+            <div>
+              <strong>Получаваме заявката ви</strong>
+              <p>Свързваме се с вас, за да потвърдим часа на вземане.</p>
+            </div>
+          </li>
+          <li>
+            <span class="request-aside-num">2</span>
+            <div>
+              <strong>Куриерът идва</strong>
+              <p>Между 18:00 и 20:30, в избрания от вас ден.</p>
+            </div>
+          </li>
+          <li>
+            <span class="request-aside-num">3</span>
+            <div>
+              <strong>Перем и връщаме</strong>
+              <p>След 3 – 5 работни дни — свежо и опаковано.</p>
+            </div>
+          </li>
+        </ol>
+      </div>
+
+      <div class="request-aside-card request-aside-contact">
+        <div class="request-aside-contact-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        </div>
+        <div class="request-aside-contact-body">
+          <span class="request-aside-eyebrow">Предпочитате обаждане?</span>
+          <a class="request-aside-phone" href="tel:+359899771972">+359 899 771 972</a>
+          <span class="request-aside-hours">Работни дни · 09:00 – 20:00</span>
+        </div>
+      </div>
+    </aside>
+  </div>
+</div>

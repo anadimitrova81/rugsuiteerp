@@ -1,0 +1,57 @@
+#!/usr/bin/env bash
+#
+# Deploy Nexus Cleaning to the Max1 VPS via Kamal.
+#
+# Usage:
+#   bin/deploy            # ship a new release (bin/kamal deploy)
+#   bin/deploy setup      # first-time bootstrap (bin/kamal setup)
+#   bin/deploy <cmd> …    # any other kamal subcommand (logs, console, dbc, …)
+#
+# Secrets are loaded from .env.kamal (gitignored). Create it once with:
+#   KAMAL_REGISTRY_PASSWORD=ghp_your_github_pat
+#   POSTGRES_PASSWORD=your_postgres_password
+
+set -euo pipefail
+
+cd "$(dirname "$0")/.."
+
+if [ ! -f .env.kamal ]; then
+  cat >&2 <<'MSG'
+Missing .env.kamal. Create it in the project root with:
+
+  KAMAL_REGISTRY_PASSWORD=ghp_your_github_pat
+  POSTGRES_PASSWORD=your_postgres_password
+
+Then re-run.
+MSG
+  exit 1
+fi
+
+set -a
+# shellcheck disable=SC1091
+source .env.kamal
+set +a
+
+for var in KAMAL_REGISTRY_PASSWORD POSTGRES_PASSWORD; do
+  if [ -z "${!var:-}" ]; then
+    echo "MISSING: $var in .env.kamal" >&2
+    exit 1
+  fi
+done
+
+# Kamal builds the image from the current git HEAD. Warn if there are
+# uncommitted changes so we don't ship a stale image.
+if ! git diff --quiet HEAD 2>/dev/null || [ -n "$(git ls-files --others --exclude-standard)" ]; then
+  echo "⚠ Uncommitted changes — Kamal builds from git HEAD, these won't ship:" >&2
+  git status --short >&2
+  echo >&2
+  if [ -t 0 ]; then
+    read -rp "Proceed anyway? [y/N] " reply
+    [[ "$reply" =~ ^[Yy]$ ]] || { echo "Aborted." >&2; exit 1; }
+  else
+    echo "Aborting: stdin is not a TTY, can't prompt. Commit, stash, or rerun in a real terminal." >&2
+    exit 1
+  fi
+fi
+
+exec bin/kamal "${@:-deploy}"

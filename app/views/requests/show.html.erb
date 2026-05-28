@@ -1,0 +1,55 @@
+<% content_for(:title) { "Заявката е получена · Nexus Cleaning" } %>
+
+<div class="container">
+  <div class="confirmation">
+    <div class="confirmation-header">
+      <div class="confirmation-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M20 6L9 17l-5-5" />
+        </svg>
+      </div>
+      <h1 class="confirmation-title">Заявката е получена</h1>
+      <p class="confirmation-message">Записахме вашата заявка. Запазете референтния номер по-долу — ще ви трябва, за да проверите статуса.</p>
+    </div>
+
+    <div class="confirmation-reference">
+      <span class="confirmation-reference-label">Референтен номер</span>
+      <span class="confirmation-reference-id"><%= @request.customer_id %></span>
+    </div>
+
+    <% if @request.pick_up_at.present? %>
+      <div class="confirmation-pickup">
+        <div class="confirmation-pickup-day">
+          <span class="confirmation-pickup-weekday"><%= bg_weekday(@request.pick_up_at) %></span>
+          <span class="confirmation-pickup-date"><%= bg_long_date(@request.pick_up_at) %></span>
+        </div>
+        <div class="confirmation-pickup-window">
+          <span class="confirmation-pickup-label">Час на вземане</span>
+          <span class="confirmation-pickup-time">18:00 – 20:30</span>
+        </div>
+      </div>
+    <% end %>
+
+    <dl class="confirmation-details">
+      <div>
+        <dt>Телефон</dt>
+        <dd><%= @request.phone %></dd>
+      </div>
+      <div>
+        <dt>Адрес</dt>
+        <dd><%= [@request.address, @request.city].compact_blank.join(", ") %></dd>
+      </div>
+      <% if @request.pick_up_notes.present? %>
+        <div>
+          <dt>Бележки</dt>
+          <dd><%= simple_format(@request.pick_up_notes) %></dd>
+        </div>
+      <% end %>
+    </dl>
+
+    <div class="confirmation-actions">
+      <%= link_to "Проверете статус", status_path(query: @request.customer_id), class: "btn btn-primary" %>
+      <%= link_to "Подайте нова заявка", new_request_path, class: "btn btn-secondary" %>
+    </div>
+  </div>
+</div>

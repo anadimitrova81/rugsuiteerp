@@ -1,0 +1,241 @@
+<% content_for(:title) { "Отчети · Админ" } %>
+
+<div class="container container-wide">
+  <header class="request-detail-page-header">
+    <div>
+      <p class="request-detail-eyebrow">Админ</p>
+      <h1 class="request-detail-title">Отчети</h1>
+      <p class="request-detail-subtitle"><%= @period[:label] %></p>
+    </div>
+    <nav class="status-tabs report-period-tabs" aria-label="Период на отчета">
+      <% @periods.each do |key, config| %>
+        <%= link_to admin_reports_path(period: key),
+                    class: "status-tab #{'status-tab-active' if key == @period_key}" do %>
+          <span class="status-tab-label"><%= config[:label] %></span>
+        <% end %>
+      <% end %>
+    </nav>
+  </header>
+
+  <section class="report-kpis">
+    <div class="report-kpi">
+      <span class="report-kpi-label">Нови заявки</span>
+      <span class="report-kpi-value"><%= @kpis[:total] %></span>
+    </div>
+    <div class="report-kpi">
+      <span class="report-kpi-label">Завършени</span>
+      <span class="report-kpi-value"><%= @kpis[:delivered] %></span>
+      <% if @kpis[:total] > 0 %>
+        <span class="report-kpi-meta"><%= number_to_percentage(@kpis[:delivered] * 100.0 / @kpis[:total], precision: 0) %> от заявките</span>
+      <% end %>
+    </div>
+    <div class="report-kpi report-kpi-accent">
+      <span class="report-kpi-label">Приходи</span>
+      <span class="report-kpi-value"><%= number_with_precision(@kpis[:revenue], precision: 2) %> €</span>
+      <span class="report-kpi-meta">от завършени поръчки</span>
+    </div>
+    <div class="report-kpi">
+      <span class="report-kpi-label">Отказани</span>
+      <span class="report-kpi-value"><%= @kpis[:cancelled] %></span>
+      <% if @kpis[:total] > 0 %>
+        <span class="report-kpi-meta"><%= number_to_percentage(@kpis[:cancelled] * 100.0 / @kpis[:total], precision: 0) %> от заявките</span>
+      <% end %>
+    </div>
+  </section>
+
+  <div class="report-grid">
+    <section class="report-card">
+      <header class="report-card-header">
+        <h2>По статус</h2>
+        <span class="report-card-meta">в периода</span>
+      </header>
+      <% if @status_counts.any? %>
+        <% max = @status_counts.values.max %>
+        <ul class="report-bars">
+          <% Request::STATUSES.each do |s| %>
+            <% count = @status_counts[s].to_i %>
+            <% next if count.zero? %>
+            <li class="report-bar">
+              <div class="report-bar-row">
+                <span class="status-badge status-<%= s %>"><%= Request::STATUS_LABELS[s] %></span>
+                <span class="report-bar-count"><%= count %></span>
+              </div>
+              <div class="report-bar-track" aria-hidden="true">
+                <span class="report-bar-fill report-bar-fill-<%= s %>" style="width: <%= (count * 100.0 / max).round(1) %>%"></span>
+              </div>
+            </li>
+          <% end %>
+        </ul>
+      <% else %>
+        <p class="report-empty">Няма данни за избрания период.</p>
+      <% end %>
+    </section>
+
+    <section class="report-card">
+      <header class="report-card-header">
+        <h2>По населено място</h2>
+        <span class="report-card-meta">топ <%= @top_cities.size %></span>
+      </header>
+      <% if @top_cities.any? %>
+        <% max_city = @top_cities.values.max %>
+        <ul class="report-bars">
+          <% @top_cities.each do |city, count| %>
+            <li class="report-bar">
+              <div class="report-bar-row">
+                <span class="report-bar-label"><%= city %></span>
+                <span class="report-bar-count"><%= count %></span>
+              </div>
+              <div class="report-bar-track" aria-hidden="true">
+                <span class="report-bar-fill report-bar-fill-city" style="width: <%= (count * 100.0 / max_city).round(1) %>%"></span>
+              </div>
+            </li>
+          <% end %>
+        </ul>
+      <% else %>
+        <p class="report-empty">Няма данни за избрания период.</p>
+      <% end %>
+    </section>
+  </div>
+
+  <section class="report-card">
+    <header class="report-card-header">
+      <h2>Средни стойности</h2>
+      <span class="report-card-meta">от завършените поръчки</span>
+    </header>
+    <% if @kpis[:delivered].positive? %>
+      <div class="report-averages">
+        <div>
+          <span class="report-averages-label">Артикули</span>
+          <span class="report-averages-value"><%= number_with_precision(@averages[:items] || 0, precision: 1, strip_insignificant_zeros: true) %></span>
+        </div>
+        <div>
+          <span class="report-averages-label">Тегло</span>
+          <span class="report-averages-value">
+            <%= number_with_precision(@averages[:weight] || 0, precision: 2, strip_insignificant_zeros: true) %>
+            <span class="report-averages-unit">кг</span>
+          </span>
+        </div>
+        <div>
+          <span class="report-averages-label">Сума</span>
+          <span class="report-averages-value">
+            <%= number_with_precision(@averages[:amount] || 0, precision: 2) %>
+            <span class="report-averages-unit">€</span>
+          </span>
+        </div>
+      </div>
+    <% else %>
+      <p class="report-empty">Няма завършени поръчки в периода.</p>
+    <% end %>
+  </section>
+
+  <section class="report-card">
+    <header class="report-card-header">
+      <h2>Заявки по дни</h2>
+      <span class="report-card-meta">по дата на създаване</span>
+    </header>
+    <% max_daily = @daily_volume.map(&:last).max.to_i %>
+    <% if max_daily.positive? %>
+      <div class="report-daily">
+        <% @daily_volume.each do |day, count| %>
+          <div class="report-daily-bar" title="<%= bg_long_date(day) %> — <%= count %> заявки">
+            <% if count.positive? %>
+              <span class="report-daily-count"><%= count %></span>
+            <% end %>
+            <span class="report-daily-fill" style="height: <%= count.zero? ? 2 : (count * 100.0 / max_daily).round(1) %>%" aria-hidden="true"></span>
+          </div>
+        <% end %>
+      </div>
+      <div class="report-daily-axis">
+        <span><%= bg_short_date(@daily_volume.first.first) %></span>
+        <span><%= bg_short_date(@daily_volume.last.first) %></span>
+      </div>
+    <% else %>
+      <p class="report-empty">Няма заявки в периода.</p>
+    <% end %>
+  </section>
+
+  <section class="report-card">
+    <header class="report-card-header">
+      <h2>Фуния</h2>
+      <span class="report-card-meta">от посещение до изпратена заявка</span>
+    </header>
+    <% funnel_max = @funnel.values.max.to_i %>
+    <% if funnel_max.positive? %>
+      <ul class="report-bars">
+        <% [
+             [:home, "Начало", @funnel[:home]],
+             [:form, "Форма за заявка", @funnel[:form]],
+             [:submitted, "Изпратени заявки", @funnel[:submitted]],
+           ].each do |key, label, count| %>
+          <li class="report-bar">
+            <div class="report-bar-row">
+              <span class="report-bar-label"><%= label %></span>
+              <span class="report-bar-count">
+                <%= count %>
+                <% if key != :home && @funnel[:home].positive? %>
+                  <span class="report-bar-meta">(<%= number_to_percentage(count * 100.0 / @funnel[:home], precision: 0) %>)</span>
+                <% end %>
+              </span>
+            </div>
+            <div class="report-bar-track" aria-hidden="true">
+              <span class="report-bar-fill report-bar-fill-city" style="width: <%= (count * 100.0 / funnel_max).round(1) %>%"></span>
+            </div>
+          </li>
+        <% end %>
+      </ul>
+    <% else %>
+      <p class="report-empty">Все още няма посещения в периода.</p>
+    <% end %>
+  </section>
+
+  <section class="report-card">
+    <header class="report-card-header">
+      <h2>Посещения по страница</h2>
+      <span class="report-card-meta">в периода</span>
+    </header>
+    <% if @page_views.any? %>
+      <% max_views = @page_views.values.max %>
+      <ul class="report-bars">
+        <% @page_views.each do |route_key, count| %>
+          <li class="report-bar">
+            <div class="report-bar-row">
+              <span class="report-bar-label"><%= PageVisit.label_for(route_key) %></span>
+              <span class="report-bar-count"><%= count %></span>
+            </div>
+            <div class="report-bar-track" aria-hidden="true">
+              <span class="report-bar-fill report-bar-fill-city" style="width: <%= (count * 100.0 / max_views).round(1) %>%"></span>
+            </div>
+          </li>
+        <% end %>
+      </ul>
+    <% else %>
+      <p class="report-empty">Все още няма посещения в периода.</p>
+    <% end %>
+  </section>
+
+  <section class="report-card">
+    <header class="report-card-header">
+      <h2>Посещения по дни</h2>
+      <span class="report-card-meta">общо за публичните страници</span>
+    </header>
+    <% max_visits = @daily_visits.map(&:last).max.to_i %>
+    <% if max_visits.positive? %>
+      <div class="report-daily">
+        <% @daily_visits.each do |day, count| %>
+          <div class="report-daily-bar" title="<%= bg_long_date(day) %> — <%= count %> посещения">
+            <% if count.positive? %>
+              <span class="report-daily-count"><%= count %></span>
+            <% end %>
+            <span class="report-daily-fill" style="height: <%= count.zero? ? 2 : (count * 100.0 / max_visits).round(1) %>%" aria-hidden="true"></span>
+          </div>
+        <% end %>
+      </div>
+      <div class="report-daily-axis">
+        <span><%= bg_short_date(@daily_visits.first.first) %></span>
+        <span><%= bg_short_date(@daily_visits.last.first) %></span>
+      </div>
+    <% else %>
+      <p class="report-empty">Все още няма посещения в периода.</p>
+    <% end %>
+  </section>
+</div>

@@ -1,0 +1,79 @@
+<% content_for(:title) { "Create your factory — RugSuite ERP" } %>
+
+<section class="mkt-signup">
+  <div class="mkt-signup-inner">
+    <div class="mkt-signup-intro">
+      <span class="mkt-eyebrow">Start free trial</span>
+      <h1>Set up your factory in under a minute.</h1>
+      <p>Fill in five fields and you'll have a working tenant at <code>yourname.rugsuite.app</code> with an admin login ready to go. No credit card.</p>
+
+      <ul class="mkt-signup-bullets">
+        <li>Your own subdomain &amp; isolated data</li>
+        <li>All features unlocked during trial</li>
+        <li>Switch to a paid plan anytime later</li>
+      </ul>
+    </div>
+
+    <div class="mkt-signup-card">
+      <%# data: { turbo: false } — submit as a regular HTML POST so the
+          cross-origin redirect to <slug>.localhost works on success. Turbo
+          intercepts otherwise and can't navigate across origins cleanly. %>
+      <%= form_with(model: @form, url: marketing_signup_path, method: :post, scope: :signup, data: { turbo: false }, class: "mkt-form") do |f| %>
+        <% if @form.errors.any? %>
+          <div class="mkt-form-error mkt-form-error-base">
+            <strong>Couldn't create your factory.</strong>
+            <ul>
+              <% @form.errors.full_messages.each do |msg| %>
+                <li><%= msg %></li>
+              <% end %>
+            </ul>
+          </div>
+        <% end %>
+
+        <div class="mkt-form-row">
+          <%= f.label :name, "Company name", class: "mkt-form-label" %>
+          <%= f.text_field :name, skip_group: true, class: "mkt-form-input", placeholder: "Acme Carpet Wash", autofocus: true, autocomplete: "organization" %>
+          <% if @form.errors[:name].any? %><p class="mkt-form-error"><%= @form.errors[:name].first %></p><% end %>
+        </div>
+
+        <div class="mkt-form-row">
+          <%= f.label :slug, "Subdomain", class: "mkt-form-label" %>
+          <div class="mkt-form-slug">
+            <%= f.text_field :slug, skip_group: true, class: "mkt-form-input mkt-form-slug-input", placeholder: "acme", autocomplete: "off" %>
+            <span class="mkt-form-slug-suffix">.rugsuite.app</span>
+          </div>
+          <p class="mkt-form-hint">Lowercase letters, digits and hyphens. 2–32 characters.</p>
+          <% if @form.errors[:slug].any? %><p class="mkt-form-error"><%= @form.errors[:slug].first %></p><% end %>
+        </div>
+
+        <div class="mkt-form-row">
+          <%= f.label :country_code, "Country", class: "mkt-form-label" %>
+          <%= f.select :country_code, CountryDefaults.select_options, { include_blank: "— select country —", skip_group: true }, class: "mkt-form-input" %>
+          <p class="mkt-form-hint">We use this to set your timezone, currency and language defaults.</p>
+          <% if @form.errors[:country_code].any? %><p class="mkt-form-error"><%= @form.errors[:country_code].first %></p><% end %>
+        </div>
+
+        <hr class="mkt-form-divider">
+
+        <div class="mkt-form-row">
+          <%= f.label :admin_email, "Admin email", class: "mkt-form-label" %>
+          <%= f.email_field :admin_email, skip_group: true, class: "mkt-form-input", placeholder: "you@yourcompany.com", autocomplete: "email" %>
+          <% if @form.errors[:admin_email].any? %><p class="mkt-form-error"><%= @form.errors[:admin_email].first %></p><% end %>
+        </div>
+
+        <div class="mkt-form-row">
+          <%= f.label :admin_password, "Password", class: "mkt-form-label" %>
+          <%= f.password_field :admin_password, skip_group: true, class: "mkt-form-input", autocomplete: "new-password" %>
+          <p class="mkt-form-hint">At least 8 characters.</p>
+          <% if @form.errors[:admin_password].any? %><p class="mkt-form-error"><%= @form.errors[:admin_password].first %></p><% end %>
+        </div>
+
+        <%= f.submit "Create my factory", class: "btn btn-primary btn-full btn-lg" %>
+
+        <p class="mkt-form-fine">
+          By signing up you agree to our terms of service. We'll never share your data with another tenant.
+        </p>
+      <% end %>
+    </div>
+  </div>
+</section>

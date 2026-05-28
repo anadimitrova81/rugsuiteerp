@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title><%= content_for(:title) || "RugSuite ERP — software for carpet wash factories" %></title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="description" content="The all-in-one operations platform for carpet wash factories: bookings, pickup/delivery routing, intake, washing, billing and customer notifications.">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <link rel="icon" href="/icon.png" type="image/png">
+    <link rel="apple-touch-icon" href="/icon.png">
+
+    <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+  </head>
+
+  <body class="marketing-body">
+    <header class="marketing-header">
+      <div class="marketing-header-inner">
+        <a href="/" class="marketing-brand">
+          <span class="marketing-brand-mark" aria-hidden="true">
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7h18v10H3z"/><path d="M3 12h18"/><path d="M7 7v10"/><path d="M17 7v10"/></svg>
+          </span>
+          <span class="marketing-brand-text">RugSuite<span class="marketing-brand-suffix">ERP</span></span>
+        </a>
+        <nav class="marketing-nav" aria-label="Primary">
+          <a href="#features">Features</a>
+          <a href="#how-it-works">How it works</a>
+          <a href="#pricing">Pricing</a>
+          <a href="#contact">Contact</a>
+        </nav>
+        <div class="marketing-header-cta">
+          <%= link_to "Start free trial", marketing_signup_path, class: "btn btn-primary btn-sm" %>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <%= yield %>
+    </main>
+
+    <footer class="marketing-footer">
+      <div class="marketing-footer-inner">
+        <div class="marketing-footer-brand">
+          <strong>RugSuite ERP</strong>
+          <span>Operations software for carpet wash factories.</span>
+        </div>
+        <div class="marketing-footer-links">
+          <a href="#features">Features</a>
+          <a href="#pricing">Pricing</a>
+          <a href="#contact">Contact</a>
+        </div>
+        <div class="marketing-footer-meta">
+          © <%= Date.current.year %> RugSuite ERP. All rights reserved.
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

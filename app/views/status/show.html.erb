@@ -1,0 +1,132 @@
+<% content_for(:title) { "Проверка на поръчка · Nexus Cleaning" } %>
+
+<section class="request-hero">
+  <div class="request-hero-inner">
+    <span class="home-eyebrow">Проследяване</span>
+    <h1>Проверете статуса на заявката</h1>
+    <p>Въведете телефонен номер или номер на поръчка, за да видите къде е тя в момента.</p>
+  </div>
+</section>
+
+<div class="container container-wide request-page">
+  <div class="request-layout">
+    <div class="request-form-col">
+      <%= form_with url: status_path, method: :get, class: "status-form" do |form| %>
+        <div class="status-search">
+          <svg class="status-search-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+          <%= form.text_field :query, value: @query, class: "status-search-input", placeholder: "Телефон или номер на поръчка", autofocus: true, autocomplete: "off", skip_group: true %>
+          <%= form.submit "Провери", class: "btn btn-primary status-search-submit" %>
+        </div>
+      <% end %>
+
+      <% if @error.present? %>
+        <div class="status-error">
+          <p><%= @error %></p>
+        </div>
+      <% elsif @query.present? %>
+        <% if @requests.any? %>
+          <div class="status-results">
+            <p class="status-results-count"><%= pluralize(@requests.size, "резултат", plural: "резултата") %> за <strong><%= @query %></strong></p>
+            <% @requests.each do |req| %>
+              <article class="status-card">
+                <header class="status-card-top">
+                  <div class="status-card-ref">
+                    <span class="status-card-ref-label">Поръчка</span>
+                    <span class="status-card-ref-id"><%= req.customer_id %></span>
+                  </div>
+                  <span class="status-badge status-<%= req.status %>"><%= Request::STATUS_LABELS[req.status] %></span>
+                </header>
+
+                <div class="status-card-grid">
+                  <div class="status-card-field">
+                    <span class="status-card-field-label"><%= pickup_label(req) %></span>
+                    <span class="status-card-field-value">
+                      <% if req.pick_up_at.present? %>
+                        <%= I18n.l(req.pick_up_at.to_date, format: "%-d %B %Y") rescue req.pick_up_at.strftime("%-d.%m.%Y") %>
+                        <small>18:00 – 20:30</small>
+                      <% else %>
+                        —
+                      <% end %>
+                    </span>
+                  </div>
+                  <div class="status-card-field">
+                    <span class="status-card-field-label">Телефон</span>
+                    <span class="status-card-field-value"><%= mask_phone(req.phone) %></span>
+                  </div>
+                  <% if req.amount.present? %>
+                    <div class="status-card-field">
+                      <span class="status-card-field-label">Сума</span>
+                      <span class="status-card-field-value">
+                        <% if req.amount_basis == :weight %>
+                          <%= number_with_precision(req.weight, precision: 2, strip_insignificant_zeros: true) %> кг ×
+                          <%= number_with_precision(req.effective_kg_rate, precision: 2) %> €/кг =
+                          <strong><%= number_with_precision(req.amount, precision: 2) %> €</strong>
+                        <% elsif req.amount_basis == :items %>
+                          <%= req.number_of_items %> бр. ×
+                          <%= number_with_precision(current_factory.price_per_item, precision: 2) %> €/бр. =
+                          <strong><%= number_with_precision(req.amount, precision: 2) %> €</strong>
+                        <% end %>
+                        <% if current_factory.currency == "BGN" %>
+                          <small>(<%= number_with_precision(req.amount * Request::BGN_PER_EUR, precision: 2) %> лв.)</small>
+                        <% end %>
+                      </span>
+                    </div>
+                  <% elsif req.weight.present? || req.number_of_items.present? %>
+                    <%# Items/weight known, price not yet recalculated — show metric only %>
+                    <div class="status-card-field">
+                      <span class="status-card-field-label"><%= req.weight.present? ? "Тегло" : "Артикули" %></span>
+                      <span class="status-card-field-value">
+                        <% if req.weight.present? %>
+                          <%= number_with_precision(req.weight, precision: 2, strip_insignificant_zeros: true) %> кг
+                        <% else %>
+                          <%= req.number_of_items %> бр.
+                        <% end %>
+                      </span>
+                    </div>
+                  <% end %>
+                </div>
+
+                <footer class="status-card-footer">
+                  <time>Заявена на <%= req.created_at.strftime("%-d.%m.%Y") %></time>
+                </footer>
+              </article>
+            <% end %>
+          </div>
+        <% else %>
+          <div class="status-empty">
+            <div class="status-empty-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+            </div>
+            <p class="status-empty-title">Няма намерени поръчки</p>
+            <p class="status-empty-hint">Не открихме нищо за <strong><%= @query %></strong>. Проверете номера и опитайте отново или <%= link_to "подайте нова заявка", new_request_path %>.</p>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
+
+    <aside class="request-aside">
+      <div class="request-aside-card">
+        <span class="request-aside-eyebrow">Какво да въведа?</span>
+        <ul class="status-aside-list">
+          <li>
+            <strong>Телефонен номер</strong> — същият, който сте посочили при заявката.
+          </li>
+          <li>
+            <strong>Номер на поръчка</strong> — изпращаме го след потвърждение на заявката.
+          </li>
+        </ul>
+      </div>
+
+      <div class="request-aside-card request-aside-contact">
+        <div class="request-aside-contact-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        </div>
+        <div class="request-aside-contact-body">
+          <span class="request-aside-eyebrow">Не намирате поръчката?</span>
+          <a class="request-aside-phone" href="tel:+359899771972">+359 899 771 972</a>
+          <span class="request-aside-hours">Работни дни · 09:00 – 20:00</span>
+        </div>
+      </div>
+    </aside>
+  </div>
+</div>

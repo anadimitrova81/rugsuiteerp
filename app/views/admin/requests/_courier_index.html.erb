@@ -1,0 +1,168 @@
+<div class="day-total">
+  <span class="day-total-icon" aria-hidden="true">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+  </span>
+  <div class="day-total-text">
+    <span class="day-total-label">Инкасирани днес</span>
+    <span class="day-total-meta"><%= @collected_count %> <%= @collected_count == 1 ? "поръчка" : "поръчки" %></span>
+  </div>
+  <span class="day-total-value"><%= number_with_precision(@collected_total, precision: 2) %> €</span>
+</div>
+
+<% if @current_tab == "today" && @requests.any? %>
+  <% route_addresses = @requests.map { |r| request_full_address(r) } %>
+  <% maps_url = google_maps_directions_url(route_addresses) %>
+  <% if maps_url %>
+    <div class="route-banner">
+      <span class="route-banner-icon" aria-hidden="true">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 11 22 2 13 21 11 13 3 11"/></svg>
+      </span>
+      <div class="route-banner-text">
+        <span class="route-banner-label">Маршрут за деня</span>
+        <span class="route-banner-meta"><%= @requests.size %> <%= @requests.size == 1 ? "спирка" : "спирки" %></span>
+      </div>
+      <%= link_to "Отвори в Google Maps", maps_url, class: "btn btn-primary route-banner-btn", target: "_blank", rel: "noopener" %>
+    </div>
+  <% end %>
+<% end %>
+
+<nav class="status-tabs" aria-label="Поръчки за деня">
+  <% @courier_tabs.each do |tab, config| %>
+    <%= link_to admin_requests_path(tab: tab),
+                class: "status-tab #{'status-tab-active' if tab == @current_tab}" do %>
+      <span class="status-tab-label"><%= config[:label] %></span>
+      <span class="status-tab-count"><%= @tab_counts[tab] %></span>
+    <% end %>
+  <% end %>
+</nav>
+
+<% if @requests.any? %>
+  <div class="courier-list">
+    <% @requests.each do |req| %>
+      <% req = @failed_request if @failed_request&.id == req.id %>
+      <% has_error = @failed_request&.id == req.id %>
+      <% pickup = req.status == "pickup_confirmed" || req.status == "picked_up" %>
+      <details class="courier-row courier-row-<%= req.status %>" name="courier-row" <%= "open" if has_error %>>
+        <summary class="courier-row-summary">
+          <span class="courier-row-icon" aria-hidden="true">
+            <% if pickup %>
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"/><path d="M15 18H9"/><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14"/><circle cx="17" cy="18" r="2"/><circle cx="7" cy="18" r="2"/></svg>
+            <% else %>
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 11 3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+            <% end %>
+          </span>
+          <div class="courier-row-main">
+            <span class="courier-row-id">
+              <% if req.route_position && @current_tab == "today" %>
+                <span class="courier-row-position">#<%= req.route_position %></span>
+              <% end %>
+              #<%= req.customer_id %>
+            </span>
+            <span class="courier-row-address"><%= req.address %>, <%= req.city %></span>
+            <% leg_notes = pickup ? req.pick_up_notes : req.delivery_notes %>
+            <% if leg_notes.present? %>
+              <span class="courier-row-notes">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="16" y2="17"/></svg>
+                <%= leg_notes %>
+              </span>
+            <% end %>
+          </div>
+          <span class="courier-row-chevron" aria-hidden="true">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </span>
+        </summary>
+
+        <div class="courier-row-body">
+          <% address = request_full_address(req) %>
+          <div class="courier-row-nav">
+            <%= link_to waze_url(address), class: "courier-row-nav-btn", target: "_blank", rel: "noopener" do %>
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="11" r="3"/><path d="M17.657 16.657 13.414 20.9a2 2 0 0 1-2.827 0l-4.244-4.243a8 8 0 1 1 11.314 0z"/></svg>
+              Waze
+            <% end %>
+            <%= link_to google_maps_navigate_url(address), class: "courier-row-nav-btn", target: "_blank", rel: "noopener" do %>
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 11 22 2 13 21 11 13 3 11"/></svg>
+              Google Maps
+            <% end %>
+          </div>
+          <dl class="courier-row-details">
+            <div class="courier-row-quick-stats">
+              <div>
+                <dt>Телефон</dt>
+                <dd><a href="tel:<%= req.phone %>" class="courier-row-phone"><%= req.phone %></a></dd>
+              </div>
+              <% if req.number_of_items.present? && req.status != "pickup_confirmed" %>
+                <div>
+                  <dt>Артикули</dt>
+                  <dd><%= req.number_of_items %></dd>
+                </div>
+              <% end %>
+              <% if req.weight.present? && req.status != "pickup_confirmed" %>
+                <div>
+                  <dt>Тегло</dt>
+                  <dd><%= number_with_precision(req.weight, precision: 2, strip_insignificant_zeros: true) %> кг</dd>
+                </div>
+              <% end %>
+            </div>
+            <% if req.amount.present? && req.status.in?(%w[delivery_confirmed delivered]) %>
+              <div class="courier-row-amount-cell">
+                <dt>Сума за плащане</dt>
+                <dd>
+                  <span class="courier-row-amount"><%= number_with_precision(req.amount, precision: 2) %> €</span>
+                  <% if req.amount_basis == :weight %>
+                    <span class="courier-row-formula">
+                      <%= number_with_precision(req.weight, precision: 2, strip_insignificant_zeros: true) %> кг
+                      х <%= number_with_precision(req.effective_kg_rate, precision: 2) %> €
+                      = <%= number_with_precision(req.amount, precision: 2) %> €
+                    </span>
+                  <% elsif req.amount_basis == :items %>
+                    <span class="courier-row-formula">
+                      <%= req.number_of_items %> бр.
+                      х <%= number_with_precision(current_factory.price_per_item, precision: 2) %> €
+                      = <%= number_with_precision(req.amount, precision: 2) %> €
+                    </span>
+                  <% end %>
+                </dd>
+              </div>
+            <% end %>
+          </dl>
+
+          <% case req.status %>
+          <% when "pickup_confirmed" %>
+            <%= form_with model: req,
+                          url: admin_request_path(req),
+                          scope: :request,
+                          method: :patch,
+                          namespace: "row#{req.id}",
+                          class: "courier-row-action" do |form| %>
+              <%= form.hidden_field :status, value: "picked_up" %>
+              <%= form.number_field :number_of_items,
+                                    label: "Брой артикули",
+                                    placeholder: "Например 3",
+                                    min: 1,
+                                    step: 1 %>
+              <%= form.submit "Маркирай като взета", class: "btn btn-primary btn-full" %>
+            <% end %>
+          <% when "delivery_confirmed" %>
+            <%= button_to admin_request_path(req, request: { status: "delivered" }),
+                          method: :patch,
+                          class: "btn btn-primary btn-full" do %>
+              Маркирай като върната
+            <% end %>
+          <% end %>
+        </div>
+      </details>
+    <% end %>
+  </div>
+<% else %>
+  <div class="empty-state">
+    <div class="empty-state-icon" aria-hidden="true">
+      <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"/><path d="M15 18H9"/><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14"/><circle cx="17" cy="18" r="2"/><circle cx="7" cy="18" r="2"/></svg>
+    </div>
+    <p class="empty-state-title">
+      <%= @current_tab == "completed" ? "Все още няма завършени поръчки днес" : "Няма поръчки за днес" %>
+    </p>
+    <p class="empty-state-hint">
+      <%= @current_tab == "completed" ? "След като маркирате поръчка като взета или върната, тя ще се появи тук." : "Щом координаторите потвърдят поръчки, те ще се появят тук." %>
+    </p>
+  </div>
+<% end %>

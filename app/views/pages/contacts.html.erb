@@ -1,0 +1,78 @@
+<% content_for(:title) { "Контакти · Nexus Cleaning" } %>
+
+<section class="contacts-hero">
+  <div class="contacts-hero-inner">
+    <span class="home-eyebrow">Контакти</span>
+    <h1>Свържете се с нас</h1>
+    <p>Отговаряме на телефон, имейл, SMS и Viber. Изберете най-удобния начин — обикновено отговаряме в рамките на няколко минути.</p>
+  </div>
+</section>
+
+<section class="home-section">
+  <div class="home-section-inner">
+    <div class="contacts-grid">
+      <a class="contacts-card" href="tel:+359899771972">
+        <div class="contacts-card-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        </div>
+        <span class="contacts-card-label">Телефон</span>
+        <span class="contacts-card-value">+359 899 771 972</span>
+        <span class="contacts-card-note">Работни дни · 09:00 – 20:00</span>
+      </a>
+
+      <a class="contacts-card" href="viber://chat?number=%2B359899771972">
+        <div class="contacts-card-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        </div>
+        <span class="contacts-card-label">SMS / Viber</span>
+        <span class="contacts-card-value">+359 899 771 972</span>
+        <span class="contacts-card-note">Удобно за бързи въпроси</span>
+      </a>
+
+      <a class="contacts-card" href="mailto:office@nexus-cleaning.com">
+        <div class="contacts-card-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg>
+        </div>
+        <span class="contacts-card-label">Имейл</span>
+        <span class="contacts-card-value">office@nexus-cleaning.com</span>
+        <span class="contacts-card-note">Отговаряме в рамките на работния ден</span>
+      </a>
+
+      <div class="contacts-card contacts-card-static">
+        <div class="contacts-card-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        </div>
+        <span class="contacts-card-label">Вземане и връщане</span>
+        <span class="contacts-card-value">18:00 – 20:30</span>
+        <span class="contacts-card-note">Всеки ден, по предварителна заявка</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="home-section home-section-alt">
+  <div class="home-section-inner">
+    <div class="home-section-head">
+      <span class="home-eyebrow">Покритие</span>
+      <h2>Къде работим</h2>
+      <p class="home-section-lede">Безплатно вземане и връщане в Пловдив и съседните населени места. Не намирате своето населено място? Обадете се — често правим изключения.</p>
+    </div>
+
+    <ul class="contacts-cities">
+      <% current_factory.service_cities.each do |city| %>
+        <li class="contacts-city">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+          <span><%= city %></span>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+</section>
+
+<section class="home-cta">
+  <div class="home-cta-inner">
+    <h2>Готови да поръчате?</h2>
+    <p>Заявката отнема под минута. Ще се свържем с вас, за да потвърдим часа на вземане.</p>
+    <%= link_to "Заявка", new_request_path, class: "btn btn-primary btn-lg" %>
+  </div>
+</section>

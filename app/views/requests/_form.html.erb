@@ -1,0 +1,37 @@
+<% form_data = { turbo: false } %>
+<% if recaptcha_site_key.present? %>
+  <% form_data.merge!(controller: "recaptcha", recaptcha_site_key_value: recaptcha_site_key, recaptcha_action_value: "request_create") %>
+<% end %>
+<%= form_with(model: request, scope: :request, class: "request-form", data: form_data) do |form| %>
+  <section class="form-section">
+    <h2 class="form-section-title">Контакт</h2>
+    <%= form.telephone_field :phone, label: "Телефон", placeholder: "Например 0888 123 456" %>
+  </section>
+
+  <section class="form-section">
+    <h2 class="form-section-title">Адрес за вземане</h2>
+    <div class="form-row form-row-2-1">
+      <%= form.text_field :address, label: "Адрес", placeholder: "Улица и номер" %>
+      <%= form.select :city, current_factory.service_cities, { label: "Населено място", include_blank: "Изберете…" } %>
+    </div>
+  </section>
+
+  <section class="form-section">
+    <h2 class="form-section-title">График</h2>
+    <%= form.date_field :pick_up_at, label: "Дата на вземане", min: Request.earliest_pick_up_date, hint: "Куриерът ни идва между 18:00 и 20:30, всеки ден.", onclick: "this.showPicker()" %>
+    <%= form.text_area :pick_up_notes, label: "Бележки за вземането", rows: 3, placeholder: "Например: моля елате след 19:00, апартамент 5, втори етаж" %>
+  </section>
+
+  <% if recaptcha_site_key.present? %>
+    <input type="hidden" name="g-recaptcha-response" data-recaptcha-target="token">
+    <p class="recaptcha-notice">
+      Тази форма е защитена с reCAPTCHA. Прилагат се
+      <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">политиката за поверителност</a>
+      и <a href="https://policies.google.com/terms" target="_blank" rel="noopener">условията за ползване</a> на Google.
+    </p>
+  <% end %>
+
+  <div class="form-actions">
+    <%= form.submit "Изпрати заявка", class: "btn btn-primary btn-lg" %>
+  </div>
+<% end %>

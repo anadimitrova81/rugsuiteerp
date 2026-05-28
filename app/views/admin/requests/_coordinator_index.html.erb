@@ -1,0 +1,208 @@
+<nav class="status-tabs" aria-label="Поръчки за координатор">
+  <% @coordinator_tabs.each do |tab, config| %>
+    <%= link_to admin_requests_path(tab: tab),
+                class: "status-tab #{'status-tab-active' if tab == @current_tab}" do %>
+      <span class="status-tab-label"><%= config[:label] %></span>
+      <span class="status-tab-count"><%= @tab_counts[tab] %></span>
+    <% end %>
+  <% end %>
+</nav>
+
+<% if @requests.any? %>
+  <div class="courier-list">
+    <% @requests.each do |req| %>
+      <% req = @failed_request if @failed_request&.id == req.id %>
+      <% has_error = @failed_request&.id == req.id %>
+      <details class="courier-row courier-row-<%= req.status %>" name="coordinator-row" <%= "open" if has_error %>>
+        <summary class="courier-row-summary">
+          <span class="courier-row-icon" aria-hidden="true">
+            <% if req.status == "pending" %>
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            <% elsif req.status == "ready_for_delivery" %>
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+            <% else %>
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 11 3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+            <% end %>
+          </span>
+          <div class="courier-row-main">
+            <span class="courier-row-id">#<%= req.customer_id %></span>
+            <span class="courier-row-address"><%= req.address %>, <%= req.city %></span>
+          </div>
+          <span class="status-badge status-<%= req.status %>"><%= Request::STATUS_LABELS[req.status] %></span>
+          <span class="courier-row-chevron" aria-hidden="true">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </span>
+        </summary>
+
+        <div class="courier-row-body">
+          <dl class="courier-row-details">
+            <div>
+              <dt>Телефон</dt>
+              <dd><a href="tel:<%= req.phone %>" class="courier-row-phone"><%= req.phone %></a></dd>
+            </div>
+            <% if req.number_of_items.present? %>
+              <div>
+                <dt>Артикули</dt>
+                <dd>
+                  <%= req.number_of_items %> бр.
+                  <% if req.weight.present? %>
+                    · <%= number_with_precision(req.weight, precision: 2, strip_insignificant_zeros: true) %> кг
+                  <% end %>
+                </dd>
+              </div>
+            <% end %>
+            <% if req.amount.present? %>
+              <div>
+                <dt>Сума</dt>
+                <dd class="courier-row-amount"><%= number_with_precision(req.amount, precision: 2) %> €</dd>
+              </div>
+            <% end %>
+          </dl>
+
+          <% if req.status == "pending" %>
+            <%= form_with model: req,
+                          url: admin_request_path(req),
+                          scope: :request,
+                          method: :patch,
+                          namespace: "row#{req.id}",
+                          html: {
+                            class: "courier-row-action coordinator-row-form",
+                            data: {
+                              controller: "address-preview",
+                              address_preview_lookup_url_value: admin_address_lookups_path,
+                            },
+                          } do |form| %>
+              <%= form.hidden_field :status, value: "pickup_confirmed" %>
+
+              <div class="coordinator-original-address">
+                <span class="coordinator-original-address-label">Адрес от клиента</span>
+                <span class="coordinator-original-address-value"><%= [req.address, req.city].compact_blank.join(", ") %></span>
+                <%= link_to google_maps_search_url([req.address, req.city].compact_blank.join(", ")),
+                            class: "address-preview-link",
+                            target: "_blank", rel: "noopener" do %>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+                  Търси в Google
+                <% end %>
+              </div>
+
+              <%= form.text_field :verified_address,
+                                  label: "Координати за навигация",
+                                  placeholder: "Поставете Google Maps линк — ще извлечем координатите",
+                                  hint: "Линкът ще бъде преобразуван в координати (lat,lng), които куриерите използват за точна навигация.",
+                                  data: {
+                                    address_preview_target: "verifiedAddress",
+                                    action: "input->address-preview#update paste->address-preview#maybeResolve",
+                                  } %>
+              <span class="address-preview-error field-error" data-address-preview-target="error" hidden></span>
+              <% if req.verified_address.present? %>
+                <a href="<%= google_maps_search_url(req.verified_address) %>"
+                   data-address-preview-target="link"
+                   target="_blank" rel="noopener"
+                   class="address-preview-link">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+                  Виж проверения адрес в Google Maps
+                </a>
+              <% else %>
+                <a href="https://www.google.com/maps"
+                   data-address-preview-target="link"
+                   target="_blank" rel="noopener"
+                   class="address-preview-link"
+                   hidden>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+                  Виж проверения адрес в Google Maps
+                </a>
+              <% end %>
+              <%= form.date_field :pick_up_at,
+                                  label: "Дата на вземане",
+                                  min: Request.earliest_pick_up_date,
+                                  onclick: "this.showPicker()" %>
+              <%= form.text_area :pick_up_notes, label: "Бележки", rows: 3, placeholder: "Бележки за куриера" %>
+
+              <%= form.submit "Потвърди вземане", class: "btn btn-primary btn-full" %>
+            <% end %>
+          <% elsif req.status == "ready_for_delivery" %>
+            <%= form_with model: req,
+                          url: admin_request_path(req),
+                          scope: :request,
+                          method: :patch,
+                          namespace: "row#{req.id}",
+                          class: "courier-row-action coordinator-row-form" do |form| %>
+              <%= form.hidden_field :status, value: "delivery_confirmed" %>
+              <%= form.date_field :delivery_at,
+                                  label: "Дата на връщане",
+                                  min: Date.current,
+                                  onclick: "this.showPicker()" %>
+              <%= form.text_area :delivery_notes, label: "Бележки", rows: 3, placeholder: "Бележки за куриера" %>
+              <%= form.submit "Потвърди връщане", class: "btn btn-primary btn-full" %>
+            <% end %>
+          <% else %>
+            <%= form_with model: req,
+                          url: admin_request_path(req),
+                          scope: :request,
+                          method: :patch,
+                          namespace: "row#{req.id}",
+                          html: {
+                            class: "courier-row-action coordinator-row-form",
+                            data: {
+                              controller: "address-preview",
+                              address_preview_lookup_url_value: admin_address_lookups_path,
+                            },
+                          } do |form| %>
+              <% if req.status == "pickup_confirmed" %>
+                <%= form.date_field :pick_up_at,
+                                    label: "Дата на вземане",
+                                    min: Date.current,
+                                    onclick: "this.showPicker()" %>
+                <%= form.text_area :pick_up_notes, label: "Бележки", rows: 3 %>
+              <% else %>
+                <%= form.date_field :delivery_at,
+                                    label: "Дата на връщане",
+                                    min: Date.current,
+                                    onclick: "this.showPicker()" %>
+                <%= form.text_area :delivery_notes, label: "Бележки", rows: 3 %>
+              <% end %>
+
+              <%= form.text_field :verified_address,
+                                  label: "Координати за навигация",
+                                  placeholder: "Поставете Google Maps линк — ще извлечем координатите",
+                                  hint: "Линкът ще бъде преобразуван в координати (lat,lng), които куриерите използват за точна навигация.",
+                                  data: {
+                                    address_preview_target: "verifiedAddress",
+                                    action: "input->address-preview#update paste->address-preview#maybeResolve",
+                                  } %>
+              <span class="address-preview-error field-error" data-address-preview-target="error" hidden></span>
+              <a href="<%= req.verified_address.present? ? google_maps_search_url(req.verified_address) : 'https://www.google.com/maps' %>"
+                 data-address-preview-target="link"
+                 target="_blank" rel="noopener"
+                 class="address-preview-link"
+                 <%= "hidden" if req.verified_address.blank? %>>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+                Виж проверения адрес в Google Maps
+              </a>
+
+              <%= form.submit "Запази промените", class: "btn btn-secondary btn-full" %>
+            <% end %>
+          <% end %>
+        </div>
+      </details>
+    <% end %>
+  </div>
+<% else %>
+  <div class="empty-state">
+    <div class="empty-state-icon" aria-hidden="true">
+      <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+    </div>
+    <p class="empty-state-title">
+      <% if @current_tab == "new" %>Няма нови заявки
+      <% elsif @current_tab == "to_deliver" %>Няма поръчки за връщане
+      <% else %>Няма потвърдени поръчки
+      <% end %>
+    </p>
+    <p class="empty-state-hint">
+      <% if @current_tab == "new" %>Когато постъпи нова заявка от клиент, тя ще се появи тук.
+      <% elsif @current_tab == "to_deliver" %>След като прането приключи, поръчките ще се появят тук.
+      <% else %>След като потвърдите вземане или връщане, поръчките се появяват тук.
+      <% end %>
+    </p>
+  </div>
+<% end %>

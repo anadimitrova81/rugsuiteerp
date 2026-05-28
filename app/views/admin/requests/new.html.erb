@@ -1,0 +1,57 @@
+<% content_for(:title) { "Нова поръчка · Админ" } %>
+
+<div class="container container-wide">
+  <header class="request-detail-page-header">
+    <div>
+      <p class="request-detail-eyebrow">Админ</p>
+      <h1 class="request-detail-title">Нова поръчка</h1>
+      <p class="request-detail-subtitle">Създайте поръчка от името на клиент. Ще получи уникален референтен номер веднага след запис.</p>
+    </div>
+    <div class="request-detail-actions">
+      <%= link_to admin_requests_path, class: "btn btn-secondary" do %>
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+        Към списъка
+      <% end %>
+    </div>
+  </header>
+
+  <% if @request.errors.any? %>
+    <div class="flash flash-alert flash-icon">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      <span>Моля, коригирайте отбелязаните полета по-долу.</span>
+    </div>
+  <% end %>
+
+  <%= form_with(model: @request, url: admin_requests_path, scope: :request, class: "request-form admin-request-form") do |form| %>
+    <section class="form-section">
+      <h2 class="form-section-title">Контакт</h2>
+      <%= form.telephone_field :phone, label: "Телефон", placeholder: "Например 0888 123 456" %>
+    </section>
+
+    <section class="form-section">
+      <h2 class="form-section-title">Адрес за вземане</h2>
+      <div class="form-row form-row-2-1">
+        <%= form.text_field :address, label: "Адрес", placeholder: "Улица и номер" %>
+        <%= form.select :city, current_factory.service_cities, { label: "Населено място", include_blank: "Изберете…" } %>
+      </div>
+    </section>
+
+    <section class="form-section">
+      <h2 class="form-section-title">График</h2>
+      <%= form.date_field :pick_up_at,
+                          label: "Дата на вземане",
+                          min: Request.earliest_pick_up_date,
+                          hint: "Куриерът ни идва между 18:00 и 20:30, всеки ден.",
+                          onclick: "this.showPicker()" %>
+      <%= form.text_area :pick_up_notes,
+                         label: "Бележки за вземането",
+                         rows: 3,
+                         placeholder: "Например: моля елате след 19:00, апартамент 5, втори етаж" %>
+    </section>
+
+    <div class="form-actions form-actions-split">
+      <%= link_to "Отказ", admin_requests_path, class: "btn btn-secondary" %>
+      <%= form.submit "Създай поръчка", class: "btn btn-primary" %>
+    </div>
+  <% end %>
+</div>
