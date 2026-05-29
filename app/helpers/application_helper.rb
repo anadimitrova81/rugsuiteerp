@@ -149,6 +149,17 @@ module ApplicationHelper
     "xxx xxx xxx #{digits[-3..]}"
   end
 
+  # "#0f3f7e" → "15, 63, 126". Used to override --color-*-rgb CSS variables
+  # for the per-tenant brand-color injection in layouts/application.html.erb.
+  # Returns nil for blank or malformed input so the caller can fall back to
+  # the default token.
+  def hex_to_rgb_triplet(hex)
+    return nil if hex.blank?
+    m = hex.to_s.match(/\A#([0-9A-Fa-f]{6})\z/)
+    return nil unless m
+    [m[1][0..1], m[1][2..3], m[1][4..5]].map { |c| c.to_i(16) }.join(", ")
+  end
+
   def format_minutes_bg(total_minutes)
     return "0 мин" if total_minutes.to_i.zero?
 

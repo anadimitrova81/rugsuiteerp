@@ -51,7 +51,7 @@ body {
 
 /* Top utility bar (phone + hours) */
 .site-topbar {
-  background: linear-gradient(90deg, var(--color-primary), #0a2f5c);
+  background: linear-gradient(90deg, var(--color-primary), var(--color-primary-hover));
   color: #fff;
   font-size: 13px;
   font-weight: 500;
@@ -146,6 +146,13 @@ body {
   font-size: 20px;
   letter-spacing: -0.01em;
   color: var(--color-primary);
+}
+.site-brand-logo {
+  height: 40px;
+  width: auto;
+  max-width: 200px;
+  object-fit: contain;
+  object-position: left center;
 }
 
 .visually-hidden {
@@ -306,8 +313,8 @@ legend { font-weight: 600; font-size: 16px; color: var(--color-text); padding: 0
   gap: 12px;
   margin-top: 16px;
   padding: 14px 18px;
-  background: rgba(15, 63, 126, 0.06);
-  border: 1px solid rgba(15, 63, 126, 0.16);
+  background: rgba(var(--color-primary-rgb), 0.06);
+  border: 1px solid rgba(var(--color-primary-rgb), 0.16);
   border-radius: var(--radius);
 }
 .form-amount-summary > div { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
@@ -362,7 +369,7 @@ legend { font-weight: 600; font-size: 16px; color: var(--color-text); padding: 0
   transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
 
-.form-control:focus { outline: none; border-color: var(--color-primary); box-shadow: 0 0 0 3px rgba(15, 63, 126, 0.1); }
+.form-control:focus { outline: none; border-color: var(--color-primary); box-shadow: 0 0 0 3px rgba(var(--color-primary-rgb), 0.1); }
 .form-control::placeholder { color: var(--color-text-muted); }
 
 input[type="date"].form-control::-webkit-datetime-edit-month-field,
@@ -484,8 +491,8 @@ textarea.form-control { font-family: inherit; line-height: 1.5; resize: vertical
   gap: 4px;
   padding: 20px;
   margin-bottom: 20px;
-  background: linear-gradient(135deg, rgba(15, 63, 126, 0.06), rgba(15, 63, 126, 0.02));
-  border: 1px solid rgba(15, 63, 126, 0.15);
+  background: linear-gradient(135deg, rgba(var(--color-primary-rgb), 0.06), rgba(var(--color-primary-rgb), 0.02));
+  border: 1px solid rgba(var(--color-primary-rgb), 0.15);
   border-radius: var(--radius);
 }
 .confirmation-reference-label { font-size: 12px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-text-muted); }
@@ -546,7 +553,7 @@ textarea.form-control { font-family: inherit; line-height: 1.5; resize: vertical
   border-radius: var(--radius);
   transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
-.status-search:focus-within { border-color: var(--color-primary); box-shadow: 0 0 0 3px rgba(15, 63, 126, 0.1); }
+.status-search:focus-within { border-color: var(--color-primary); box-shadow: 0 0 0 3px rgba(var(--color-primary-rgb), 0.1); }
 .status-search-icon { color: var(--color-text-muted); flex-shrink: 0; }
 .status-search-input {
   flex: 1;
@@ -711,7 +718,7 @@ textarea.form-control { font-family: inherit; line-height: 1.5; resize: vertical
   border-radius: var(--radius);
   transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
-.login-field-input:focus-within { border-color: var(--color-primary); box-shadow: 0 0 0 3px rgba(15, 63, 126, 0.1); }
+.login-field-input:focus-within { border-color: var(--color-primary); box-shadow: 0 0 0 3px rgba(var(--color-primary-rgb), 0.1); }
 .login-field-icon { color: var(--color-text-muted); flex-shrink: 0; }
 .login-field-input input {
   flex: 1;
@@ -785,7 +792,7 @@ textarea.form-control { font-family: inherit; line-height: 1.5; resize: vertical
 .confirm-dialog-field input:focus {
   outline: none;
   border-color: var(--color-primary);
-  box-shadow: 0 0 0 3px rgba(15, 63, 126, 0.12);
+  box-shadow: 0 0 0 3px rgba(var(--color-primary-rgb), 0.12);
 }
 @media (max-width: 480px) {
   .confirm-dialog-fields { grid-template-columns: 1fr; gap: 10px; }
@@ -811,8 +818,8 @@ textarea.form-control { font-family: inherit; line-height: 1.5; resize: vertical
 /* --- Hero --- */
 .home-hero {
   position: relative;
-  background: radial-gradient(ellipse at top right, rgba(15, 63, 126, 0.08), transparent 60%),
-              linear-gradient(180deg, #f0fdf4 0%, #ffffff 100%);
+  background: radial-gradient(ellipse at top right, rgba(var(--color-primary-rgb), 0.08), transparent 60%),
+              linear-gradient(180deg, rgba(var(--color-secondary-rgb), 0.07) 0%, #ffffff 100%);
   overflow: hidden;
 }
 .home-hero-inner {
@@ -882,7 +889,7 @@ textarea.form-control { font-family: inherit; line-height: 1.5; resize: vertical
   position: absolute;
   inset: 0% 5% 5% 5%;
   background:
-    radial-gradient(circle at 25% 30%, rgba(15, 63, 126, 0.55), transparent 55%),
+    radial-gradient(circle at 25% 30%, rgba(var(--color-primary-rgb), 0.55), transparent 55%),
     radial-gradient(circle at 75% 70%, rgba(20, 184, 166, 0.40), transparent 55%),
     radial-gradient(circle at 50% 50%, rgba(132, 204, 22, 0.18), transparent 60%);
   filter: blur(40px);
@@ -897,7 +904,7 @@ textarea.form-control { font-family: inherit; line-height: 1.5; resize: vertical
   width: 110px;
   height: 110px;
   border-radius: 50%;
-  border: 2px dashed rgba(15, 63, 126, 0.4);
+  border: 2px dashed rgba(var(--color-primary-rgb), 0.4);
   z-index: 1;
   animation: heroSpin 28s linear infinite;
 }
@@ -911,7 +918,7 @@ textarea.form-control { font-family: inherit; line-height: 1.5; resize: vertical
   bottom: 4%;
   width: 160px;
   height: 120px;
-  background-image: radial-gradient(circle, rgba(15, 63, 126, 0.45) 1.5px, transparent 1.7px);
+  background-image: radial-gradient(circle, rgba(var(--color-primary-rgb), 0.45) 1.5px, transparent 1.7px);
   background-size: 16px 16px;
   z-index: 1;
   mask-image: linear-gradient(135deg, black 30%, transparent 80%);
@@ -1015,7 +1022,7 @@ textarea.form-control { font-family: inherit; line-height: 1.5; resize: vertical
   width: 38px;
   height: 38px;
   border-radius: 12px;
-  background: linear-gradient(135deg, rgba(15, 63, 126, 0.20), rgba(20, 184, 166, 0.15));
+  background: linear-gradient(135deg, rgba(var(--color-primary-rgb), 0.20), rgba(20, 184, 166, 0.15));
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -1083,7 +1090,7 @@ textarea.form-control { font-family: inherit; line-height: 1.5; resize: vertical
   width: 200px;
   height: 200px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(15, 63, 126, 0.18), transparent 70%);
+  background: radial-gradient(circle, rgba(var(--color-primary-rgb), 0.18), transparent 70%);
   z-index: 0;
   opacity: 0;
   transform: scale(0.85);
@@ -1102,9 +1109,9 @@ textarea.form-control { font-family: inherit; line-height: 1.5; resize: vertical
 }
 .home-feature:hover {
   transform: translateY(-6px);
-  border-color: rgba(15, 63, 126, 0.35);
+  border-color: rgba(var(--color-primary-rgb), 0.35);
   box-shadow:
-    0 24px 50px rgba(15, 63, 126, 0.14),
+    0 24px 50px rgba(var(--color-primary-rgb), 0.14),
     0 8px 16px rgba(15, 23, 42, 0.04);
 }
 .home-feature:hover::before { opacity: 1; transform: scale(1); }
@@ -1119,7 +1126,7 @@ textarea.form-control { font-family: inherit; line-height: 1.5; resize: vertical
   letter-spacing: -0.04em;
   line-height: 1;
   color: transparent;
-  background: linear-gradient(135deg, rgba(15, 63, 126, 0.16), rgba(20, 184, 166, 0.06));
+  background: linear-gradient(135deg, rgba(var(--color-primary-rgb), 0.16), rgba(20, 184, 166, 0.06));
   -webkit-background-clip: text;
   background-clip: text;
   pointer-events: none;
@@ -1174,8 +1181,8 @@ textarea.form-control { font-family: inherit; line-height: 1.5; resize: vertical
   font-weight: 600;
   letter-spacing: 0.02em;
   color: var(--color-primary);
-  background: rgba(15, 63, 126, 0.10);
-  border: 1px solid rgba(15, 63, 126, 0.18);
+  background: rgba(var(--color-primary-rgb), 0.10);
+  border: 1px solid rgba(var(--color-primary-rgb), 0.18);
   border-radius: 9999px;
 }
 
@@ -1185,11 +1192,11 @@ textarea.form-control { font-family: inherit; line-height: 1.5; resize: vertical
   border-radius: 24px;
   padding: 32px 24px 24px;
   background:
-    radial-gradient(circle at 0% 0%, rgba(15, 63, 126, 0.08), transparent 50%),
+    radial-gradient(circle at 0% 0%, rgba(var(--color-primary-rgb), 0.08), transparent 50%),
     radial-gradient(circle at 100% 100%, rgba(20, 184, 166, 0.06), transparent 50%),
     linear-gradient(180deg, #ffffff 0%, #f9fbfa 100%);
   box-shadow: 0 20px 60px rgba(15, 23, 42, 0.06);
-  border: 1px solid rgba(15, 63, 126, 0.12);
+  border: 1px solid rgba(var(--color-primary-rgb), 0.12);
 }
 
 .process-radio {
@@ -1262,13 +1269,13 @@ textarea.form-control { font-family: inherit; line-height: 1.5; resize: vertical
   align-items: center;
   justify-content: center;
   background:
-    radial-gradient(circle at 30% 30%, rgba(15, 63, 126, 0.25), transparent 60%),
-    linear-gradient(135deg, rgba(15, 63, 126, 0.18), rgba(20, 184, 166, 0.10));
+    radial-gradient(circle at 30% 30%, rgba(var(--color-primary-rgb), 0.25), transparent 60%),
+    linear-gradient(135deg, rgba(var(--color-primary-rgb), 0.18), rgba(20, 184, 166, 0.10));
   color: var(--color-primary);
 }
 .process-slide-image-icon::after { display: none; }
 .process-slide-image-icon svg {
-  filter: drop-shadow(0 4px 16px rgba(15, 63, 126, 0.25));
+  filter: drop-shadow(0 4px 16px rgba(var(--color-primary-rgb), 0.25));
   transform: scale(1);
   transition: transform 0.5s ease-out;
 }
@@ -1304,7 +1311,7 @@ textarea.form-control { font-family: inherit; line-height: 1.5; resize: vertical
   line-height: 1;
   letter-spacing: -0.06em;
   color: transparent;
-  background: linear-gradient(135deg, rgba(15, 63, 126, 0.10), rgba(20, 184, 166, 0.04));
+  background: linear-gradient(135deg, rgba(var(--color-primary-rgb), 0.10), rgba(20, 184, 166, 0.04));
   -webkit-background-clip: text;
   background-clip: text;
   pointer-events: none;
@@ -1322,7 +1329,7 @@ textarea.form-control { font-family: inherit; line-height: 1.5; resize: vertical
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--color-primary);
-  background: rgba(15, 63, 126, 0.1);
+  background: rgba(var(--color-primary-rgb), 0.1);
   padding: 6px 12px;
   border-radius: 9999px;
   margin-bottom: 16px;
@@ -1479,7 +1486,7 @@ textarea.form-control { font-family: inherit; line-height: 1.5; resize: vertical
   color: #fff;
   border-color: var(--color-primary);
   transform: scale(1.15);
-  box-shadow: 0 0 0 6px rgba(15, 63, 126, 0.18), 0 8px 20px rgba(15, 63, 126, 0.3);
+  box-shadow: 0 0 0 6px rgba(var(--color-primary-rgb), 0.18), 0 8px 20px rgba(var(--color-primary-rgb), 0.3);
 }
 
 @media (max-width: 760px) {
@@ -1569,7 +1576,7 @@ textarea.form-control { font-family: inherit; line-height: 1.5; resize: vertical
   color: var(--color-text-muted);
   margin: -10px 0 0 0;
   padding: 6px 10px;
-  background: rgba(15, 63, 126, 0.08);
+  background: rgba(var(--color-primary-rgb), 0.08);
   border-radius: 8px;
   align-self: flex-start;
   font-weight: 500;
@@ -1598,14 +1605,14 @@ textarea.form-control { font-family: inherit; line-height: 1.5; resize: vertical
   width: 14px;
   height: 14px;
   border-radius: 50%;
-  background: rgba(15, 63, 126, 0.1);
+  background: rgba(var(--color-primary-rgb), 0.1);
   background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 24 24' fill='none' stroke='%234f46e5' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'><path d='M20 6 9 17l-5-5'/></svg>");
   background-repeat: no-repeat;
   background-position: center;
 }
 .home-pricing-card-featured {
   border-color: var(--color-primary);
-  box-shadow: 0 16px 40px rgba(15, 63, 126, 0.12);
+  box-shadow: 0 16px 40px rgba(var(--color-primary-rgb), 0.12);
   transform: translateY(-4px);
 }
 .home-pricing-badge {
@@ -1643,7 +1650,7 @@ textarea.form-control { font-family: inherit; line-height: 1.5; resize: vertical
   left: 20px;
   font-size: 56px;
   line-height: 1;
-  color: rgba(15, 63, 126, 0.15);
+  color: rgba(var(--color-primary-rgb), 0.15);
   font-family: Georgia, serif;
 }
 .home-testimonial blockquote {
@@ -1679,7 +1686,11 @@ textarea.form-control { font-family: inherit; line-height: 1.5; resize: vertical
 
 /* --- Footer --- */
 .home-footer {
-  background: #0f172a;
+  /* Very dark variant of the tenant's primary, so the brand is present but
+     the footer stays readable behind white text. Falls back to slate when
+     no custom primary is set. */
+  background: color-mix(in srgb, var(--color-primary) 22%, black);
+  border-top: 4px solid var(--color-primary);
   color: #cbd5e1;
   padding: 56px 24px 24px;
 }
@@ -1690,7 +1701,7 @@ textarea.form-control { font-family: inherit; line-height: 1.5; resize: vertical
   grid-template-columns: 2fr 1fr 1fr;
   gap: 48px;
   padding-bottom: 32px;
-  border-bottom: 1px solid #1e293b;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 .home-footer-brand {
   display: block;
@@ -1872,7 +1883,7 @@ textarea.form-control { font-family: inherit; line-height: 1.5; resize: vertical
 /* --- FAQ Page --- */
 .faq-hero {
   background:
-    radial-gradient(ellipse at top right, rgba(15, 63, 126, 0.10), transparent 60%),
+    radial-gradient(ellipse at top right, rgba(var(--color-primary-rgb), 0.10), transparent 60%),
     radial-gradient(ellipse at bottom left, rgba(82, 183, 101, 0.06), transparent 55%),
     linear-gradient(180deg, #f0fdf4 0%, #ffffff 100%);
   padding: 72px 24px 48px;
@@ -1915,10 +1926,10 @@ textarea.form-control { font-family: inherit; line-height: 1.5; resize: vertical
   overflow: hidden;
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
-.faq-item:hover { border-color: rgba(15, 63, 126, 0.35); }
+.faq-item:hover { border-color: rgba(var(--color-primary-rgb), 0.35); }
 .faq-item[open] {
-  border-color: rgba(15, 63, 126, 0.45);
-  box-shadow: 0 8px 24px rgba(15, 63, 126, 0.10), 0 2px 6px rgba(15, 23, 42, 0.04);
+  border-color: rgba(var(--color-primary-rgb), 0.45);
+  box-shadow: 0 8px 24px rgba(var(--color-primary-rgb), 0.10), 0 2px 6px rgba(15, 23, 42, 0.04);
 }
 
 .faq-question {
@@ -1984,7 +1995,7 @@ textarea.form-control { font-family: inherit; line-height: 1.5; resize: vertical
 /* --- Contacts Page --- */
 .contacts-hero {
   background:
-    radial-gradient(ellipse at top right, rgba(15, 63, 126, 0.10), transparent 60%),
+    radial-gradient(ellipse at top right, rgba(var(--color-primary-rgb), 0.10), transparent 60%),
     radial-gradient(ellipse at bottom left, rgba(82, 183, 101, 0.06), transparent 55%),
     linear-gradient(180deg, #f0fdf4 0%, #ffffff 100%);
   padding: 72px 24px 48px;
@@ -2042,7 +2053,7 @@ textarea.form-control { font-family: inherit; line-height: 1.5; resize: vertical
   width: 180px;
   height: 180px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(15, 63, 126, 0.16), transparent 70%);
+  background: radial-gradient(circle, rgba(var(--color-primary-rgb), 0.16), transparent 70%);
   z-index: 0;
   opacity: 0;
   transform: scale(0.85);
@@ -2051,8 +2062,8 @@ textarea.form-control { font-family: inherit; line-height: 1.5; resize: vertical
 }
 .contacts-card:not(.contacts-card-static):hover {
   transform: translateY(-4px);
-  border-color: rgba(15, 63, 126, 0.4);
-  box-shadow: 0 18px 36px rgba(15, 63, 126, 0.12), 0 6px 12px rgba(15, 23, 42, 0.04);
+  border-color: rgba(var(--color-primary-rgb), 0.4);
+  box-shadow: 0 18px 36px rgba(var(--color-primary-rgb), 0.12), 0 6px 12px rgba(15, 23, 42, 0.04);
 }
 .contacts-card:not(.contacts-card-static):hover::before { opacity: 1; transform: scale(1); }
 
@@ -2126,8 +2137,8 @@ textarea.form-control { font-family: inherit; line-height: 1.5; resize: vertical
   transition: border-color 0.2s ease, color 0.2s ease, background-color 0.2s ease;
 }
 .contacts-city:hover {
-  border-color: rgba(15, 63, 126, 0.4);
-  background: rgba(15, 63, 126, 0.04);
+  border-color: rgba(var(--color-primary-rgb), 0.4);
+  background: rgba(var(--color-primary-rgb), 0.04);
 }
 .contacts-city svg { color: var(--color-primary); flex-shrink: 0; }
 
@@ -2292,7 +2303,7 @@ textarea.form-control { font-family: inherit; line-height: 1.5; resize: vertical
 /* --- New Request Page (client) --- */
 .request-hero {
   background:
-    radial-gradient(ellipse at top right, rgba(15, 63, 126, 0.10), transparent 60%),
+    radial-gradient(ellipse at top right, rgba(var(--color-primary-rgb), 0.10), transparent 60%),
     radial-gradient(ellipse at bottom left, rgba(82, 183, 101, 0.05), transparent 55%),
     linear-gradient(180deg, #f0fdf4 0%, #ffffff 100%);
   padding: 56px 24px 36px;
@@ -2421,8 +2432,8 @@ textarea.form-control { font-family: inherit; line-height: 1.5; resize: vertical
   display: flex;
   align-items: center;
   gap: 14px;
-  background: linear-gradient(135deg, rgba(15, 63, 126, 0.06), rgba(20, 184, 166, 0.04));
-  border-color: rgba(15, 63, 126, 0.25);
+  background: linear-gradient(135deg, rgba(var(--color-primary-rgb), 0.06), rgba(20, 184, 166, 0.04));
+  border-color: rgba(var(--color-primary-rgb), 0.25);
 }
 .request-aside-contact-icon {
   flex-shrink: 0;

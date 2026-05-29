@@ -24,6 +24,27 @@
     <%# Includes all stylesheet files in app/assets/stylesheets %>
     <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
+
+    <%# Per-tenant brand color override. Each value falls through to the
+        default token from application.css when the factory hasn't set one. %>
+    <% primary_rgb   = hex_to_rgb_triplet(current_factory.brand_primary_color) %>
+    <% secondary_rgb = hex_to_rgb_triplet(current_factory.brand_secondary_color) %>
+    <% if current_factory.brand_primary_color.present? || current_factory.brand_secondary_color.present? %>
+      <style>
+        :root {
+          <% if current_factory.brand_primary_color.present? %>
+            --color-primary: <%= current_factory.brand_primary_color %>;
+            <% if primary_rgb %>--color-primary-rgb: <%= primary_rgb %>;<% end %>
+            --color-primary-hover: color-mix(in srgb, <%= current_factory.brand_primary_color %> 75%, black);
+          <% end %>
+          <% if current_factory.brand_secondary_color.present? %>
+            --color-secondary: <%= current_factory.brand_secondary_color %>;
+            <% if secondary_rgb %>--color-secondary-rgb: <%= secondary_rgb %>;<% end %>
+            --color-secondary-hover: color-mix(in srgb, <%= current_factory.brand_secondary_color %> 85%, black);
+          <% end %>
+        }
+      </style>
+    <% end %>
   </head>
 
   <body>
@@ -56,7 +77,11 @@
     <header class="site-header">
       <div class="header-container" data-controller="nav-toggle">
         <%= link_to root_path, class: "site-brand", "aria-label": "#{current_factory.name} home" do %>
-          <span class="site-brand-text"><%= current_factory.name %></span>
+          <% if current_factory.logo.attached? %>
+            <%= image_tag current_factory.logo, alt: current_factory.name, class: "site-brand-logo" %>
+          <% else %>
+            <span class="site-brand-text"><%= current_factory.name %></span>
+          <% end %>
         <% end %>
         <button type="button" class="nav-toggle"
                 data-nav-toggle-target="button"
@@ -80,6 +105,7 @@
               <% if current_admin&.admin? %>
                 <li><%= link_to "Отчети", admin_reports_path %></li>
                 <li><%= link_to "Потребители", admin_users_path %></li>
+                <li><%= link_to t("admin.nav.settings"), admin_settings_path %></li>
               <% end %>
               <li><%= link_to "Изход", logout_path, data: { turbo_method: :delete }, class: "nav-logout" %></li>
             <% else %>

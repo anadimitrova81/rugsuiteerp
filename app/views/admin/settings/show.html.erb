@@ -1,0 +1,123 @@
+<% content_for(:title) { t("admin.settings.title") } %>
+
+<div class="container">
+  <header class="page-header">
+    <h1><%= t("admin.settings.title") %></h1>
+    <p class="page-header-lede"><%= t("admin.settings.lede") %></p>
+  </header>
+
+  <%= form_with(model: @factory, url: admin_settings_path, method: :patch, html: { multipart: true, class: "settings-form" }) do |f| %>
+    <% if @factory.errors.any? %>
+      <div class="flash flash-alert" role="alert">
+        <strong><%= t("admin.settings.errors_heading") %></strong>
+        <ul>
+          <% @factory.errors.full_messages.each do |msg| %>
+            <li><%= msg %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <section class="settings-section">
+      <h2 class="settings-section-title"><%= t("admin.settings.branding") %></h2>
+      <p class="settings-section-lede"><%= t("admin.settings.branding_lede") %></p>
+
+      <%= f.text_field :name, label: t("admin.settings.fields.name") %>
+      <%= f.text_field :legal_name, label: t("admin.settings.fields.legal_name"), hint: t("admin.settings.hints.legal_name") %>
+
+      <div class="settings-logo">
+        <span class="form-label-like"><%= t("admin.settings.fields.logo") %></span>
+        <% if @factory.logo.attached? %>
+          <div class="settings-logo-current">
+            <%= image_tag @factory.logo, alt: @factory.name, class: "settings-logo-preview" %>
+            <span><%= @factory.logo.filename %> (<%= number_to_human_size(@factory.logo.byte_size) %>)</span>
+          </div>
+        <% end %>
+        <%= f.file_field :logo, accept: Factory::LOGO_CONTENT_TYPES.join(","), skip_group: true, class: "form-control" %>
+        <p class="form-hint"><%= t("admin.settings.hints.logo") %></p>
+      </div>
+
+      <div class="settings-colors">
+        <div>
+          <%= f.label :brand_primary_color, t("admin.settings.fields.brand_primary_color") %>
+          <%= f.color_field :brand_primary_color, skip_group: true, class: "settings-color-input", value: (@factory.brand_primary_color.presence || "#0f3f7e") %>
+          <p class="form-hint"><%= t("admin.settings.hints.brand_primary_color") %></p>
+        </div>
+        <div>
+          <%= f.label :brand_secondary_color, t("admin.settings.fields.brand_secondary_color") %>
+          <%= f.color_field :brand_secondary_color, skip_group: true, class: "settings-color-input", value: (@factory.brand_secondary_color.presence || "#52b765") %>
+          <p class="form-hint"><%= t("admin.settings.hints.brand_secondary_color") %></p>
+        </div>
+      </div>
+    </section>
+
+    <section class="settings-section">
+      <h2 class="settings-section-title"><%= t("admin.settings.contact") %></h2>
+      <%= f.telephone_field :phone, label: t("admin.settings.fields.phone"),
+                                    hint: t("admin.settings.hints.phone") %>
+      <%= f.email_field :email, label: t("admin.settings.fields.email") %>
+    </section>
+
+    <section class="settings-section">
+      <h2 class="settings-section-title"><%= t("admin.settings.pickup") %></h2>
+      <p class="settings-section-lede"><%= t("admin.settings.pickup_lede") %></p>
+
+      <%= f.text_field :business_hours, label: t("admin.settings.fields.business_hours"),
+                                        hint: t("admin.settings.hints.business_hours") %>
+      <%= f.text_field :pickup_window, label: t("admin.settings.fields.pickup_window"),
+                                       hint: t("admin.settings.hints.pickup_window") %>
+      <%= f.number_field :same_day_cutoff_hour, label: t("admin.settings.fields.same_day_cutoff_hour"),
+                                                hint: t("admin.settings.hints.same_day_cutoff_hour"),
+                                                in: 0..23, step: 1 %>
+    </section>
+
+    <section class="settings-section" data-controller="pricing-mode">
+      <h2 class="settings-section-title"><%= t("admin.settings.pricing") %></h2>
+      <p class="settings-section-lede"><%= t("admin.settings.pricing_lede", currency: @factory.currency) %></p>
+
+      <div class="settings-mode-toggle">
+        <span class="form-label-like"><%= t("admin.settings.pricing_mode_label") %></span>
+        <% Factory::PRICING_MODES.each do |mode| %>
+          <label class="settings-mode-option">
+            <%= f.radio_button :pricing_mode, mode,
+                              data: { action: "change->pricing-mode#switch", pricing_mode_target: "radio" },
+                              skip_group: true %>
+            <%= t("admin.settings.pricing_mode.#{mode}") %>
+          </label>
+        <% end %>
+      </div>
+
+      <%# Per-kg fields. Visible only when pricing_mode == "per_kg". %>
+      <div data-pricing-mode-target="panel" data-pricing-mode-name="per_kg" <%= "hidden" if @factory.per_sqm? %>>
+        <%= f.number_field :price_per_kg, label: t("admin.settings.fields.price_per_kg"),
+                                          step: 0.01, min: 0 %>
+        <%= f.number_field :price_per_kg_bulk, label: t("admin.settings.fields.price_per_kg_bulk"),
+                                               hint: t("admin.settings.hints.price_per_kg_bulk"),
+                                               step: 0.01, min: 0 %>
+        <%= f.number_field :bulk_weight_threshold, label: t("admin.settings.fields.bulk_weight_threshold"),
+                                                   hint: t("admin.settings.hints.bulk_weight_threshold"),
+                                                   step: 0.1, min: 0 %>
+      </div>
+
+      <%# Per-m² fields. Visible only when pricing_mode == "per_sqm". %>
+      <div data-pricing-mode-target="panel" data-pricing-mode-name="per_sqm" <%= "hidden" unless @factory.per_sqm? %>>
+        <%= f.number_field :price_per_sqm, label: t("admin.settings.fields.price_per_sqm"),
+                                           step: 0.01, min: 0 %>
+        <%= f.number_field :price_per_sqm_bulk, label: t("admin.settings.fields.price_per_sqm_bulk"),
+                                                hint: t("admin.settings.hints.price_per_kg_bulk"),
+                                                step: 0.01, min: 0 %>
+        <%= f.number_field :bulk_area_threshold, label: t("admin.settings.fields.bulk_area_threshold"),
+                                                 hint: t("admin.settings.hints.bulk_weight_threshold"),
+                                                 step: 0.1, min: 0 %>
+      </div>
+
+      <%= f.number_field :price_per_item, label: t("admin.settings.fields.price_per_item"),
+                                          hint: t("admin.settings.hints.price_per_item"),
+                                          step: 0.01, min: 0 %>
+    </section>
+
+    <div class="settings-actions">
+      <%= f.submit t("admin.settings.save"), class: "btn btn-primary btn-lg" %>
+    </div>
+  <% end %>
+</div>
