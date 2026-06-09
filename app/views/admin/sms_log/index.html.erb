@@ -1,18 +1,18 @@
-<% content_for(:title) { "Изпратени SMS · Админ" } %>
+<% content_for(:title) { t("admin.sms_log.title") } %>
 
 <div class="container container-wide">
   <header class="request-detail-page-header">
     <div>
-      <p class="request-detail-eyebrow">Известия</p>
-      <h1 class="request-detail-title">Изпратени SMS</h1>
+      <p class="request-detail-eyebrow"><%= t("admin.sms_log.eyebrow") %></p>
+      <h1 class="request-detail-title"><%= t("admin.sms_log.title") %></h1>
       <p class="request-detail-subtitle">
-        Последните <%= @notifications.size %> ценови оферти, изпратени на клиенти.
+        <%= t("admin.sms_log.subtitle", count: @total_count) %>
       </p>
     </div>
     <div class="request-detail-actions">
       <%= link_to admin_requests_path, class: "btn btn-secondary" do %>
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
-        Към поръчки
+        <%= t("admin.common.back_to_requests") %>
       <% end %>
     </div>
   </header>
@@ -20,31 +20,45 @@
   <%= form_with url: admin_sms_log_path, method: :get, class: "requests-search-form" do |form| %>
     <div class="requests-search">
       <svg class="requests-search-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
-      <%= form.text_field :q, value: @query, placeholder: "Търсене по телефон или номер на поръчка", autocomplete: "off", class: "requests-search-input", skip_group: true %>
-      <% if @query.present? %>
-        <%= link_to "Изчисти", admin_sms_log_path, class: "requests-search-clear" %>
+      <%= form.text_field :q, value: @query, placeholder: t("admin.sms_log.search_placeholder"), autocomplete: "off", class: "requests-search-input", skip_group: true %>
+      <span class="requests-search-divider" aria-hidden="true"></span>
+      <label class="requests-search-date">
+        <span><%= t("admin.sms_log.from") %></span>
+        <%= form.date_field :from, value: @from_date, skip_group: true %>
+      </label>
+      <label class="requests-search-date">
+        <span><%= t("admin.sms_log.to") %></span>
+        <%= form.date_field :to, value: @to_date, skip_group: true %>
+      </label>
+      <% if @status_filter %>
+        <%= hidden_field_tag :status, @status_filter %>
+      <% end %>
+      <button type="submit" class="requests-search-submit"><%= t("admin.sms_log.apply") %></button>
+      <% if @query.present? || @from_date || @to_date %>
+        <%= link_to t("admin.common.clear"), admin_sms_log_path(status: @status_filter), class: "requests-search-clear" %>
       <% end %>
     </div>
   <% end %>
 
   <% if @query.present? %>
     <p class="requests-search-summary">
-      <%= pluralize(@notifications.size, "резултат", plural: "резултата") %> за <strong><%= @query %></strong>
+      <%= t("admin.common.results_for_html", count: @notifications.size, q: h(@query)).html_safe %>
     </p>
   <% end %>
 
-  <nav class="status-tabs" aria-label="Филтриране на SMS">
-    <%= link_to admin_sms_log_path(q: @query.presence),
+  <% sms_filter_params = { q: @query.presence, from: @from_date, to: @to_date }.compact_blank %>
+  <nav class="status-tabs" aria-label="<%= t("admin.sms_log.title") %>">
+    <%= link_to admin_sms_log_path(sms_filter_params),
                 class: "status-tab #{'status-tab-active' if @status_filter.nil?}" do %>
-      <span class="status-tab-label">Всички</span>
+      <span class="status-tab-label"><%= t("admin.sms_log.tab_all") %></span>
     <% end %>
-    <%= link_to admin_sms_log_path(q: @query.presence, status: "sent"),
+    <%= link_to admin_sms_log_path(sms_filter_params.merge(status: "sent")),
                 class: "status-tab #{'status-tab-active' if @status_filter == 'sent'}" do %>
-      <span class="status-tab-label">Изпратени</span>
+      <span class="status-tab-label"><%= t("admin.sms_log.tab_sent") %></span>
     <% end %>
-    <%= link_to admin_sms_log_path(q: @query.presence, status: "failed"),
+    <%= link_to admin_sms_log_path(sms_filter_params.merge(status: "failed")),
                 class: "status-tab #{'status-tab-active' if @status_filter == 'failed'}" do %>
-      <span class="status-tab-label">Неуспешни</span>
+      <span class="status-tab-label"><%= t("admin.sms_log.tab_failed") %></span>
       <% if @failed_count.positive? %>
         <span class="status-tab-count sms-log-failed-count"><%= @failed_count %></span>
       <% end %>
@@ -52,70 +66,19 @@
   </nav>
 
   <% if @notifications.any? %>
-    <div class="courier-list">
+    <div class="courier-list" id="sms-log-list">
       <% @notifications.each do |notif| %>
-        <% req = notif.request %>
-        <details class="courier-row sms-log-row sms-log-row-<%= notif.status %>" name="sms-log">
-          <summary class="courier-row-summary">
-            <span class="courier-row-icon" aria-hidden="true">
-              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-            </span>
-            <div class="courier-row-main">
-              <span class="courier-row-id">
-                #<%= req.customer_id %> · <%= notif.recipient %>
-                <% if notif.status == "failed" %>
-                  <span class="sms-log-failed-badge">Неуспешно</span>
-                <% end %>
-              </span>
-              <span class="courier-row-address">
-                <%= bg_long_date(notif.sent_at) %>, <%= notif.sent_at.in_time_zone.strftime("%H:%M") %>
-              </span>
-            </div>
-            <span class="status-badge status-<%= req.status %>"><%= Request::STATUS_LABELS[req.status] %></span>
-            <span class="courier-row-chevron" aria-hidden="true">
-              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
-            </span>
-          </summary>
-
-          <div class="courier-row-body">
-            <dl class="courier-row-details">
-              <% if notif.status == "failed" && notif.error_message.present? %>
-                <div>
-                  <dt>Грешка</dt>
-                  <dd class="sms-log-error"><%= notif.error_message %></dd>
-                </div>
-              <% end %>
-              <div>
-                <dt>Тегло / Сума</dt>
-                <dd>
-                  <% if req.weight.present? %>
-                    <%= number_with_precision(req.weight, precision: 2, strip_insignificant_zeros: true) %> кг
-                  <% end %>
-                  <% if req.amount.present? %>
-                    · <%= number_with_precision(req.amount, precision: 2) %> €
-                  <% end %>
-                </dd>
-              </div>
-              <div>
-                <dt>Адрес</dt>
-                <dd><%= req.address %>, <%= req.city %></dd>
-              </div>
-              <div>
-                <dt>Съдържание на SMS</dt>
-                <dd><pre class="sms-log-body"><%= notif.body %></pre></dd>
-              </div>
-            </dl>
-          </div>
-        </details>
+        <%= render "admin/sms_log/sms_row", notif: notif %>
       <% end %>
     </div>
+    <%= render "admin/sms_log/load_more" %>
   <% else %>
     <div class="empty-state">
       <div class="empty-state-icon" aria-hidden="true">
         <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
       </div>
-      <p class="empty-state-title">Все още няма изпратени SMS</p>
-      <p class="empty-state-hint">Когато използвате бутона „Изпрати SMS", изпратените оферти ще се появят тук.</p>
+      <p class="empty-state-title"><%= t("admin.sms_log.empty_title") %></p>
+      <p class="empty-state-hint"><%= t("admin.sms_log.empty_hint") %></p>
     </div>
   <% end %>
 </div>

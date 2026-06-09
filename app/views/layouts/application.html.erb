@@ -51,8 +51,8 @@
     <% if impersonating? %>
       <div class="impersonation-banner">
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="m17 11 2 2 4-4"/></svg>
-        <span>Влезли сте като <strong><%= current_admin.email %></strong> (вие сте <%= true_admin&.email %>).</span>
-        <%= button_to "Излез от ролята", admin_stop_impersonating_path, method: :delete, class: "impersonation-banner-btn" %>
+        <span><%= t("admin.impersonation.banner_html", current: tag.strong(current_admin.email), true: true_admin&.email).html_safe %></span>
+        <%= button_to t("admin.impersonation.stop"), admin_stop_impersonating_path, method: :delete, class: "impersonation-banner-btn" %>
       </div>
     <% end %>
     <% if current_factory.phone.present? || current_factory.business_hours.present? %>
@@ -76,19 +76,26 @@
 
     <header class="site-header">
       <div class="header-container" data-controller="nav-toggle">
-        <%= link_to root_path, class: "site-brand", "aria-label": "#{current_factory.name} home" do %>
-          <% if current_factory.logo.attached? %>
-            <%= image_tag current_factory.logo, alt: current_factory.name, class: "site-brand-logo" %>
-          <% else %>
-            <span class="site-brand-text"><%= current_factory.name %></span>
+        <div class="site-brand-row">
+          <%= link_to root_path, class: "site-brand", "aria-label": "#{current_factory.name} home" do %>
+            <% if current_factory.logo.attached? %>
+              <%= image_tag current_factory.logo, alt: current_factory.name, class: "site-brand-logo" %>
+            <% else %>
+              <span class="site-brand-text"><%= current_factory.name %></span>
+            <% end %>
           <% end %>
-        <% end %>
+          <% if admin_logged_in? %>
+            <span class="plan-badge plan-badge-<%= current_factory.plan %>" title="<%= t("plan.#{current_factory.plan}") %>">
+              <%= t("plan.#{current_factory.plan}") %>
+            </span>
+          <% end %>
+        </div>
         <button type="button" class="nav-toggle"
                 data-nav-toggle-target="button"
                 data-action="click->nav-toggle#toggle"
                 aria-expanded="false"
                 aria-controls="primary-nav"
-                aria-label="Menu">
+                aria-label="<%= t("admin.nav.menu") %>">
           <span class="nav-toggle-bar"></span>
           <span class="nav-toggle-bar"></span>
           <span class="nav-toggle-bar"></span>
@@ -96,18 +103,18 @@
         <nav class="site-nav" id="primary-nav" data-nav-toggle-target="menu" data-open="false">
           <ul>
             <% if admin_logged_in? %>
-              <%# TODO: admin nav labels still Bulgarian-only; admin UI i18n is a separate effort. %>
-              <li><%= link_to "Поръчки", admin_requests_path %></li>
+              <li><%= link_to t("admin.nav.requests"), admin_requests_path %></li>
               <% if current_admin&.admin? || current_admin&.coordinator? %>
-                <li><%= link_to "Маршрут", admin_route_path %></li>
-                <li><%= link_to "SMS", admin_sms_log_path %></li>
+                <li><%= link_to t("admin.nav.route"),   admin_route_path %></li>
+                <li><%= link_to t("admin.nav.sms_log"), admin_sms_log_path %></li>
               <% end %>
               <% if current_admin&.admin? %>
-                <li><%= link_to "Отчети", admin_reports_path %></li>
-                <li><%= link_to "Потребители", admin_users_path %></li>
-                <li><%= link_to t("admin.nav.settings"), admin_settings_path %></li>
+                <li><%= link_to t("admin.nav.reports"),      admin_reports_path %></li>
+                <li><%= link_to t("admin.nav.users"),        admin_users_path %></li>
+                <li><%= link_to t("admin.nav.settings"),     admin_settings_path %></li>
+                <li><%= link_to t("admin.nav.subscription"), admin_subscription_path %></li>
               <% end %>
-              <li><%= link_to "Изход", logout_path, data: { turbo_method: :delete }, class: "nav-logout" %></li>
+              <li><%= link_to t("admin.nav.logout"), logout_path, data: { turbo_method: :delete }, class: "nav-logout" %></li>
             <% else %>
               <li><%= link_to t("nav.book"),        new_request_path %></li>
               <li><%= link_to t("nav.prices"),      root_path(anchor: "prices") %></li>

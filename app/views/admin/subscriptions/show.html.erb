@@ -1,0 +1,94 @@
+<% content_for(:title) { t("admin.subscription.title") } %>
+
+<div class="container">
+  <header class="page-header">
+    <h1><%= t("admin.subscription.title") %></h1>
+    <p class="page-header-lede">
+      <%= t("admin.subscription.lede", current_plan: t("plan.#{@factory.plan}")) %>
+    </p>
+  </header>
+
+  <% if @factory.errors[:plan].any? %>
+    <div class="flash flash-alert" role="alert">
+      <%= @factory.errors[:plan].first %>
+    </div>
+  <% end %>
+
+  <div class="subscription-grid">
+    <% Factory::PLANS.each do |plan| %>
+      <% is_current = (plan == @factory.plan) %>
+      <% featured   = (plan == "pro") %>
+
+      <article class="subscription-tier <%= 'subscription-tier-featured' if featured %> <%= 'subscription-tier-current' if is_current %>">
+        <% if is_current %>
+          <span class="subscription-tier-current-badge"><%= t("admin.subscription.current_plan_label") %></span>
+        <% elsif featured %>
+          <span class="subscription-tier-badge"><%= t("admin.subscription.tiers.pro.badge") %></span>
+        <% end %>
+
+        <h3 class="subscription-tier-name"><%= t("plan.#{plan}") %></h3>
+        <p class="subscription-tier-tagline"><%= t("admin.subscription.tiers.#{plan}.tagline") %></p>
+
+        <p class="subscription-tier-price">
+          <% if t("admin.subscription.tiers.#{plan}.price", default: nil).present? %>
+            <span><%= t("admin.subscription.tiers.#{plan}.price") %></span>
+            <% if t("admin.subscription.tiers.#{plan}.period", default: nil).present? %>
+              <small><%= t("admin.subscription.tiers.#{plan}.period") %></small>
+            <% end %>
+          <% else %>
+            <span class="subscription-tier-price-free">—</span>
+          <% end %>
+        </p>
+
+        <ul class="subscription-tier-list">
+          <% t("admin.subscription.tiers.#{plan}.features").each do |feature| %>
+            <li><%= feature %></li>
+          <% end %>
+        </ul>
+
+        <% if is_current %>
+          <div class="subscription-tier-usage">
+            <% if @factory.monthly_order_limit.nil? %>
+              <p><%= t("admin.subscription.usage.orders_this_month.unlimited", used: @factory.monthly_orders_used) %></p>
+            <% else %>
+              <p class="<%= 'subscription-tier-usage-over' if @factory.monthly_orders_used > @factory.monthly_order_limit %>">
+                <%= t("admin.subscription.usage.orders_this_month.capped", used: @factory.monthly_orders_used, limit: @factory.monthly_order_limit) %>
+              </p>
+            <% end %>
+            <% if @factory.user_limit.nil? %>
+              <p><%= t("admin.subscription.usage.users.unlimited", used: @factory.users_count) %></p>
+            <% else %>
+              <p class="<%= 'subscription-tier-usage-over' if @factory.users_count > @factory.user_limit %>">
+                <%= t("admin.subscription.usage.users.capped", used: @factory.users_count, limit: @factory.user_limit) %>
+              </p>
+            <% end %>
+          </div>
+        <% end %>
+
+        <%# CTA. For enterprise, "Talk to us" mailto. For everything else,
+            a button that PATCHes /admin/subscription with the chosen plan
+            (or hides the button entirely when it's already current). %>
+        <% if is_current %>
+          <button type="button" class="btn btn-secondary btn-full" disabled>
+            <%= t("admin.subscription.current_plan_label") %>
+          </button>
+        <% elsif plan == "enterprise" %>
+          <a href="mailto:sales@rugsuite.app" class="btn btn-secondary btn-full">
+            <%= t("admin.subscription.contact") %>
+          </a>
+        <% else %>
+          <% downgrade = Factory::PLANS.index(plan) < Factory::PLANS.index(@factory.plan) %>
+          <% label_key = downgrade ? "downgrade" : (@factory.plan == "trial" ? "choose" : "switch") %>
+          <%= button_to t("admin.subscription.#{label_key}", plan: t("plan.#{plan}")),
+                        admin_subscription_path,
+                        method: :patch,
+                        params: { factory: { plan: plan } },
+                        class: "btn #{featured ? 'btn-primary' : 'btn-secondary'} btn-full",
+                        data: { turbo_confirm: t("admin.subscription.confirm_change", plan: t("plan.#{plan}")) } %>
+        <% end %>
+      </article>
+    <% end %>
+  </div>
+
+  <p class="subscription-note subscription-note-info"><%= t("admin.subscription.invoice_note") %></p>
+</div>

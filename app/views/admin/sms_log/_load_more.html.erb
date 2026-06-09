@@ -1,0 +1,9 @@
+<div id="sms-log-load-more" class="requests-load-more">
+  <% if @has_more %>
+    <%= link_to t("admin.sms_log.load_more"),
+                admin_sms_log_path({ q: @query.presence, status: @status_filter,
+                                     from: @from_date, to: @to_date, page: @page + 1 }.compact_blank),
+                class: "btn btn-default",
+                data: { turbo_stream: true } %>
+  <% end %>
+</div>

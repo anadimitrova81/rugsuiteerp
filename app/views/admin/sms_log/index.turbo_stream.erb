@@ -1,0 +1,9 @@
+<%# "Load more": append the next page of SMS rows, then refresh the button. %>
+<%= turbo_stream.append "sms-log-list" do %>
+  <% @notifications.each do |notif| %>
+    <%= render "admin/sms_log/sms_row", notif: notif %>
+  <% end %>
+<% end %>
+<%= turbo_stream.replace "sms-log-load-more" do %>
+  <%= render "admin/sms_log/load_more" %>
+<% end %>

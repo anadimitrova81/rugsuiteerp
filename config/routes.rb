@@ -58,5 +58,6 @@ Rails.application.routes.draw do
     get "sms_log", to: "sms_log#index", as: :sms_log
 
     resource :settings, only: %i[show update]
+    resource :subscription, only: %i[show update]
   end
 end

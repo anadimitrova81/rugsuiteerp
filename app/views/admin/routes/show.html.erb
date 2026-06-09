@@ -79,7 +79,7 @@
                 <%= stop.route_position || "—" %>
               </span>
               <span class="status-badge status-<%= stop.status %> route-planner-status">
-                <%= Request::STATUS_LABELS[stop.status] %>
+                <%= Request.status_labels[stop.status] %>
               </span>
               <div class="route-planner-info">
                 <span class="route-planner-id">#<%= stop.customer_id %></span>

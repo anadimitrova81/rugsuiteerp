@@ -1,5 +1,7 @@
 module Admin
   class RequestsController < BaseController
+    PER_PAGE = 25
+
     def index
       @query = params[:q].to_s.strip
       @from_date = parse_date(params[:from]) if current_admin.admin?
@@ -14,15 +16,26 @@ module Admin
         @pending_price_notifications_count = pending_price_notifications_count
       elsif @query.present? && current_admin.admin?
         like = "%#{@query}%"
-        @requests = admin_scope.where("phone ILIKE :q OR customer_id ILIKE :q", q: like).order(created_at: :desc)
+        scope = admin_scope.where("phone ILIKE :q OR customer_id ILIKE :q", q: like).order(created_at: :desc)
+        paginate(scope, scope.count)
         @pending_price_notifications_count = pending_price_notifications_count
       else
         @tab_statuses = Request.statuses_for(current_admin.role)
         @status_counts = admin_scope.group(:status).count
         requested = params[:status]
         @current_status = @tab_statuses.include?(requested) ? requested : @tab_statuses.first
-        @requests = admin_scope.where(status: @current_status).order(created_at: :desc)
+        scope = admin_scope.where(status: @current_status).order(created_at: :desc)
+        paginate(scope, @status_counts[@current_status].to_i)
         @pending_price_notifications_count = pending_price_notifications_count
+      end
+
+      # Only the "load more" button appends rows — it sends ?page=N as a Turbo
+      # Stream. Every other hit (including the Turbo form redirect after saving
+      # a request, which also accepts turbo streams) must render the full list.
+      if params[:page].present? && request.format.turbo_stream?
+        render :index
+      else
+        render :index, formats: [:html]
       end
     end
 
@@ -99,6 +112,8 @@ module Admin
                                .where("(delivery_at AT TIME ZONE 'UTC' AT TIME ZONE '#{tz}')::date = ?", Date.current)
       @collected_total = collected_today.sum(:amount).to_f
       @collected_count = collected_today.count
+      @collected_total_card = collected_today.where(paid_by_card: true).sum(:amount).to_f
+      @collected_total_cash = @collected_total - @collected_total_card
     end
 
     def load_operator_index
@@ -148,6 +163,15 @@ module Admin
       nil
     end
 
+    # Loads one page of `scope` and records whether more rows remain, so the
+    # view can show a "load more" button. `total` is the full count for the
+    # current filter (already computed for the status tabs).
+    def paginate(scope, total)
+      @page = [params[:page].to_i, 1].max
+      @requests = scope.limit(PER_PAGE).offset((@page - 1) * PER_PAGE)
+      @has_more = total > @page * PER_PAGE
+    end
+
     def pending_price_notifications_count
       Request.awaiting_price_notification.where.not(amount: nil).count
     end
@@ -155,7 +179,7 @@ module Admin
     def request_params
       params.
         require(:request).
-        permit(:phone, :city, :address, :verified_address, :pick_up_at, :delivery_at, :status, :pick_up_notes, :delivery_notes, :items_only, :number_of_items, :weight, :voucher, :bulk_price)
+        permit(:phone, :city, :address, :verified_address, :pick_up_at, :delivery_at, :status, :pick_up_notes, :delivery_notes, :items_only, :number_of_items, :weight, :voucher, :bulk_price, :paid_by_card)
     end
   end
 end

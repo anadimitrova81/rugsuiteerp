@@ -2,22 +2,25 @@ module Admin
   class ReportsController < BaseController
     before_action :require_admin_role
 
+    # Period labels live in I18n under admin.reports.periods.<key> so the view
+    # renders them in the factory's language.
     PERIODS = {
-      "today" => { label: "Днес", since: -> { Time.current.beginning_of_day } },
-      "7" => { label: "Последните 7 дни", since: -> { 7.days.ago.beginning_of_day } },
-      "30" => { label: "Последните 30 дни", since: -> { 30.days.ago.beginning_of_day } },
-      "90" => { label: "Последните 90 дни", since: -> { 90.days.ago.beginning_of_day } },
+      "today" => { since: -> { Time.current.beginning_of_day } },
+      "7"     => { since: -> { 7.days.ago.beginning_of_day } },
+      "30"    => { since: -> { 30.days.ago.beginning_of_day } },
+      "90"    => { since: -> { 90.days.ago.beginning_of_day } },
     }.freeze
 
     def index
       @periods = PERIODS
-      @period_key = PERIODS.key?(params[:period]) ? params[:period] : "30"
-      @period = PERIODS[@period_key]
-      since_at = @period[:since].call
+      @from_date = parse_date(params[:from])
+      @to_date = parse_date(params[:to])
+      since_at, until_at, start_date, end_date = resolve_range
 
-      created_in_period = Request.where(created_at: since_at..)
-      delivered_in_period = Request.where(status: "delivered", updated_at: since_at..)
-      cancelled_in_period = Request.where(status: "cancelled", updated_at: since_at..)
+      range = since_at..until_at
+      created_in_period = Request.where(created_at: range)
+      delivered_in_period = Request.where(status: "delivered", updated_at: range)
+      cancelled_in_period = Request.where(status: "cancelled", updated_at: range)
 
       @kpis = {
         total: created_in_period.count,
@@ -35,11 +38,11 @@ module Admin
         amount: delivered_in_period.average(:amount)&.to_f,
       }
 
-      @daily_volume = build_daily_volume(since_at)
+      @daily_volume = build_daily(Request, range, start_date, end_date)
 
-      visits_in_period = PageVisit.where(created_at: since_at..)
+      visits_in_period = PageVisit.where(created_at: range)
       @page_views = visits_in_period.group(:route_key).order(Arel.sql("COUNT(*) DESC")).count
-      @daily_visits = build_daily_visits(since_at)
+      @daily_visits = build_daily(PageVisit, range, start_date, end_date)
       @funnel = {
         home: @page_views["pages#home"].to_i,
         form: @page_views["requests#new"].to_i,
@@ -51,22 +54,40 @@ module Admin
 
     def require_admin_role
       unless current_admin&.admin?
-        redirect_to admin_requests_path, alert: "Достъп само за администратори."
+        redirect_to admin_requests_path, alert: t("admin.reports.admin_only")
       end
     end
 
-    def build_daily_volume(since_at)
-      timestamps = Request.where(created_at: since_at..).pluck(:created_at)
-      counts = timestamps.group_by { |t| t.in_time_zone.to_date }.transform_values(&:size)
-      start_date = since_at.in_time_zone.to_date
-      (start_date..Date.current).map { |d| [d, counts[d].to_i] }
+    # Resolves the reporting window. A custom from/to range (either bound)
+    # overrides the preset period; otherwise the chosen/default preset applies.
+    # Returns [since_at(Time), until_at(Time|nil), start_date(Date), end_date(Date)].
+    def resolve_range
+      if @from_date || @to_date
+        start_date = @from_date || @to_date
+        end_date = @to_date || Date.current
+        start_date, end_date = end_date, start_date if start_date > end_date
+
+        @period_key = nil
+        @period_label = "#{start_date.strftime('%d.%m.%Y')} – #{end_date.strftime('%d.%m.%Y')}"
+        [start_date.in_time_zone.beginning_of_day, end_date.in_time_zone.end_of_day, start_date, end_date]
+      else
+        @period_key = PERIODS.key?(params[:period]) ? params[:period] : "30"
+        @period_label = t("admin.reports.periods.#{@period_key}")
+        since_at = PERIODS[@period_key][:since].call
+        [since_at, nil, since_at.in_time_zone.to_date, Date.current]
+      end
     end
 
-    def build_daily_visits(since_at)
-      timestamps = PageVisit.where(created_at: since_at..).pluck(:created_at)
+    def build_daily(relation, range, start_date, end_date)
+      timestamps = relation.where(created_at: range).pluck(:created_at)
       counts = timestamps.group_by { |t| t.in_time_zone.to_date }.transform_values(&:size)
-      start_date = since_at.in_time_zone.to_date
-      (start_date..Date.current).map { |d| [d, counts[d].to_i] }
+      (start_date..end_date).map { |d| [d, counts[d].to_i] }
+    end
+
+    def parse_date(value)
+      Date.iso8601(value.to_s) if value.present?
+    rescue ArgumentError, Date::Error
+      nil
     end
   end
 end

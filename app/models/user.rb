@@ -4,12 +4,20 @@ class User < ApplicationRecord
   has_secure_password
 
   ROLES = %w[admin courier operator coordinator]
-  ROLE_LABELS = {
-    "admin" => "Администратор",
-    "courier" => "Куриер",
-    "operator" => "Оператор",
-    "coordinator" => "Координатор",
-  }.freeze
+
+  # Translated labels via I18n. Use `User.role_label(role)` and
+  # `User.role_labels` instead of the legacy frozen hash.
+  def self.role_label(role)
+    I18n.t("admin.user.roles.#{role}")
+  end
+
+  def self.role_labels
+    ROLES.index_with { |r| role_label(r) }
+  end
+
+  def self.role_description(role)
+    I18n.t("admin.user.role_descriptions.#{role}")
+  end
 
   validates :email, presence: true,
                     uniqueness: { case_sensitive: false, scope: :factory_id },

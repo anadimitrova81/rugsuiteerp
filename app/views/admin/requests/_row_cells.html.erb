@@ -1,8 +1,8 @@
 <span class="requests-list-id">
   <span class="requests-list-id-number">#<%= req.customer_id %></span>
   <% chips = [] %>
-  <% chips << "#{req.number_of_items} бр." if req.number_of_items.present? %>
-  <% chips << "#{number_with_precision(req.weight, precision: 1, strip_insignificant_zeros: true)} кг" if req.weight.present? %>
+  <% chips << t("admin.request.list.items_chip", count: req.number_of_items) if req.number_of_items.present? %>
+  <% chips << t("admin.request.list.kg_chip", weight: number_with_precision(req.weight, precision: 1, strip_insignificant_zeros: true)) if req.weight.present? %>
   <% if chips.any? %>
     <span class="requests-list-meta"><%= chips.join(" · ") %></span>
   <% end %>
@@ -15,21 +15,21 @@
 <span class="requests-list-pickup">
   <% delivery_leg = req.status.in?(%w[delivery_confirmed delivered]) %>
   <% leg_date = delivery_leg ? req.delivery_at : req.pick_up_at %>
-  <% leg_label = if req.status == "delivered" then "Върната"
-                 elsif req.status == "delivery_confirmed" then "Връщане"
+  <% leg_label = if req.status == "delivered" then t("admin.request.courier.delivered_label")
+                 elsif req.status == "delivery_confirmed" then t("admin.request.courier.delivery_label")
                  end %>
   <% if leg_date %>
     <% if leg_label %>
       <span class="requests-list-pickup-relative requests-list-pickup-leg"><%= leg_label %></span>
     <% else %>
-      <% relative = bg_relative_day(leg_date) %>
+      <% relative = relative_day(leg_date) %>
       <% if relative %>
         <span class="requests-list-pickup-relative requests-list-pickup-<%= (leg_date.to_date - Date.current).to_i.zero? ? "today" : "soon" %>"><%= relative %></span>
       <% end %>
     <% end %>
-    <span class="requests-list-pickup-date"><%= bg_short_date(leg_date) %></span>
+    <span class="requests-list-pickup-date"><%= short_date(leg_date) %></span>
   <% else %>
     <span class="requests-list-pickup-date">—</span>
   <% end %>
 </span>
-<span><span class="status-badge status-<%= req.status %>"><%= Request::STATUS_LABELS[req.status] %></span></span>
+<span><span class="status-badge status-<%= req.status %>"><%= Request.status_labels[req.status] %></span></span>

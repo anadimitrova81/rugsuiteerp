@@ -1,10 +1,21 @@
-<% content_for(:title) { "Поръчки · Админ" } %>
+<% content_for(:title) { t("admin.requests.title") } %>
 
 <div class="container container-wide">
   <header class="page-header page-header-with-action">
-    <h1>Поръчки</h1>
+    <div>
+      <h1><%= t("admin.requests.title") %></h1>
+      <% if current_admin&.admin? %>
+        <p class="page-plan-usage <%= 'page-plan-usage-over' if current_factory.monthly_order_limit && current_factory.monthly_orders_used > current_factory.monthly_order_limit %>">
+          <% if current_factory.monthly_order_limit %>
+            <%= t("admin.subscription.usage.orders_this_month.capped", used: current_factory.monthly_orders_used, limit: current_factory.monthly_order_limit) %>
+          <% else %>
+            <%= t("admin.subscription.usage.orders_this_month.unlimited", used: current_factory.monthly_orders_used) %>
+          <% end %>
+        </p>
+      <% end %>
+    </div>
     <% if current_admin&.admin? %>
-      <%= link_to "Нова поръчка", new_admin_request_path, class: "btn btn-primary" %>
+      <%= link_to t("admin.requests.new_button"), new_admin_request_path, class: "btn btn-primary" %>
     <% end %>
   </header>
 
@@ -15,15 +26,15 @@
       </span>
       <div class="sms-banner-text">
         <span class="sms-banner-title">
-          <%= @pending_price_notifications_count %> <%= @pending_price_notifications_count == 1 ? "поръчка" : "поръчки" %> чакат ценова оферта
+          <%= t("admin.requests.pending_quotes_html", count: @pending_price_notifications_count).html_safe %>
         </span>
-        <span class="sms-banner-meta">Изпратете SMS с тегло и сума на клиентите.</span>
+        <span class="sms-banner-meta"><%= t("admin.requests.pending_quotes_lede") %></span>
       </div>
-      <%= button_to "Изпрати SMS",
+      <%= button_to t("admin.requests.send_sms"),
                     price_quotes_admin_notifications_path,
                     method: :post,
                     class: "btn btn-secondary sms-banner-btn",
-                    data: { turbo_confirm: "Изпрати SMS оферти за #{@pending_price_notifications_count} поръчки?" } %>
+                    data: { turbo_confirm: t("admin.requests.send_sms_confirm", count: @pending_price_notifications_count) } %>
     </div>
   <% end %>
 
@@ -40,22 +51,22 @@
     <%= form_with url: admin_requests_path, method: :get, class: "requests-search-form" do |form| %>
       <div class="requests-search">
         <svg class="requests-search-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
-        <%= form.text_field :q, value: @query, placeholder: "Търсене по телефон или номер на поръчка", autocomplete: "off", class: "requests-search-input", skip_group: true %>
+        <%= form.text_field :q, value: @query, placeholder: t("admin.requests.search_placeholder"), autocomplete: "off", class: "requests-search-input", skip_group: true %>
         <span class="requests-search-divider" aria-hidden="true"></span>
         <label class="requests-search-date">
-          <span>От</span>
+          <span><%= t("admin.requests.from") %></span>
           <%= form.date_field :from, value: @from_date, skip_group: true %>
         </label>
         <label class="requests-search-date">
-          <span>До</span>
+          <span><%= t("admin.requests.to") %></span>
           <%= form.date_field :to, value: @to_date, skip_group: true %>
         </label>
         <% if @current_status %>
           <%= hidden_field_tag :status, @current_status %>
         <% end %>
-        <button type="submit" class="requests-search-submit">Приложи</button>
+        <button type="submit" class="requests-search-submit"><%= t("admin.requests.apply") %></button>
         <% if filters_active %>
-          <%= link_to "Изчисти", admin_requests_path, class: "requests-search-clear" %>
+          <%= link_to t("admin.common.clear"), admin_requests_path, class: "requests-search-clear" %>
         <% end %>
       </div>
     <% end %>
@@ -63,17 +74,17 @@
 
   <% if @query.present? && current_admin&.admin? %>
     <p class="requests-search-summary">
-      <%= pluralize(@requests.size, "резултат", plural: "резултата") %> за <strong><%= @query %></strong>
+      <%= t("admin.common.results_for_html", count: @requests.size, q: h(@query)).html_safe %>
     </p>
   <% end %>
 
   <% if @tab_statuses %>
     <% tab_date_params = { from: @from_date, to: @to_date }.compact_blank %>
-    <nav class="status-tabs" aria-label="Филтриране по статус">
+    <nav class="status-tabs" aria-label="<%= t("admin.requests.filter_status_label") %>">
       <% @tab_statuses.each do |status| %>
         <%= link_to admin_requests_path({ status: status }.merge(tab_date_params)),
                     class: "status-tab #{'status-tab-active' if status == @current_status}" do %>
-          <span class="status-tab-label"><%= Request::STATUS_LABELS[status] %></span>
+          <span class="status-tab-label"><%= Request.status_labels[status] %></span>
           <span class="status-tab-count"><%= @status_counts[status].to_i %></span>
         <% end %>
       <% end %>
@@ -81,52 +92,27 @@
   <% end %>
 
   <% if @requests.any? %>
-    <div class="requests-list">
+    <div class="requests-list" id="requests-list">
       <div class="requests-list-header">
-        <span>Поръчка</span>
-        <span>Телефон</span>
-        <span>Адрес</span>
-        <span>Вземане</span>
-        <span>Статус</span>
+        <span><%= t("admin.requests.cols.order") %></span>
+        <span><%= t("admin.requests.cols.phone") %></span>
+        <span><%= t("admin.requests.cols.address") %></span>
+        <span><%= t("admin.requests.cols.pickup") %></span>
+        <span><%= t("admin.requests.cols.status") %></span>
       </div>
 
       <% @requests.each do |req| %>
-        <% next_status = next_status_for(req) %>
-        <% if next_status %>
-          <% extra_fields = transition_fields_for(req, next_status) %>
-          <% extra_params = case extra_fields
-                            when "items"  then { number_of_items: "" }
-                            when "weight" then { weight: "" }
-                            else {}
-                            end %>
-          <% url_params = { request: { status: next_status }.merge(extra_params) } %>
-          <% confirm_message = case extra_fields
-                               when "items"  then "Поръчка #{req.customer_id} — въведете брой артикули."
-                               when "weight" then "Поръчка #{req.customer_id} — въведете общото тегло."
-                               else "Маркиране на поръчка #{req.customer_id} като „#{Request::STATUS_LABELS[next_status]}”?"
-                               end %>
-          <%= button_to admin_request_path(req, **url_params),
-                        method: :patch,
-                        form_class: "requests-list-form",
-                        class: "requests-list-row requests-list-row-advance",
-                        data: { turbo_confirm: confirm_message, confirm_fields: extra_fields },
-                        title: "Маркирай като #{Request::STATUS_LABELS[next_status]}" do %>
-            <%= render "admin/requests/row_cells", req: req %>
-          <% end %>
-        <% else %>
-          <%= link_to (current_admin&.admin? ? edit_admin_request_path(req) : admin_request_path(req)), class: "requests-list-row" do %>
-            <%= render "admin/requests/row_cells", req: req %>
-          <% end %>
-        <% end %>
+        <%= render "admin/requests/request_row", req: req %>
       <% end %>
     </div>
+    <%= render "admin/requests/load_more" %>
   <% else %>
     <div class="empty-state">
       <div class="empty-state-icon" aria-hidden="true">
         <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="13" y2="17"/></svg>
       </div>
-      <p class="empty-state-title">Няма поръчки в този статус</p>
-      <p class="empty-state-hint">Когато постъпят нови заявки, те ще се появят тук.</p>
+      <p class="empty-state-title"><%= t("admin.requests.empty_title") %></p>
+      <p class="empty-state-hint"><%= t("admin.requests.empty_hint") %></p>
     </div>
   <% end %>
   <% end %>

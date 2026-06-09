@@ -1,44 +1,61 @@
-<% content_for(:title) { "Отчети · Админ" } %>
+<% content_for(:title) { t("admin.reports.title") } %>
 
 <div class="container container-wide">
   <header class="request-detail-page-header">
     <div>
-      <p class="request-detail-eyebrow">Админ</p>
-      <h1 class="request-detail-title">Отчети</h1>
-      <p class="request-detail-subtitle"><%= @period[:label] %></p>
+      <p class="request-detail-eyebrow"><%= t("admin.reports.eyebrow") %></p>
+      <h1 class="request-detail-title"><%= t("admin.reports.title") %></h1>
+      <p class="request-detail-subtitle"><%= @period_label %></p>
     </div>
-    <nav class="status-tabs report-period-tabs" aria-label="Период на отчета">
-      <% @periods.each do |key, config| %>
+    <nav class="status-tabs report-period-tabs" aria-label="<%= t("admin.reports.period_aria") %>">
+      <% @periods.each_key do |key| %>
         <%= link_to admin_reports_path(period: key),
                     class: "status-tab #{'status-tab-active' if key == @period_key}" do %>
-          <span class="status-tab-label"><%= config[:label] %></span>
+          <span class="status-tab-label"><%= t("admin.reports.periods.#{key}") %></span>
         <% end %>
       <% end %>
     </nav>
   </header>
 
+  <%= form_with url: admin_reports_path, method: :get, class: "requests-search-form report-date-filter" do |form| %>
+    <div class="requests-search">
+      <label class="requests-search-date">
+        <span><%= t("admin.reports.from") %></span>
+        <%= form.date_field :from, value: @from_date, skip_group: true %>
+      </label>
+      <label class="requests-search-date">
+        <span><%= t("admin.reports.to") %></span>
+        <%= form.date_field :to, value: @to_date, skip_group: true %>
+      </label>
+      <button type="submit" class="requests-search-submit"><%= t("admin.reports.apply") %></button>
+      <% if @from_date || @to_date %>
+        <%= link_to t("admin.common.clear"), admin_reports_path, class: "requests-search-clear" %>
+      <% end %>
+    </div>
+  <% end %>
+
   <section class="report-kpis">
     <div class="report-kpi">
-      <span class="report-kpi-label">Нови заявки</span>
+      <span class="report-kpi-label"><%= t("admin.reports.kpi.new_requests") %></span>
       <span class="report-kpi-value"><%= @kpis[:total] %></span>
     </div>
     <div class="report-kpi">
-      <span class="report-kpi-label">Завършени</span>
+      <span class="report-kpi-label"><%= t("admin.reports.kpi.completed") %></span>
       <span class="report-kpi-value"><%= @kpis[:delivered] %></span>
       <% if @kpis[:total] > 0 %>
-        <span class="report-kpi-meta"><%= number_to_percentage(@kpis[:delivered] * 100.0 / @kpis[:total], precision: 0) %> от заявките</span>
+        <span class="report-kpi-meta"><%= t("admin.reports.kpi.completed_share", percent: number_to_percentage(@kpis[:delivered] * 100.0 / @kpis[:total], precision: 0)) %></span>
       <% end %>
     </div>
     <div class="report-kpi report-kpi-accent">
-      <span class="report-kpi-label">Приходи</span>
-      <span class="report-kpi-value"><%= number_with_precision(@kpis[:revenue], precision: 2) %> €</span>
-      <span class="report-kpi-meta">от завършени поръчки</span>
+      <span class="report-kpi-label"><%= t("admin.reports.kpi.revenue") %></span>
+      <span class="report-kpi-value"><%= number_with_precision(@kpis[:revenue], precision: 2) %> <%= current_factory.currency %></span>
+      <span class="report-kpi-meta"><%= t("admin.reports.kpi.revenue_meta") %></span>
     </div>
     <div class="report-kpi">
-      <span class="report-kpi-label">Отказани</span>
+      <span class="report-kpi-label"><%= t("admin.reports.kpi.cancelled") %></span>
       <span class="report-kpi-value"><%= @kpis[:cancelled] %></span>
       <% if @kpis[:total] > 0 %>
-        <span class="report-kpi-meta"><%= number_to_percentage(@kpis[:cancelled] * 100.0 / @kpis[:total], precision: 0) %> от заявките</span>
+        <span class="report-kpi-meta"><%= t("admin.reports.kpi.cancelled_share", percent: number_to_percentage(@kpis[:cancelled] * 100.0 / @kpis[:total], precision: 0)) %></span>
       <% end %>
     </div>
   </section>
@@ -46,8 +63,8 @@
   <div class="report-grid">
     <section class="report-card">
       <header class="report-card-header">
-        <h2>По статус</h2>
-        <span class="report-card-meta">в периода</span>
+        <h2><%= t("admin.reports.by_status") %></h2>
+        <span class="report-card-meta"><%= t("admin.reports.by_status_meta") %></span>
       </header>
       <% if @status_counts.any? %>
         <% max = @status_counts.values.max %>
@@ -57,7 +74,7 @@
             <% next if count.zero? %>
             <li class="report-bar">
               <div class="report-bar-row">
-                <span class="status-badge status-<%= s %>"><%= Request::STATUS_LABELS[s] %></span>
+                <span class="status-badge status-<%= s %>"><%= Request.status_labels[s] %></span>
                 <span class="report-bar-count"><%= count %></span>
               </div>
               <div class="report-bar-track" aria-hidden="true">
@@ -67,14 +84,14 @@
           <% end %>
         </ul>
       <% else %>
-        <p class="report-empty">Няма данни за избрания период.</p>
+        <p class="report-empty"><%= t("admin.reports.empty") %></p>
       <% end %>
     </section>
 
     <section class="report-card">
       <header class="report-card-header">
-        <h2>По населено място</h2>
-        <span class="report-card-meta">топ <%= @top_cities.size %></span>
+        <h2><%= t("admin.reports.by_city") %></h2>
+        <span class="report-card-meta"><%= t("admin.reports.by_city_meta", count: @top_cities.size) %></span>
       </header>
       <% if @top_cities.any? %>
         <% max_city = @top_cities.values.max %>
@@ -92,52 +109,52 @@
           <% end %>
         </ul>
       <% else %>
-        <p class="report-empty">Няма данни за избрания период.</p>
+        <p class="report-empty"><%= t("admin.reports.empty") %></p>
       <% end %>
     </section>
   </div>
 
   <section class="report-card">
     <header class="report-card-header">
-      <h2>Средни стойности</h2>
-      <span class="report-card-meta">от завършените поръчки</span>
+      <h2><%= t("admin.reports.averages") %></h2>
+      <span class="report-card-meta"><%= t("admin.reports.averages_meta") %></span>
     </header>
     <% if @kpis[:delivered].positive? %>
       <div class="report-averages">
         <div>
-          <span class="report-averages-label">Артикули</span>
+          <span class="report-averages-label"><%= t("admin.reports.average_items") %></span>
           <span class="report-averages-value"><%= number_with_precision(@averages[:items] || 0, precision: 1, strip_insignificant_zeros: true) %></span>
         </div>
         <div>
-          <span class="report-averages-label">Тегло</span>
+          <span class="report-averages-label"><%= t("admin.reports.average_weight") %></span>
           <span class="report-averages-value">
             <%= number_with_precision(@averages[:weight] || 0, precision: 2, strip_insignificant_zeros: true) %>
-            <span class="report-averages-unit">кг</span>
+            <span class="report-averages-unit"><%= t("units.kg") %></span>
           </span>
         </div>
         <div>
-          <span class="report-averages-label">Сума</span>
+          <span class="report-averages-label"><%= t("admin.reports.average_amount") %></span>
           <span class="report-averages-value">
             <%= number_with_precision(@averages[:amount] || 0, precision: 2) %>
-            <span class="report-averages-unit">€</span>
+            <span class="report-averages-unit"><%= current_factory.currency %></span>
           </span>
         </div>
       </div>
     <% else %>
-      <p class="report-empty">Няма завършени поръчки в периода.</p>
+      <p class="report-empty"><%= t("admin.reports.empty_completed") %></p>
     <% end %>
   </section>
 
   <section class="report-card">
     <header class="report-card-header">
-      <h2>Заявки по дни</h2>
-      <span class="report-card-meta">по дата на създаване</span>
+      <h2><%= t("admin.reports.daily_volume") %></h2>
+      <span class="report-card-meta"><%= t("admin.reports.daily_volume_meta") %></span>
     </header>
     <% max_daily = @daily_volume.map(&:last).max.to_i %>
     <% if max_daily.positive? %>
       <div class="report-daily">
         <% @daily_volume.each do |day, count| %>
-          <div class="report-daily-bar" title="<%= bg_long_date(day) %> — <%= count %> заявки">
+          <div class="report-daily-bar" title="<%= long_date(day) %> — <%= count %>">
             <% if count.positive? %>
               <span class="report-daily-count"><%= count %></span>
             <% end %>
@@ -146,26 +163,26 @@
         <% end %>
       </div>
       <div class="report-daily-axis">
-        <span><%= bg_short_date(@daily_volume.first.first) %></span>
-        <span><%= bg_short_date(@daily_volume.last.first) %></span>
+        <span><%= long_date(@daily_volume.first.first) %></span>
+        <span><%= long_date(@daily_volume.last.first) %></span>
       </div>
     <% else %>
-      <p class="report-empty">Няма заявки в периода.</p>
+      <p class="report-empty"><%= t("admin.reports.empty") %></p>
     <% end %>
   </section>
 
   <section class="report-card">
     <header class="report-card-header">
-      <h2>Фуния</h2>
-      <span class="report-card-meta">от посещение до изпратена заявка</span>
+      <h2><%= t("admin.reports.funnel") %></h2>
+      <span class="report-card-meta"><%= t("admin.reports.funnel_meta") %></span>
     </header>
     <% funnel_max = @funnel.values.max.to_i %>
     <% if funnel_max.positive? %>
       <ul class="report-bars">
         <% [
-             [:home, "Начало", @funnel[:home]],
-             [:form, "Форма за заявка", @funnel[:form]],
-             [:submitted, "Изпратени заявки", @funnel[:submitted]],
+             [:home,      t("admin.reports.funnel_home"),       @funnel[:home]],
+             [:form,      t("admin.reports.funnel_form"),       @funnel[:form]],
+             [:submitted, t("admin.reports.funnel_submitted"),  @funnel[:submitted]],
            ].each do |key, label, count| %>
           <li class="report-bar">
             <div class="report-bar-row">
@@ -184,14 +201,14 @@
         <% end %>
       </ul>
     <% else %>
-      <p class="report-empty">Все още няма посещения в периода.</p>
+      <p class="report-empty"><%= t("admin.reports.empty_visits") %></p>
     <% end %>
   </section>
 
   <section class="report-card">
     <header class="report-card-header">
-      <h2>Посещения по страница</h2>
-      <span class="report-card-meta">в периода</span>
+      <h2><%= t("admin.reports.page_views") %></h2>
+      <span class="report-card-meta"><%= t("admin.reports.page_views_meta") %></span>
     </header>
     <% if @page_views.any? %>
       <% max_views = @page_views.values.max %>
@@ -209,20 +226,20 @@
         <% end %>
       </ul>
     <% else %>
-      <p class="report-empty">Все още няма посещения в периода.</p>
+      <p class="report-empty"><%= t("admin.reports.empty_visits") %></p>
     <% end %>
   </section>
 
   <section class="report-card">
     <header class="report-card-header">
-      <h2>Посещения по дни</h2>
-      <span class="report-card-meta">общо за публичните страници</span>
+      <h2><%= t("admin.reports.daily_visits") %></h2>
+      <span class="report-card-meta"><%= t("admin.reports.daily_visits_meta") %></span>
     </header>
     <% max_visits = @daily_visits.map(&:last).max.to_i %>
     <% if max_visits.positive? %>
       <div class="report-daily">
         <% @daily_visits.each do |day, count| %>
-          <div class="report-daily-bar" title="<%= bg_long_date(day) %> — <%= count %> посещения">
+          <div class="report-daily-bar" title="<%= long_date(day) %> — <%= count %>">
             <% if count.positive? %>
               <span class="report-daily-count"><%= count %></span>
             <% end %>
@@ -231,11 +248,11 @@
         <% end %>
       </div>
       <div class="report-daily-axis">
-        <span><%= bg_short_date(@daily_visits.first.first) %></span>
-        <span><%= bg_short_date(@daily_visits.last.first) %></span>
+        <span><%= long_date(@daily_visits.first.first) %></span>
+        <span><%= long_date(@daily_visits.last.first) %></span>
       </div>
     <% else %>
-      <p class="report-empty">Все още няма посещения в периода.</p>
+      <p class="report-empty"><%= t("admin.reports.empty_visits") %></p>
     <% end %>
   </section>
 </div>

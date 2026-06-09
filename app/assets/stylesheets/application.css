@@ -155,6 +155,39 @@ body {
   object-position: left center;
 }
 
+.site-brand-row {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Plan badge — shown next to the brand only when an admin is logged in.
+   Sizes/colors are role-of-status: trial is amber to read as "limited",
+   paid plans use the brand primary. */
+.plan-badge {
+  display: inline-block;
+  padding: 3px 9px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  line-height: 1.4;
+  white-space: nowrap;
+}
+.plan-badge-trial {
+  background: #fef3c7;
+  color: #92400e;
+  border: 1px solid #fde68a;
+}
+.plan-badge-starter,
+.plan-badge-pro,
+.plan-badge-enterprise {
+  background: rgba(var(--color-primary-rgb), 0.1);
+  color: var(--color-primary);
+  border: 1px solid rgba(var(--color-primary-rgb), 0.25);
+}
+
 .visually-hidden {
   position: absolute;
   width: 1px;
@@ -282,11 +315,41 @@ legend { font-weight: 600; font-size: 16px; color: var(--color-text); padding: 0
   cursor: pointer;
   user-select: none;
 }
+/* Render the native checkbox as a toggle switch. */
 .form-check input[type="checkbox"] {
-  width: 17px;
-  height: 17px;
-  accent-color: var(--color-primary);
+  appearance: none;
+  -webkit-appearance: none;
+  position: relative;
+  flex-shrink: 0;
+  width: 44px;
+  height: 26px;
+  margin: 0;
+  border-radius: 999px;
+  background: var(--color-border);
   cursor: pointer;
+  transition: background 0.2s ease;
+}
+.form-check input[type="checkbox"]::before {
+  content: "";
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+  transition: transform 0.2s ease;
+}
+.form-check input[type="checkbox"]:checked {
+  background: var(--color-primary);
+}
+.form-check input[type="checkbox"]:checked::before {
+  transform: translateX(18px);
+}
+.form-check input[type="checkbox"]:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
 }
 
 .recaptcha-notice {
@@ -318,6 +381,7 @@ legend { font-weight: 600; font-size: 16px; color: var(--color-text); padding: 0
   border-radius: var(--radius);
 }
 .form-amount-summary > div { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.form-amount-summary + .form-check { margin-top: 18px; }
 .form-amount-label {
   font-size: 12px;
   font-weight: 600;
@@ -416,6 +480,12 @@ textarea.form-control { font-family: inherit; line-height: 1.5; resize: vertical
 .btn-secondary:hover { background-color: var(--color-secondary-hover); }
 .btn-danger { background-color: var(--color-danger); color: white; }
 .btn-danger:hover { background-color: #dc2626; }
+.btn-default {
+  background-color: var(--color-surface);
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
+}
+.btn-default:hover { background-color: var(--color-background); }
 
 .form-actions { margin-top: 24px; padding-top: 24px; border-top: 1px solid var(--color-border); display: flex; gap: 12px; }
 

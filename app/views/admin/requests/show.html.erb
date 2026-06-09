@@ -1,24 +1,24 @@
-<% content_for(:title) { "Поръчка #{@request.customer_id} · Админ" } %>
+<% content_for(:title) { t("admin.request.show.title", id: @request.customer_id) } %>
 
 <div class="container container-wide">
   <header class="request-detail-page-header">
     <div>
-      <p class="request-detail-eyebrow">Поръчка</p>
+      <p class="request-detail-eyebrow"><%= t("admin.request.show.eyebrow") %></p>
       <h1 class="request-detail-title">
         #<%= @request.customer_id %>
-        <span class="status-badge status-<%= @request.status %>"><%= Request::STATUS_LABELS[@request.status] %></span>
+        <span class="status-badge status-<%= @request.status %>"><%= Request.status_labels[@request.status] %></span>
       </h1>
       <p class="request-detail-subtitle">
-        Заявена на <%= bg_long_date(@request.created_at) %> в <%= @request.created_at.strftime("%H:%M") %>
+        <%= t("admin.request.show.requested_on_at", date: long_date(@request.created_at), time: @request.created_at.strftime("%H:%M")) %>
       </p>
     </div>
     <div class="request-detail-actions">
       <%= link_to admin_requests_path, class: "btn btn-secondary" do %>
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
-        Към списъка
+        <%= t("admin.request.show.back_to_list") %>
       <% end %>
       <% if current_admin&.admin? %>
-        <%= link_to "Редактирай", edit_admin_request_path(@request), class: "btn btn-primary" %>
+        <%= link_to t("admin.request.show.edit"), edit_admin_request_path(@request), class: "btn btn-primary" %>
       <% end %>
     </div>
   </header>
@@ -29,15 +29,15 @@
         <span class="request-detail-card-icon" aria-hidden="true">
           <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
         </span>
-        <h2>Клиент</h2>
+        <h2><%= t("admin.request.labels.customer") %></h2>
       </header>
       <dl class="request-detail-list">
         <div>
-          <dt>Телефон</dt>
+          <dt><%= t("admin.request.labels.phone") %></dt>
           <dd><a href="tel:<%= @request.phone %>" class="request-detail-link"><%= @request.phone %></a></dd>
         </div>
         <div>
-          <dt>Адрес</dt>
+          <dt><%= t("admin.request.labels.address_line") %></dt>
           <dd><%= [@request.address, @request.city].compact_blank.join(", ") %></dd>
         </div>
       </dl>
@@ -52,11 +52,11 @@
       </header>
       <dl class="request-detail-list">
         <div>
-          <dt>Дата</dt>
+          <dt><%= t("admin.request.labels.date") %></dt>
           <dd>
             <% if @request.pick_up_at.present? %>
-              <%= bg_long_date(@request.pick_up_at) %>
-              <% if (relative = bg_relative_day(@request.pick_up_at)) %>
+              <%= long_date(@request.pick_up_at) %>
+              <% if (relative = relative_day(@request.pick_up_at)) %>
                 <span class="request-detail-chip request-detail-chip-<%= (@request.pick_up_at.to_date - Date.current).to_i.zero? ? "today" : "soon" %>"><%= relative %></span>
               <% end %>
             <% else %>
@@ -66,7 +66,7 @@
         </div>
         <% if @request.pick_up_notes.present? %>
           <div>
-            <dt>Бележки</dt>
+            <dt><%= t("admin.request.labels.notes") %></dt>
             <dd class="request-detail-notes"><%= simple_format(@request.pick_up_notes) %></dd>
           </div>
         <% end %>
@@ -79,25 +79,25 @@
           <span class="request-detail-card-icon" aria-hidden="true">
             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
           </span>
-          <h2>Обработка</h2>
+          <h2><%= t("admin.request.show.section_processing") %></h2>
         </header>
         <div class="request-detail-stats">
           <% if @request.number_of_items.present? %>
             <div class="request-detail-stat">
-              <span class="request-detail-stat-label">Артикули</span>
+              <span class="request-detail-stat-label"><%= t("admin.request.labels.items") %></span>
               <span class="request-detail-stat-value"><%= @request.number_of_items %></span>
             </div>
           <% end %>
           <% if @request.weight.present? %>
             <div class="request-detail-stat">
-              <span class="request-detail-stat-label">Тегло</span>
-              <span class="request-detail-stat-value"><%= number_with_precision(@request.weight, precision: 2, strip_insignificant_zeros: true) %> <span class="request-detail-stat-unit">кг</span></span>
+              <span class="request-detail-stat-label"><%= t("admin.request.labels.weight") %></span>
+              <span class="request-detail-stat-value"><%= number_with_precision(@request.weight, precision: 2, strip_insignificant_zeros: true) %> <span class="request-detail-stat-unit"><%= t("units.kg") %></span></span>
             </div>
           <% end %>
           <% if @request.amount.present? %>
             <div class="request-detail-stat">
-              <span class="request-detail-stat-label">Сума</span>
-              <span class="request-detail-stat-value"><%= number_with_precision(@request.amount, precision: 2) %> <span class="request-detail-stat-unit">€</span></span>
+              <span class="request-detail-stat-label"><%= t("admin.request.labels.amount") %></span>
+              <span class="request-detail-stat-value"><%= number_with_precision(@request.amount, precision: 2) %> <span class="request-detail-stat-unit"><%= current_factory.currency %></span></span>
             </div>
           <% end %>
         </div>

@@ -79,7 +79,7 @@ class ApplicationController < ActionController::Base
 
   def require_admin
     unless admin_logged_in?
-      redirect_to login_path, alert: "Трябва да сте влезли, за да достъпите тази страница."
+      redirect_to login_path, alert: I18n.t("admin.login.required")
     end
   end
 end

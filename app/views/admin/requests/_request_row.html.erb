@@ -1,0 +1,27 @@
+<% next_status = next_status_for(req) %>
+<% if next_status %>
+  <% extra_fields = transition_fields_for(req, next_status) %>
+  <% extra_params = case extra_fields
+                    when "items"  then { number_of_items: "" }
+                    when "weight" then { weight: "" }
+                    else {}
+                    end %>
+  <% url_params = { request: { status: next_status }.merge(extra_params) } %>
+  <% confirm_message = case extra_fields
+                       when "items"  then t("admin.requests.mark_items", customer_id: req.customer_id)
+                       when "weight" then t("admin.requests.mark_weight", customer_id: req.customer_id)
+                       else t("admin.requests.mark_as_confirm", customer_id: req.customer_id, status: Request.status_labels[next_status])
+                       end %>
+  <%= button_to admin_request_path(req, **url_params),
+                method: :patch,
+                form_class: "requests-list-form",
+                class: "requests-list-row requests-list-row-advance",
+                data: { turbo_confirm: confirm_message, confirm_fields: extra_fields },
+                title: t("admin.requests.mark_as", status: Request.status_labels[next_status]) do %>
+    <%= render "admin/requests/row_cells", req: req %>
+  <% end %>
+<% else %>
+  <%= link_to (current_admin&.admin? ? edit_admin_request_path(req) : admin_request_path(req)), class: "requests-list-row" do %>
+    <%= render "admin/requests/row_cells", req: req %>
+  <% end %>
+<% end %>

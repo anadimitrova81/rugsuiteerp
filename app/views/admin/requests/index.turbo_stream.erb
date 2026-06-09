@@ -1,0 +1,9 @@
+<%# "Load more": append the next page of rows, then refresh the button. %>
+<%= turbo_stream.append "requests-list" do %>
+  <% @requests.each do |req| %>
+    <%= render "admin/requests/request_row", req: req %>
+  <% end %>
+<% end %>
+<%= turbo_stream.replace "requests-load-more" do %>
+  <%= render "admin/requests/load_more" %>
+<% end %>

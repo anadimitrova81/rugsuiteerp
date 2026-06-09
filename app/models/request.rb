@@ -26,6 +26,9 @@ class Request < ApplicationRecord
   end
 
   before_create :generate_customer_id
+  before_save :regenerate_customer_id_on_pick_up_change,
+              if: -> { !new_record? && pick_up_at.present? &&
+                       will_save_change_to_pick_up_at? }
   before_create :generate_status_token
   before_save :clear_weight_when_items_only
   before_save :recalculate_amount,
@@ -35,16 +38,15 @@ class Request < ApplicationRecord
                        will_save_change_to_bulk_price? }
 
   STATUSES = %w[pending pickup_confirmed picked_up in_progress ready_for_delivery delivery_confirmed delivered cancelled]
-  STATUS_LABELS = {
-    "pending" => "Получена",
-    "pickup_confirmed" => "Потвърдено вземане",
-    "picked_up" => "Взета",
-    "in_progress" => "Пране",
-    "ready_for_delivery" => "Готова за връщане",
-    "delivery_confirmed" => "Потвърдено връщане",
-    "delivered" => "Върната",
-    "cancelled" => "Отказана",
-  }.freeze
+
+  # Translated label via I18n. Replaces the legacy STATUS_LABELS hash.
+  def self.status_label(status)
+    I18n.t("admin.request_status.#{status}")
+  end
+
+  def self.status_labels
+    STATUSES.index_with { |s| status_label(s) }
+  end
   # Currency conversion (BGN → EUR) is independent of multi-tenancy and is
   # only used for display in Bulgarian-currency factories. Will be replaced by
   # a proper currency module when more currencies are onboarded.
@@ -76,42 +78,45 @@ class Request < ApplicationRecord
     end
   end
 
+  # Tab definitions for each role's index page. Labels are read from I18n
+  # under admin.request_tabs.<role>.<tab_key>; the model just declares which
+  # statuses belong to which tab.
   COURIER_TABS = {
-    "today" => { label: "За днес", statuses: %w[pickup_confirmed delivery_confirmed] },
-    "completed" => { label: "Завършени днес", statuses: %w[picked_up delivered] },
+    "today" =>     { statuses: %w[pickup_confirmed delivery_confirmed] },
+    "completed" => { statuses: %w[picked_up delivered] },
   }.freeze
 
   OPERATOR_TABS = {
-    "received" => { label: "Взети", statuses: %w[picked_up] },
-    "in_wash" => { label: "За пране", statuses: %w[in_progress] },
-    "ready" => { label: "Готови за доставка", statuses: %w[ready_for_delivery] },
+    "received" => { statuses: %w[picked_up] },
+    "in_wash" =>  { statuses: %w[in_progress] },
+    "ready" =>    { statuses: %w[ready_for_delivery] },
   }.freeze
 
   COORDINATOR_TABS = {
-    "new" => { label: "Нови заявки", statuses: %w[pending] },
-    "to_deliver" => { label: "За връщане", statuses: %w[ready_for_delivery] },
-    "scheduled" => { label: "Потвърдени", statuses: %w[pickup_confirmed delivery_confirmed] },
+    "new" =>         { statuses: %w[pending] },
+    "to_deliver" =>  { statuses: %w[ready_for_delivery] },
+    "scheduled" =>   { statuses: %w[pickup_confirmed delivery_confirmed] },
   }.freeze
 
   validates :phone, :address, :city, :pick_up_at, presence: true
   validates :customer_id, uniqueness: { scope: :factory_id }, allow_nil: true
   validate :phone_must_be_valid_for_factory_country
   validates :number_of_items,
-            presence: { message: "е задължителен при маркиране като взета" },
+            presence: { message: -> (*) { I18n.t("admin.request.validations.items_required") } },
             if: -> { will_save_change_to_status? && status == "picked_up" }
   validates :number_of_items,
-            numericality: { only_integer: true, greater_than: 0, message: "трябва да е положително число" },
+            numericality: { only_integer: true, greater_than: 0, message: -> (*) { I18n.t("admin.request.validations.items_positive") } },
             if: -> { will_save_change_to_status? && status == "picked_up" && number_of_items.present? }
 
   validates :weight,
-            presence: { message: "е задължително при започване на пране" },
+            presence: { message: -> (*) { I18n.t("admin.request.validations.weight_required") } },
             if: -> { will_save_change_to_status? && status == "in_progress" && !items_only }
   validates :weight,
-            numericality: { greater_than: 0, message: "трябва да е положително число" },
+            numericality: { greater_than: 0, message: -> (*) { I18n.t("admin.request.validations.weight_positive") } },
             if: -> { will_save_change_to_status? && status == "in_progress" && weight.present? }
 
   validates :delivery_at,
-            presence: { message: "е задължителна при потвърждаване на връщане" },
+            presence: { message: -> (*) { I18n.t("admin.request.validations.delivery_at_required") } },
             if: -> { will_save_change_to_status? && status == "delivery_confirmed" }
 
   # Only enforce the "not in the past" rule while the order is still
@@ -230,24 +235,41 @@ class Request < ApplicationRecord
     end
   end
 
-  def generate_customer_id
+  # Date-derived prefix that opens every customer_id, e.g. a 2026-06-08 pickup
+  # gives "260608" (the month is coded 4X for Jan–Sep, plain for Oct–Dec).
+  def customer_id_prefix
     date = pick_up_at.to_date
     year = date.strftime("%y")
     month = date.month < 10 ? "4#{date.month}" : date.month.to_s
     day = date.strftime("%d")
-    prefix = "#{year}#{month}#{day}"
+    "#{year}#{month}#{day}"
+  end
+
+  def generate_customer_id
+    prefix = customer_id_prefix
 
     # Pick the first unused suffix for today's prefix rather than `count+1`,
     # which collided whenever today's records had been deleted, backdated, or
-    # otherwise didn't form a contiguous 1..N sequence.
-    used = Request.where("customer_id LIKE ?", "#{prefix}%")
-                  .pluck(:customer_id)
-                  .filter_map { |id| id.delete_prefix(prefix).to_i if id.start_with?(prefix) }
-                  .to_set
+    # otherwise didn't form a contiguous 1..N sequence. Exclude this record so
+    # renumbering on a date change doesn't count its own (stale) id.
+    scope = Request.where("customer_id LIKE ?", "#{prefix}%")
+    scope = scope.where.not(id: id) if persisted?
+    used = scope.pluck(:customer_id)
+                .filter_map { |id| id.delete_prefix(prefix).to_i if id.start_with?(prefix) }
+                .to_set
     daily_count = 1
     daily_count += 1 while used.include?(daily_count)
 
     self.customer_id = "#{prefix}#{daily_count}"
+  end
+
+  # When a request is rescheduled to a different day, its customer_id prefix no
+  # longer matches the pickup date — reissue it. A same-day time change keeps
+  # the prefix, so we skip the renumber in that case.
+  def regenerate_customer_id_on_pick_up_change
+    return if customer_id.present? && customer_id.start_with?(customer_id_prefix)
+
+    generate_customer_id
   end
 
   # Unguessable random token used in the public SMS short link (/r/:token).

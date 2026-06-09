@@ -1,0 +1,9 @@
+<div id="requests-load-more" class="requests-load-more">
+  <% if @has_more %>
+    <%= link_to t("admin.requests.load_more"),
+                admin_requests_path({ status: @current_status, q: @query.presence,
+                                      from: @from_date, to: @to_date, page: @page + 1 }.compact_blank),
+                class: "btn btn-default",
+                data: { turbo_stream: true } %>
+  <% end %>
+</div>

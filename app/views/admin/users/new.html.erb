@@ -1,31 +1,31 @@
-<% content_for(:title) { "Нов потребител · Админ" } %>
+<% content_for(:title) { t("admin.user.new.title") } %>
 
 <div class="container">
   <header class="page-header">
-    <h1>Нов потребител</h1>
-    <p class="page-subtitle">Поканете член на екипа и изберете какво може да прави.</p>
+    <h1><%= t("admin.user.new.title") %></h1>
+    <p class="page-subtitle"><%= t("admin.user.new.lede") %></p>
   </header>
 
   <% if @user.errors.any? %>
     <div class="flash flash-alert flash-icon">
       <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-      <span>Моля, коригирайте отбелязаните полета по-долу.</span>
+      <span><%= t("admin.user.new.errors") %></span>
     </div>
   <% end %>
 
   <div class="request-form">
     <%= form_with model: [:admin, @user], url: admin_users_path do |form| %>
       <section class="form-section">
-        <h2 class="form-section-title">Достъп</h2>
-        <%= form.email_field :email, label: "Имейл", placeholder: "ime@example.com", autocomplete: "off" %>
+        <h2 class="form-section-title"><%= t("admin.user.new.section_access") %></h2>
+        <%= form.email_field :email, label: t("admin.user.new.email"), placeholder: "name@example.com", autocomplete: "off" %>
         <div class="form-row form-row-1-1">
-          <%= form.password_field :password, label: "Парола", autocomplete: "new-password" %>
-          <%= form.password_field :password_confirmation, label: "Потвърди паролата", autocomplete: "new-password" %>
+          <%= form.password_field :password, label: t("admin.user.new.password"), autocomplete: "new-password" %>
+          <%= form.password_field :password_confirmation, label: t("admin.user.new.password_confirmation"), autocomplete: "new-password" %>
         </div>
       </section>
 
       <section class="form-section">
-        <h2 class="form-section-title">Роля</h2>
+        <h2 class="form-section-title"><%= t("admin.user.new.section_role") %></h2>
         <div class="role-picker">
           <% User::ROLES.each do |role| %>
             <label class="role-option role-option-<%= role %>">
@@ -33,8 +33,8 @@
               <span class="role-option-card">
                 <span class="role-option-icon"><%= role_icon(role, size: 20) %></span>
                 <span class="role-option-body">
-                  <span class="role-option-label"><%= User::ROLE_LABELS[role] %></span>
-                  <span class="role-option-desc"><%= ApplicationHelper::ROLE_DESCRIPTIONS[role] %></span>
+                  <span class="role-option-label"><%= User.role_labels[role] %></span>
+                  <span class="role-option-desc"><%= User.role_description(role) %></span>
                 </span>
                 <svg class="role-option-check" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
               </span>
@@ -47,8 +47,8 @@
       </section>
 
       <div class="form-actions">
-        <%= form.submit "Създай потребител", class: "btn btn-primary" %>
-        <%= link_to "Отказ", admin_users_path, class: "btn btn-secondary" %>
+        <%= form.submit t("admin.user.new.submit"), class: "btn btn-primary" %>
+        <%= link_to t("admin.common.cancel"), admin_users_path, class: "btn btn-secondary" %>
       </div>
     <% end %>
   </div>

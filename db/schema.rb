@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_05_29_102117) do
+ActiveRecord::Schema[8.1].define(version: 2026_06_09_120000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -64,6 +64,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_29_102117) do
     t.string "phone"
     t.string "phone_country", limit: 2, null: false
     t.string "pickup_window"
+    t.string "plan", default: "trial", null: false
     t.decimal "price_per_item", precision: 10, scale: 2, default: "0.0", null: false
     t.decimal "price_per_kg", precision: 10, scale: 2, default: "0.0", null: false
     t.decimal "price_per_kg_bulk", precision: 10, scale: 2, default: "0.0", null: false
@@ -75,6 +76,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_29_102117) do
     t.string "slug", null: false
     t.string "timezone", default: "UTC", null: false
     t.datetime "updated_at", null: false
+    t.index ["plan"], name: "index_factories_on_plan"
     t.index ["slug"], name: "index_factories_on_slug", unique: true
   end
 
@@ -124,6 +126,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_29_102117) do
     t.bigint "factory_id", null: false
     t.boolean "items_only", default: false, null: false
     t.integer "number_of_items"
+    t.boolean "paid_by_card", default: false, null: false
     t.string "phone", null: false
     t.datetime "pick_up_at"
     t.text "pick_up_notes"

@@ -5,6 +5,18 @@ class Factory < ApplicationRecord
   LOGO_CONTENT_TYPES = %w[image/png image/jpeg image/webp image/svg+xml].freeze
   LOGO_MAX_BYTES = 2.megabytes
   PRICING_MODES = %w[per_kg per_sqm].freeze
+  PLANS = %w[trial starter pro enterprise].freeze
+
+  # Caps per plan. `nil` means unlimited. Subscribing to a plan that's stricter
+  # than current usage doesn't block existing data — it just makes the limit
+  # visible to the admin. Hard gating (refusing to create the 101st request on
+  # trial) is a separate piece of work.
+  PLAN_LIMITS = {
+    "trial"      => { monthly_orders: 100,  users: 5   },
+    "starter"    => { monthly_orders: 300,  users: 3   },
+    "pro"        => { monthly_orders: 2000, users: nil },
+    "enterprise" => { monthly_orders: nil,  users: nil },
+  }.freeze
 
   has_one_attached :logo
 
@@ -29,6 +41,7 @@ class Factory < ApplicationRecord
             :price_per_sqm, :price_per_sqm_bulk, :bulk_area_threshold,
             numericality: { greater_than_or_equal_to: 0 }
   validates :pricing_mode, inclusion: { in: PRICING_MODES }
+  validates :plan, inclusion: { in: PLANS }
   validates :same_day_cutoff_hour, numericality: { only_integer: true, in: 0..23 }
   validates :brand_primary_color,   format: { with: HEX_COLOR_REGEX, message: "must be a hex value like #0f3f7e" }, allow_blank: true
   validates :brand_secondary_color, format: { with: HEX_COLOR_REGEX, message: "must be a hex value like #0f3f7e" }, allow_blank: true
@@ -37,6 +50,28 @@ class Factory < ApplicationRecord
   # True if this factory prices by area (m²) instead of by weight (kg).
   def per_sqm?
     pricing_mode == "per_sqm"
+  end
+
+  def trial?
+    plan == "trial"
+  end
+
+  def monthly_order_limit
+    PLAN_LIMITS.dig(plan, :monthly_orders)
+  end
+
+  def user_limit
+    PLAN_LIMITS.dig(plan, :users)
+  end
+
+  # Convenience usage counts; assume we're already inside the right
+  # ActsAsTenant scope (which the admin pages always are).
+  def monthly_orders_used
+    requests.where("created_at >= ?", Time.current.beginning_of_month).count
+  end
+
+  def users_count
+    users.count
   end
 
   # The active per-unit rate, considering the chosen pricing_mode. Used by

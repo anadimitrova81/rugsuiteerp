@@ -14,14 +14,42 @@ module ApplicationHelper
     "#{date.day} #{BG_MONTHS[date.month - 1]}"
   end
 
+  # Locale-aware long date. Bulgarian renders via BG_MONTHS, every other
+  # locale defaults to English month names. Use for user-facing dates in
+  # admin pages.
+  def long_date(date)
+    return nil if date.nil?
+    if I18n.locale == :bg
+      bg_long_date(date)
+    else
+      date.strftime("%-d %B %Y")
+    end
+  end
+
+  def short_date(date)
+    return nil if date.nil?
+    if I18n.locale == :bg
+      bg_short_date(date)
+    else
+      date.strftime("%-d %b")
+    end
+  end
+
   def bg_relative_day(date)
+    relative_day(date)
+  end
+
+  # Locale-aware relative day label. Bulgarian uses BG weekday names; other
+  # locales fall back to localized weekday via `%A` strftime.
+  def relative_day(date)
     today = Date.current
     days = (date.to_date - today).to_i
     case days
-    when 0 then "Днес"
-    when 1 then "Утре"
-    when 2..6 then bg_weekday(date)
-    when -1 then "Вчера"
+    when 0 then I18n.t("admin.relative_day.today")
+    when 1 then I18n.t("admin.relative_day.tomorrow")
+    when 2..6
+      I18n.locale == :bg ? bg_weekday(date) : date.strftime("%A")
+    when -1 then I18n.t("admin.relative_day.yesterday")
     end
   end
 
@@ -58,12 +86,8 @@ module ApplicationHelper
     TRANSITION_FIELDS[[request.status, next_status]]
   end
 
-  ROLE_DESCRIPTIONS = {
-    "admin" => "Пълен достъп — управлява поръчките и членовете на екипа.",
-    "courier" => "Потвърждава вземането и връщането при доставка.",
-    "operator" => "Изпълнява пранета в процес на обработка.",
-    "coordinator" => "Триажира новите заявки и подготвя за връщане.",
-  }.freeze
+  # ROLE_DESCRIPTIONS moved to I18n (admin.user.role_descriptions.*) and
+  # accessed via User.role_description(role).
 
   ROLE_ICON_PATHS = {
     "admin" => '<path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/>',
@@ -84,23 +108,21 @@ module ApplicationHelper
   end
 
   # Builds a Google Maps directions URL routing the courier from the factory,
-  # through every stop as a waypoint, back to the factory. Up to ~10 waypoints;
-  # older Maps clients silently truncate beyond that.
+  # through every stop, back to the factory.
+  #
+  # Uses the path-based /maps/dir/ format (depot/stop1/stop2/.../depot) rather
+  # than dir/?api=1. The api=1 form caps the `waypoints` parameter at 9
+  # intermediate stops and silently drops the rest; the path-based form carries
+  # every assigned stop as its own path segment.
   def google_maps_directions_url(addresses)
     return nil if addresses.blank?
 
-    formatted = addresses.compact_blank.map { |a| a.to_s.tr("|", " ") }
+    formatted = addresses.compact_blank.map(&:to_s)
     return nil if formatted.empty?
 
     depot = Routes::DailyRouteOptimizer::DEPOT_ADDRESS
-    params = {
-      api: 1,
-      travelmode: "driving",
-      origin: depot,
-      destination: depot,
-      waypoints: formatted.join("|"),
-    }
-    "https://www.google.com/maps/dir/?#{params.to_query}"
+    segments = [depot, *formatted, depot].map { |a| CGI.escape(a) }
+    "https://www.google.com/maps/dir/#{segments.join('/')}?travelmode=driving"
   end
 
   # Builds a Google Maps directions URL from the user's current location to

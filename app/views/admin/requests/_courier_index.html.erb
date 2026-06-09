@@ -5,6 +5,10 @@
   <div class="day-total-text">
     <span class="day-total-label">Инкасирани днес</span>
     <span class="day-total-meta"><%= @collected_count %> <%= @collected_count == 1 ? "поръчка" : "поръчки" %></span>
+    <span class="day-total-breakdown">
+      <span>В брой: <strong><%= number_with_precision(@collected_total_cash, precision: 2) %> €</strong></span>
+      <span>С карта: <strong><%= number_with_precision(@collected_total_card, precision: 2) %> €</strong></span>
+    </span>
   </div>
   <span class="day-total-value"><%= number_with_precision(@collected_total, precision: 2) %> €</span>
 </div>
@@ -143,10 +147,19 @@
               <%= form.submit "Маркирай като взета", class: "btn btn-primary btn-full" %>
             <% end %>
           <% when "delivery_confirmed" %>
-            <%= button_to admin_request_path(req, request: { status: "delivered" }),
+            <%= form_with model: req,
+                          url: admin_request_path(req),
+                          scope: :request,
                           method: :patch,
-                          class: "btn btn-primary btn-full" do %>
-              Маркирай като върната
+                          namespace: "row#{req.id}",
+                          class: "courier-row-action" do |form| %>
+              <%= form.hidden_field :status, value: "delivered" %>
+              <label class="courier-row-toggle">
+                <span class="courier-row-toggle-label">Плащане с карта</span>
+                <%= form.check_box :paid_by_card, class: "courier-row-toggle-input" %>
+                <span class="courier-row-toggle-track" aria-hidden="true"></span>
+              </label>
+              <%= form.submit "Маркирай като върната", class: "btn btn-primary btn-full" %>
             <% end %>
           <% end %>
         </div>

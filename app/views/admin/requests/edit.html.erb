@@ -6,7 +6,7 @@
       <p class="request-detail-eyebrow">Редакция на поръчка</p>
       <h1 class="request-detail-title">
         #<%= @request.customer_id %>
-        <span class="status-badge status-<%= @request.status %>"><%= Request::STATUS_LABELS[@request.status] %></span>
+        <span class="status-badge status-<%= @request.status %>"><%= Request.status_labels[@request.status] %></span>
       </h1>
       <p class="request-detail-subtitle">
         Заявена на <%= bg_long_date(@request.created_at) %>
@@ -41,7 +41,7 @@
         <% @statuses.each do |status| %>
           <label class="status-option">
             <%= form.radio_button :status, status, class: "status-option-input", checked: @request.status == status %>
-            <span class="status-badge status-<%= status %> status-option-pill"><%= Request::STATUS_LABELS[status] %></span>
+            <span class="status-badge status-<%= status %> status-option-pill"><%= Request.status_labels[status] %></span>
           </label>
         <% end %>
       </div>
@@ -150,6 +150,10 @@
           </span>
         </div>
       <% end %>
+      <label class="form-check">
+        <%= form.check_box :paid_by_card %>
+        <span>Платено с карта (иначе в брой)</span>
+      </label>
     </section>
 
     <div class="form-actions form-actions-split">
