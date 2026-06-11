@@ -25,6 +25,7 @@ en:
       cancel: "Cancel"
       save: "Save"
       delete: "Delete"
+      edit: "Edit"
       created_at: "Joined %{date}"
       you: "You"
       none: "—"
@@ -214,6 +215,7 @@ en:
         weight_required: "is required when starting the wash"
         weight_positive: "must be a positive number"
         delivery_at_required: "is required to confirm delivery"
+        pick_up_at_weekend: "can't be a Saturday or Sunday"
       labels:
         phone: "Phone"
         address_line: "Address"
@@ -434,6 +436,7 @@ en:
         name: "Company name"
         legal_name: "Legal name"
         logo: "Logo"
+        hero_image: "Home page image"
         brand_primary_color: "Primary color"
         brand_secondary_color: "Secondary color"
         phone: "Phone"
@@ -451,6 +454,7 @@ en:
       hints:
         legal_name: "Shown in the footer copyright line. Defaults to Company name."
         logo: "PNG, JPEG, WebP or SVG. Max 2 MB. Shown in the site header."
+        hero_image: "PNG, JPEG or WebP. Max 5 MB. Recommended ~1600×1000px (landscape). The large photo in the home page hero. Leave empty to use the default."
         brand_primary_color: "Buttons, links and accents."
         brand_secondary_color: "Secondary buttons and confirm states."
         phone: "Shown in the top bar and footer. Use the format your customers know."
@@ -460,6 +464,26 @@ en:
         price_per_kg_bulk: "Discounted rate for orders over the bulk threshold."
         bulk_weight_threshold: "Weight (kg) at which the bulk rate kicks in."
         price_per_item: "Per-item rate for orders priced by piece (e.g. quilts)."
+    process_steps:
+      title: "How it works steps"
+      lede: "The steps shown on your home page. Drag the order with the arrows. Leave empty to show the default steps."
+      add: "Add step"
+      empty: "No custom steps yet — your home page shows the default steps."
+      move_up: "Move up"
+      move_down: "Move down"
+      new_title: "New step"
+      edit_title: "Edit step"
+      created: "Step added."
+      updated: "Step saved."
+      deleted: "Step deleted."
+      delete_confirm: "Delete the step “%{title}”?"
+      fields:
+        title: "Title"
+        body: "Description"
+        image: "Image"
+      hints:
+        body: "Shown under the title on the home page."
+        image: "PNG, JPEG or WebP. Max 5 MB. Recommended ~1200×900px (landscape). Optional."
 
   nav:
     book: "Book"
@@ -506,7 +530,7 @@ en:
     how_it_works:
       eyebrow: "How it works"
       heading: "Six steps to a clean carpet"
-      step_label: "Step %{n} / 06"
+      step_label: "Step %{n} / %{total}"
       step_1:
         title: "Free pickup and return"
         body: "Our couriers arrive at your door between %{pickup_window}. We pick up the carpets and return them washed — again after work hours. No transport fees."

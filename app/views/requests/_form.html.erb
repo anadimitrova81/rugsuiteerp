@@ -18,7 +18,7 @@
 
   <section class="form-section">
     <h2 class="form-section-title">График</h2>
-    <%= form.date_field :pick_up_at, label: "Дата на вземане", min: Request.earliest_pick_up_date, hint: "Куриерът ни идва между 18:00 и 20:30, всеки ден.", onclick: "this.showPicker()" %>
+    <%= form.date_field :pick_up_at, label: "Дата на вземане", min: Request.earliest_pick_up_date, hint: "Куриерът ни идва между 18:00 и 20:30, в делнични дни.", onclick: "this.showPicker()", data: { controller: "pickup-date", action: "change->pickup-date#check", "pickup-date-message": t("admin.request.validations.pick_up_at_weekend") } %>
     <%= form.text_area :pick_up_notes, label: "Бележки за вземането", rows: 3, placeholder: "Например: моля елате след 19:00, апартамент 5, втори етаж" %>
   </section>
 

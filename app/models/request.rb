@@ -16,6 +16,10 @@ class Request < ApplicationRecord
   belongs_to :delivery_courier, class_name: "User", optional: true
   has_many :notifications, dependent: :destroy
 
+  # Set by the admin controllers so staff can schedule weekend pickups. Client
+  # submissions leave it false, so the weekend validation below applies to them.
+  attr_accessor :admin_initiated
+
   # The courier responsible for this stop given its current leg.
   def current_courier_id
     if status.in?(%w[pickup_confirmed picked_up])
@@ -128,6 +132,12 @@ class Request < ApplicationRecord
                     status.in?(%w[pending pickup_confirmed]) &&
                     (new_record? || will_save_change_to_pick_up_at?) }
 
+  # Clients can only book weekday pickups; admins may schedule any day.
+  validate :pick_up_at_not_on_weekend,
+           if: -> { pick_up_at.present? && !admin_initiated &&
+                    status.in?(%w[pending pickup_confirmed]) &&
+                    (new_record? || will_save_change_to_pick_up_at?) }
+
   validate :address_resolvable_by_google,
            if: -> { address.present? && city.present? && (will_save_change_to_address? || will_save_change_to_city?) }
 
@@ -218,6 +228,12 @@ class Request < ApplicationRecord
     earliest = self.class.earliest_pick_up_date
     if pick_up_at.to_date < earliest
       errors.add(:pick_up_at, "must be #{earliest == Date.current ? 'today' : 'tomorrow'} or later")
+    end
+  end
+
+  def pick_up_at_not_on_weekend
+    if pick_up_at.to_date.on_weekend?
+      errors.add(:pick_up_at, I18n.t("admin.request.validations.pick_up_at_weekend"))
     end
   end
 

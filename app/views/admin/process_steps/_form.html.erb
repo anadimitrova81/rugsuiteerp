@@ -1,0 +1,35 @@
+<%= form_with(model: process_step, url: url, method: method, html: { multipart: true, class: "settings-form" }) do |f| %>
+  <% if process_step.errors.any? %>
+    <div class="flash flash-alert" role="alert">
+      <strong><%= t("admin.settings.errors_heading") %></strong>
+      <ul>
+        <% process_step.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <section class="settings-section">
+    <%= f.text_field :title, label: t("admin.process_steps.fields.title") %>
+    <%= f.text_area :body, label: t("admin.process_steps.fields.body"),
+                           hint: t("admin.process_steps.hints.body"), rows: 4 %>
+
+    <div class="settings-logo">
+      <span class="form-label-like"><%= t("admin.process_steps.fields.image") %></span>
+      <% if process_step.image.attached? %>
+        <div class="settings-logo-current">
+          <%= image_tag process_step.image, alt: process_step.title, class: "settings-hero-preview" %>
+          <span><%= process_step.image.filename %> (<%= number_to_human_size(process_step.image.byte_size) %>)</span>
+        </div>
+      <% end %>
+      <%= f.file_field :image, accept: ProcessStep::IMAGE_CONTENT_TYPES.join(","), skip_group: true, class: "form-control" %>
+      <p class="form-hint"><%= t("admin.process_steps.hints.image") %></p>
+    </div>
+  </section>
+
+  <div class="settings-actions">
+    <%= link_to t("admin.common.cancel"), admin_settings_path(anchor: "process-steps"), class: "btn btn-secondary btn-lg" %>
+    <%= f.submit t("admin.settings.save"), class: "btn btn-primary btn-lg" %>
+  </div>
+<% end %>

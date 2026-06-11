@@ -33,7 +33,7 @@ module Admin
         :price_per_sqm, :price_per_sqm_bulk, :bulk_area_threshold,
         :price_per_item,
         :brand_primary_color, :brand_secondary_color,
-        :logo,
+        :logo, :hero_image,
       )
     end
   end

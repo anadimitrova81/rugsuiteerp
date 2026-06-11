@@ -24,11 +24,15 @@
       <div class="home-hero-ring" aria-hidden="true"></div>
 
       <div class="home-hero-photo-frame">
-        <%= image_tag "washing-mashine.jpg", alt: t("home.hero.title"), class: "home-hero-photo" %>
+        <% if current_factory.hero_image.attached? %>
+          <%= image_tag current_factory.hero_image, alt: t("home.hero.title"), class: "home-hero-photo" %>
+        <% else %>
+          <%= image_tag "washing-mashine.jpg", alt: t("home.hero.title"), class: "home-hero-photo" %>
+        <% end %>
       </div>
 
       <div class="home-hero-chip home-hero-chip-top" aria-hidden="true">
-        <span class="home-hero-chip-num">6</span>
+        <span class="home-hero-chip-num"><%= @process_steps.size %></span>
         <span class="home-hero-chip-label"><%= t("home.hero.chip_steps") %></span>
       </div>
 
@@ -91,26 +95,31 @@
       <h2><%= t("home.how_it_works.heading") %></h2>
     </div>
 
+    <% total = @process_steps.size %>
+    <%= tag.style(process_slider_state_css(total)) %>
     <div class="process-slider">
-      <input type="radio" name="process-step" id="step-radio-1" class="process-radio" checked>
-      <input type="radio" name="process-step" id="step-radio-2" class="process-radio">
-      <input type="radio" name="process-step" id="step-radio-3" class="process-radio">
-      <input type="radio" name="process-step" id="step-radio-4" class="process-radio">
-      <input type="radio" name="process-step" id="step-radio-5" class="process-radio">
-      <input type="radio" name="process-step" id="step-radio-6" class="process-radio">
+      <% (1..total).each do |n| %>
+        <input type="radio" name="process-step" id="step-radio-<%= n %>" class="process-radio" <%= "checked" if n == 1 %>>
+      <% end %>
 
       <div class="process-slides-viewport">
         <div class="process-slides">
-          <% (1..6).each do |n| %>
+          <% @process_steps.each_with_index do |step, i| %>
+            <% n = i + 1 %>
             <article class="process-slide" id="step-<%= n %>">
               <div class="process-slide-image">
-                <%= image_tag "step#{n}#{n == 3 || n == 4 || n == 5 ? '.png' : '.jpg'}", alt: t("home.how_it_works.step_#{n}.title") %>
+                <% if step[:image].present? %>
+                  <%= image_tag step[:image], alt: step[:title],
+                                class: ("process-slide-photo-fit" unless step[:image].is_a?(String)) %>
+                <% else %>
+                  <span class="process-slide-image-placeholder" aria-hidden="true"></span>
+                <% end %>
               </div>
               <div class="process-slide-body">
                 <span class="process-slide-bignum" aria-hidden="true"><%= "%02d" % n %></span>
-                <span class="process-slide-num"><%= t("home.how_it_works.step_label", n: "%02d" % n) %></span>
-                <h3><%= t("home.how_it_works.step_#{n}.title") %></h3>
-                <p><%= t("home.how_it_works.step_#{n}.body", pickup_window: current_factory.pickup_window) %></p>
+                <span class="process-slide-num"><%= t("home.how_it_works.step_label", n: "%02d" % n, total: "%02d" % total) %></span>
+                <h3><%= step[:title] %></h3>
+                <p><%= step[:body] %></p>
               </div>
             </article>
           <% end %>
@@ -118,8 +127,8 @@
       </div>
 
       <nav class="process-dots" aria-label="<%= t("home.how_it_works.heading") %>">
-        <% (1..6).each do |n| %>
-          <label for="step-radio-<%= n %>" class="process-dot" aria-label="<%= t("home.how_it_works.step_label", n: n) %>"><%= n %></label>
+        <% (1..total).each do |n| %>
+          <label for="step-radio-<%= n %>" class="process-dot" aria-label="<%= t("home.how_it_works.step_label", n: n, total: total) %>"><%= n %></label>
         <% end %>
       </nav>
     </div>

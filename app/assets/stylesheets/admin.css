@@ -2072,6 +2072,9 @@
   font-size: 15px;
 }
 
+/* Constrain the whole tabbed area (nav + form + process steps) to one width,
+   so every tab — including the form-less Process steps tab — lines up. */
+.settings-panels { max-width: 720px; }
 .settings-form { max-width: 720px; }
 .settings-section {
   background: #fff;
@@ -2118,6 +2121,109 @@
   max-width: 180px;
   object-fit: contain;
 }
+.settings-hero-preview {
+  height: 90px;
+  width: auto;
+  max-width: 240px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+/* Settings section tabs */
+.settings-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px;
+  margin-bottom: 24px;
+  border-bottom: 1px solid var(--color-border);
+}
+.settings-tab {
+  appearance: none;
+  border: none;
+  background: transparent;
+  padding: 10px 16px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  border-radius: 8px 8px 0 0;
+  transition: color 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+}
+.settings-tab:hover { color: var(--color-text); background: var(--color-background); }
+.settings-tab-active {
+  color: var(--color-primary);
+  border-bottom-color: var(--color-primary);
+}
+@media (max-width: 560px) {
+  .settings-tabs { flex-wrap: nowrap; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .settings-tab { white-space: nowrap; }
+}
+
+/* Process steps manager */
+.settings-steps-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.settings-steps-list {
+  list-style: none;
+  margin: 16px 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.settings-step-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 10px 12px;
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  background: var(--color-surface);
+}
+.settings-step-pos {
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+  color: var(--color-text-muted);
+  flex-shrink: 0;
+}
+.settings-step-thumb {
+  width: 64px;
+  height: 48px;
+  flex-shrink: 0;
+  border-radius: 8px;
+  overflow: hidden;
+  background: var(--color-background);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.settings-step-thumb img { width: 100%; height: 100%; object-fit: cover; }
+.settings-step-thumb-empty { color: var(--color-text-muted); }
+.settings-step-title { flex: 1; min-width: 0; font-weight: 600; }
+.settings-step-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.settings-step-inline-form { display: inline; margin: 0; }
+.settings-steps-empty {
+  margin: 16px 0 0;
+  padding: 16px;
+  border: 1px dashed var(--color-border);
+  border-radius: 12px;
+  color: var(--color-text-muted);
+  font-size: 14px;
+}
+@media (max-width: 560px) {
+  .settings-step-title { flex-basis: 100%; order: -1; }
+}
 
 .settings-colors {
   display: grid;
@@ -2148,7 +2254,9 @@
 .settings-actions {
   display: flex;
   justify-content: flex-end;
-  padding-top: 8px;
+  gap: 12px;
+  margin-top: 8px;
+  padding-top: 16px;
 }
 
 /* ============================================================

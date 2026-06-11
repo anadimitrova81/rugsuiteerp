@@ -10,6 +10,52 @@ module ApplicationHelper
     "#{date.day} #{BG_MONTHS[date.month - 1]} #{date.year}"
   end
 
+  # The "How it works" slider is a pure-CSS carousel whose active-state rules
+  # (track position, slide reveal, dot fill, progress bar) are keyed to each
+  # step's index. Because the step count is configurable per factory, those
+  # index-specific rules can't live statically in application.css — we emit
+  # them here for the actual count. The structural styling (sizes, colours,
+  # transitions) stays in application.css; this only sets per-index state.
+  def process_slider_state_css(count)
+    return "".html_safe if count.to_i < 1
+
+    track = ".process-slides-viewport .process-slides"
+    dot_glow = "background: var(--color-primary); color: #fff; border-color: var(--color-primary);"
+    rules = []
+
+    (1..count).each do |i|
+      on = "#step-radio-#{i}:checked ~"
+      slide = "#{track} .process-slide:nth-child(#{i})"
+
+      rules << "#{on} #{track} { transform: translateX(-#{(i - 1) * 100}%); }"
+      rules << "#{on} #{slide} .process-slide-image img { transform: scale(1.12); }"
+      rules << "#{on} #{slide} .process-slide-body > * { opacity: 1; transform: translateY(0); }"
+      rules << "#{on} #{slide} .process-slide-body .process-slide-num { transition-delay: 0.15s; }"
+      rules << "#{on} #{slide} .process-slide-body h3 { transition-delay: 0.22s; }"
+      rules << "#{on} #{slide} .process-slide-body p { transition-delay: 0.3s; }"
+      rules << %(#{on} .process-dots label[for="step-radio-#{i}"] { #{dot_glow} transform: scale(1.15); box-shadow: 0 0 0 6px rgba(var(--color-primary-rgb), 0.18), 0 8px 20px rgba(var(--color-primary-rgb), 0.3); })
+
+      if i > 1
+        visited = (1...i).map { |k| %(#{on} .process-dots label[for="step-radio-#{k}"]) }.join(",")
+        rules << "#{visited} { #{dot_glow} }"
+      end
+    end
+
+    [38, 32].each do |dot_px|
+      width_rules = (1..count).map do |i|
+        frac = count > 1 ? ((i - 1).to_f / (count - 1)).round(4) : 0
+        "#step-radio-#{i}:checked ~ .process-dots::after { width: calc((100% - #{dot_px}px) * #{frac}); }"
+      end
+      rules << if dot_px == 32
+        "@media (max-width: 760px) {\n#{width_rules.join("\n")}\n}"
+      else
+        width_rules.join("\n")
+      end
+    end
+
+    rules.join("\n").html_safe
+  end
+
   def bg_short_date(date)
     "#{date.day} #{BG_MONTHS[date.month - 1]}"
   end
@@ -120,7 +166,10 @@ module ApplicationHelper
     formatted = addresses.compact_blank.map(&:to_s)
     return nil if formatted.empty?
 
-    depot = Routes::DailyRouteOptimizer::DEPOT_ADDRESS
+    # Use the depot's coordinates, not DEPOT_ADDRESS — the address string
+    # ("с. Труд, …") fails Google's geocoder ("Address not found"), which would
+    # break the start/end of the route. Coordinates always resolve.
+    depot = Routes::DailyRouteOptimizer::DEPOT.join(",")
     segments = [depot, *formatted, depot].map { |a| CGI.escape(a) }
     "https://www.google.com/maps/dir/#{segments.join('/')}?travelmode=driving"
   end

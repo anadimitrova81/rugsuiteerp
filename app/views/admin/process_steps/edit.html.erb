@@ -1,0 +1,9 @@
+<% content_for(:title) { t("admin.process_steps.edit_title") } %>
+
+<div class="container">
+  <header class="page-header">
+    <h1><%= t("admin.process_steps.edit_title") %></h1>
+  </header>
+
+  <%= render "form", process_step: @process_step, url: admin_process_step_path(@process_step), method: :patch %>
+</div>

@@ -59,5 +59,8 @@ Rails.application.routes.draw do
 
     resource :settings, only: %i[show update]
     resource :subscription, only: %i[show update]
+    resources :process_steps, only: %i[new create edit update destroy] do
+      patch :move, on: :member
+    end
   end
 end

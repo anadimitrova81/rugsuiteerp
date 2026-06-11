@@ -1327,6 +1327,21 @@ textarea.form-control { font-family: inherit; line-height: 1.5; resize: vertical
   transform: scale(1.02);
   transition: transform 6s ease-out;
 }
+.process-slide-image-placeholder {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background:
+    radial-gradient(circle at 30% 30%, rgba(var(--color-primary-rgb), 0.10), transparent 60%),
+    linear-gradient(135deg, var(--color-background), var(--color-surface));
+}
+/* Uploaded step images: show the whole photo (no crop). The !important beats
+   the per-step zoom rules generated for the active slide, which would
+   otherwise scale the image up and clip its edges. */
+.process-slide-image img.process-slide-photo-fit {
+  object-fit: contain;
+  transform: none !important;
+}
 .process-slide-image::after {
   content: "";
   position: absolute;

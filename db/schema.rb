@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_06_09_120000) do
+ActiveRecord::Schema[8.1].define(version: 2026_06_09_130000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -111,6 +111,17 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_09_120000) do
     t.index ["route_key"], name: "index_page_visits_on_route_key"
   end
 
+  create_table "process_steps", force: :cascade do |t|
+    t.text "body"
+    t.datetime "created_at", null: false
+    t.bigint "factory_id", null: false
+    t.integer "position", default: 0, null: false
+    t.string "title", null: false
+    t.datetime "updated_at", null: false
+    t.index ["factory_id", "position"], name: "index_process_steps_on_factory_id_and_position"
+    t.index ["factory_id"], name: "index_process_steps_on_factory_id"
+  end
+
   create_table "requests", force: :cascade do |t|
     t.string "address", null: false
     t.decimal "amount", precision: 10, scale: 2
@@ -168,6 +179,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_09_120000) do
   add_foreign_key "notifications", "factories"
   add_foreign_key "notifications", "requests", on_delete: :cascade
   add_foreign_key "page_visits", "factories"
+  add_foreign_key "process_steps", "factories"
   add_foreign_key "requests", "factories"
   add_foreign_key "requests", "users", column: "delivery_courier_id", on_delete: :nullify
   add_foreign_key "requests", "users", column: "pickup_courier_id", on_delete: :nullify

@@ -49,6 +49,7 @@ module Admin
 
     def create
       @request = Request.new(request_params)
+      @request.admin_initiated = true
 
       if @request.save
         redirect_to admin_request_path(@request), notice: "Поръчката е създадена успешно."
@@ -64,6 +65,7 @@ module Admin
 
     def update
       @request = scoped_requests.find(params[:id])
+      @request.admin_initiated = true
 
       if @request.update(request_params)
         redirect_to admin_requests_path, notice: "Поръчка #{@request.customer_id} е обновена успешно."

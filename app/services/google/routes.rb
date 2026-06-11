@@ -11,9 +11,9 @@ module Google
   # and (b) report real driving distance + duration as opposed to our
   # straight-line Haversine fallback.
   #
-  # The factory address (::Routes::DailyRouteOptimizer::DEPOT_ADDRESS) is
-  # always origin AND destination — the courier starts and ends every
-  # route there.
+  # The factory (::Routes::DailyRouteOptimizer::DEPOT coordinates) is always
+  # origin AND destination — the courier starts and ends every route there.
+  # See depot_waypoint for why we send coordinates, not the address string.
   #
   # ⚠ The API key (credentials:google_maps:directions_api_key) must have
   # "Routes API" enabled in the Google Cloud Console — it's a separate
@@ -39,11 +39,9 @@ module Google
       return nil if stops.empty?
       return nil unless api_key.present?
 
-      depot = ::Routes::DailyRouteOptimizer::DEPOT_ADDRESS
-
       body = {
-        origin:      { address: depot },
-        destination: { address: depot },
+        origin:      depot_waypoint,
+        destination: depot_waypoint,
         intermediates: stops.map { |s| waypoint_for(s) },
         travelMode: "DRIVE",
         routingPreference: "TRAFFIC_AWARE",
@@ -77,6 +75,15 @@ module Google
     rescue StandardError => e
       Rails.logger.warn("[google_routes] request failed: #{e.class} #{e.message}")
       nil
+    end
+
+    # The depot is always origin and destination. We send its coordinates
+    # rather than DEPOT_ADDRESS: the address string ("с. Труд, …") fails the
+    # Routes API geocoder ("Address not found"), which silently yields an empty
+    # response and no route. Coordinates always resolve.
+    def self.depot_waypoint
+      lat, lng = ::Routes::DailyRouteOptimizer::DEPOT
+      { location: { latLng: { latitude: lat, longitude: lng } } }
     end
 
     # Builds a Routes-API Waypoint for a Request. If the coordinator pasted a

@@ -4,6 +4,9 @@ class Factory < ApplicationRecord
   HEX_COLOR_REGEX = /\A#[0-9A-Fa-f]{6}\z/
   LOGO_CONTENT_TYPES = %w[image/png image/jpeg image/webp image/svg+xml].freeze
   LOGO_MAX_BYTES = 2.megabytes
+  # The hero image is a photo (no SVG) and can be larger than the logo.
+  HERO_CONTENT_TYPES = %w[image/png image/jpeg image/webp].freeze
+  HERO_MAX_BYTES = 5.megabytes
   PRICING_MODES = %w[per_kg per_sqm].freeze
   PLANS = %w[trial starter pro enterprise].freeze
 
@@ -19,11 +22,13 @@ class Factory < ApplicationRecord
   }.freeze
 
   has_one_attached :logo
+  has_one_attached :hero_image
 
   has_many :users,         dependent: :destroy
   has_many :requests,      dependent: :destroy
   has_many :notifications, through: :requests
   has_many :page_visits,   dependent: :destroy
+  has_many :process_steps, dependent: :destroy
 
   validates :slug, presence: true,
                    uniqueness: { case_sensitive: false },
@@ -46,6 +51,7 @@ class Factory < ApplicationRecord
   validates :brand_primary_color,   format: { with: HEX_COLOR_REGEX, message: "must be a hex value like #0f3f7e" }, allow_blank: true
   validates :brand_secondary_color, format: { with: HEX_COLOR_REGEX, message: "must be a hex value like #0f3f7e" }, allow_blank: true
   validate  :logo_must_be_image_under_2mb
+  validate  :hero_image_must_be_valid
 
   # True if this factory prices by area (m²) instead of by weight (kg).
   def per_sqm?
@@ -123,6 +129,16 @@ class Factory < ApplicationRecord
     end
     if logo.byte_size > LOGO_MAX_BYTES
       errors.add(:logo, "must be smaller than 2 MB")
+    end
+  end
+
+  def hero_image_must_be_valid
+    return unless hero_image.attached?
+    unless HERO_CONTENT_TYPES.include?(hero_image.content_type)
+      errors.add(:hero_image, "must be a PNG, JPEG or WebP image")
+    end
+    if hero_image.byte_size > HERO_MAX_BYTES
+      errors.add(:hero_image, "must be smaller than 5 MB")
     end
   end
 end
