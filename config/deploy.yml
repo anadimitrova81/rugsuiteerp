@@ -1,21 +1,32 @@
-# Kamal deploy configuration for Nexus Cleaning.
+# Kamal deploy configuration for RugSuite ERP.
 #
-# Plug in the four <PLACEHOLDER> values below, fill .kamal/secrets, point DNS
-# at 93.94.140.141, then `bin/kamal setup` (first time) or `bin/kamal deploy`.
+# Co-located on the same VPS (93.94.140.141) as nexus-cleaning. Kamal's proxy
+# routes by host, so the two apps share the box: distinct `service`, `image`,
+# `proxy.host` and a separate Postgres accessory (on a different host port).
+#
+# Before the first deploy: set .kamal/secrets values in your env, add swap on
+# the VPS (a 1-CPU/2GB box OOMs during the on-server image build otherwise),
+# and point DNS for the hosts below at 93.94.140.141. Then `bin/kamal setup`
+# (first time) or `bin/kamal deploy`.
 
-service: nexus-cleaning
-image: anadimitrova81/nexus-cleaning
+service: rugsuiteerp
+image: anadimitrova81/rugsuiteerp
 
 servers:
   web:
     - 93.94.140.141
 
-# Let's Encrypt-issued SSL via the bundled Kamal proxy. Requires DNS for the
-# `host` to already resolve to 93.94.140.141 before the first deploy.
-# Start on a staging subdomain; flip to nexus-cleaning.com at cut-over time.
+# Let's Encrypt SSL via the shared Kamal proxy (HTTP-01). Requires the hosts to
+# already resolve to 93.94.140.141 before the first deploy.
+#
+# NOTE — multi-tenant subdomains: customers live at <slug>.rugsuiteerp.com.
+# HTTP-01 can't issue a wildcard cert, so tenant subdomains are NOT served yet
+# by this config. Add `*.rugsuiteerp.com` behind a wildcard-TLS proxy
+# (e.g. Cloudflare) or a DNS-01 cert as a follow-up; the apex + www below cover
+# the marketing/product site.
 proxy:
   ssl: true
-  host: nexus-cleaning.com,www.nexus-cleaning.com,new.nexus-cleaning.com
+  host: rugsuiteerp.com,www.rugsuiteerp.com
 
 registry:
   server: ghcr.io
@@ -33,14 +44,11 @@ env:
     SOLID_QUEUE_IN_PUMA: true
 
     # Kamal puts the Postgres accessory on the internal Docker network at
-    # <service>-<accessory>; this matches `service: nexus-cleaning` + `db:` below.
-    DB_HOST: nexus-cleaning-db
+    # <service>-<accessory> — i.e. `rugsuiteerp` + `db` below.
+    DB_HOST: rugsuiteerp-db
 
-    # No registered smsapi.bg sender yet — leaving SMSAPI_BG_SENDER unset so
-    # smsapi.bg uses its default short code (brand is in the SMS body itself).
-
-    # Leave SMS_LIVE unset on staging so we log instead of sending.
-    # Set to "1" only when cutting over to the real domain.
+    # Leave SMS_LIVE unset until cutting over to the real domain (logs instead
+    # of sending). Set to "1" to send live SMS.
     # SMS_LIVE: "1"
 
 aliases:
@@ -51,7 +59,7 @@ aliases:
 
 # Persistent volume for Active Storage uploads. Back this up off-server.
 volumes:
-  - "nexus_cleaning_storage:/rails/storage"
+  - "rugsuite_storage:/rails/storage"
 
 asset_path: /rails/public/assets
 
@@ -60,14 +68,16 @@ builder:
   # Build the image on the VPS itself (no local Docker required).
   remote: ssh://root@93.94.140.141
 
-# Postgres accessory — co-located on the same VPS for now. Single password is
-# shared with BUGSY_DATABASE_PASSWORD via .kamal/secrets so the app and DB stay
-# in sync if you ever rotate it.
+# Postgres accessory — co-located on the same VPS as nexus-cleaning's Postgres.
+# Published on host port 5433 (nexus uses 5432) to avoid a bind conflict; the
+# app reaches it over the Docker network as `rugsuiteerp-db:5432`, not the
+# published port. Password is shared with BUGSY_DATABASE_PASSWORD via
+# .kamal/secrets so the app and DB stay in sync.
 accessories:
   db:
     image: postgres:16
     host: 93.94.140.141
-    port: "127.0.0.1:5432:5432"
+    port: "127.0.0.1:5433:5432"
     env:
       clear:
         POSTGRES_USER: bugsy
