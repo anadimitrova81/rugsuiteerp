@@ -1574,6 +1574,39 @@
   cursor: pointer;
 }
 
+/* Swap two couriers' whole routes ---------------------------------------- */
+.route-swap-form {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+}
+.route-swap-label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+.route-swap-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.route-swap-select {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  background: var(--color-surface);
+  color: var(--color-text);
+  padding: 6px 10px;
+  font-size: 13px;
+}
+.route-swap-icon {
+  display: inline-flex;
+  align-items: center;
+  color: var(--color-text-muted);
+}
+
 /* Route lanes (multi-courier) -------------------------------------------- */
 .route-lanes {
   display: grid;
@@ -1629,7 +1662,7 @@
   box-shadow: none;
 }
 .route-lane-list:empty::before {
-  content: "Празна лента — пуснете спирка тук";
+  content: attr(data-empty-label);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1789,6 +1822,25 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
+.route-planner-note {
+  display: flex;
+  align-items: flex-start;
+  gap: 5px;
+  align-self: flex-start;
+  max-width: 100%;
+  margin-top: 4px;
+  padding: 3px 8px;
+  font-size: 13px;
+  line-height: 1.35;
+  color: #92400e;
+  background: rgba(245, 158, 11, 0.14);
+  border-radius: 6px;
+}
+.route-planner-note svg {
+  flex-shrink: 0;
+  margin-top: 2px;
+  color: #d97706;
+}
 
 .route-planner-time {
   font-size: 13px;
@@ -1924,6 +1976,12 @@
   font-weight: 600;
   color: var(--color-text);
   font-variant-numeric: tabular-nums;
+}
+.report-bar-weight {
+  margin-left: 8px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--color-text-muted);
 }
 .report-bar-meta {
   font-size: 12px;
@@ -2093,6 +2151,14 @@
   margin: 0 0 18px;
   color: var(--color-text-muted);
   font-size: 14px;
+}
+.settings-subsection-title {
+  margin: 24px 0 4px;
+  padding-top: 20px;
+  border-top: 1px solid var(--color-border);
+  font-size: 15px;
+  font-weight: 700;
+  color: #0b1726;
 }
 
 .settings-logo { margin-bottom: 18px; }
@@ -2414,6 +2480,18 @@
 .page-plan-usage-over {
   color: var(--color-danger);
   font-weight: 600;
+}
+.plan-limit-action {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.plan-limit-hint {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-danger);
+  text-align: right;
+  max-width: 220px;
 }
 
 /* Pricing mode toggle (per kg vs per m²) */

@@ -1,33 +1,33 @@
-<% content_for(:title) { "Редакция на поръчка #{@request.customer_id} · Админ" } %>
+<% content_for(:title) { t("admin.request.edit.meta_title", id: @request.customer_id) } %>
 
 <div class="container container-wide">
   <header class="request-detail-page-header">
     <div>
-      <p class="request-detail-eyebrow">Редакция на поръчка</p>
+      <p class="request-detail-eyebrow"><%= t("admin.request.edit.eyebrow") %></p>
       <h1 class="request-detail-title">
         #<%= @request.customer_id %>
         <span class="status-badge status-<%= @request.status %>"><%= Request.status_labels[@request.status] %></span>
       </h1>
       <p class="request-detail-subtitle">
-        Заявена на <%= bg_long_date(@request.created_at) %>
+        <%= t("admin.request.edit.requested_on", date: bg_long_date(@request.created_at)) %>
         <% if @request.updated_at > @request.created_at %>
-          · Последна промяна преди <%= time_ago_in_words(@request.updated_at) %>
+          · <%= t("admin.request.edit.last_updated_ago", ago: time_ago_in_words(@request.updated_at)) %>
         <% end %>
       </p>
     </div>
     <div class="request-detail-actions">
       <%= link_to admin_requests_path, class: "btn btn-secondary" do %>
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
-        Към списъка
+        <%= t("admin.request.edit.back_to_list") %>
       <% end %>
-      <%= link_to "Преглед", admin_request_path(@request), class: "btn btn-secondary" %>
+      <%= link_to t("admin.request.edit.view"), admin_request_path(@request), class: "btn btn-secondary" %>
     </div>
   </header>
 
   <% if @request.errors.any? %>
     <div class="flash flash-alert flash-icon">
       <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-      <span>Моля, коригирайте отбелязаните полета по-долу.</span>
+      <span><%= t("admin.request.new.errors") %></span>
     </div>
   <% end %>
 
@@ -36,7 +36,7 @@
                 data: { controller: "address-preview",
                         address_preview_lookup_url_value: admin_address_lookups_path }) do |form| %>
     <section class="form-section">
-      <h2 class="form-section-title">Статус</h2>
+      <h2 class="form-section-title"><%= t("admin.request.edit.section_status") %></h2>
       <div class="status-picker">
         <% @statuses.each do |status| %>
           <label class="status-option">
@@ -48,27 +48,27 @@
     </section>
 
     <section class="form-section">
-      <h2 class="form-section-title">Контакт</h2>
-      <%= form.telephone_field :phone, label: "Телефон", placeholder: "Например 0888 123 456" %>
+      <h2 class="form-section-title"><%= t("admin.request.new.section_contact") %></h2>
+      <%= form.telephone_field :phone, label: t("admin.request.labels.phone"), placeholder: t("admin.request.new.phone_placeholder") %>
     </section>
 
     <section class="form-section">
-      <h2 class="form-section-title">Адрес за вземане</h2>
+      <h2 class="form-section-title"><%= t("admin.request.labels.pickup_address") %></h2>
       <div class="form-row form-row-2-1">
-        <%= form.text_field :address, label: "Адрес", placeholder: "Улица и номер" %>
-        <%= form.select :city, current_factory.service_cities, { label: "Населено място", include_blank: "Изберете…" } %>
+        <%= form.text_field :address, label: t("admin.request.labels.address_line"), placeholder: t("admin.request.new.address_placeholder") %>
+        <%= form.select :city, current_factory.service_cities, { label: t("admin.request.labels.city"), include_blank: t("admin.request.labels.select_city") } %>
       </div>
       <%= link_to google_maps_search_url([@request.address, @request.city].compact_blank.join(", ")),
                   class: "address-preview-link",
                   target: "_blank", rel: "noopener" do %>
         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
-        Търси в Google
+        <%= t("admin.request.labels.search_in_google") %>
       <% end %>
 
       <%= form.text_field :verified_address,
-                          label: "Координати за навигация",
-                          placeholder: "Поставете Google Maps линк — ще извлечем координатите",
-                          hint: "Линкът ще бъде преобразуван в координати (lat,lng), които куриерите използват за точна навигация.",
+                          label: t("admin.request.labels.verified_address"),
+                          placeholder: t("admin.request.labels.verified_address_placeholder"),
+                          hint: t("admin.request.labels.verified_address_hint"),
                           data: {
                             address_preview_target: "verifiedAddress",
                             action: "input->address-preview#update paste->address-preview#maybeResolve",
@@ -80,85 +80,85 @@
          class="address-preview-link"
          <%= "hidden" if @request.verified_address.blank? %>>
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
-        Виж проверения адрес в Google Maps
+        <%= t("admin.request.labels.view_in_google_maps") %>
       </a>
     </section>
 
     <section class="form-section">
-      <h2 class="form-section-title">График</h2>
+      <h2 class="form-section-title"><%= t("admin.request.labels.schedule") %></h2>
       <%# Past dates are only blocked while the order is still awaiting pickup —
          after that the field is historical and admins need to correct it. %>
       <%= form.date_field :pick_up_at,
-                          label: "Дата на вземане",
+                          label: t("admin.request.labels.pickup_date"),
                           min: (@request.status.in?(%w[pending pickup_confirmed]) ? Request.earliest_pick_up_date : nil),
                           onclick: "this.showPicker()" %>
       <%= form.text_area :pick_up_notes,
-                         label: "Бележки за вземането",
+                         label: t("admin.request.labels.pickup_notes"),
                          rows: 3,
-                         placeholder: "Специфични изисквания за часа на вземане" %>
+                         placeholder: t("admin.request.edit.pick_up_notes_placeholder") %>
       <%# delivery_at is required by the model when status moves to
          delivery_confirmed; expose it on the edit form so the admin can set
          it in the same save. Clamp to today only while not yet delivered. %>
       <%= form.date_field :delivery_at,
-                          label: "Дата на връщане",
+                          label: t("admin.request.labels.delivery_date"),
                           min: (@request.status == "delivered" ? nil : Date.current),
                           onclick: "this.showPicker()" %>
       <%= form.text_area :delivery_notes,
-                         label: "Бележки за връщането",
+                         label: t("admin.request.labels.delivery_notes"),
                          rows: 3,
-                         placeholder: "Специфични изисквания за часа или мястото на връщане" %>
+                         placeholder: t("admin.request.new.delivery_notes_placeholder") %>
     </section>
 
     <section class="form-section" data-controller="items-only">
-      <h2 class="form-section-title">Обработка</h2>
-      <p class="form-section-hint">Артикулите се попълват след вземането, теглото — след претегляне в цеха. Сумата се изчислява автоматично.</p>
+      <h2 class="form-section-title"><%= t("admin.request.edit.section_processing") %></h2>
+      <p class="form-section-hint"><%= t("admin.request.edit.section_processing_hint") %></p>
       <label class="form-check">
         <%= form.check_box :items_only, data: { action: "items-only#toggle", items_only_target: "checkbox" } %>
-        <span>Само артикули (без теглене — напр. завивки)</span>
+        <span><%= t("admin.request.edit.items_only_label") %></span>
       </label>
       <label class="form-check">
-        <%= form.check_box :voucher %>
-        <span>Ваучер (без плащане — сумата става 0, не се изпраща SMS оферта)</span>
+        <%= form.check_box :pay_by_invoice %>
+        <span><%= t("admin.request.edit.pay_by_invoice_label") %></span>
       </label>
       <label class="form-check">
         <%= form.check_box :bulk_price %>
-        <span>Намалена цена 1.35 € / кг (обемна тарифа)</span>
+        <span><%= t("admin.request.edit.bulk_price_label", rate: current_factory.price_per_kg_bulk, currency: "€") %></span>
       </label>
       <div class="form-row form-row-1-1">
-        <%= form.number_field :number_of_items, label: "Артикули", placeholder: "—", min: 0, step: 1 %>
+        <%= form.number_field :number_of_items, label: t("admin.request.labels.items"), placeholder: "—", min: 0, step: 1 %>
         <div data-items-only-target="weightWrapper">
-          <%= form.number_field :weight, label: "Тегло (кг)", placeholder: "—", min: 0, step: 0.1 %>
+          <%= form.number_field :weight, label: t("admin.request.labels.weight_kg"), placeholder: "—", min: 0, step: 0.1 %>
         </div>
       </div>
       <% if (amount = @request.calculated_amount) %>
         <div class="form-amount-summary">
           <div>
-            <span class="form-amount-label">Сума за плащане</span>
+            <span class="form-amount-label"><%= t("admin.request.edit.amount_summary_label") %></span>
             <span class="form-amount-value"><%= number_with_precision(amount, precision: 2) %> €</span>
           </div>
           <span class="form-amount-basis">
             <% if @request.amount_basis == :weight %>
-              <%= number_with_precision(@request.weight, precision: 2, strip_insignificant_zeros: true) %> кг
+              <%= number_with_precision(@request.weight, precision: 2, strip_insignificant_zeros: true) %> <%= t("units.kg") %>
               ×
-              <%= @request.effective_kg_rate %> € / кг
+              <%= @request.effective_kg_rate %> € / <%= t("units.kg") %>
               <% if @request.effective_kg_rate == current_factory.price_per_kg_bulk %>
-                <span class="form-amount-tag">обемна тарифа</span>
+                <span class="form-amount-tag"><%= t("admin.request.edit.amount_tag_bulk") %></span>
               <% end %>
             <% elsif @request.amount_basis == :items %>
-              <%= @request.number_of_items %> бр. × <%= current_factory.price_per_item %> € / бр.
+              <%= @request.number_of_items %> <%= t("admin.request.labels.unit_piece") %> × <%= current_factory.price_per_item %> € / <%= t("admin.request.labels.unit_piece") %>
             <% end %>
           </span>
         </div>
       <% end %>
       <label class="form-check">
         <%= form.check_box :paid_by_card %>
-        <span>Платено с карта (иначе в брой)</span>
+        <span><%= t("admin.request.edit.paid_by_card_label") %></span>
       </label>
     </section>
 
     <div class="form-actions form-actions-split">
-      <%= link_to "Отказ", admin_requests_path, class: "btn btn-secondary" %>
-      <%= form.submit "Запази промените", class: "btn btn-primary" %>
+      <%= link_to t("admin.common.cancel"), admin_requests_path, class: "btn btn-secondary" %>
+      <%= form.submit t("admin.request.edit.save"), class: "btn btn-primary" %>
     </div>
   <% end %>
 </div>

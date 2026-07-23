@@ -1,21 +1,21 @@
-<% content_for(:title) { "RugSuite ERP — software for carpet wash factories" } %>
+<% content_for(:title) { t("marketing.home.page_title") } %>
 
 <section class="mkt-hero">
   <div class="mkt-hero-inner">
     <div class="mkt-hero-text">
-      <span class="mkt-eyebrow">Operations software for carpet wash factories</span>
-      <h1 class="mkt-hero-title">Run your carpet wash factory like a tech company.</h1>
+      <span class="mkt-eyebrow"><%= t("marketing.home.hero_eyebrow") %></span>
+      <h1 class="mkt-hero-title"><%= t("marketing.home.hero_title") %></h1>
       <p class="mkt-hero-subtitle">
-        RugSuite ERP replaces the spreadsheets, paper tickets and phone-tag with one platform that handles every step from booking to delivery — for one factory or a hundred.
+        <%= t("marketing.home.hero_subtitle") %>
       </p>
       <div class="mkt-hero-actions">
-        <%= link_to "Start free trial", marketing_signup_path, class: "btn btn-primary btn-lg" %>
-        <a href="#how-it-works" class="btn btn-secondary btn-lg">See how it works</a>
+        <%= link_to t("marketing.home.start_free_trial"), marketing_signup_path, class: "btn btn-primary btn-lg" %>
+        <a href="#how-it-works" class="btn btn-secondary btn-lg"><%= t("marketing.home.hero_see_how") %></a>
       </div>
       <ul class="mkt-hero-bullets">
-        <li>Multi-tenant — one platform per company, one company per subdomain</li>
-        <li>Per-factory pricing, currencies, languages and service areas</li>
-        <li>Built on Rails 8 + Postgres — yours to host or ours to run</li>
+        <li><%= t("marketing.home.hero_bullet_1") %></li>
+        <li><%= t("marketing.home.hero_bullet_2") %></li>
+        <li><%= t("marketing.home.hero_bullet_3") %></li>
       </ul>
     </div>
     <div class="mkt-hero-art" aria-hidden="true">
@@ -23,24 +23,24 @@
       <div class="mkt-hero-grid"></div>
       <div class="mkt-hero-card mkt-hero-card-top">
         <div class="mkt-hero-card-row">
-          <span class="mkt-pill mkt-pill-amber">Picked up</span>
+          <span class="mkt-pill mkt-pill-amber"><%= t("marketing.home.status_picked_up") %></span>
           <span class="mkt-hero-card-time">14:32</span>
         </div>
-        <div class="mkt-hero-card-meta">5 rugs · 23.8 kg · Acme Carpets</div>
+        <div class="mkt-hero-card-meta"><%= t("marketing.home.hero_card_pickup_meta") %></div>
       </div>
       <div class="mkt-hero-card mkt-hero-card-mid">
         <div class="mkt-hero-card-row">
-          <span class="mkt-pill mkt-pill-blue">In wash</span>
+          <span class="mkt-pill mkt-pill-blue"><%= t("marketing.home.status_in_wash") %></span>
           <span class="mkt-hero-card-time">15:08</span>
         </div>
-        <div class="mkt-hero-card-meta">Drum 3 · Programme: Wool · ETA 16:40</div>
+        <div class="mkt-hero-card-meta"><%= t("marketing.home.hero_card_wash_meta") %></div>
       </div>
       <div class="mkt-hero-card mkt-hero-card-bottom">
         <div class="mkt-hero-card-row">
-          <span class="mkt-pill mkt-pill-green">Ready for delivery</span>
+          <span class="mkt-pill mkt-pill-green"><%= t("marketing.home.status_ready") %></span>
           <span class="mkt-hero-card-time">17:15</span>
         </div>
-        <div class="mkt-hero-card-meta">Courier: Marko · 7 stops on route</div>
+        <div class="mkt-hero-card-meta"><%= t("marketing.home.hero_card_delivery_meta") %></div>
       </div>
     </div>
   </div>
@@ -49,52 +49,52 @@
 <section class="mkt-section" id="features">
   <div class="mkt-section-inner">
     <div class="mkt-section-head">
-      <span class="mkt-eyebrow">What you get</span>
-      <h2>Everything a wash factory needs, nothing it doesn't.</h2>
-      <p class="mkt-section-lede">Purpose-built for the carpet wash workflow. No generic CRM contortions, no ERP bloat.</p>
+      <span class="mkt-eyebrow"><%= t("marketing.home.features_eyebrow") %></span>
+      <h2><%= t("marketing.home.features_title") %></h2>
+      <p class="mkt-section-lede"><%= t("marketing.home.features_lede") %></p>
     </div>
     <div class="mkt-features">
       <article class="mkt-feature">
         <span class="mkt-feature-icon" aria-hidden="true">
           <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"/><path d="M15 18H9"/><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14"/><circle cx="17" cy="18" r="2"/><circle cx="7" cy="18" r="2"/></svg>
         </span>
-        <h3>Pickup &amp; delivery routing</h3>
-        <p>Customers book online. Couriers see today's stops in optimal order, swipe to confirm pickup, snap a photo, done. No more shouting addresses into the phone.</p>
+        <h3><%= t("marketing.home.feature_routing_title") %></h3>
+        <p><%= t("marketing.home.feature_routing_body") %></p>
       </article>
       <article class="mkt-feature">
         <span class="mkt-feature-icon" aria-hidden="true">
           <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
         </span>
-        <h3>Wash workflow, tracked</h3>
-        <p>Every rug moves through pending → picked up → in wash → ready → delivered. Operators see what's in the building. Coordinators see what's overdue. Customers get an SMS when it's ready.</p>
+        <h3><%= t("marketing.home.feature_workflow_title") %></h3>
+        <p><%= t("marketing.home.feature_workflow_body") %></p>
       </article>
       <article class="mkt-feature">
         <span class="mkt-feature-icon" aria-hidden="true">
           <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v2"/><path d="M12 20v2"/><path d="m17 5-1.4 1.4"/><path d="m6.4 17.6-1.4 1.4"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m5 5 1.4 1.4"/><path d="m17.6 17.6 1.4 1.4"/><circle cx="12" cy="12" r="4"/></svg>
         </span>
-        <h3>Pricing that fits your business</h3>
-        <p>Per-kilogram, per-item, bulk discounts, vouchers, free pickup zones — configure once, apply everywhere. Multi-currency from day one.</p>
+        <h3><%= t("marketing.home.feature_pricing_title") %></h3>
+        <p><%= t("marketing.home.feature_pricing_body") %></p>
       </article>
       <article class="mkt-feature">
         <span class="mkt-feature-icon" aria-hidden="true">
           <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 6-10 7L2 6"/><rect x="2" y="4" width="20" height="16" rx="2"/></svg>
         </span>
-        <h3>Customer notifications</h3>
-        <p>Booking confirmations, price quotes, "your rug is ready" alerts — automated by SMS in the customer's own language. You stop chasing, customers stop calling.</p>
+        <h3><%= t("marketing.home.feature_notifications_title") %></h3>
+        <p><%= t("marketing.home.feature_notifications_body") %></p>
       </article>
       <article class="mkt-feature">
         <span class="mkt-feature-icon" aria-hidden="true">
           <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="m7 17 4-7 4 5 5-8"/></svg>
         </span>
-        <h3>Reports the office actually reads</h3>
-        <p>Daily intake, revenue by week, courier performance, churn signals. Plain charts, exportable to CSV. No data lake required.</p>
+        <h3><%= t("marketing.home.feature_reports_title") %></h3>
+        <p><%= t("marketing.home.feature_reports_body") %></p>
       </article>
       <article class="mkt-feature">
         <span class="mkt-feature-icon" aria-hidden="true">
           <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
         </span>
-        <h3>Roles &amp; tenant isolation</h3>
-        <p>Admin, coordinator, operator, courier — each role sees only what they need. Every factory's data is hard-isolated; nothing leaks between tenants.</p>
+        <h3><%= t("marketing.home.feature_roles_title") %></h3>
+        <p><%= t("marketing.home.feature_roles_body") %></p>
       </article>
     </div>
   </div>
@@ -103,34 +103,34 @@
 <section class="mkt-section mkt-section-alt" id="how-it-works">
   <div class="mkt-section-inner">
     <div class="mkt-section-head">
-      <span class="mkt-eyebrow">How it works</span>
-      <h2>From web form to washed rug in 5 steps.</h2>
+      <span class="mkt-eyebrow"><%= t("marketing.nav.how_it_works") %></span>
+      <h2><%= t("marketing.home.how_title") %></h2>
     </div>
     <ol class="mkt-steps">
       <li class="mkt-step">
         <span class="mkt-step-num">01</span>
-        <h3>Customer books online</h3>
-        <p>A clean public form on your subdomain. Address validated against Google Maps, pickup window picked, SMS confirmation sent.</p>
+        <h3><%= t("marketing.home.step1_title") %></h3>
+        <p><%= t("marketing.home.step1_body") %></p>
       </li>
       <li class="mkt-step">
         <span class="mkt-step-num">02</span>
-        <h3>Courier picks up</h3>
-        <p>Today's stops in optimal order on the courier's phone. Confirm pickup, count the rugs, move on.</p>
+        <h3><%= t("marketing.home.step2_title") %></h3>
+        <p><%= t("marketing.home.step2_body") %></p>
       </li>
       <li class="mkt-step">
         <span class="mkt-step-num">03</span>
-        <h3>Operator weighs &amp; washes</h3>
-        <p>Weight or item count goes in, the system calculates the price, the customer gets a quote SMS, the rug enters the wash queue.</p>
+        <h3><%= t("marketing.home.step3_title") %></h3>
+        <p><%= t("marketing.home.step3_body") %></p>
       </li>
       <li class="mkt-step">
         <span class="mkt-step-num">04</span>
-        <h3>Coordinator schedules delivery</h3>
-        <p>Done rugs are bundled into a delivery route. Customer chooses or confirms the slot. Courier delivers, customer pays.</p>
+        <h3><%= t("marketing.home.step4_title") %></h3>
+        <p><%= t("marketing.home.step4_body") %></p>
       </li>
       <li class="mkt-step">
         <span class="mkt-step-num">05</span>
-        <h3>You see the numbers</h3>
-        <p>Daily intake, weekly revenue, courier load, repeat-customer share — visible on a single dashboard, exportable on demand.</p>
+        <h3><%= t("marketing.home.step5_title") %></h3>
+        <p><%= t("marketing.home.step5_body") %></p>
       </li>
     </ol>
   </div>
@@ -139,49 +139,49 @@
 <section class="mkt-section" id="pricing">
   <div class="mkt-section-inner">
     <div class="mkt-section-head">
-      <span class="mkt-eyebrow">Pricing</span>
-      <h2>Pricing that scales with your factory.</h2>
-      <p class="mkt-section-lede">Pay-as-you-grow. No setup fees, no per-courier nickel-and-dime, no surprises. Talk to us for an exact quote.</p>
+      <span class="mkt-eyebrow"><%= t("marketing.nav.pricing") %></span>
+      <h2><%= t("marketing.home.pricing_title") %></h2>
+      <p class="mkt-section-lede"><%= t("marketing.home.pricing_lede") %></p>
     </div>
     <div class="mkt-pricing">
       <div class="mkt-tier">
-        <h3 class="mkt-tier-name">Starter</h3>
-        <p class="mkt-tier-tagline">One factory, getting started.</p>
-        <p class="mkt-tier-price"><span>€49</span><small>/month</small></p>
+        <h3 class="mkt-tier-name"><%= t("marketing.home.tier_starter_name") %></h3>
+        <p class="mkt-tier-tagline"><%= t("marketing.home.tier_starter_tagline") %></p>
+        <p class="mkt-tier-price"><span>€49</span><small><%= t("marketing.home.per_month") %></small></p>
         <ul class="mkt-tier-list">
-          <li>Up to 300 orders / month</li>
-          <li>3 staff users</li>
-          <li>SMS notifications (pay as you go)</li>
-          <li>Email support</li>
+          <li><%= t("marketing.home.tier_starter_feat_1") %></li>
+          <li><%= t("marketing.home.tier_starter_feat_2") %></li>
+          <li><%= t("marketing.home.tier_starter_feat_3") %></li>
+          <li><%= t("marketing.home.tier_starter_feat_4") %></li>
         </ul>
-        <%= link_to "Start free trial", marketing_signup_path, class: "btn btn-secondary btn-full" %>
+        <%= link_to t("marketing.home.start_free_trial"), marketing_signup_path, class: "btn btn-secondary btn-full" %>
       </div>
       <div class="mkt-tier mkt-tier-featured">
-        <span class="mkt-tier-badge">Most popular</span>
-        <h3 class="mkt-tier-name">Pro</h3>
-        <p class="mkt-tier-tagline">Established factory, multiple couriers.</p>
-        <p class="mkt-tier-price"><span>€149</span><small>/month</small></p>
+        <span class="mkt-tier-badge"><%= t("marketing.home.tier_badge_popular") %></span>
+        <h3 class="mkt-tier-name"><%= t("marketing.home.tier_pro_name") %></h3>
+        <p class="mkt-tier-tagline"><%= t("marketing.home.tier_pro_tagline") %></p>
+        <p class="mkt-tier-price"><span>€149</span><small><%= t("marketing.home.per_month") %></small></p>
         <ul class="mkt-tier-list">
-          <li>Up to 2,000 orders / month</li>
-          <li>Unlimited staff users</li>
-          <li>Route optimisation included</li>
-          <li>SMS bundle (1,500 / month)</li>
-          <li>Priority support</li>
+          <li><%= t("marketing.home.tier_pro_feat_1") %></li>
+          <li><%= t("marketing.home.tier_pro_feat_2") %></li>
+          <li><%= t("marketing.home.tier_pro_feat_3") %></li>
+          <li><%= t("marketing.home.tier_pro_feat_4") %></li>
+          <li><%= t("marketing.home.tier_pro_feat_5") %></li>
         </ul>
-        <%= link_to "Start free trial", marketing_signup_path, class: "btn btn-primary btn-full" %>
+        <%= link_to t("marketing.home.start_free_trial"), marketing_signup_path, class: "btn btn-primary btn-full" %>
       </div>
       <div class="mkt-tier">
-        <h3 class="mkt-tier-name">Enterprise</h3>
-        <p class="mkt-tier-tagline">Multi-location or white-label.</p>
-        <p class="mkt-tier-price"><span>Custom</span></p>
+        <h3 class="mkt-tier-name"><%= t("marketing.home.tier_enterprise_name") %></h3>
+        <p class="mkt-tier-tagline"><%= t("marketing.home.tier_enterprise_tagline") %></p>
+        <p class="mkt-tier-price"><span><%= t("marketing.home.tier_price_custom") %></span></p>
         <ul class="mkt-tier-list">
-          <li>Unlimited orders</li>
-          <li>Multi-location / multi-tenant</li>
-          <li>Custom domain, branding</li>
-          <li>SSO, audit logs, SLA</li>
-          <li>Onboarding included</li>
+          <li><%= t("marketing.home.tier_enterprise_feat_1") %></li>
+          <li><%= t("marketing.home.tier_enterprise_feat_2") %></li>
+          <li><%= t("marketing.home.tier_enterprise_feat_3") %></li>
+          <li><%= t("marketing.home.tier_enterprise_feat_4") %></li>
+          <li><%= t("marketing.home.tier_enterprise_feat_5") %></li>
         </ul>
-        <a href="#contact" class="btn btn-secondary btn-full">Talk to us</a>
+        <a href="#contact" class="btn btn-secondary btn-full"><%= t("marketing.home.talk_to_us") %></a>
       </div>
     </div>
   </div>
@@ -189,11 +189,11 @@
 
 <section class="mkt-section mkt-section-cta" id="signup">
   <div class="mkt-section-inner mkt-cta">
-    <h2>Ready to run your factory on RugSuite?</h2>
-    <p>Set up a tenant in under a minute. Free trial, no credit card.</p>
+    <h2><%= t("marketing.home.cta_title") %></h2>
+    <p><%= t("marketing.home.cta_subtitle") %></p>
     <div class="mkt-cta-actions">
-      <%= link_to "Start free trial", marketing_signup_path, class: "btn btn-primary btn-lg" %>
-      <a href="#contact" class="btn btn-secondary btn-lg">Talk to us first</a>
+      <%= link_to t("marketing.home.start_free_trial"), marketing_signup_path, class: "btn btn-primary btn-lg" %>
+      <a href="#contact" class="btn btn-secondary btn-lg"><%= t("marketing.home.talk_to_us_first") %></a>
     </div>
   </div>
 </section>
@@ -201,14 +201,14 @@
 <section class="mkt-section" id="contact">
   <div class="mkt-section-inner mkt-contact">
     <div>
-      <span class="mkt-eyebrow">Contact</span>
-      <h2>We answer fast.</h2>
-      <p>If you run a carpet wash factory and the workflow above sounds familiar, we want to hear from you. Tell us a bit about how many orders you do today and where you operate.</p>
+      <span class="mkt-eyebrow"><%= t("marketing.nav.contact") %></span>
+      <h2><%= t("marketing.home.contact_title") %></h2>
+      <p><%= t("marketing.home.contact_body") %></p>
     </div>
     <ul class="mkt-contact-list">
-      <li><strong>Email</strong><a href="mailto:hello@rugsuite.app">hello@rugsuite.app</a></li>
-      <li><strong>Sales</strong><a href="mailto:sales@rugsuite.app">sales@rugsuite.app</a></li>
-      <li><strong>Support</strong><a href="mailto:support@rugsuite.app">support@rugsuite.app</a></li>
+      <li><strong><%= t("marketing.home.contact_email_label") %></strong><a href="mailto:hello@rugsuite.app">hello@rugsuite.app</a></li>
+      <li><strong><%= t("marketing.home.contact_sales_label") %></strong><a href="mailto:sales@rugsuite.app">sales@rugsuite.app</a></li>
+      <li><strong><%= t("marketing.home.contact_support_label") %></strong><a href="mailto:support@rugsuite.app">support@rugsuite.app</a></li>
     </ul>
   </div>
 </section>

@@ -2,6 +2,8 @@ module Admin
   class RequestsController < BaseController
     PER_PAGE = 25
 
+    before_action :enforce_order_limit, only: %i[new create]
+
     def index
       @query = params[:q].to_s.strip
       @from_date = parse_date(params[:from]) if current_admin.admin?
@@ -35,7 +37,7 @@ module Admin
       if params[:page].present? && request.format.turbo_stream?
         render :index
       else
-        render :index, formats: [:html]
+        render :index, formats: [ :html ]
       end
     end
 
@@ -44,16 +46,32 @@ module Admin
     end
 
     def new
-      @request = Request.new
+      # Couriers record walk-up pickups that are already in hand, so their form
+      # defaults to "picked_up" on today's date; everyone else starts a pending
+      # order.
+      @request = Request.new(current_admin.courier? ? { status: "picked_up", pick_up_at: Date.current } : { status: "pending" })
+      @statuses = Request.statuses_for(current_admin.role)
     end
 
     def create
       @request = Request.new(request_params)
       @request.admin_initiated = true
+      # A courier creating an order is the one who just collected it today, so
+      # stamp the pickup date and record them as the pickup courier — the latter
+      # is also what surfaces the order in their "completed today" tab.
+      if current_admin.courier?
+        @request.pick_up_at = Date.current
+        @request.pickup_courier_id = current_admin.id
+      end
 
       if @request.save
-        redirect_to admin_request_path(@request), notice: "Поръчката е създадена успешно."
+        if current_admin.courier?
+          redirect_to admin_requests_path(tab: "completed"), notice: t("admin.request.courier_new.created", customer_id: @request.customer_id)
+        else
+          redirect_to admin_request_path(@request), notice: t("admin.request.new.created")
+        end
       else
+        @statuses = Request.statuses_for(current_admin.role)
         render :new, status: :unprocessable_entity
       end
     end
@@ -68,9 +86,9 @@ module Admin
       @request.admin_initiated = true
 
       if @request.update(request_params)
-        redirect_to admin_requests_path, notice: "Поръчка #{@request.customer_id} е обновена успешно."
+        redirect_to admin_requests_path, notice: t("admin.request.edit.updated", customer_id: @request.customer_id)
       elsif current_admin.courier?
-        flash.now[:alert] = "Поръчка ##{@request.customer_id}: #{@request.errors.full_messages.to_sentence}"
+        flash.now[:alert] = t("admin.request.edit.update_failed", customer_id: @request.customer_id, errors: @request.errors.full_messages.to_sentence)
         @request.status = @request.status_in_database
         @failed_request = @request
         load_courier_index
@@ -93,6 +111,16 @@ module Admin
 
     private
 
+    # Block creating orders once the factory hits its plan's monthly quota.
+    # Points admins at the plan page to upgrade. The model validation is the
+    # backstop; this is here for a clear, actionable message.
+    def enforce_order_limit
+      return unless current_factory.order_limit_reached?
+
+      redirect_to admin_requests_path,
+                  alert: t("admin.limits.order.reached_admin", limit: current_factory.monthly_order_limit)
+    end
+
     def load_courier_index
       @courier_tabs = Request::COURIER_TABS
       requested_tab = params[:tab].to_s
@@ -110,7 +138,10 @@ module Admin
                          .order(:pick_up_at, :delivery_at, :created_at)
 
       tz = Request.factory_tz_sql
+      # pay_by_invoice orders are billed off-app, so the courier collects nothing
+      # for them — exclude them from the day's collection totals.
       collected_today = Request.where(status: "delivered", delivery_courier_id: current_admin.id)
+                               .where(pay_by_invoice: false)
                                .where("(delivery_at AT TIME ZONE 'UTC' AT TIME ZONE '#{tz}')::date = ?", Date.current)
       @collected_total = collected_today.sum(:amount).to_f
       @collected_count = collected_today.count
@@ -169,7 +200,7 @@ module Admin
     # view can show a "load more" button. `total` is the full count for the
     # current filter (already computed for the status tabs).
     def paginate(scope, total)
-      @page = [params[:page].to_i, 1].max
+      @page = [ params[:page].to_i, 1 ].max
       @requests = scope.limit(PER_PAGE).offset((@page - 1) * PER_PAGE)
       @has_more = total > @page * PER_PAGE
     end
@@ -181,7 +212,7 @@ module Admin
     def request_params
       params.
         require(:request).
-        permit(:phone, :city, :address, :verified_address, :pick_up_at, :delivery_at, :status, :pick_up_notes, :delivery_notes, :items_only, :number_of_items, :weight, :voucher, :bulk_price, :paid_by_card)
+        permit(:phone, :city, :address, :verified_address, :pick_up_at, :delivery_at, :status, :pick_up_notes, :delivery_notes, :items_only, :number_of_items, :weight, :pay_by_invoice, :bulk_price, :paid_by_card)
     end
   end
 end

@@ -15,6 +15,17 @@
       <% end %>
     </div>
     <% if current_admin&.admin? %>
+      <% if current_factory.order_limit_reached? %>
+        <div class="plan-limit-action">
+          <span class="plan-limit-hint"><%= t("admin.limits.order.new_disabled_hint") %></span>
+          <%= link_to t("admin.limits.order.upgrade_cta"), admin_subscription_path, class: "btn btn-primary" %>
+        </div>
+      <% else %>
+        <%= link_to t("admin.requests.new_button"), new_admin_request_path, class: "btn btn-primary" %>
+      <% end %>
+    <% elsif current_admin&.courier? && !current_factory.order_limit_reached? %>
+      <%# Couriers log walk-up pickups they've already collected. The upgrade
+          CTA is admin-only, so over the plan limit the button just hides. %>
       <%= link_to t("admin.requests.new_button"), new_admin_request_path, class: "btn btn-primary" %>
     <% end %>
   </header>

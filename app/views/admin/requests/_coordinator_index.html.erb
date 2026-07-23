@@ -1,4 +1,4 @@
-<nav class="status-tabs" aria-label="Поръчки за координатор">
+<nav class="status-tabs" aria-label="<%= t("admin.request.coordinator.tabs_aria") %>">
   <% @coordinator_tabs.each do |tab, config| %>
     <%= link_to admin_requests_path(tab: tab),
                 class: "status-tab #{'status-tab-active' if tab == @current_tab}" do %>
@@ -37,23 +37,23 @@
         <div class="courier-row-body">
           <dl class="courier-row-details">
             <div>
-              <dt>Телефон</dt>
+              <dt><%= t("admin.request.labels.phone") %></dt>
               <dd><a href="tel:<%= req.phone %>" class="courier-row-phone"><%= req.phone %></a></dd>
             </div>
             <% if req.number_of_items.present? %>
               <div>
-                <dt>Артикули</dt>
+                <dt><%= t("admin.request.labels.items") %></dt>
                 <dd>
-                  <%= req.number_of_items %> бр.
+                  <%= req.number_of_items %> <%= t("admin.request.labels.unit_piece") %>
                   <% if req.weight.present? %>
-                    · <%= number_with_precision(req.weight, precision: 2, strip_insignificant_zeros: true) %> кг
+                    · <%= number_with_precision(req.weight, precision: 2, strip_insignificant_zeros: true) %> <%= t("units.kg") %>
                   <% end %>
                 </dd>
               </div>
             <% end %>
             <% if req.amount.present? %>
               <div>
-                <dt>Сума</dt>
+                <dt><%= t("admin.request.labels.amount") %></dt>
                 <dd class="courier-row-amount"><%= number_with_precision(req.amount, precision: 2) %> €</dd>
               </div>
             <% end %>
@@ -75,20 +75,20 @@
               <%= form.hidden_field :status, value: "pickup_confirmed" %>
 
               <div class="coordinator-original-address">
-                <span class="coordinator-original-address-label">Адрес от клиента</span>
+                <span class="coordinator-original-address-label"><%= t("admin.request.labels.original_address") %></span>
                 <span class="coordinator-original-address-value"><%= [req.address, req.city].compact_blank.join(", ") %></span>
                 <%= link_to google_maps_search_url([req.address, req.city].compact_blank.join(", ")),
                             class: "address-preview-link",
                             target: "_blank", rel: "noopener" do %>
                   <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
-                  Търси в Google
+                  <%= t("admin.request.labels.search_in_google") %>
                 <% end %>
               </div>
 
               <%= form.text_field :verified_address,
-                                  label: "Координати за навигация",
-                                  placeholder: "Поставете Google Maps линк — ще извлечем координатите",
-                                  hint: "Линкът ще бъде преобразуван в координати (lat,lng), които куриерите използват за точна навигация.",
+                                  label: t("admin.request.labels.verified_address"),
+                                  placeholder: t("admin.request.labels.verified_address_placeholder"),
+                                  hint: t("admin.request.labels.verified_address_hint"),
                                   data: {
                                     address_preview_target: "verifiedAddress",
                                     action: "input->address-preview#update paste->address-preview#maybeResolve",
@@ -100,7 +100,7 @@
                    target="_blank" rel="noopener"
                    class="address-preview-link">
                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
-                  Виж проверения адрес в Google Maps
+                  <%= t("admin.request.labels.view_in_google_maps") %>
                 </a>
               <% else %>
                 <a href="https://www.google.com/maps"
@@ -109,16 +109,16 @@
                    class="address-preview-link"
                    hidden>
                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
-                  Виж проверения адрес в Google Maps
+                  <%= t("admin.request.labels.view_in_google_maps") %>
                 </a>
               <% end %>
               <%= form.date_field :pick_up_at,
-                                  label: "Дата на вземане",
+                                  label: t("admin.request.labels.pickup_date"),
                                   min: Request.earliest_pick_up_date,
                                   onclick: "this.showPicker()" %>
-              <%= form.text_area :pick_up_notes, label: "Бележки", rows: 3, placeholder: "Бележки за куриера" %>
+              <%= form.text_area :pick_up_notes, label: t("admin.request.labels.notes"), rows: 3, placeholder: t("admin.request.labels.notes_for_courier") %>
 
-              <%= form.submit "Потвърди вземане", class: "btn btn-primary btn-full" %>
+              <%= form.submit t("admin.request.coordinator.confirm_pickup"), class: "btn btn-primary btn-full" %>
             <% end %>
           <% elsif req.status == "ready_for_delivery" %>
             <%= form_with model: req,
@@ -129,11 +129,11 @@
                           class: "courier-row-action coordinator-row-form" do |form| %>
               <%= form.hidden_field :status, value: "delivery_confirmed" %>
               <%= form.date_field :delivery_at,
-                                  label: "Дата на връщане",
+                                  label: t("admin.request.labels.delivery_date"),
                                   min: Date.current,
                                   onclick: "this.showPicker()" %>
-              <%= form.text_area :delivery_notes, label: "Бележки", rows: 3, placeholder: "Бележки за куриера" %>
-              <%= form.submit "Потвърди връщане", class: "btn btn-primary btn-full" %>
+              <%= form.text_area :delivery_notes, label: t("admin.request.labels.notes"), rows: 3, placeholder: t("admin.request.labels.notes_for_courier") %>
+              <%= form.submit t("admin.request.coordinator.confirm_delivery"), class: "btn btn-primary btn-full" %>
             <% end %>
           <% else %>
             <%= form_with model: req,
@@ -150,22 +150,22 @@
                           } do |form| %>
               <% if req.status == "pickup_confirmed" %>
                 <%= form.date_field :pick_up_at,
-                                    label: "Дата на вземане",
+                                    label: t("admin.request.labels.pickup_date"),
                                     min: Date.current,
                                     onclick: "this.showPicker()" %>
-                <%= form.text_area :pick_up_notes, label: "Бележки", rows: 3 %>
+                <%= form.text_area :pick_up_notes, label: t("admin.request.labels.notes"), rows: 3 %>
               <% else %>
                 <%= form.date_field :delivery_at,
-                                    label: "Дата на връщане",
+                                    label: t("admin.request.labels.delivery_date"),
                                     min: Date.current,
                                     onclick: "this.showPicker()" %>
-                <%= form.text_area :delivery_notes, label: "Бележки", rows: 3 %>
+                <%= form.text_area :delivery_notes, label: t("admin.request.labels.notes"), rows: 3 %>
               <% end %>
 
               <%= form.text_field :verified_address,
-                                  label: "Координати за навигация",
-                                  placeholder: "Поставете Google Maps линк — ще извлечем координатите",
-                                  hint: "Линкът ще бъде преобразуван в координати (lat,lng), които куриерите използват за точна навигация.",
+                                  label: t("admin.request.labels.verified_address"),
+                                  placeholder: t("admin.request.labels.verified_address_placeholder"),
+                                  hint: t("admin.request.labels.verified_address_hint"),
                                   data: {
                                     address_preview_target: "verifiedAddress",
                                     action: "input->address-preview#update paste->address-preview#maybeResolve",
@@ -177,10 +177,10 @@
                  class="address-preview-link"
                  <%= "hidden" if req.verified_address.blank? %>>
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
-                Виж проверения адрес в Google Maps
+                <%= t("admin.request.labels.view_in_google_maps") %>
               </a>
 
-              <%= form.submit "Запази промените", class: "btn btn-secondary btn-full" %>
+              <%= form.submit t("admin.request.coordinator.save_changes"), class: "btn btn-secondary btn-full" %>
             <% end %>
           <% end %>
         </div>
@@ -193,15 +193,15 @@
       <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
     </div>
     <p class="empty-state-title">
-      <% if @current_tab == "new" %>Няма нови заявки
-      <% elsif @current_tab == "to_deliver" %>Няма поръчки за връщане
-      <% else %>Няма потвърдени поръчки
+      <% if @current_tab == "new" %><%= t("admin.request.coordinator.empty_new_title") %>
+      <% elsif @current_tab == "to_deliver" %><%= t("admin.request.coordinator.empty_to_deliver_title") %>
+      <% else %><%= t("admin.request.coordinator.empty_scheduled_title") %>
       <% end %>
     </p>
     <p class="empty-state-hint">
-      <% if @current_tab == "new" %>Когато постъпи нова заявка от клиент, тя ще се появи тук.
-      <% elsif @current_tab == "to_deliver" %>След като прането приключи, поръчките ще се появят тук.
-      <% else %>След като потвърдите вземане или връщане, поръчките се появяват тук.
+      <% if @current_tab == "new" %><%= t("admin.request.coordinator.empty_new_hint") %>
+      <% elsif @current_tab == "to_deliver" %><%= t("admin.request.coordinator.empty_to_deliver_hint") %>
+      <% else %><%= t("admin.request.coordinator.empty_scheduled_hint") %>
       <% end %>
     </p>
   </div>

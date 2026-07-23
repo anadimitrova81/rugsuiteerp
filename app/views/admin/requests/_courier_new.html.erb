@@ -1,0 +1,53 @@
+<div class="container">
+  <header class="request-detail-page-header">
+    <div>
+      <p class="request-detail-eyebrow"><%= t("admin.request.courier_new.eyebrow") %></p>
+      <h1 class="request-detail-title"><%= t("admin.request.new.title") %></h1>
+      <p class="request-detail-subtitle"><%= t("admin.request.courier_new.lede") %></p>
+    </div>
+    <div class="request-detail-actions">
+      <%= link_to admin_requests_path, class: "btn btn-secondary" do %>
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+        <%= t("admin.request.show.back_to_list") %>
+      <% end %>
+    </div>
+  </header>
+
+  <% if @request.errors.any? %>
+    <div class="flash flash-alert flash-icon">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      <span><%= t("admin.request.new.errors") %></span>
+    </div>
+  <% end %>
+
+  <%= form_with(model: @request, url: admin_requests_path, scope: :request, class: "request-form admin-request-form") do |form| %>
+    <%= form.hidden_field :status, value: "picked_up" %>
+
+    <section class="form-section">
+      <h2 class="form-section-title"><%= t("admin.request.new.section_contact") %></h2>
+      <%= form.telephone_field :phone, label: t("admin.request.labels.phone"), placeholder: t("admin.request.new.phone_placeholder") %>
+    </section>
+
+    <section class="form-section">
+      <h2 class="form-section-title"><%= t("admin.request.labels.pickup_address") %></h2>
+      <div class="form-row form-row-2-1">
+        <%= form.text_field :address, label: t("admin.request.labels.address_line"), placeholder: t("admin.request.new.address_placeholder") %>
+        <%= form.select :city, current_factory.service_cities, { label: t("admin.request.labels.city"), include_blank: t("admin.request.labels.select_city") } %>
+      </div>
+    </section>
+
+    <section class="form-section">
+      <h2 class="form-section-title"><%= t("admin.request.courier_new.section_details") %></h2>
+      <%= form.number_field :number_of_items,
+                            label: t("admin.request.labels.item_count"),
+                            placeholder: t("admin.request.courier.item_count_placeholder"),
+                            min: 1,
+                            step: 1 %>
+    </section>
+
+    <div class="form-actions form-actions-split">
+      <%= link_to t("admin.common.cancel"), admin_requests_path, class: "btn btn-secondary" %>
+      <%= form.submit t("admin.request.courier_new.submit"), class: "btn btn-primary" %>
+    </div>
+  <% end %>
+</div>

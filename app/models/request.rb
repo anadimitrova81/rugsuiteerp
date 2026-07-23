@@ -1,16 +1,9 @@
 class Request < ApplicationRecord
   acts_as_tenant :factory
 
-  HUMAN_ATTRIBUTE_NAMES = {
-    number_of_items: "Брой артикули",
-    weight: "Тегло",
-    pick_up_at: "Дата на вземане",
-    items_only: "Само артикули",
-  }.freeze
-
-  def self.human_attribute_name(attr, options = {})
-    HUMAN_ATTRIBUTE_NAMES[attr.to_sym] || super
-  end
+  # Attribute names for error messages are localised via
+  # `activerecord.attributes.request.*` in the locale files (Rails looks them
+  # up through the default #human_attribute_name).
 
   belongs_to :pickup_courier, class_name: "User", optional: true
   belongs_to :delivery_courier, class_name: "User", optional: true
@@ -38,7 +31,6 @@ class Request < ApplicationRecord
   before_save :recalculate_amount,
               if: -> { will_save_change_to_weight? ||
                        will_save_change_to_number_of_items? ||
-                       will_save_change_to_voucher? ||
                        will_save_change_to_bulk_price? }
 
   STATUSES = %w[pending pickup_confirmed picked_up in_progress ready_for_delivery delivery_confirmed delivered cancelled]
@@ -105,22 +97,28 @@ class Request < ApplicationRecord
   validates :phone, :address, :city, :pick_up_at, presence: true
   validates :customer_id, uniqueness: { scope: :factory_id }, allow_nil: true
   validate :phone_must_be_valid_for_factory_country
+
+  # Hard cap: refuse to create an order once the factory has hit its plan's
+  # monthly quota. The controllers guard this earlier with an audience-specific
+  # message; this validation is the backstop for every other path (console,
+  # API, background jobs) and can't be bypassed.
+  validate :within_plan_order_limit, on: :create
   validates :number_of_items,
-            presence: { message: -> (*) { I18n.t("admin.request.validations.items_required") } },
+            presence: { message: ->(*) { I18n.t("admin.request.validations.items_required") } },
             if: -> { will_save_change_to_status? && status == "picked_up" }
   validates :number_of_items,
-            numericality: { only_integer: true, greater_than: 0, message: -> (*) { I18n.t("admin.request.validations.items_positive") } },
+            numericality: { only_integer: true, greater_than: 0, message: ->(*) { I18n.t("admin.request.validations.items_positive") } },
             if: -> { will_save_change_to_status? && status == "picked_up" && number_of_items.present? }
 
   validates :weight,
-            presence: { message: -> (*) { I18n.t("admin.request.validations.weight_required") } },
+            presence: { message: ->(*) { I18n.t("admin.request.validations.weight_required") } },
             if: -> { will_save_change_to_status? && status == "in_progress" && !items_only }
   validates :weight,
-            numericality: { greater_than: 0, message: -> (*) { I18n.t("admin.request.validations.weight_positive") } },
+            numericality: { greater_than: 0, message: ->(*) { I18n.t("admin.request.validations.weight_positive") } },
             if: -> { will_save_change_to_status? && status == "in_progress" && weight.present? }
 
   validates :delivery_at,
-            presence: { message: -> (*) { I18n.t("admin.request.validations.delivery_at_required") } },
+            presence: { message: ->(*) { I18n.t("admin.request.validations.delivery_at_required") } },
             if: -> { will_save_change_to_status? && status == "delivery_confirmed" }
 
   # Only enforce the "not in the past" rule while the order is still
@@ -142,7 +140,7 @@ class Request < ApplicationRecord
            if: -> { address.present? && city.present? && (will_save_change_to_address? || will_save_change_to_city?) }
 
   scope :awaiting_price_notification,
-        -> { where(status: "in_progress", voucher: false)
+        -> { where(status: "in_progress", pay_by_invoice: false)
              .where("weight IS NOT NULL OR items_only = TRUE")
              .where.not(id: Notification.where(kind: "price_quote", status: "sent").select(:request_id)) }
 
@@ -195,7 +193,9 @@ class Request < ApplicationRecord
   end
 
   def calculated_amount
-    return 0 if voucher
+    # pay_by_invoice orders are still priced normally — the flag only means the
+    # courier doesn't collect on delivery and no SMS quote is sent; billing is
+    # handled off-app by invoice.
     if weight.present?
       (weight * effective_kg_rate).round(2)
     elsif items_only && number_of_items.present?
@@ -211,10 +211,17 @@ class Request < ApplicationRecord
 
   def amount_basis
     return :weight if weight.present?
-    return :items if number_of_items.present?
+    :items if number_of_items.present?
   end
 
   private
+
+  def within_plan_order_limit
+    tenant = factory || ActsAsTenant.current_tenant
+    return unless tenant&.order_limit_reached?
+
+    errors.add(:base, I18n.t("admin.limits.order.reached_generic"))
+  end
 
   def recalculate_amount
     self.amount = calculated_amount
@@ -227,7 +234,8 @@ class Request < ApplicationRecord
   def pick_up_at_not_in_the_past
     earliest = self.class.earliest_pick_up_date
     if pick_up_at.to_date < earliest
-      errors.add(:pick_up_at, "must be #{earliest == Date.current ? 'today' : 'tomorrow'} or later")
+      key = earliest == Date.current ? "pick_up_at_not_past_today" : "pick_up_at_not_past_tomorrow"
+      errors.add(:pick_up_at, I18n.t("admin.request.validations.#{key}"))
     end
   end
 
@@ -240,14 +248,14 @@ class Request < ApplicationRecord
   def phone_must_be_valid_for_factory_country
     return if phone.blank?
     parsed = Phonelib.parse(phone, factory.phone_country)
-    errors.add(:phone, "must be a valid phone number for #{factory.country_code}") unless parsed.valid?
+    errors.add(:phone, I18n.t("admin.request.validations.phone_invalid", country: factory.country_code)) unless parsed.valid?
   end
 
   def address_resolvable_by_google
     return unless Google::Geocoder.api_key.present?
 
     if Google::Geocoder.find(address: address, city: city).nil?
-      errors.add(:address, "не може да бъде намерен в Google Maps. Моля, проверете правописа или въведете по-точно описание.")
+      errors.add(:address, I18n.t("admin.request.validations.address_not_found"))
     end
   end
 

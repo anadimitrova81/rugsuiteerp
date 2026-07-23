@@ -61,12 +61,19 @@ body {
   max-width: 1200px;
   margin: 0 auto;
   padding: 8px 24px;
-  display: flex;
+  /* Three zones: phone (left), social icons (center), hours (right). Each item
+     is placed in a fixed column, so the icons stay centered whether or not the
+     phone/hours are present, and with no social the bar keeps the original
+     phone-left / hours-right spread. */
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
   align-items: center;
-  justify-content: space-between;
   gap: 16px;
 }
 .site-topbar-phone {
+  grid-column: 1;
+  grid-row: 1;
+  justify-self: start;
   display: inline-flex;
   align-items: center;
   gap: 8px;
@@ -80,12 +87,29 @@ body {
 .site-topbar-phone:hover { opacity: 0.85; }
 .site-topbar-phone svg { flex-shrink: 0; }
 .site-topbar-hours {
+  grid-column: 3;
+  grid-row: 1;
+  justify-self: end;
   display: inline-flex;
   align-items: center;
   gap: 8px;
   opacity: 0.92;
 }
 .site-topbar-hours svg { flex-shrink: 0; }
+.site-topbar-social { grid-column: 2; grid-row: 1; justify-self: center; display: inline-flex; align-items: center; gap: 18px; }
+.site-topbar-social-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #fff;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 14px;
+  opacity: 0.92;
+  transition: opacity 0.15s ease;
+}
+.site-topbar-social-item:hover { color: #fff; opacity: 1; }
+.site-topbar-social-item svg { flex-shrink: 0; width: 16px; height: 16px; }
 
 @media (max-width: 700px) {
   .site-topbar-inner { padding: 6px 16px; gap: 10px; }
@@ -95,6 +119,8 @@ body {
     content: "09:00 – 20:00";
     font-weight: 500;
   }
+  .site-topbar-social { gap: 14px; }
+  .site-topbar-social-item span { display: none; }
 }
 @media (max-width: 460px) {
   .site-topbar-inner { justify-content: center; }
@@ -214,6 +240,34 @@ body {
 }
 
 .site-nav a:hover { color: var(--color-primary); }
+
+/* Client-facing language switcher (EN / БГ pill toggle) */
+.locale-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  padding: 2px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  background: var(--color-surface);
+}
+.locale-switch .locale-switch-option {
+  display: inline-block;
+  padding: 4px 10px;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.4;
+  color: var(--color-text-muted);
+  text-decoration: none;
+  border: none;
+  border-radius: calc(var(--radius) - 2px);
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+.locale-switch a.locale-switch-option:hover { color: var(--color-primary); }
+.locale-switch .locale-switch-option.is-active {
+  background: var(--color-primary);
+  color: #fff;
+}
 
 .nav-toggle {
   display: none;
@@ -1796,6 +1850,23 @@ textarea.form-control { font-family: inherit; line-height: 1.5; resize: vertical
   margin-bottom: 12px;
 }
 .home-footer p { font-size: 14px; line-height: 1.6; color: #94a3b8; margin: 0; max-width: 360px; }
+.home-footer-social { display: flex; gap: 10px; margin-top: 18px; }
+.home-footer-social .home-social-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  color: #fff;
+  background: #334155;
+  transition: transform 0.15s ease, filter 0.15s ease;
+}
+.home-footer-social .home-social-link:hover { color: #fff; transform: translateY(-2px); filter: brightness(1.08); }
+.home-social-viber { background: #7360F2; }
+.home-social-whatsapp { background: #25D366; }
+.home-social-facebook { background: #1877F2; }
+.home-social-instagram { background: radial-gradient(circle at 30% 110%, #fdf497 0%, #fd5949 45%, #d6249f 60%, #285aeb 90%); }
 .home-footer h4 { font-size: 13px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: #fff; margin: 0 0 14px; }
 .home-footer ul { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 8px; font-size: 14px; }
 .home-footer a { color: #cbd5e1; text-decoration: none; transition: color 0.15s ease; }

@@ -1,4 +1,4 @@
-<% content_for(:title) { "Заявката е получена · Nexus Cleaning" } %>
+<% content_for(:title) { "#{t("requests.show.page_title")} · Nexus Cleaning" } %>
 
 <div class="container">
   <div class="confirmation">
@@ -8,12 +8,12 @@
           <path d="M20 6L9 17l-5-5" />
         </svg>
       </div>
-      <h1 class="confirmation-title">Заявката е получена</h1>
-      <p class="confirmation-message">Записахме вашата заявка. Запазете референтния номер по-долу — ще ви трябва, за да проверите статуса.</p>
+      <h1 class="confirmation-title"><%= t("requests.show.title") %></h1>
+      <p class="confirmation-message"><%= t("requests.show.message") %></p>
     </div>
 
     <div class="confirmation-reference">
-      <span class="confirmation-reference-label">Референтен номер</span>
+      <span class="confirmation-reference-label"><%= t("requests.show.reference_label") %></span>
       <span class="confirmation-reference-id"><%= @request.customer_id %></span>
     </div>
 
@@ -24,7 +24,7 @@
           <span class="confirmation-pickup-date"><%= bg_long_date(@request.pick_up_at) %></span>
         </div>
         <div class="confirmation-pickup-window">
-          <span class="confirmation-pickup-label">Час на вземане</span>
+          <span class="confirmation-pickup-label"><%= t("requests.show.pickup_label") %></span>
           <span class="confirmation-pickup-time">18:00 – 20:30</span>
         </div>
       </div>
@@ -32,24 +32,24 @@
 
     <dl class="confirmation-details">
       <div>
-        <dt>Телефон</dt>
+        <dt><%= t("requests.show.phone_label") %></dt>
         <dd><%= @request.phone %></dd>
       </div>
       <div>
-        <dt>Адрес</dt>
+        <dt><%= t("requests.show.address_label") %></dt>
         <dd><%= [@request.address, @request.city].compact_blank.join(", ") %></dd>
       </div>
       <% if @request.pick_up_notes.present? %>
         <div>
-          <dt>Бележки</dt>
+          <dt><%= t("requests.show.notes_label") %></dt>
           <dd><%= simple_format(@request.pick_up_notes) %></dd>
         </div>
       <% end %>
     </dl>
 
     <div class="confirmation-actions">
-      <%= link_to "Проверете статус", status_path(query: @request.customer_id), class: "btn btn-primary" %>
-      <%= link_to "Подайте нова заявка", new_request_path, class: "btn btn-secondary" %>
+      <%= link_to t("requests.show.check_status"), status_path(query: @request.customer_id), class: "btn btn-primary" %>
+      <%= link_to t("requests.show.new_request"), new_request_path, class: "btn btn-secondary" %>
     </div>
   </div>
 </div>

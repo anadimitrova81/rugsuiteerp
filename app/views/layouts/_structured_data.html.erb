@@ -1,0 +1,46 @@
+<%#
+  JSON-LD LocalBusiness markup for the tenant's public marketing pages. Built
+  entirely from the current factory so each tenant advertises its own name,
+  contacts, social profiles, service area and price. Address/geo are omitted
+  because the factory record doesn't carry a postal address — better absent
+  than wrong.
+%>
+<%
+  social = [
+    current_factory.facebook_link,
+    current_factory.instagram_link,
+    current_factory.viber_link,
+    current_factory.whatsapp_link,
+  ].compact_blank
+
+  structured_data = {
+    "@context": "https://schema.org",
+    "@type": "DryCleaningOrLaundry",
+    "@id": "#{request.base_url}/#business",
+    name: current_factory.name,
+    legalName: current_factory.legal_name.presence,
+    description: page_description,
+    url: root_url,
+    telephone: current_factory.phone.presence,
+    email: current_factory.email.presence,
+    priceRange: "€€",
+    currenciesAccepted: current_factory.currency,
+    knowsLanguage: current_factory.default_locale,
+    sameAs: (social if social.any?),
+    logo: (current_factory.logo.attached? ? url_for(current_factory.logo) : nil),
+    areaServed: current_factory.service_cities.map { |city| { "@type": "City", name: city } },
+    makesOffer: {
+      "@type": "Offer",
+      itemOffered: { "@type": "Service", name: (current_factory.hero_tagline.presence || current_factory.name) },
+      priceSpecification: {
+        "@type": "UnitPriceSpecification",
+        price: current_factory.price_per_unit,
+        priceCurrency: current_factory.currency,
+        unitText: current_factory.pricing_unit_key,
+      },
+    },
+  }.compact
+%>
+<script type="application/ld+json">
+<%= raw JSON.generate(structured_data) %>
+</script>

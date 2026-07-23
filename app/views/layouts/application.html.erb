@@ -2,12 +2,32 @@
 <html lang="<%= I18n.locale %>">
   <head>
     <title><%= content_for(:title) || current_factory.name %></title>
+    <meta name="description" content="<%= page_description %>">
+    <link rel="canonical" href="<%= canonical_url %>">
+    <% unless indexable_page? %>
+      <meta name="robots" content="noindex, follow">
+    <% end %>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="application-name" content="<%= current_factory.name %>">
     <meta name="mobile-web-app-capable" content="yes">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
+
+    <%# Social sharing + local-business structured data on the tenant's public
+        marketing pages, all keyed off the current factory. %>
+    <% if params[:controller] == "pages" %>
+      <meta property="og:type" content="website">
+      <meta property="og:site_name" content="<%= current_factory.name %>">
+      <meta property="og:title" content="<%= content_for(:title) || current_factory.name %>">
+      <meta property="og:description" content="<%= page_description %>">
+      <meta property="og:url" content="<%= canonical_url %>">
+      <% if current_factory.logo.attached? %>
+        <meta property="og:image" content="<%= url_for(current_factory.logo) %>">
+      <% end %>
+      <meta name="twitter:card" content="summary">
+      <%= render "layouts/structured_data" %>
+    <% end %>
 
     <%= yield :head %>
 
@@ -23,6 +43,7 @@
 
     <%# Includes all stylesheet files in app/assets/stylesheets %>
     <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+    <%= render "layouts/js_i18n" %>
     <%= javascript_importmap_tags %>
 
     <%# Per-tenant brand color override. Each value falls through to the
@@ -55,7 +76,8 @@
         <%= button_to t("admin.impersonation.stop"), admin_stop_impersonating_path, method: :delete, class: "impersonation-banner-btn" %>
       </div>
     <% end %>
-    <% if current_factory.phone.present? || current_factory.business_hours.present? %>
+    <% topbar_socials = factory_social_links(current_factory) %>
+    <% if current_factory.phone.present? || current_factory.business_hours.present? || topbar_socials.any? %>
       <div class="site-topbar">
         <div class="site-topbar-inner">
           <% if current_factory.phone.present? %>
@@ -69,6 +91,19 @@
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
               <span><%= t("topbar.hours_label") %> <%= current_factory.business_hours %></span>
             </span>
+          <% end %>
+          <% if topbar_socials.any? %>
+            <div class="site-topbar-social">
+              <% topbar_socials.each do |platform, url| %>
+                <%= link_to url, class: "site-topbar-social-item",
+                            target: "_blank", rel: "noopener noreferrer",
+                            title: t("home.footer.social.#{platform}"),
+                            aria: { label: t("home.footer.social.#{platform}") } do %>
+                  <%= social_icon(platform) %>
+                  <span><%= t("home.footer.social.#{platform}") %></span>
+                <% end %>
+              <% end %>
+            </div>
           <% end %>
         </div>
       </div>

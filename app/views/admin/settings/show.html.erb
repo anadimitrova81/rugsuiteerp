@@ -77,6 +77,17 @@
         <%= f.telephone_field :phone, label: t("admin.settings.fields.phone"),
                                       hint: t("admin.settings.hints.phone") %>
         <%= f.email_field :email, label: t("admin.settings.fields.email") %>
+
+        <h3 class="settings-subsection-title"><%= t("admin.settings.social") %></h3>
+        <p class="settings-section-lede"><%= t("admin.settings.social_lede") %></p>
+        <%= f.text_field :facebook_url, label: t("admin.settings.fields.facebook_url"),
+                                        hint: t("admin.settings.hints.facebook_url"), placeholder: "https://facebook.com/…" %>
+        <%= f.text_field :instagram_url, label: t("admin.settings.fields.instagram_url"),
+                                         hint: t("admin.settings.hints.instagram_url"), placeholder: "https://instagram.com/…" %>
+        <%= f.text_field :viber_url, label: t("admin.settings.fields.viber_url"),
+                                     hint: t("admin.settings.hints.viber_url"), placeholder: "+359…" %>
+        <%= f.text_field :whatsapp_url, label: t("admin.settings.fields.whatsapp_url"),
+                                        hint: t("admin.settings.hints.whatsapp_url"), placeholder: "+359…" %>
       </section>
 
       <section class="settings-section" data-tabs-target="panel" data-tab-panel="pickup" hidden>
@@ -137,6 +148,9 @@
                                             step: 0.01, min: 0 %>
       </section>
 
+      <div class="settings-actions" data-tabs-target="panel" data-tab-panel="branding contact pickup pricing">
+        <%= f.submit t("admin.settings.save"), class: "btn btn-primary btn-lg" %>
+      </div>
     <% end %>
 
     <section class="settings-section" id="process-steps" data-tabs-target="panel" data-tab-panel="process-steps" hidden>
@@ -182,9 +196,5 @@
         <p class="settings-steps-empty"><%= t("admin.process_steps.empty") %></p>
       <% end %>
     </section>
-
-    <div class="settings-actions" data-tabs-target="panel" data-tab-panel="branding contact pickup pricing">
-      <%= submit_tag t("admin.settings.save"), form: "factory-settings-form", class: "btn btn-primary btn-lg" %>
-    </div>
   </div>
 </div>

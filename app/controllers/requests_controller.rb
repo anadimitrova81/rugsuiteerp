@@ -9,6 +9,7 @@ class RequestsController < ApplicationController
   RECAPTCHA_ACTION = "request_create".freeze
 
   before_action :redirect_logged_in_users
+  before_action :enforce_order_limit, only: %i[new create]
 
   def new
     @request = Request.new
@@ -24,7 +25,7 @@ class RequestsController < ApplicationController
     if recaptcha_secret_key.blank?
       Rails.logger.warn("[recaptcha] secret key not configured, skipping verification")
     elsif !verify_recaptcha(params[:"g-recaptcha-response"])
-      flash.now[:alert] = "Не успяхме да потвърдим, че сте човек. Моля, опитайте отново."
+      flash.now[:alert] = t("requests.captcha_failed")
       render :new, status: :unprocessable_entity and return
     end
 
@@ -39,6 +40,15 @@ class RequestsController < ApplicationController
 
   def redirect_logged_in_users
     redirect_to admin_requests_path if admin_logged_in?
+  end
+
+  # When the factory has hit its plan's monthly order cap, stop taking new
+  # online orders. Clients get a neutral "call us" message rather than any
+  # billing detail (that's the factory's concern, not the customer's).
+  def enforce_order_limit
+    return unless current_factory.order_limit_reached?
+
+    redirect_to root_path, alert: t("requests.order_limit_reached")
   end
 
   def request_params

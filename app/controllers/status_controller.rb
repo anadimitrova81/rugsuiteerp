@@ -6,7 +6,7 @@ class StatusController < ApplicationController
 
     @query = params[:query].strip
     if @query.blank?
-      @error = "Моля, въведете телефонен номер или номер на поръчка."
+      @error = t("status.errors.empty_query")
     else
       # Phone OR customer_id. Accept any of the common BG phone formats
       # ("0888…", "359888…", "+359888…", with or without spaces) so the
@@ -24,14 +24,14 @@ class StatusController < ApplicationController
   def short
     request_record = Request.find_by(status_token: params[:token])
     if request_record
-      @requests = [request_record]
+      @requests = [ request_record ]
       # Pre-fill the search input with the order number so the view's
       # `@query.present?` branch renders the result cards (and the
       # customer can bookmark a tokenless URL by re-submitting the form).
       @query = request_record.customer_id
       render :show
     else
-      redirect_to status_path, alert: "Поръчката не е намерена или линкът е изтекъл."
+      redirect_to status_path, alert: t("status.errors.not_found")
     end
   end
 end

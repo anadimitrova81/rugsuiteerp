@@ -7,7 +7,7 @@ module Admin
 
       if pending.none?
         redirect_back fallback_location: admin_requests_path,
-                      alert: "Няма поръчки за изпращане на ценови оферти."
+                      alert: t("admin.notifications.no_pending")
         return
       end
 
@@ -40,17 +40,17 @@ module Admin
 
     def require_admin_or_coordinator
       unless current_admin&.admin? || current_admin&.coordinator?
-        redirect_to admin_requests_path, alert: "Достъп само за администратори и координатори."
+        redirect_to admin_requests_path, alert: t("admin.sms_log.admin_only")
       end
     end
 
     def flash_for(sent:, failed:)
       if sent.positive? && failed.zero?
-        flash[:notice] = "Изпратени SMS оферти за #{sent} #{sent == 1 ? "поръчка" : "поръчки"}."
+        flash[:notice] = t("admin.notifications.sent", count: sent)
       elsif sent.positive?
-        flash[:alert] = "Изпратени: #{sent}. Неуспешни: #{failed}. Виж логовете."
+        flash[:alert] = t("admin.notifications.partial_failure", sent: sent, failed: failed)
       else
-        flash[:alert] = "Изпращането на SMS оферти се провали за #{failed} #{failed == 1 ? "поръчка" : "поръчки"}. Виж логовете."
+        flash[:alert] = t("admin.notifications.all_failed", count: failed)
       end
     end
   end

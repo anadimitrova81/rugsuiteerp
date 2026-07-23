@@ -1,4 +1,4 @@
-<% content_for(:title) { "Заявка · Nexus Cleaning" } %>
+<% content_for(:title) { "#{t("requests.new.page_title")} · Nexus Cleaning" } %>
 
 <% content_for :head do %>
   <%# Force a full reload whenever Turbo would navigate to or from this page,
@@ -12,9 +12,9 @@
 
 <section class="request-hero">
   <div class="request-hero-inner">
-    <span class="home-eyebrow">Заявка</span>
-    <h1>Поръчайте пране на килими</h1>
-    <p>Попълването отнема под минута. Ще се свържем с вас, за да потвърдим часа на вземане и да обсъдим приблизителната цена.</p>
+    <span class="home-eyebrow"><%= t("requests.new.hero_eyebrow") %></span>
+    <h1><%= t("requests.new.hero_title") %></h1>
+    <p><%= t("requests.new.hero_lede") %></p>
   </div>
 </section>
 
@@ -22,7 +22,7 @@
   <% if @request.errors.any? %>
     <div class="flash flash-alert flash-icon">
       <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-      <span>Моля, коригирайте отбелязаните полета по-долу.</span>
+      <span><%= t("requests.new.errors") %></span>
     </div>
   <% end %>
 
@@ -33,27 +33,27 @@
 
     <aside class="request-aside">
       <div class="request-aside-card">
-        <span class="request-aside-eyebrow">Какво следва</span>
+        <span class="request-aside-eyebrow"><%= t("requests.new.aside_next_eyebrow") %></span>
         <ol class="request-aside-steps">
           <li>
             <span class="request-aside-num">1</span>
             <div>
-              <strong>Получаваме заявката ви</strong>
-              <p>Свързваме се с вас, за да потвърдим часа на вземане.</p>
+              <strong><%= t("requests.new.aside_step1_title") %></strong>
+              <p><%= t("requests.new.aside_step1_body") %></p>
             </div>
           </li>
           <li>
             <span class="request-aside-num">2</span>
             <div>
-              <strong>Куриерът идва</strong>
-              <p>Между 18:00 и 20:30, в избрания от вас ден.</p>
+              <strong><%= t("requests.new.aside_step2_title") %></strong>
+              <p><%= t("requests.new.aside_step2_body") %></p>
             </div>
           </li>
           <li>
             <span class="request-aside-num">3</span>
             <div>
-              <strong>Перем и връщаме</strong>
-              <p>След 3 – 5 работни дни — свежо и опаковано.</p>
+              <strong><%= t("requests.new.aside_step3_title") %></strong>
+              <p><%= t("requests.new.aside_step3_body") %></p>
             </div>
           </li>
         </ol>
@@ -64,9 +64,9 @@
           <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
         </div>
         <div class="request-aside-contact-body">
-          <span class="request-aside-eyebrow">Предпочитате обаждане?</span>
+          <span class="request-aside-eyebrow"><%= t("requests.new.aside_contact_eyebrow") %></span>
           <a class="request-aside-phone" href="tel:+359899771972">+359 899 771 972</a>
-          <span class="request-aside-hours">Работни дни · 09:00 – 20:00</span>
+          <span class="request-aside-hours"><%= t("requests.new.aside_hours") %></span>
         </div>
       </div>
     </aside>

@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="<%= I18n.locale %>">
   <head>
-    <title><%= content_for(:title) || "RugSuite ERP — software for carpet wash factories" %></title>
+    <title><%= content_for(:title) || t("marketing.meta.default_title") %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="description" content="The all-in-one operations platform for carpet wash factories: bookings, pickup/delivery routing, intake, washing, billing and customer notifications.">
+    <meta name="description" content="<%= t("marketing.meta.description") %>">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
@@ -11,6 +11,7 @@
     <link rel="apple-touch-icon" href="/icon.png">
 
     <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+    <%= render "layouts/js_i18n" %>
     <%= javascript_importmap_tags %>
   </head>
 
@@ -24,13 +25,14 @@
           <span class="marketing-brand-text">RugSuite<span class="marketing-brand-suffix">ERP</span></span>
         </a>
         <nav class="marketing-nav" aria-label="Primary">
-          <a href="#features">Features</a>
-          <a href="#how-it-works">How it works</a>
-          <a href="#pricing">Pricing</a>
-          <a href="#contact">Contact</a>
+          <a href="#features"><%= t("marketing.nav.features") %></a>
+          <a href="#how-it-works"><%= t("marketing.nav.how_it_works") %></a>
+          <a href="#pricing"><%= t("marketing.nav.pricing") %></a>
+          <a href="#contact"><%= t("marketing.nav.contact") %></a>
         </nav>
         <div class="marketing-header-cta">
-          <%= link_to "Start free trial", marketing_signup_path, class: "btn btn-primary btn-sm" %>
+          <%= render "shared/locale_switcher" %>
+          <%= link_to t("marketing.cta.trial"), marketing_signup_path, class: "btn btn-primary btn-sm" %>
         </div>
       </div>
     </header>
@@ -43,15 +45,15 @@
       <div class="marketing-footer-inner">
         <div class="marketing-footer-brand">
           <strong>RugSuite ERP</strong>
-          <span>Operations software for carpet wash factories.</span>
+          <span><%= t("marketing.footer.tagline") %></span>
         </div>
         <div class="marketing-footer-links">
-          <a href="#features">Features</a>
-          <a href="#pricing">Pricing</a>
-          <a href="#contact">Contact</a>
+          <a href="#features"><%= t("marketing.nav.features") %></a>
+          <a href="#pricing"><%= t("marketing.nav.pricing") %></a>
+          <a href="#contact"><%= t("marketing.nav.contact") %></a>
         </div>
         <div class="marketing-footer-meta">
-          © <%= Date.current.year %> RugSuite ERP. All rights reserved.
+          <%= t("marketing.footer.copyright", year: Date.current.year) %>
         </div>
       </div>
     </footer>

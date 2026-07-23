@@ -1,0 +1,16 @@
+<% if I18n.available_locales.size > 1 %>
+  <div class="locale-switch" role="group" aria-label="<%= t("nav.language") %>">
+    <% I18n.available_locales.each do |loc| %>
+      <% if loc == I18n.locale %>
+        <span class="locale-switch-option is-active" aria-current="true"><%= locale_short_label(loc) %></span>
+      <% else %>
+        <%= link_to locale_short_label(loc), locale_switch_url(loc),
+                    class: "locale-switch-option",
+                    rel: "nofollow",
+                    lang: loc,
+                    title: locale_native_name(loc),
+                    aria: { label: locale_native_name(loc) } %>
+      <% end %>
+    <% end %>
+  </div>
+<% end %>

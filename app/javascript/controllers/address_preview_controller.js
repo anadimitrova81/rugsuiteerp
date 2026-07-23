@@ -41,11 +41,11 @@ export default class extends Controller {
         this.verifiedAddressTarget.value = result.address
         this.update()
       } else {
-        this.#showError("Линкът не съдържа адрес.")
+        this.#showError(this.#msg("no_address", "Линкът не съдържа адрес."))
         this.verifiedAddressTarget.value = value
       }
     } catch (err) {
-      this.#showError("Грешка при обработка на линка.")
+      this.#showError(this.#msg("parse_error", "Грешка при обработка на линка."))
       this.verifiedAddressTarget.value = value
     } finally {
       this.verifiedAddressTarget.disabled = false
@@ -77,5 +77,17 @@ export default class extends Controller {
     if (!this.hasErrorTarget) return
     this.errorTarget.textContent = message
     this.errorTarget.hidden = !message
+  }
+
+  // Read a translated string from the server-rendered bridge (see
+  // layouts/_js_i18n), falling back to the Bulgarian literal.
+  #msg(key, fallback) {
+    try {
+      const el = document.getElementById("js-i18n")
+      const data = el ? JSON.parse(el.textContent) : {}
+      return data.address_preview?.[key] || fallback
+    } catch {
+      return fallback
+    }
   }
 }

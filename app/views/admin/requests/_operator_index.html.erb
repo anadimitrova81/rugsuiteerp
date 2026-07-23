@@ -1,4 +1,4 @@
-<nav class="status-tabs" aria-label="Поръчки за работа">
+<nav class="status-tabs" aria-label="<%= t("admin.request.operator.tabs_aria") %>">
   <% @operator_tabs.each do |tab, config| %>
     <%= link_to admin_requests_path(tab: tab),
                 class: "status-tab #{'status-tab-active' if tab == @current_tab}" do %>
@@ -27,9 +27,9 @@
           <div class="courier-row-main">
             <span class="courier-row-id">#<%= req.customer_id %></span>
             <span class="courier-row-address">
-              <%= req.number_of_items %> бр.
+              <%= req.number_of_items %> <%= t("admin.request.labels.unit_piece") %>
               <% if req.weight.present? %>
-                · <%= number_with_precision(req.weight, precision: 2, strip_insignificant_zeros: true) %> кг
+                · <%= number_with_precision(req.weight, precision: 2, strip_insignificant_zeros: true) %> <%= t("units.kg") %>
               <% end %>
             </span>
           </div>
@@ -42,18 +42,18 @@
         <div class="courier-row-body">
           <dl class="courier-row-details">
             <div>
-              <dt>Артикули</dt>
+              <dt><%= t("admin.request.labels.items") %></dt>
               <dd>
                 <%= req.number_of_items || "—" %>
                 <% if req.items_only %>
-                  <span class="operator-items-only-tag">само артикули (без теглене)</span>
+                  <span class="operator-items-only-tag"><%= t("admin.request.labels.items_only_tag") %></span>
                 <% end %>
               </dd>
             </div>
             <% if req.weight.present? %>
               <div>
-                <dt>Тегло</dt>
-                <dd><%= number_with_precision(req.weight, precision: 2, strip_insignificant_zeros: true) %> кг</dd>
+                <dt><%= t("admin.request.labels.weight") %></dt>
+                <dd><%= number_with_precision(req.weight, precision: 2, strip_insignificant_zeros: true) %> <%= t("units.kg") %></dd>
               </div>
             <% end %>
           </dl>
@@ -68,18 +68,18 @@
               <%= form.hidden_field :status, value: "in_progress" %>
               <% unless req.items_only %>
                 <%= form.number_field :weight,
-                                      label: "Тегло (кг)",
-                                      placeholder: "Например 12.5",
+                                      label: t("admin.request.labels.weight_kg"),
+                                      placeholder: t("admin.request.operator.weight_placeholder"),
                                       min: 0.1,
                                       step: 0.1 %>
               <% end %>
-              <%= form.submit "Започни пране", class: "btn btn-primary btn-full" %>
+              <%= form.submit t("admin.request.operator.start_wash"), class: "btn btn-primary btn-full" %>
             <% end %>
           <% elsif req.status == "in_progress" %>
             <%= button_to admin_request_path(req, request: { status: "ready_for_delivery" }),
                           method: :patch,
                           class: "btn btn-primary btn-full" do %>
-              Маркирай като готова
+              <%= t("admin.request.operator.mark_ready") %>
             <% end %>
           <% end %>
         </div>
@@ -92,15 +92,15 @@
       <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="12" cy="14" r="4"/><path d="M7 7h.01"/><path d="M11 7h.01"/></svg>
     </div>
     <p class="empty-state-title">
-      <% if @current_tab == "received" %>Няма взети поръчки
-      <% elsif @current_tab == "in_wash" %>Няма поръчки в пране
-      <% else %>Няма готови за доставка
+      <% if @current_tab == "received" %><%= t("admin.request.operator.empty_received_title") %>
+      <% elsif @current_tab == "in_wash" %><%= t("admin.request.operator.empty_in_wash_title") %>
+      <% else %><%= t("admin.request.operator.empty_ready_title") %>
       <% end %>
     </p>
     <p class="empty-state-hint">
-      <% if @current_tab == "received" %>След като куриерите вземат килими, поръчките ще се появят тук.
-      <% elsif @current_tab == "in_wash" %>След като започнете пране, поръчките ще се появят тук.
-      <% else %>След като маркирате пране като готово, поръчката ще се появи тук.
+      <% if @current_tab == "received" %><%= t("admin.request.operator.empty_received_hint") %>
+      <% elsif @current_tab == "in_wash" %><%= t("admin.request.operator.empty_in_wash_hint") %>
+      <% else %><%= t("admin.request.operator.empty_ready_hint") %>
       <% end %>
     </p>
   </div>

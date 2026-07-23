@@ -2,7 +2,19 @@
 import "@hotwired/turbo-rails"
 import "controllers"
 
+// Server-rendered translations (see layouts/_js_i18n). Falls back to Bulgarian
+// literals if the bridge element is missing for any reason.
+function jsI18n() {
+  try {
+    const el = document.getElementById("js-i18n")
+    return el ? JSON.parse(el.textContent) : {}
+  } catch {
+    return {}
+  }
+}
+
 Turbo.setConfirmMethod((message, formElement, submitter) => {
+  const t = jsI18n().confirm || {}
   const method = (
     submitter?.dataset?.turboMethod ||
     formElement?.querySelector('input[name="_method"]')?.value ||
@@ -19,23 +31,23 @@ Turbo.setConfirmMethod((message, formElement, submitter) => {
   const showWeight = fieldList.includes("weight")
   const isCollecting = showItems || showWeight
 
-  const confirmLabel = isDestructive ? "Изтрий" : "Потвърди"
+  const confirmLabel = isDestructive ? (t.delete || "Изтрий") : (t.confirm || "Потвърди")
   const confirmClass = isDestructive ? "btn-danger" : "btn-primary"
   const title = isDestructive
-    ? "Потвърдете изтриването"
+    ? (t.title_delete || "Потвърдете изтриването")
     : showItems && showWeight
-      ? "Теглене на килимите"
+      ? (t.title_weigh || "Теглене на килимите")
       : showItems
-        ? "Брой артикули"
+        ? (t.title_items || "Брой артикули")
         : showWeight
-          ? "Тегло на килимите"
-          : "Промяна на статус"
+          ? (t.title_weight || "Тегло на килимите")
+          : (t.title_status || "Промяна на статус")
 
   let inputs = ""
   if (showItems) {
     inputs += `
       <label class="confirm-dialog-field">
-        <span>Брой артикули</span>
+        <span>${t.items_label || "Брой артикули"}</span>
         <input type="number" name="dialog_items" min="1" step="1" required>
       </label>
     `
@@ -43,7 +55,7 @@ Turbo.setConfirmMethod((message, formElement, submitter) => {
   if (showWeight) {
     inputs += `
       <label class="confirm-dialog-field">
-        <span>Общо тегло (кг)</span>
+        <span>${t.weight_label || "Общо тегло (кг)"}</span>
         <input type="number" name="dialog_weight" min="0.1" step="0.1" required>
       </label>
     `
@@ -61,7 +73,7 @@ Turbo.setConfirmMethod((message, formElement, submitter) => {
       ${message ? `<p>${message}</p>` : ""}
       ${extraFields}
       <div class="confirm-dialog-actions">
-        <button class="btn btn-secondary" value="cancel" type="button">Отказ</button>
+        <button class="btn btn-secondary" value="cancel" type="button">${t.cancel || "Отказ"}</button>
         <button class="btn ${confirmClass}" value="confirm" type="button">${confirmLabel}</button>
       </div>
     </div>

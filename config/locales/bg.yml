@@ -9,6 +9,9 @@ bg:
     pro: "Pro"
     enterprise: "Enterprise"
 
+  requests:
+    order_limit_reached: "В момента не приемаме нови онлайн заявки. Моля, свържете се с нас по телефона, за да направите поръчка."
+
   admin:
     nav:
       requests: "Поръчки"
@@ -134,6 +137,9 @@ bg:
         revenue_meta: "от завършени поръчки"
         cancelled: "Отказани"
         cancelled_share: "%{percent} от заявките"
+        weight: "Общо тегло"
+        weight_meta: "доставено в периода (по дата на връщане)"
+        kg: "кг"
       by_status: "По статус"
       by_status_meta: "в периода"
       by_city: "По населено място"
@@ -275,7 +281,7 @@ bg:
         section_processing: "Обработка"
         section_processing_hint: "Артикулите се попълват след вземането, теглото — след претегляне в цеха. Сумата се изчислява автоматично."
         items_only_label: "Само артикули (без теглене — напр. завивки)"
-        voucher_label: "Ваучер (без плащане — сумата става 0, не се изпраща SMS оферта)"
+        pay_by_invoice_label: "Плащане с фактура (куриерът не събира пари, не се изпраща SMS оферта)"
         bulk_price_label: "Намалена цена %{rate} %{currency} / кг (обемна тарифа)"
         amount_summary_label: "Сума за плащане"
         amount_basis_weight_html: "%{weight} кг × %{rate} %{currency}/кг"
@@ -357,6 +363,18 @@ bg:
       mark_weight: "Поръчка %{customer_id} — въведете общото тегло."
       empty_title: "Няма поръчки в този статус"
       empty_hint: "Когато постъпят нови заявки, те ще се появят тук."
+    limits:
+      order:
+        reached_admin: "Достигнахте лимита от %{limit} поръчки за този месец по текущия план. Преминете към по-висок план, за да добавите още."
+        reached_generic: "Тази фабрика е достигнала месечния лимит за поръчки по текущия план."
+        upgrade_cta: "Виж плановете"
+        new_disabled_hint: "Достигнахте месечния лимит за поръчки."
+      user:
+        reached_admin: "Достигнахте лимита от %{limit} потребители по текущия план. Преминете към по-висок план, за да добавите още."
+        reached_generic: "Тази фабрика е достигнала лимита за потребители по текущия план."
+        upgrade_cta: "Виж плановете"
+        new_disabled_hint: "Достигнахте лимита за потребители."
+
     subscription:
       title: "Вашият план"
       lede: "В момента сте на план %{current_plan}. Преминете към платен план за повече поръчки и допълнителни възможности."
@@ -424,6 +442,8 @@ bg:
       branding: "Брандинг"
       branding_lede: "Как изглежда сайтът на фабриката за клиентите ви."
       contact: "Контакти"
+      social: "Социални мрежи"
+      social_lede: "Показват се като икони във футъра на началната страница. Оставете поле празно, за да го скриете."
       pickup: "Вземане и часове"
       pickup_lede: "Появяват се в публичния сайт и определят правилото за вземане в същия ден."
       pricing: "Цени"
@@ -441,6 +461,10 @@ bg:
         brand_secondary_color: "Допълнителен цвят"
         phone: "Телефон"
         email: "Имейл"
+        facebook_url: "Facebook"
+        instagram_url: "Instagram"
+        viber_url: "Viber"
+        whatsapp_url: "WhatsApp"
         business_hours: "Часове за приемане на заявки"
         pickup_window: "Прозорец за вземане и връщане"
         same_day_cutoff_hour: "Краен час за същия ден"
@@ -458,6 +482,10 @@ bg:
         brand_primary_color: "Бутони, връзки и акценти."
         brand_secondary_color: "Допълнителни бутони и потвърждения."
         phone: "Показва се горе и в долния колонтитул. Във формат, познат на клиентите ви."
+        facebook_url: "Връзка към вашата Facebook страница."
+        instagram_url: "Връзка към вашия Instagram профил."
+        viber_url: "Телефонен номер (напр. +359…) или viber:// връзка."
+        whatsapp_url: "Телефонен номер (напр. +359…) или wa.me връзка."
         business_hours: "Например 09:00 – 20:00. Показва се горе."
         pickup_window: "Например 18:00 – 20:30. Показва се на началната страница и в SMS-ите."
         same_day_cutoff_hour: "След този час заявки се поемат за следващия ден (0–23)."
@@ -492,6 +520,7 @@ bg:
     faq: "Въпроси"
     contact: "Контакти"
     staff_login: "Служебен вход"
+    language: "Език"
 
   topbar:
     hours_label: "Прием на заявки"
@@ -588,6 +617,11 @@ bg:
       contact_heading: "Контакти"
       intake_label: "Прием на заявки"
       pickup_label: "Вземане и връщане"
+      social:
+        viber: "Viber"
+        whatsapp: "WhatsApp"
+        facebook: "Facebook"
+        instagram: "Instagram"
       copyright: "© %{year} %{name}"
       legal:
         terms: "Общи условия"

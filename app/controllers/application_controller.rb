@@ -4,6 +4,10 @@ class ApplicationController < ActionController::Base
 
   # Changes to the importmap will invalidate the etag for HTML responses
   stale_when_importmap_changes
+  # Responses vary by language, so fold the active locale into the etag —
+  # otherwise a visitor switching languages could be served a 304 with the
+  # previously cached translation.
+  etag { I18n.locale }
 
   set_current_tenant_through_filter
   before_action :resolve_current_factory
@@ -26,14 +30,31 @@ class ApplicationController < ActionController::Base
     set_current_tenant(factory)
   end
 
-  # Switch I18n.locale to the factory's chosen language for the duration of the
-  # request. Falls back to the global default if the factory's locale isn't in
-  # the available list (avoids `I18n::InvalidLocale` if a stale value lands in
-  # the DB).
+  # Switch I18n.locale for the duration of the request. Precedence:
+  #   1. an explicit ?locale= choice (validated, then remembered in the session)
+  #   2. the visitor's previously remembered choice
+  #   3. the factory's configured default language
+  #   4. the global default
+  # Every step is guarded against values outside the available list to avoid
+  # `I18n::InvalidLocale` from a stale session value or DB row.
   def switch_locale(&action)
-    locale = current_factory&.default_locale&.to_sym
-    locale = I18n.default_locale unless I18n.available_locales.include?(locale)
-    I18n.with_locale(locale, &action)
+    I18n.with_locale(requested_locale, &action)
+  end
+
+  def requested_locale
+    chosen = params[:locale].presence&.to_sym
+    if chosen && I18n.available_locales.include?(chosen)
+      session[:locale] = chosen
+      return chosen
+    end
+
+    remembered = session[:locale]&.to_sym
+    return remembered if remembered && I18n.available_locales.include?(remembered)
+
+    factory_locale = current_factory&.default_locale&.to_sym
+    return factory_locale if factory_locale && I18n.available_locales.include?(factory_locale)
+
+    I18n.default_locale
   end
 
   # Pull the tenant slug from the leftmost subdomain (e.g. acme.rugsuite.app → "acme").

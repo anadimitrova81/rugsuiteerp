@@ -1,1 +1,22 @@
 # See https://www.robotstxt.org/robotstxt.html for documentation on how to use the robots.txt file
+
+# All crawlers — including AI search bots (GPTBot, OAI-SearchBot, ChatGPT-User,
+# PerplexityBot, ClaudeBot, etc.) — may crawl the public pages. Only the
+# private/staff and transactional areas are off limits.
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /login
+Disallow: /status
+Disallow: /r/
+# Order confirmation pages (/requests/:id) 404 for stale/guessed ids and hold
+# no indexable content; keep the order form itself crawlable.
+Disallow: /requests/
+Allow: /requests/new
+
+# Opt in to AI grounding/summarisation for the public content.
+User-agent: Google-Extended
+Disallow:
+
+User-agent: Applebot-Extended
+Disallow:

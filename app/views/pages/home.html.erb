@@ -183,6 +183,18 @@
     <div>
       <strong class="home-footer-brand"><%= current_factory.name %></strong>
       <p><%= t("home.footer.brand_blurb") %></p>
+      <% socials = factory_social_links(current_factory) %>
+      <% if socials.any? %>
+        <div class="home-footer-social">
+          <% socials.each do |platform, url| %>
+            <%= link_to url, class: "home-social-link home-social-#{platform}",
+                        target: "_blank", rel: "noopener noreferrer",
+                        aria: { label: t("home.footer.social.#{platform}") } do %>
+              <%= social_icon(platform) %>
+            <% end %>
+          <% end %>
+        </div>
+      <% end %>
     </div>
     <div>
       <h4><%= t("home.footer.service_heading") %></h4>

@@ -6,7 +6,7 @@ module Admin
       if result&.coordinates.present?
         render json: { address: result.coordinates }
       else
-        render json: { error: "Не успяхме да извлечем координати от линка." }, status: :unprocessable_entity
+        render json: { error: t("admin.address_lookups.parse_error") }, status: :unprocessable_entity
       end
     end
   end

@@ -1,6 +1,7 @@
 module Admin
   class UsersController < BaseController
     before_action :require_admin_role, except: :stop_impersonating
+    before_action :enforce_user_limit, only: %i[new create]
 
     def index
       @users = User.order(:email)
@@ -68,6 +69,15 @@ module Admin
 
     def require_admin_role
       redirect_to admin_requests_path, alert: t("admin.user.messages.admin_only") unless current_admin&.admin?
+    end
+
+    # Block adding users once the factory hits its plan's seat limit; point the
+    # admin at the plan page. The model validation is the backstop.
+    def enforce_user_limit
+      return unless current_factory.user_limit_reached?
+
+      redirect_to admin_users_path,
+                  alert: t("admin.limits.user.reached_admin", limit: current_factory.user_limit)
     end
 
     def set_user = @user = User.find(params[:id])

@@ -1,0 +1,589 @@
+---
+en:
+  admin:
+    request:
+      labels:
+        unit_piece: pc
+      new:
+        meta_title: New order · Admin
+        status_hint: You can create an order in any status — e.g. to record an already-completed or in-progress order.
+        section_processing_hint: Fill in as needed — weight is required for the “Washing” status, item count for “Picked up”.
+        delivery_notes_placeholder: Specific requirements for the delivery time or place
+        created: The order was created successfully.
+      edit:
+        meta_title: Edit order %{id} · Admin
+        pick_up_notes_placeholder: Specific requirements for the pickup time
+        paid_by_card_label: Paid by card (otherwise cash)
+        updated: Order %{customer_id} was updated successfully.
+        update_failed: 'Order #%{customer_id}: %{errors}'
+      courier:
+        collected_cash_label: 'Cash:'
+        collected_card_label: 'Card:'
+        pay_by_card_toggle: Pay by card
+      courier_new:
+        eyebrow: Courier
+        lede: Record an order you picked up on the spot. It's saved immediately as “Picked up”.
+        section_details: Details
+        submit: Save as picked up
+        created: Order %{customer_id} was saved as picked up.
+      validations:
+        address_not_found: couldn't be found on Google Maps. Please check the spelling or enter a more precise description.
+        phone_invalid: must be a valid phone number for %{country}
+        pick_up_at_not_past_today: must be today or later
+        pick_up_at_not_past_tomorrow: must be tomorrow or later
+    routes:
+      meta_title: Route for the day · Admin
+      km_unit: km
+      swap_label: Swap couriers
+      swap_button: Swap routes
+      swap_confirm: This will swap the two selected routes. Continue?
+      optimize_success: Route optimised — %{count} stops distributed among %{couriers} couriers.
+      optimize_none: No stops to optimise.
+      calculate_empty: No stops to calculate.
+      calculate_failed: Couldn't fetch from Google Maps. Check the API key.
+      calculate_success: 'Calculated: %{distance} km, %{duration}.'
+      swap_invalid: Select two different couriers to swap.
+      swap_success: The routes were swapped between the couriers.
+      empty_lane_drop: Empty lane — drop a stop here
+    notifications:
+      no_pending: No orders to send price quotes for.
+      sent:
+        one: SMS price quotes sent for %{count} order.
+        other: SMS price quotes sent for %{count} orders.
+      partial_failure: 'Sent: %{sent}. Failed: %{failed}. Check the logs.'
+      all_failed:
+        one: Sending SMS price quotes failed for %{count} order. Check the logs.
+        other: Sending SMS price quotes failed for %{count} orders. Check the logs.
+    address_lookups:
+      parse_error: We couldn't extract coordinates from the link.
+  privacy:
+    meta_title: Privacy Policy · Nexus Cleaning
+    eyebrow: Document
+    title: Privacy Policy
+    subtitle: How we process and protect the personal data of our clients.
+    updated: 'Last updated: %{date}.'
+    toc_heading: Contents
+    toc:
+      controller: Data controller
+      data: What data we collect
+      purposes: Purposes of processing
+      legal_basis: Legal basis
+      sharing: Sharing with third parties
+      retention: Retention periods
+      security: Data security
+      rights: Your rights
+      cookies: Cookies
+      contact: Contact for personal data
+      changes: Changes to the policy
+    sections:
+      controller:
+        heading: 1. Data controller
+        body_html: "<p>The controller of your personal data is <strong>Nexus Cleaning</strong> (Nexus Ltd., UIC: 112641285, Plovdiv, 4 Deacon Ilarion St.), operating within Plovdiv and the served localities.</p>\n"
+      data:
+        heading: 2. What data we collect
+        body_html: |
+          <p>In order to fulfil a cleaning order, we collect the following categories of personal data, voluntarily provided by you:</p>
+          <ul>
+            <li><strong>Contact details</strong> — telephone number, and optionally email.</li>
+            <li><strong>Address</strong> — street, number and locality, required for pickup and return.</li>
+            <li><strong>Order information</strong> — desired pickup time, access notes, description of the rugs.</li>
+            <li><strong>Technical data</strong> — IP address and browser information, collected automatically when using the site (see the "Cookies" section).</li>
+          </ul>
+          <p>We do not collect sensitive personal data (health status, political views, religion, etc.).</p>
+      purposes:
+        heading: 3. Purposes of processing
+        body_html: |
+          <p>We use your data for the following purposes:</p>
+          <ul>
+            <li>Fulfilling the specific order — coordinating pickup, cleaning and return.</li>
+            <li>Communication regarding the order — confirmation, status notifications, responding to enquiries.</li>
+            <li>Improving our services — analysing statistics on workload and served areas.</li>
+          </ul>
+      legal_basis:
+        heading: 4. Legal basis
+        body_html: |
+          <p>We process your personal data on the following grounds:</p>
+          <ul>
+            <li><strong>Performance of a contract</strong> — to process your order.</li>
+            <li><strong>Legitimate interest</strong> — to improve the service and prevent abuse.</li>
+          </ul>
+      sharing:
+        heading: 5. Sharing with third parties
+        body_html: |
+          <p>We do not sell your data. We may share it only with:</p>
+          <ul>
+            <li>Our couriers (employees or subcontractors) — for pickup and return of the rugs.</li>
+            <li>Government authorities — only where required by law.</li>
+          </ul>
+      retention:
+        heading: 6. Retention periods
+        body_html: |
+          <p>We store your data only for the period necessary to achieve its purposes:</p>
+          <ul>
+            <li>Order data — for the duration of fulfilment and an additional period for complaints.</li>
+            <li>Technical logs — usually up to 12 months.</li>
+          </ul>
+      security:
+        heading: 7. Data security
+        body_html: "<p>We apply organisational and technical measures to protect your data: access only for employees who need the information, encrypted transmission of data through the site (HTTPS) and regular backups. Nevertheless, no system is completely invulnerable, and we ask you to report immediately if you suspect any misuse.</p>\n"
+      rights:
+        heading: 8. Your rights
+        body_html: |
+          <p>Under the GDPR you have the right to:</p>
+          <ul>
+            <li><strong>Access</strong> — to obtain information about what data of yours we process.</li>
+            <li><strong>Rectification</strong> — to request correction of inaccurate or incomplete data.</li>
+            <li><strong>Erasure</strong> — to request deletion of the data, except where we have a legal obligation to keep it.</li>
+            <li><strong>Restriction</strong> — to request restriction of the processing.</li>
+            <li><strong>Portability</strong> — to receive your data in a structured, machine-readable format.</li>
+            <li><strong>Objection</strong> — to object to processing based on legitimate interest.</li>
+            <li><strong>Complaint</strong> — to lodge a complaint with the Commission for Personal Data Protection (CPDP).</li>
+          </ul>
+      cookies:
+        heading: 9. Cookies
+        body_html: "<p>The site uses only cookies necessary for its basic functioning (for example, to maintain a session when logging into the admin panel). We do not use advertising or tracking cookies from third parties.</p>\n"
+      contact:
+        heading: 10. Contact for personal data
+        body_html: |
+          <p>If you have questions about the processing of your data or wish to exercise any of your rights, contact us:</p>
+          <ul>
+            <li>Phone: <a href="tel:+359899771972">+359 899 771 972</a></li>
+            <li>Email: <a href="mailto:office@nexus-cleaning.com">office@nexus-cleaning.com</a></li>
+          </ul>
+          <p>We will respond to your enquiry within one month of receiving it.</p>
+      changes:
+        heading: 11. Changes to the policy
+        body_html: "<p>We may update this policy when our practices or legal requirements change. The current version is always published at this address with the date of last update. In the event of material changes, we will notify you in an appropriate manner (for example, by a notice on the site or by email).</p>\n"
+  terms:
+    meta_title: Terms of Service · Nexus Cleaning
+    eyebrow: Document
+    title: Terms of Service
+    subtitle: Terms for using the services of Nexus Cleaning.
+    updated: 'Last updated: %{date}.'
+    toc_heading: Contents
+    toc:
+      scope: Scope and parties
+      services: Services
+      orders: Orders and confirmation
+      pricing: Prices and payments
+      pickup: Pickup and return
+      timing: Turnaround times
+      liability: Liability and damages
+      cancellation: Order cancellation
+      complaints: Complaints
+      privacy: Personal data
+      changes: Changes to the terms
+      disputes: Governing law and disputes
+    sections:
+      scope:
+        heading: 1. Scope and parties
+        body_html: '<p>These terms of service govern the relationship between <strong>Nexus Cleaning</strong> (Nexus Ltd., UIC: 112641285, Plovdiv, 4 Deacon Ilarion St., hereinafter the "Provider") and natural or legal persons who order services (referred to as the "Client") through the website <strong>nexus-cleaning.com</strong>, by telephone or by message.</p>
+
+          '
+      services:
+        heading: 2. Services
+        body_html: "<p>The Provider offers machine cleaning of rugs, runners, blankets, traditional quilts and duvets, including free pickup and return in Plovdiv and the served localities. The process includes beating, washing, spin-drying, brushing, deodorising and packaging.</p>\n"
+      orders:
+        heading: 3. Orders and confirmation
+        body_html: |
+          <p>An order may be placed online through the request form on the site, by telephone or by message using the contacts provided. After receiving the request, the Provider contacts the Client to confirm the pickup time.</p>
+          <p>The contract is deemed concluded once the specific pickup time and address are confirmed.</p>
+      pricing:
+        heading: 4. Prices and payments
+        body_html: |
+          <p>Current prices are published on the home page of the site. Prices for rugs, runners and blankets are determined by weight, measured with a calibrated electronic scale at the Provider's facility. Prices for duvets are per item.</p>
+          <p>Payment is made on delivery — in cash or by bank card. After payment, the Client receives a receipt with a unique reference number.</p>
+      pickup:
+        heading: 5. Pickup and return
+        body_html: |
+          <p>The Provider's couriers carry out pickup and return within the time slot between 18:00 and 20:30, by prior arrangement. Transport is free within the served localities.</p>
+          <p>The Client ensures the handover of the rugs at the agreed time in person or through a designated person.</p>
+      timing:
+        heading: 6. Turnaround times
+        body_html: "<p>The standard turnaround time is 3 – 5 working days from the date of pickup. During busier periods, for specific fabrics or in unforeseen circumstances, the term may be extended to 7 working days. The Provider informs the Client of the actual return date.</p>\n"
+      liability:
+        heading: 7. Liability and damages
+        body_html: |
+          <p>The Provider exercises professional care in processing each item. If hidden defects, wear or specific characteristics that could lead to damage during standard cleaning are identified, the Provider notifies the Client in advance and agrees on the course of action.</p>
+          <p>The maximum amount of compensation for a damaged or missing item is up to €50.00 (BGN 97.79), depending on the condition of the item and the nature of the damage.</p>
+      cancellation:
+        heading: 8. Order cancellation
+        body_html: "<p>The Client may cancel an order before the rugs are picked up, free of charge.</p>\n"
+      complaints:
+        heading: 9. Complaints
+        body_html: |
+          <p>The Client has the right to file a complaint about the quality of the service within <em>14</em> days of the return of the rugs. The complaint is submitted by telephone or email, accompanied by a description of the problem.</p>
+          <p>The Provider reviews the complaint within 30 days and proposes a solution — re-cleaning, correction or partial refund.</p>
+      privacy:
+        heading: 10. Personal data
+        body_before: The processing of the Client's personal data is carried out in accordance with
+        link_text: the Privacy Policy
+        body_after: ", which forms an integral part of these terms of service."
+      changes:
+        heading: 11. Changes to the terms
+        body_html: "<p>The Provider reserves the right to amend these terms of service. The current version is always published at this address with the date of last update. Changes take effect from the date of publication and do not affect already confirmed orders.</p>\n"
+      disputes:
+        heading: 12. Governing law and disputes
+        body_html: |
+          <p>Bulgarian law applies to these terms of service. Disputes are resolved by mutual agreement, and where this is not possible — before the competent Bulgarian court.</p>
+          <p>For contact on matters related to these terms, you can reach us by phone at <a href="tel:+359899771972">+359 899 771 972</a> or by email at <a href="mailto:office@nexus-cleaning.com">office@nexus-cleaning.com</a>.</p>
+  marketing:
+    home:
+      page_title: RugSuite ERP — software for carpet wash factories
+      hero_eyebrow: Operations software for carpet wash factories
+      hero_title: Run your carpet wash factory like a tech company.
+      hero_subtitle: RugSuite ERP replaces the spreadsheets, paper tickets and phone-tag with one platform that handles every step from booking to delivery — for one factory or a hundred.
+      start_free_trial: Start free trial
+      hero_see_how: See how it works
+      hero_bullet_1: Multi-tenant — one platform per company, one company per subdomain
+      hero_bullet_2: Per-factory pricing, currencies, languages and service areas
+      hero_bullet_3: Built on Rails 8 + Postgres — yours to host or ours to run
+      status_picked_up: Picked up
+      status_in_wash: In wash
+      status_ready: Ready for delivery
+      hero_card_pickup_meta: 5 rugs · 23.8 kg · Acme Carpets
+      hero_card_wash_meta: 'Drum 3 · Programme: Wool · ETA 16:40'
+      hero_card_delivery_meta: 'Courier: Marko · 7 stops on route'
+      features_eyebrow: What you get
+      features_title: Everything a wash factory needs, nothing it doesn't.
+      features_lede: Purpose-built for the carpet wash workflow. No generic CRM contortions, no ERP bloat.
+      feature_routing_title: Pickup & delivery routing
+      feature_routing_body: Customers book online. Couriers see today's stops in optimal order, swipe to confirm pickup, snap a photo, done. No more shouting addresses into the phone.
+      feature_workflow_title: Wash workflow, tracked
+      feature_workflow_body: Every rug moves through pending → picked up → in wash → ready → delivered. Operators see what's in the building. Coordinators see what's overdue. Customers get an SMS when it's ready.
+      feature_pricing_title: Pricing that fits your business
+      feature_pricing_body: Per-kilogram, per-item, bulk discounts, vouchers, free pickup zones — configure once, apply everywhere. Multi-currency from day one.
+      feature_notifications_title: Customer notifications
+      feature_notifications_body: Booking confirmations, price quotes, "your rug is ready" alerts — automated by SMS in the customer's own language. You stop chasing, customers stop calling.
+      feature_reports_title: Reports the office actually reads
+      feature_reports_body: Daily intake, revenue by week, courier performance, churn signals. Plain charts, exportable to CSV. No data lake required.
+      feature_roles_title: Roles & tenant isolation
+      feature_roles_body: Admin, coordinator, operator, courier — each role sees only what they need. Every factory's data is hard-isolated; nothing leaks between tenants.
+      how_title: From web form to washed rug in 5 steps.
+      step1_title: Customer books online
+      step1_body: A clean public form on your subdomain. Address validated against Google Maps, pickup window picked, SMS confirmation sent.
+      step2_title: Courier picks up
+      step2_body: Today's stops in optimal order on the courier's phone. Confirm pickup, count the rugs, move on.
+      step3_title: Operator weighs & washes
+      step3_body: Weight or item count goes in, the system calculates the price, the customer gets a quote SMS, the rug enters the wash queue.
+      step4_title: Coordinator schedules delivery
+      step4_body: Done rugs are bundled into a delivery route. Customer chooses or confirms the slot. Courier delivers, customer pays.
+      step5_title: You see the numbers
+      step5_body: Daily intake, weekly revenue, courier load, repeat-customer share — visible on a single dashboard, exportable on demand.
+      pricing_title: Pricing that scales with your factory.
+      pricing_lede: Pay-as-you-grow. No setup fees, no per-courier nickel-and-dime, no surprises. Talk to us for an exact quote.
+      tier_starter_name: Starter
+      tier_starter_tagline: One factory, getting started.
+      per_month: "/month"
+      tier_starter_feat_1: Up to 300 orders / month
+      tier_starter_feat_2: 3 staff users
+      tier_starter_feat_3: SMS notifications (pay as you go)
+      tier_starter_feat_4: Email support
+      tier_badge_popular: Most popular
+      tier_pro_name: Pro
+      tier_pro_tagline: Established factory, multiple couriers.
+      tier_pro_feat_1: Up to 2,000 orders / month
+      tier_pro_feat_2: Unlimited staff users
+      tier_pro_feat_3: Route optimisation included
+      tier_pro_feat_4: SMS bundle (1,500 / month)
+      tier_pro_feat_5: Priority support
+      tier_enterprise_name: Enterprise
+      tier_enterprise_tagline: Multi-location or white-label.
+      tier_price_custom: Custom
+      tier_enterprise_feat_1: Unlimited orders
+      tier_enterprise_feat_2: Multi-location / multi-tenant
+      tier_enterprise_feat_3: Custom domain, branding
+      tier_enterprise_feat_4: SSO, audit logs, SLA
+      tier_enterprise_feat_5: Onboarding included
+      talk_to_us: Talk to us
+      cta_title: Ready to run your factory on RugSuite?
+      cta_subtitle: Set up a tenant in under a minute. Free trial, no credit card.
+      talk_to_us_first: Talk to us first
+      contact_title: We answer fast.
+      contact_body: If you run a carpet wash factory and the workflow above sounds familiar, we want to hear from you. Tell us a bit about how many orders you do today and where you operate.
+      contact_email_label: Email
+      contact_sales_label: Sales
+      contact_support_label: Support
+    signup:
+      page_title: Create your factory — RugSuite ERP
+      eyebrow: Start free trial
+      title: Set up your factory in under a minute.
+      intro_html: Fill in five fields and you'll have a working tenant at <code>yourname.rugsuite.app</code> with an admin login ready to go. No credit card.
+      bullet_1: Your own subdomain & isolated data
+      bullet_2: All features unlocked during trial
+      bullet_3: Switch to a paid plan anytime later
+      error_heading: Couldn't create your factory.
+      company_name_label: Company name
+      company_name_placeholder: Acme Carpet Wash
+      subdomain_label: Subdomain
+      subdomain_placeholder: acme
+      subdomain_hint: Lowercase letters, digits and hyphens. 2–32 characters.
+      country_label: Country
+      country_blank: "— select country —"
+      country_hint: We use this to set your timezone, currency and language defaults.
+      admin_email_label: Admin email
+      admin_email_placeholder: you@yourcompany.com
+      password_label: Password
+      password_hint: At least 8 characters.
+      submit: Create my factory
+      fine_print: By signing up you agree to our terms of service. We'll never share your data with another tenant.
+    meta:
+      default_title: RugSuite ERP — software for carpet wash factories
+      description: 'The all-in-one operations platform for carpet wash factories: bookings, pickup/delivery routing, intake, washing, billing and customer notifications.'
+    nav:
+      features: Features
+      how_it_works: How it works
+      pricing: Pricing
+      contact: Contact
+    cta:
+      trial: Start free trial
+    footer:
+      tagline: Operations software for carpet wash factories.
+      copyright: "© %{year} RugSuite ERP. All rights reserved."
+  activerecord:
+    attributes:
+      request:
+        number_of_items: Item count
+        weight: Weight
+        pick_up_at: Pickup date
+        items_only: Items only
+        address: Address
+        phone: Phone
+        delivery_at: Delivery date
+  sms:
+    price_quote:
+      body: "%{prefix} %{summary}. See: %{url}"
+      prefix_weight: 'Carpet washing:'
+      prefix_items: 'Duvet washing:'
+      items_unit: pcs.
+  status:
+    errors:
+      empty_query: Please enter a phone number or order number.
+      not_found: The order wasn't found or the link has expired.
+    page_title: Check order
+    hero_eyebrow: Tracking
+    hero_title: Check your request status
+    hero_lede: Enter a phone number or order number to see where it currently is.
+    search_placeholder: Phone or order number
+    search_submit: Check
+    results_count_html:
+      one: "%{count} result for <strong>%{query}</strong>"
+      other: "%{count} results for <strong>%{query}</strong>"
+    card_order_label: Order
+    phone_label: Phone
+    amount_label: Amount
+    weight_label: Weight
+    items_label: Items
+    unit_item: pcs
+    unit_bgn: BGN
+    requested_on: Requested on %{date}
+    empty_title: No orders found
+    empty_hint_html: We couldn't find anything for <strong>%{query}</strong>. Check the number and try again, or %{link}.
+    new_request_link: submit a new request
+    aside_eyebrow: What should I enter?
+    aside_item_phone_html: "<strong>Phone number</strong> — the same one you gave when placing the request."
+    aside_item_order_html: "<strong>Order number</strong> — we send it after your request is confirmed."
+    aside_contact_eyebrow: Can't find your order?
+    aside_hours: Working days · 09:00 – 20:00
+  requests:
+    captcha_failed: We couldn't verify that you're human. Please try again.
+    form:
+      section_contact: Contact
+      phone_label: Phone
+      phone_placeholder: e.g. 0888 123 456
+      section_pickup_address: Pickup address
+      address_label: Address
+      address_placeholder: Street and number
+      city_label: City
+      city_prompt: Select…
+      section_schedule: Schedule
+      pickup_date_label: Pickup date
+      pickup_date_hint: Our courier comes between 18:00 and 20:30, on weekdays.
+      pickup_notes_label: Pickup notes
+      pickup_notes_placeholder: e.g. please come after 19:00, apartment 5, second floor
+      recaptcha_notice_html: This form is protected by reCAPTCHA. Google's <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">privacy policy</a> and <a href="https://policies.google.com/terms" target="_blank" rel="noopener">terms of service</a> apply.
+      submit: Submit request
+    new:
+      page_title: Order
+      hero_eyebrow: Order
+      hero_title: Order carpet washing
+      hero_lede: It takes less than a minute. We'll contact you to confirm the pickup time and discuss the estimated price.
+      errors: Please fix the highlighted fields below.
+      aside_next_eyebrow: What's next
+      aside_step1_title: We receive your request
+      aside_step1_body: We contact you to confirm the pickup time.
+      aside_step2_title: The courier arrives
+      aside_step2_body: Between 18:00 and 20:30, on the day you chose.
+      aside_step3_title: We wash and return
+      aside_step3_body: After 3–5 working days — fresh and packaged.
+      aside_contact_eyebrow: Prefer to call?
+      aside_hours: Working days · 09:00 – 20:00
+    show:
+      page_title: Request received
+      title: Request received
+      message: We've recorded your request. Save the reference number below — you'll need it to check the status.
+      reference_label: Reference number
+      pickup_label: Pickup time
+      phone_label: Phone
+      address_label: Address
+      notes_label: Notes
+      check_status: Check status
+      new_request: Submit a new request
+  date:
+    formats:
+      long: "%B %-d, %Y"
+      short: "%b %-d"
+    day_names:
+    - Sunday
+    - Monday
+    - Tuesday
+    - Wednesday
+    - Thursday
+    - Friday
+    - Saturday
+    abbr_day_names:
+    - Sun
+    - Mon
+    - Tue
+    - Wed
+    - Thu
+    - Fri
+    - Sat
+    month_names:
+    -
+    - January
+    - February
+    - March
+    - April
+    - May
+    - June
+    - July
+    - August
+    - September
+    - October
+    - November
+    - December
+    abbr_month_names:
+    -
+    - Jan
+    - Feb
+    - Mar
+    - Apr
+    - May
+    - Jun
+    - Jul
+    - Aug
+    - Sep
+    - Oct
+    - Nov
+    - Dec
+  datetime:
+    minutes_short: min
+    hours_short: h
+  js:
+    confirm:
+      delete: Delete
+      confirm: Confirm
+      cancel: Cancel
+      title_delete: Confirm deletion
+      title_weigh: Weigh the carpets
+      title_items: Item count
+      title_weight: Carpet weight
+      title_status: Change status
+      items_label: Item count
+      weight_label: Total weight (kg)
+    address_preview:
+      no_address: The link doesn't contain an address.
+      parse_error: Error processing the link.
+  rack_attack:
+    too_many_requests: Too many requests. Please try again in a minute.
+  sessions:
+    page_title: Staff login
+    title: Welcome
+    subtitle: Sign in to manage orders.
+    email_label: Email
+    password_label: Password
+    submit: Sign in
+  faq:
+    hero:
+      eyebrow: Frequently asked questions
+      title: Answers to the questions that matter most
+      lede_html: If you can't find your question here, call us at <a href="tel:+359899771972">+359 899 771 972</a> between 09:00 and 20:00.
+    items:
+      price:
+        q: What does it cost?
+        a_html: We wash carpets, runners and blankets at <strong>€1.50 / kg</strong>. Lightweight quilts are <strong>€7.50 / item</strong>. For quantities over 50 kg a discount applies — <strong>€1.35 / kg</strong>
+        a: We wash carpets, runners and blankets at €1.50 / kg. Lightweight quilts are €7.50 / item. For quantities over 50 kg a discount applies — €1.35 / kg.
+      fees:
+        q: Are there extra fees or minimum quantities?
+        a_html: No. Transport is <strong>free</strong> in Plovdiv and the region. There are no hidden fees and no minimum quantity — we take anything from a single runner to carpets and quilts.
+        a: No. Transport is free in Plovdiv and the region. There are no hidden fees and no minimum quantity — we take anything from a single runner to carpets and quilts.
+      how_to_order:
+        q: How do I place an order?
+        intro: 'You have three options — pick whichever is most convenient:'
+        form_link: the order form
+        online_html: "<strong>Online</strong> — fill in %{link}. It takes under a minute."
+        by_phone_html: <strong>By phone</strong> — call us at <a href="tel:+359899771972">+359 899 771 972</a> between 09:00 and 20:00.
+        by_sms_html: "<strong>SMS or Viber</strong> — message us on the same number and we'll get in touch to sort out the details."
+        a: 'You have three options: online via the order form, by phone at +359 899 771 972 between 09:00 and 20:00, or by SMS/Viber on the same number.'
+      turnaround:
+        q: How many days does it take?
+        a_html: Orders are normally completed within <strong>3 – 5 working days</strong>. During busier periods or with specific fabrics it may take up to 7 days. We contact you as soon as the carpets are ready to be returned.
+        a: Orders are normally completed within 3 – 5 working days. During busier periods or with specific fabrics it may take up to 7 days. We contact you as soon as the carpets are ready to be returned.
+      weighing:
+        q: Where are the carpets weighed?
+        a_html: The carpets are weighed at <strong>our workshop</strong> on a calibrated electronic scale before we start washing. You receive a message with the weight and the final price.
+        a: The carpets are weighed at our workshop on a calibrated electronic scale before washing. You receive a message with the weight and the final price.
+      materials:
+        q: What materials do you wash?
+        a: Wool, synthetic and blended carpets; cotton and microfibre for blankets; down and synthetic fills for quilts.
+      stains:
+        q: What if I have stains I'm worried about?
+        a_html: Tell us in advance what the stain is and how old it is. We treat stains as <strong>part of the standard wash, at no extra charge</strong>. In most cases the result exceeds expectations. We can't guarantee the removal of very old or specific stains (for example ink or paint).
+        a: Tell us in advance what the stain is and how old it is. We treat stains as part of the standard wash, at no extra charge. We can't guarantee the removal of very old or specific stains (for example ink or paint).
+      safety:
+        q: Is it safe for children and pets?
+        a_html: Yes. We use <strong>biodegradable, hypoallergenic detergents</strong> with no aggressive chemicals. Safe for sensitive skin, young children and homes with pets.
+        a: Yes. We use biodegradable, hypoallergenic detergents with no aggressive chemicals. Safe for sensitive skin, young children and homes with pets.
+      not_home:
+        q: What if I'm not home at the pickup time?
+        a_html: Get in touch — we can easily move the pickup to another day, or you can leave the carpet with an agreed person (a neighbour, doorman or family member). The return is also arranged in advance so we don't miss the appointment.
+        a: Get in touch — we can easily move the pickup to another day, or you can leave the carpet with an agreed person (a neighbour, doorman or family member). The return is also arranged in advance.
+      frequency:
+        q: How often should carpets be washed?
+        a_html: We recommend professional washing <strong>once every 12 – 18 months</strong> for home use, and <strong>every 6 – 12 months</strong> if you have pets or young children. Between washes, regular beating and vacuuming extend the life of the carpet.
+        a: We recommend professional washing once every 12 – 18 months for home use, and every 6 – 12 months if you have pets or young children.
+    cta:
+      heading: Ready to order?
+      lede: The request takes under a minute. We'll get in touch to confirm your pickup time.
+  contacts:
+    hero:
+      eyebrow: Contact
+      title: Get in touch
+      lede: We answer by phone, email, SMS and Viber. Pick whatever is most convenient — we usually reply within a few minutes.
+    cards:
+      phone:
+        label: Phone
+        note: Weekdays · 09:00 – 20:00
+      sms:
+        label: SMS / Viber
+        note: Handy for quick questions
+      email:
+        label: Email
+        note: We reply within the business day
+      pickup:
+        label: Pickup and return
+        note: Every day, by prior arrangement
+    coverage:
+      eyebrow: Coverage
+      heading: Where we operate
+      lede: Free pickup and return in Plovdiv and the neighbouring towns. Don't see your town? Call us — we often make exceptions.
+    cta:
+      heading: Ready to order?
+      lede: The request takes under a minute. We'll get in touch to confirm your pickup time.
+  cookie_consent:
+    title: We use cookies
+    body_html: This site uses cookies that are necessary for its core functioning and, optionally, anonymous statistics that help us improve it. You can find the details in our %{link}.
+    privacy_link: Privacy Policy
+    reject: Only the essentials
+    accept: Accept all

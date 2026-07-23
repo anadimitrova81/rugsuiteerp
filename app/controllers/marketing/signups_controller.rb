@@ -1,10 +1,6 @@
-class Marketing::SignupsController < ActionController::Base
+class Marketing::SignupsController < Marketing::BaseController
   # Marketing pages don't go through the tenant filter; FactoryProvisioner
   # handles tenant-scoped writes with `ActsAsTenant.with_tenant`.
-  allow_browser versions: :modern
-
-  layout "marketing"
-
   protect_from_forgery with: :exception
 
   def new
@@ -34,7 +30,7 @@ class Marketing::SignupsController < ActionController::Base
   def tenant_root_url(factory)
     host = request.host.to_s.downcase
     port = request.port
-    port_part = ([80, 443].include?(port) ? "" : ":#{port}")
+    port_part = ([ 80, 443 ].include?(port) ? "" : ":#{port}")
     scheme = request.ssl? ? "https" : "http"
 
     # In dev: foo.localhost / foo.lvh.me. In prod: foo.rugsuite.app (i.e. swap

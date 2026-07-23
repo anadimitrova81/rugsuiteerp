@@ -80,6 +80,18 @@ class Factory < ApplicationRecord
     users.count
   end
 
+  # Plan gating. Both return false when the plan is unlimited (limit is nil).
+  # `>=` because when usage already equals the cap, the *next* create is the
+  # one that would exceed it. Assumes the current ActsAsTenant scope, like the
+  # usage counts above.
+  def order_limit_reached?
+    monthly_order_limit.present? && monthly_orders_used >= monthly_order_limit
+  end
+
+  def user_limit_reached?
+    user_limit.present? && users_count >= user_limit
+  end
+
   # The active per-unit rate, considering the chosen pricing_mode. Used by
   # the tenant home page's pricing display.
   def price_per_unit
@@ -106,6 +118,33 @@ class Factory < ApplicationRecord
     ActiveSupport::TimeZone[timezone] || ActiveSupport::TimeZone["UTC"]
   end
 
+  # Public social links for the home page. Facebook/Instagram accept a full URL
+  # (we prepend https:// if the admin omitted the scheme). Viber accepts either
+  # a viber://… / https:// link or a plain phone number, which we turn into a
+  # chat deep link. Each returns nil when unset, so the view can skip it.
+  def facebook_link  = normalize_social_url(facebook_url)
+  def instagram_link = normalize_social_url(instagram_url)
+
+  def viber_link
+    return if viber_url.blank?
+    value = viber_url.strip
+    return value if value.match?(%r{\A(https?|viber)://}i)
+
+    digits = value.gsub(/[^\d+]/, "")
+    "viber://chat?number=#{CGI.escape(digits)}" if digits.present?
+  end
+
+  # WhatsApp accepts a full link or a phone number, which becomes a wa.me link
+  # (digits only — wa.me rejects "+", spaces and punctuation).
+  def whatsapp_link
+    return if whatsapp_url.blank?
+    value = whatsapp_url.strip
+    return value if value.match?(%r{\Ahttps?://}i)
+
+    digits = value.gsub(/\D/, "")
+    "https://wa.me/#{digits}" if digits.present?
+  end
+
   def earliest_pick_up_date
     now = Time.current.in_time_zone(time_zone)
     now.hour < same_day_cutoff_hour ? now.to_date : now.to_date + 1
@@ -115,6 +154,14 @@ class Factory < ApplicationRecord
 
   def normalize_slug
     self.slug = slug.to_s.strip.downcase.presence
+  end
+
+  # Lets admins paste a bare domain ("facebook.com/acme") or a full URL; we
+  # ensure there's a scheme so the link works. Returns nil when unset.
+  def normalize_social_url(value)
+    return if value.blank?
+    value = value.strip
+    value.match?(%r{\Ahttps?://}i) ? value : "https://#{value}"
   end
 
   def timezone_must_be_valid

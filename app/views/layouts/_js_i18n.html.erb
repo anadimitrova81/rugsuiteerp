@@ -1,0 +1,21 @@
+<%# Server-rendered translations bridge for the importmap JS. Read in JS via
+    JSON.parse(document.getElementById("js-i18n").textContent). CSP-safe: this
+    is inert data (type="application/json"), not an executed inline script. %>
+<script type="application/json" id="js-i18n"><%= raw({
+  confirm: {
+    delete: t("js.confirm.delete"),
+    confirm: t("js.confirm.confirm"),
+    cancel: t("js.confirm.cancel"),
+    title_delete: t("js.confirm.title_delete"),
+    title_weigh: t("js.confirm.title_weigh"),
+    title_items: t("js.confirm.title_items"),
+    title_weight: t("js.confirm.title_weight"),
+    title_status: t("js.confirm.title_status"),
+    items_label: t("js.confirm.items_label"),
+    weight_label: t("js.confirm.weight_label"),
+  },
+  address_preview: {
+    no_address: t("js.address_preview.no_address"),
+    parse_error: t("js.address_preview.parse_error"),
+  },
+}.to_json) %></script>

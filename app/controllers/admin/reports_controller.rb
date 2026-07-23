@@ -27,9 +27,11 @@ module Admin
         delivered: delivered_in_period.count,
         revenue: delivered_in_period.sum(:amount).to_f,
         cancelled: cancelled_in_period.count,
+        weight: Request.where(delivery_at: range).sum(:weight).to_f,
       }
 
       @status_counts = created_in_period.group(:status).count
+      @status_weights = created_in_period.group(:status).sum(:weight)
       @top_cities = created_in_period.group(:city).order(Arel.sql("COUNT(*) DESC")).limit(6).count
 
       @averages = {
@@ -69,19 +71,19 @@ module Admin
 
         @period_key = nil
         @period_label = "#{start_date.strftime('%d.%m.%Y')} – #{end_date.strftime('%d.%m.%Y')}"
-        [start_date.in_time_zone.beginning_of_day, end_date.in_time_zone.end_of_day, start_date, end_date]
+        [ start_date.in_time_zone.beginning_of_day, end_date.in_time_zone.end_of_day, start_date, end_date ]
       else
         @period_key = PERIODS.key?(params[:period]) ? params[:period] : "30"
         @period_label = t("admin.reports.periods.#{@period_key}")
         since_at = PERIODS[@period_key][:since].call
-        [since_at, nil, since_at.in_time_zone.to_date, Date.current]
+        [ since_at, nil, since_at.in_time_zone.to_date, Date.current ]
       end
     end
 
     def build_daily(relation, range, start_date, end_date)
       timestamps = relation.where(created_at: range).pluck(:created_at)
       counts = timestamps.group_by { |t| t.in_time_zone.to_date }.transform_values(&:size)
-      (start_date..end_date).map { |d| [d, counts[d].to_i] }
+      (start_date..end_date).map { |d| [ d, counts[d].to_i ] }
     end
 
     def parse_date(value)

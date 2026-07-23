@@ -9,6 +9,9 @@ en:
     pro: "Pro"
     enterprise: "Enterprise"
 
+  requests:
+    order_limit_reached: "We're not taking new online orders right now. Please call us to place an order."
+
   admin:
     nav:
       requests: "Orders"
@@ -134,6 +137,9 @@ en:
         revenue_meta: "from completed orders"
         cancelled: "Cancelled"
         cancelled_share: "%{percent} of orders"
+        weight: "Total weight"
+        weight_meta: "delivered in the period (by return date)"
+        kg: "kg"
       by_status: "By status"
       by_status_meta: "in the period"
       by_city: "By city"
@@ -275,7 +281,7 @@ en:
         section_processing: "Processing"
         section_processing_hint: "Item count is filled in after pickup; weight after weighing in the shop. The amount calculates automatically."
         items_only_label: "Items only (no weighing — e.g. quilts)"
-        voucher_label: "Voucher (no payment — amount becomes 0, no quote SMS)"
+        pay_by_invoice_label: "Pay by invoice (courier collects nothing, no quote SMS)"
         bulk_price_label: "Bulk rate %{rate} %{currency} / kg (volume tariff)"
         amount_summary_label: "Amount due"
         amount_basis_weight_html: "%{weight} kg × %{rate} %{currency}/kg"
@@ -357,6 +363,18 @@ en:
       mark_weight: "Order %{customer_id} — enter the total weight."
       empty_title: "No orders with this status"
       empty_hint: "When new orders come in, they'll appear here."
+    limits:
+      order:
+        reached_admin: "You've reached your plan's limit of %{limit} orders this month. Upgrade to add more."
+        reached_generic: "This factory has reached its monthly order limit for the current plan."
+        upgrade_cta: "View plans"
+        new_disabled_hint: "You've reached this month's order limit."
+      user:
+        reached_admin: "You've reached your plan's limit of %{limit} users. Upgrade to add more."
+        reached_generic: "This factory has reached its user limit for the current plan."
+        upgrade_cta: "View plans"
+        new_disabled_hint: "You've reached your user limit."
+
     subscription:
       title: "Your plan"
       lede: "You're on the %{current_plan} plan. Upgrade for higher order volume and extra capabilities."
@@ -424,6 +442,8 @@ en:
       branding: "Branding"
       branding_lede: "How your tenant site looks to your customers."
       contact: "Contact"
+      social: "Social links"
+      social_lede: "Shown as icons in your home page footer. Leave a field empty to hide it."
       pickup: "Pickup & hours"
       pickup_lede: "These appear on your public site and drive the same-day vs next-day pickup rule."
       pricing: "Pricing"
@@ -441,6 +461,10 @@ en:
         brand_secondary_color: "Secondary color"
         phone: "Phone"
         email: "Email"
+        facebook_url: "Facebook"
+        instagram_url: "Instagram"
+        viber_url: "Viber"
+        whatsapp_url: "WhatsApp"
         business_hours: "Order intake hours"
         pickup_window: "Pickup & delivery window"
         same_day_cutoff_hour: "Same-day cutoff hour"
@@ -458,6 +482,10 @@ en:
         brand_primary_color: "Buttons, links and accents."
         brand_secondary_color: "Secondary buttons and confirm states."
         phone: "Shown in the top bar and footer. Use the format your customers know."
+        facebook_url: "Link to your Facebook page."
+        instagram_url: "Link to your Instagram profile."
+        viber_url: "Phone number (e.g. +359…) or a viber:// link."
+        whatsapp_url: "Phone number (e.g. +359…) or a wa.me link."
         business_hours: "e.g. 09:00 – 20:00. Shown in the top bar."
         pickup_window: "e.g. 18:00 – 20:30. Shown on the home page and in pickup confirmations."
         same_day_cutoff_hour: "Orders placed after this hour are picked up the next day (0–23)."
@@ -492,6 +520,7 @@ en:
     faq: "FAQ"
     contact: "Contact"
     staff_login: "Staff login"
+    language: "Language"
 
   topbar:
     hours_label: "Order intake"
@@ -588,6 +617,11 @@ en:
       contact_heading: "Contact"
       intake_label: "Order intake"
       pickup_label: "Pickup and return"
+      social:
+        viber: "Viber"
+        whatsapp: "WhatsApp"
+        facebook: "Facebook"
+        instagram: "Instagram"
       copyright: "© %{year} %{name}"
       legal:
         terms: "Terms"

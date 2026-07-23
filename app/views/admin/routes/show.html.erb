@@ -1,20 +1,20 @@
-<% content_for(:title) { "Маршрут за деня · Админ" } %>
+<% content_for(:title) { t("admin.routes.meta_title") } %>
 
 <div class="container container-wide">
   <header class="request-detail-page-header">
     <div>
-      <p class="request-detail-eyebrow">Маршрут</p>
-      <h1 class="request-detail-title">Планиране за <%= bg_long_date(@date) %></h1>
+      <p class="request-detail-eyebrow"><%= t("admin.routes.eyebrow") %></p>
+      <h1 class="request-detail-title"><%= t("admin.routes.title", date: bg_long_date(@date)) %></h1>
       <p class="request-detail-subtitle">
-        <%= @couriers.size %> <%= @couriers.size == 1 ? "куриер" : "куриера" %> ·
-        Влачете спирки в желания ред или между лентите за пренасочване.
+        <%= t("admin.routes.subtitle_couriers", count: @couriers.size) %> ·
+        <%= t("admin.routes.subtitle_hint") %>
       </p>
     </div>
     <div class="request-detail-actions">
       <% if @stops_by_courier.values.flatten.any? %>
         <%= form_with url: optimize_admin_route_path, method: :post, class: "route-optimize-form" do |form| %>
           <fieldset class="route-optimize-couriers">
-            <legend>Включи куриер</legend>
+            <legend><%= t("admin.routes.include_courier") %></legend>
             <% @couriers.each do |courier| %>
               <label class="route-optimize-courier">
                 <input type="checkbox" name="courier_ids[]" value="<%= courier.id %>" checked>
@@ -22,9 +22,26 @@
               </label>
             <% end %>
           </fieldset>
-          <%= form.submit "Оптимизирай маршрута",
+          <%= form.submit t("admin.routes.optimize_button"),
                           class: "btn btn-primary",
-                          data: { turbo_confirm: "Това ще преразпредели спирките между избраните куриери. Продължи?" } %>
+                          data: { turbo_confirm: t("admin.routes.optimize_confirm") } %>
+        <% end %>
+
+        <% if @couriers.size >= 2 %>
+          <% courier_options = @couriers.map { |c| [c.email.split("@").first.capitalize, c.id] } %>
+          <%= form_with url: swap_admin_route_path, method: :post, class: "route-swap-form" do |form| %>
+            <span class="route-swap-label"><%= t("admin.routes.swap_label") %></span>
+            <div class="route-swap-controls">
+              <%= form.select :from, options_for_select(courier_options, @couriers.first.id), {}, class: "route-swap-select" %>
+              <span class="route-swap-icon" aria-hidden="true">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
+              </span>
+              <%= form.select :to, options_for_select(courier_options, @couriers.second.id), {}, class: "route-swap-select" %>
+            </div>
+            <%= form.submit t("admin.routes.swap_button"),
+                            class: "btn btn-secondary",
+                            data: { turbo_confirm: t("admin.routes.swap_confirm") } %>
+          <% end %>
         <% end %>
       <% end %>
     </div>
@@ -40,19 +57,19 @@
       <section class="route-lane <%= "route-lane-unassigned" if lane_id.nil? %>" data-lane-id="<%= lane_id %>">
         <header class="route-lane-header">
           <div>
-            <h2><%= courier ? courier.email.split("@").first.capitalize : "Неназначени" %></h2>
+            <h2><%= courier ? courier.email.split("@").first.capitalize : t("admin.routes.lane_unassigned") %></h2>
             <p class="route-lane-meta">
-              <%= lane_stops.size %> <%= lane_stops.size == 1 ? "спирка" : "спирки" %>
+              <%= t("admin.routes.lane_stop_count", count: lane_stops.size) %>
             </p>
           </div>
           <% if courier && lane_stops.any? %>
             <div class="route-lane-summary">
               <% if summary&.dig(:distance_km) %>
                 <span class="route-lane-summary-value">
-                  <%= number_with_precision(summary[:distance_km], precision: 1) %> км · <%= format_minutes_bg(summary[:total_minutes]) %>
+                  <%= number_with_precision(summary[:distance_km], precision: 1) %> <%= t("admin.routes.km_unit") %> · <%= format_minutes_bg(summary[:total_minutes]) %>
                 </span>
               <% else %>
-                <%= button_to "Калкулирай", calculate_admin_route_path(lane: courier.id),
+                <%= button_to t("admin.routes.calculate_button"), calculate_admin_route_path(lane: courier.id),
                               method: :post, class: "btn btn-secondary btn-sm" %>
               <% end %>
             </div>
@@ -62,14 +79,14 @@
         <% if lane_stops.any? %>
           <div class="route-planner-item route-planner-item-depot">
             <span class="route-planner-position">⌂</span>
-            <span class="status-badge route-planner-status route-planner-depot-tag">Старт</span>
+            <span class="status-badge route-planner-status route-planner-depot-tag"><%= t("admin.routes.depot_start") %></span>
             <div class="route-planner-info">
-              <span class="route-planner-id">Цех</span>
+              <span class="route-planner-id"><%= t("admin.routes.depot_label") %></span>
               <span class="route-planner-address"><%= Routes::DailyRouteOptimizer::DEPOT_ADDRESS %></span>
             </div>
           </div>
         <% end %>
-        <ul class="route-planner route-lane-list" data-route-planner-target="list" data-lane-id="<%= lane_id %>">
+        <ul class="route-planner route-lane-list" data-route-planner-target="list" data-lane-id="<%= lane_id %>" data-empty-label="<%= t('admin.routes.empty_lane_drop') %>">
           <% lane_stops.each do |stop| %>
             <li class="route-planner-item" data-stop-id="<%= stop.id %>">
               <span class="route-planner-handle" aria-hidden="true">
@@ -84,6 +101,13 @@
               <div class="route-planner-info">
                 <span class="route-planner-id">#<%= stop.customer_id %></span>
                 <span class="route-planner-address"><%= stop.address %>, <%= stop.city %></span>
+                <% note = stop.status == "delivery_confirmed" ? stop.delivery_notes : stop.pick_up_notes %>
+                <% if note.present? %>
+                  <span class="route-planner-note">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+                    <span><%= note %></span>
+                  </span>
+                <% end %>
               </div>
               <span class="route-planner-time">
                 <% target = stop.status == "delivery_confirmed" ? stop.delivery_at : stop.pick_up_at %>
@@ -95,9 +119,9 @@
         <% if lane_stops.any? %>
           <div class="route-planner-item route-planner-item-depot">
             <span class="route-planner-position">⌂</span>
-            <span class="status-badge route-planner-status route-planner-depot-tag">Край</span>
+            <span class="status-badge route-planner-status route-planner-depot-tag"><%= t("admin.routes.depot_end") %></span>
             <div class="route-planner-info">
-              <span class="route-planner-id">Цех</span>
+              <span class="route-planner-id"><%= t("admin.routes.depot_label") %></span>
               <span class="route-planner-address"><%= Routes::DailyRouteOptimizer::DEPOT_ADDRESS %></span>
             </div>
           </div>
@@ -111,8 +135,8 @@
       <div class="empty-state-icon" aria-hidden="true">
         <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 11 22 2 13 21 11 13 3 11"/></svg>
       </div>
-      <p class="empty-state-title">Няма спирки за днес</p>
-      <p class="empty-state-hint">Когато бъдат потвърдени поръчки за вземане или връщане, ще се появят тук.</p>
+      <p class="empty-state-title"><%= t("admin.routes.empty_title") %></p>
+      <p class="empty-state-hint"><%= t("admin.routes.empty_hint") %></p>
     </div>
   <% end %>
 </div>

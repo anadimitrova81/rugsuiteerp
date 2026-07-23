@@ -18,9 +18,9 @@ module Admin
 
       notice =
         if result[:ordered].positive?
-          "Маршрутът е оптимизиран — #{result[:ordered]} спирки разпределени между #{result[:lanes].size} куриера."
+          t("admin.routes.optimize_success", count: result[:ordered], couriers: result[:lanes].size)
         else
-          "Няма спирки за оптимизация."
+          t("admin.routes.optimize_none")
         end
       redirect_to admin_route_path, notice: notice
     end
@@ -29,19 +29,46 @@ module Admin
       lane_id = params[:lane].to_i
       stops = lane_stops_for(lane_id)
       if stops.empty?
-        redirect_to admin_route_path, alert: "Няма спирки за изчисление." and return
+        redirect_to admin_route_path, alert: t("admin.routes.calculate_empty") and return
       end
 
       result = Google::Routes.calculate(stops: stops)
       if result.nil?
         redirect_to admin_route_path,
-                    alert: "Неуспешно извличане от Google Maps. Проверете API ключа."
+                    alert: t("admin.routes.calculate_failed")
         return
       end
 
       cache_lane(lane_id, stops.map(&:id), result.distance_km, result.total_minutes)
       redirect_to admin_route_path,
-                  notice: "Изчислено: %.1f км, %s." % [result.distance_km, view_context.format_minutes_bg(result.total_minutes)]
+                  notice: t("admin.routes.calculate_success",
+                            distance: format("%.1f", result.distance_km),
+                            duration: view_context.format_minutes_bg(result.total_minutes))
+    end
+
+    # Swap two couriers' whole routes: everything assigned to `from` goes to
+    # `to` and vice versa, keeping each route's sequence (route_position)
+    # intact — only the driver changes.
+    def swap
+      a = params[:from].to_i
+      b = params[:to].to_i
+      if a.zero? || b.zero? || a == b
+        redirect_to admin_route_path, alert: t("admin.routes.swap_invalid") and return
+      end
+
+      Request.transaction do
+        open_stops.each do |stop|
+          effective = effective_courier_id(stop)
+          next unless [ a, b ].include?(effective)
+
+          target = effective == a ? b : a
+          field = stop.status.in?(%w[pickup_confirmed picked_up]) ? :pickup_courier_id : :delivery_courier_id
+          stop.update_columns(field => target)
+        end
+      end
+
+      swap_lane_caches(a, b)
+      redirect_to admin_route_path, notice: t("admin.routes.swap_success")
     end
 
     def reorder
@@ -73,7 +100,7 @@ module Admin
 
     def require_planner_role
       unless current_admin&.admin? || current_admin&.coordinator?
-        redirect_to admin_requests_path, alert: "Достъп само за администратори и координатори."
+        redirect_to admin_requests_path, alert: t("admin.sms_log.admin_only")
       end
     end
 
@@ -133,6 +160,19 @@ module Admin
 
     def lane_cache_key(date, courier_id)
       "route/optimized/#{date.iso8601}/courier/#{courier_id}"
+    end
+
+    # After a swap the routes themselves are unchanged, so move each cached
+    # distance/time summary to the courier now driving that route rather than
+    # forcing a recalculation.
+    def swap_lane_caches(a, b)
+      key_a = lane_cache_key(Date.current, a)
+      key_b = lane_cache_key(Date.current, b)
+      cached_a = Rails.cache.read(key_a)
+      cached_b = Rails.cache.read(key_b)
+
+      cached_b ? Rails.cache.write(key_a, cached_b, expires_in: 1.day) : Rails.cache.delete(key_a)
+      cached_a ? Rails.cache.write(key_b, cached_a, expires_in: 1.day) : Rails.cache.delete(key_b)
     end
   end
 end

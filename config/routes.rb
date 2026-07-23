@@ -49,6 +49,7 @@ Rails.application.routes.draw do
       post :optimize
       post :calculate
       patch :reorder
+      post :swap
     end
 
     resource :notifications, only: [] do

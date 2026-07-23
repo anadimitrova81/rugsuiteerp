@@ -1,9 +1,8 @@
 module Sms
-  # Renders the single-segment Bulgarian SMS body for the in_progress price
-  # quote. The prefix varies by order type so the customer immediately sees
-  # what the message is about:
-  #   - weight-based: "Пране на килими:"
-  #   - items-based:  "Пране на завивки:"
+  # Renders the single-segment price-quote SMS body for the in_progress price
+  # quote (localised via `sms.price_quote.*`). The prefix varies by order type
+  # so the customer immediately sees what the message is about (carpet wash vs
+  # duvet/item wash).
   # The URL is bare (no https://) to fit one segment in Cyrillic encoding;
   # modern phones auto-link it. The URL points to /r/:customer_id which 302s
   # to /status where the full breakdown lives.
@@ -11,11 +10,14 @@ module Sms
     DETAILS_URL_HOST = "nexus-cleaning.com".freeze
 
     def self.build(request)
-      "#{prefix(request)} #{summary_line(request)}. Виж: #{details_url(request)}"
+      I18n.t("sms.price_quote.body",
+             prefix: prefix(request),
+             summary: summary_line(request),
+             url: details_url(request))
     end
 
     def self.prefix(request)
-      request.weight.present? ? "Пране на килими:" : "Пране на завивки:"
+      I18n.t(request.weight.present? ? "sms.price_quote.prefix_weight" : "sms.price_quote.prefix_items")
     end
 
     def self.summary_line(request)
@@ -24,9 +26,9 @@ module Sms
 
     def self.metric(request)
       if request.weight.present?
-        "#{format_number(request.weight, strip_zeros: true)} кг"
+        "#{format_number(request.weight, strip_zeros: true)} #{I18n.t('units.kg')}"
       else
-        "#{request.number_of_items} бр."
+        "#{request.number_of_items} #{I18n.t('sms.price_quote.items_unit')}"
       end
     end
 

@@ -1,13 +1,70 @@
 module ApplicationHelper
-  BG_WEEKDAYS = %w[неделя понеделник вторник сряда четвъртък петък събота].freeze
-  BG_MONTHS = %w[януари февруари март април май юни юли август септември октомври ноември декември].freeze
+  # Language switcher (client-facing pages). Short codes drive the toggle,
+  # native names label it for screen readers, and `locale_switch_url` re-renders
+  # the current page in the chosen locale — the controller validates the value
+  # and remembers it for the session.
+  LOCALE_SHORT_LABELS = { en: "EN", bg: "БГ" }.freeze
+  LOCALE_NATIVE_NAMES = { en: "English", bg: "Български" }.freeze
 
+  def locale_short_label(loc)
+    LOCALE_SHORT_LABELS[loc.to_sym] || loc.to_s.upcase
+  end
+
+  def locale_native_name(loc)
+    LOCALE_NATIVE_NAMES[loc.to_sym] || loc.to_s
+  end
+
+  def locale_switch_url(loc)
+    url_for(request.params.merge(locale: loc, only_path: true))
+  end
+
+  # Dates render per-locale through Rails' I18n localisation: month/day names
+  # and the `long`/`short` format strings live under `date.*` in each locale
+  # file, so these helpers return Bulgarian under :bg and English under :en
+  # without callers having to care. (Method names keep the `bg_` prefix for
+  # historical call-site compatibility.)
   def bg_weekday(date)
-    BG_WEEKDAYS[date.wday]&.capitalize
+    return nil if date.nil?
+    I18n.l(date.to_date, format: "%A").capitalize
   end
 
   def bg_long_date(date)
-    "#{date.day} #{BG_MONTHS[date.month - 1]} #{date.year}"
+    return nil if date.nil?
+    I18n.l(date.to_date, format: :long)
+  end
+
+  # Social platforms shown in the home footer. :mode picks how the glyph is
+  # drawn (brand logos are filled; the others are stroked line icons). Colors
+  # are applied via the .home-social-<key> CSS classes.
+  SOCIAL_PLATFORMS = {
+    "viber" => { mode: :stroke, svg: '<path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>' },
+    "whatsapp" => { mode: :fill, svg: '<path d="M17.47 14.38c-.3-.15-1.77-.87-2.04-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.03-.52-.07-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51-.17-.01-.37-.01-.57-.01-.2 0-.52.07-.79.37-.27.3-1.04 1.01-1.04 2.47s1.06 2.87 1.21 3.07c.15.2 2.08 3.18 5.05 4.46.7.3 1.26.48 1.69.62.71.22 1.36.19 1.87.12.57-.08 1.77-.72 2.02-1.42.25-.7.25-1.3.17-1.42-.07-.13-.27-.2-.57-.35zM12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.83 9.83 0 0 0 12.04 2z"/>' },
+    "facebook" => { mode: :fill, svg: '<path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.51 1.49-3.89 3.77-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.77l-.44 2.89h-2.33v6.99A10 10 0 0 0 22 12z"/>' },
+    "instagram" => { mode: :stroke, svg: '<rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>' },
+  }.freeze
+
+  # Ordered platform => url map for a factory, skipping ones that aren't set.
+  def factory_social_links(factory)
+    {
+      "viber" => factory.viber_link,
+      "whatsapp" => factory.whatsapp_link,
+      "facebook" => factory.facebook_link,
+      "instagram" => factory.instagram_link,
+    }.select { |_key, url| url.present? }
+  end
+
+  def social_icon(platform)
+    config = SOCIAL_PLATFORMS[platform]
+    return "" unless config
+
+    common = { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", width: 18, height: 18, "aria-hidden": true }
+    attrs =
+      if config[:mode] == :fill
+        common.merge(fill: "currentColor")
+      else
+        common.merge(fill: "none", stroke: "currentColor", "stroke-width": 2, "stroke-linecap": "round", "stroke-linejoin": "round")
+      end
+    content_tag(:svg, config[:svg].html_safe, attrs)
   end
 
   # The "How it works" slider is a pure-CSS carousel whose active-state rules
@@ -41,7 +98,7 @@ module ApplicationHelper
       end
     end
 
-    [38, 32].each do |dot_px|
+    [ 38, 32 ].each do |dot_px|
       width_rules = (1..count).map do |i|
         frac = count > 1 ? ((i - 1).to_f / (count - 1)).round(4) : 0
         "#step-radio-#{i}:checked ~ .process-dots::after { width: calc((100% - #{dot_px}px) * #{frac}); }"
@@ -57,28 +114,19 @@ module ApplicationHelper
   end
 
   def bg_short_date(date)
-    "#{date.day} #{BG_MONTHS[date.month - 1]}"
+    return nil if date.nil?
+    I18n.l(date.to_date, format: :short)
   end
 
-  # Locale-aware long date. Bulgarian renders via BG_MONTHS, every other
-  # locale defaults to English month names. Use for user-facing dates in
-  # admin pages.
+  # Locale-aware long/short date. Kept as thin aliases now that the underlying
+  # helpers localise themselves via I18n. Use for user-facing dates in admin
+  # pages.
   def long_date(date)
-    return nil if date.nil?
-    if I18n.locale == :bg
-      bg_long_date(date)
-    else
-      date.strftime("%-d %B %Y")
-    end
+    bg_long_date(date)
   end
 
   def short_date(date)
-    return nil if date.nil?
-    if I18n.locale == :bg
-      bg_short_date(date)
-    else
-      date.strftime("%-d %b")
-    end
+    bg_short_date(date)
   end
 
   def bg_relative_day(date)
@@ -94,7 +142,7 @@ module ApplicationHelper
     when 0 then I18n.t("admin.relative_day.today")
     when 1 then I18n.t("admin.relative_day.tomorrow")
     when 2..6
-      I18n.locale == :bg ? bg_weekday(date) : date.strftime("%A")
+      bg_weekday(date)
     when -1 then I18n.t("admin.relative_day.yesterday")
     end
   end
@@ -115,12 +163,13 @@ module ApplicationHelper
   }.freeze
 
   TRANSITION_FIELDS = {
-    ["pickup_confirmed", "picked_up"] => "items",
-    ["picked_up", "in_progress"]      => "weight",
+    [ "pickup_confirmed", "picked_up" ] => "items",
+    [ "picked_up", "in_progress" ]      => "weight",
   }.freeze
 
   def pickup_label(request)
-    request.status.in?(%w[pending pickup_confirmed]) ? "Вземане" : "Взета"
+    key = request.status.in?(%w[pending pickup_confirmed]) ? "admin.requests.cols.pickup" : "admin.request_status.picked_up"
+    I18n.t(key)
   end
 
   def next_status_for(request)
@@ -129,7 +178,7 @@ module ApplicationHelper
   end
 
   def transition_fields_for(request, next_status)
-    TRANSITION_FIELDS[[request.status, next_status]]
+    TRANSITION_FIELDS[[ request.status, next_status ]]
   end
 
   # ROLE_DESCRIPTIONS moved to I18n (admin.user.role_descriptions.*) and
@@ -170,7 +219,7 @@ module ApplicationHelper
     # ("с. Труд, …") fails Google's geocoder ("Address not found"), which would
     # break the start/end of the route. Coordinates always resolve.
     depot = Routes::DailyRouteOptimizer::DEPOT.join(",")
-    segments = [depot, *formatted, depot].map { |a| CGI.escape(a) }
+    segments = [ depot, *formatted, depot ].map { |a| CGI.escape(a) }
     "https://www.google.com/maps/dir/#{segments.join('/')}?travelmode=driving"
   end
 
@@ -190,11 +239,14 @@ module ApplicationHelper
     "https://www.google.com/maps/dir/?#{params.to_query}"
   end
 
-  COORDINATES_REGEX = /\A-?\d+\.\d+,-?\d+\.\d+\z/
+  # "lat,lng", tolerant of whitespace around the comma and ends — coordinator
+  # pins are often pasted as "42.1, 24.7" or with a stray leading space, and a
+  # pin must still be recognised as coordinates (it's authoritative for routing).
+  COORDINATES_REGEX = /\A\s*-?\d+\.\d+\s*,\s*-?\d+\.\d+\s*\z/
 
   def waze_url(target)
     if target.to_s.match?(COORDINATES_REGEX)
-      "https://waze.com/ul?ll=#{target}&navigate=yes"
+      "https://waze.com/ul?ll=#{target.to_s.gsub(/\s+/, "")}&navigate=yes"
     else
       "https://waze.com/ul?q=#{CGI.escape(target.to_s)}&navigate=yes"
     end
@@ -209,7 +261,7 @@ module ApplicationHelper
 
   def request_full_address(request)
     return request.verified_address if request.verified_address.present?
-    [request.address, request.city].compact_blank.join(", ")
+    [ request.address, request.city ].compact_blank.join(", ")
   end
 
   # Masks all but the last 3 digits of a phone number for public display
@@ -228,16 +280,18 @@ module ApplicationHelper
     return nil if hex.blank?
     m = hex.to_s.match(/\A#([0-9A-Fa-f]{6})\z/)
     return nil unless m
-    [m[1][0..1], m[1][2..3], m[1][4..5]].map { |c| c.to_i(16) }.join(", ")
+    [ m[1][0..1], m[1][2..3], m[1][4..5] ].map { |c| c.to_i(16) }.join(", ")
   end
 
   def format_minutes_bg(total_minutes)
-    return "0 мин" if total_minutes.to_i.zero?
+    return "0 #{I18n.t('datetime.minutes_short')}" if total_minutes.to_i.zero?
 
     h = total_minutes.to_i / 60
     m = total_minutes.to_i % 60
-    return "#{m} мин" if h.zero?
-    return "#{h} ч" if m.zero?
-    "#{h} ч #{m} мин"
+    min = I18n.t("datetime.minutes_short")
+    hr = I18n.t("datetime.hours_short")
+    return "#{m} #{min}" if h.zero?
+    return "#{h} #{hr}" if m.zero?
+    "#{h} #{hr} #{m} #{min}"
   end
 end

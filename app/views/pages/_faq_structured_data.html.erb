@@ -1,0 +1,27 @@
+<%#
+  FAQPage JSON-LD for the public FAQ. Lets Google show the questions and
+  answers directly in the search results. Answers are plain-text mirrors of
+  the visible content (Schema.org expects text in acceptedAnswer). Keep in
+  sync with faq.html.erb when the visible copy changes.
+%>
+<%
+  faq_slugs = %w[price fees how_to_order turnaround weighing materials stains safety not_home frequency]
+  faqs = faq_slugs.map do |slug|
+    [t("faq.items.#{slug}.q"), t("faq.items.#{slug}.a")]
+  end
+
+  faq_data = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faqs.map do |question, answer|
+      {
+        "@type": "Question",
+        name: question,
+        acceptedAnswer: { "@type": "Answer", text: answer },
+      }
+    end,
+  }
+%>
+<script type="application/ld+json">
+<%= raw JSON.generate(faq_data) %>
+</script>

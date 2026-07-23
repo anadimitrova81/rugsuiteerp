@@ -1,125 +1,87 @@
-<% content_for(:title) { "Политика за поверителност · Nexus Cleaning" } %>
+<% content_for(:title) { t("privacy.meta_title") } %>
 
 <section class="legal-hero">
   <div class="legal-hero-inner">
-    <span class="home-eyebrow">Документ</span>
-    <h1>Политика за поверителност</h1>
-    <p>Как обработваме и защитаваме личните данни на нашите клиенти. </p>
-    <p>Последна актуализация: <%= Date.current.strftime("%-d %B %Y") %>.</p>
+    <span class="home-eyebrow"><%= t("privacy.eyebrow") %></span>
+    <h1><%= t("privacy.title") %></h1>
+    <p><%= t("privacy.subtitle") %> </p>
+    <p><%= t("privacy.updated", date: Date.current.strftime("%-d %B %Y")) %></p>
   </div>
 </section>
 
 <section class="home-section">
   <div class="home-section-inner legal-layout">
     <aside class="legal-toc">
-      <h2>Съдържание</h2>
+      <h2><%= t("privacy.toc_heading") %></h2>
       <ol>
-        <li><a href="#controller">Администратор на данните</a></li>
-        <li><a href="#data">Какви данни събираме</a></li>
-        <li><a href="#purposes">Цели на обработването</a></li>
-        <li><a href="#legal-basis">Правно основание</a></li>
-        <li><a href="#sharing">Споделяне с трети страни</a></li>
-        <li><a href="#retention">Срокове на съхранение</a></li>
-        <li><a href="#security">Сигурност на данните</a></li>
-        <li><a href="#rights">Вашите права</a></li>
-        <li><a href="#cookies">Бисквитки</a></li>
-        <li><a href="#contact">Контакт за лични данни</a></li>
-        <li><a href="#changes">Промени в политиката</a></li>
+        <li><a href="#controller"><%= t("privacy.toc.controller") %></a></li>
+        <li><a href="#data"><%= t("privacy.toc.data") %></a></li>
+        <li><a href="#purposes"><%= t("privacy.toc.purposes") %></a></li>
+        <li><a href="#legal-basis"><%= t("privacy.toc.legal_basis") %></a></li>
+        <li><a href="#sharing"><%= t("privacy.toc.sharing") %></a></li>
+        <li><a href="#retention"><%= t("privacy.toc.retention") %></a></li>
+        <li><a href="#security"><%= t("privacy.toc.security") %></a></li>
+        <li><a href="#rights"><%= t("privacy.toc.rights") %></a></li>
+        <li><a href="#cookies"><%= t("privacy.toc.cookies") %></a></li>
+        <li><a href="#contact"><%= t("privacy.toc.contact") %></a></li>
+        <li><a href="#changes"><%= t("privacy.toc.changes") %></a></li>
       </ol>
     </aside>
 
     <article class="legal-content">
       <section id="controller">
-        <h2>1. Администратор на данните</h2>
-        <p>Администратор на личните Ви данни е <strong>Nexus Cleaning</strong> (Нексус ООД, ЕИК: 112641285, гр. Пловдив, ул. Дякон Иларион 4), опериращ на територията на Пловдив и обслужваните населени места.</p>
+        <h2><%= t("privacy.sections.controller.heading") %></h2>
+        <%= t("privacy.sections.controller.body_html") %>
       </section>
 
       <section id="data">
-        <h2>2. Какви данни събираме</h2>
-        <p>За да изпълним заявка за пране, събираме следните категории лични данни, доброволно предоставени от Вас:</p>
-        <ul>
-          <li><strong>Контактни данни</strong> — телефонен номер, по избор имейл.</li>
-          <li><strong>Адрес</strong> — улица, номер и населено място, необходими за вземане и връщане.</li>
-          <li><strong>Информация за поръчката</strong> — желан час за вземане, бележки за достъп, описание на килимите.</li>
-          <li><strong>Технически данни</strong> — IP адрес и информация от браузъра, събирани автоматично при ползване на сайта (виж раздел „Бисквитки").</li>
-        </ul>
-        <p>Не събираме чувствителни лични данни (здравословно състояние, политически възгледи, религия и др.).</p>
+        <h2><%= t("privacy.sections.data.heading") %></h2>
+        <%= t("privacy.sections.data.body_html") %>
       </section>
 
       <section id="purposes">
-        <h2>3. Цели на обработването</h2>
-        <p>Използваме данните Ви за следните цели:</p>
-        <ul>
-          <li>Изпълнение на конкретната заявка — координиране на вземане, пране и връщане.</li>
-          <li>Комуникация по поръчката — потвърждение, уведомления за статуса, отговор на запитвания.</li>
-          <li>Подобряване на услугите — анализ на статистика за натовареност и обслужвани райони.</li>
-        </ul>
+        <h2><%= t("privacy.sections.purposes.heading") %></h2>
+        <%= t("privacy.sections.purposes.body_html") %>
       </section>
 
       <section id="legal-basis">
-        <h2>4. Правно основание</h2>
-        <p>Обработваме личните Ви данни на следните основания:</p>
-        <ul>
-          <li><strong>Изпълнение на договор</strong> — за обработване на поръчката Ви.</li>
-          <li><strong>Легитимен интерес</strong> — за подобряване на услугата и предотвратяване на злоупотреби.</li>
-        </ul>
+        <h2><%= t("privacy.sections.legal_basis.heading") %></h2>
+        <%= t("privacy.sections.legal_basis.body_html") %>
       </section>
 
       <section id="sharing">
-        <h2>5. Споделяне с трети страни</h2>
-        <p>Не продаваме данните Ви. Можем да ги споделим само с:</p>
-        <ul>
-          <li>Куриерите ни (служители или подизпълнители) — за вземане и връщане на килимите.</li>
-          <li>Държавни органи — само при законово изискване.</li>
-        </ul>
+        <h2><%= t("privacy.sections.sharing.heading") %></h2>
+        <%= t("privacy.sections.sharing.body_html") %>
       </section>
 
       <section id="retention">
-        <h2>6. Срокове на съхранение</h2>
-        <p>Съхраняваме данните Ви само за срока, необходим за изпълнение на целите им:</p>
-        <ul>
-          <li>Данни от поръчката — за срока на изпълнение и допълнителен период за рекламации.</li>
-          <li>Технически логове — обикновено до 12 месеца.</li>
-        </ul>
+        <h2><%= t("privacy.sections.retention.heading") %></h2>
+        <%= t("privacy.sections.retention.body_html") %>
       </section>
 
       <section id="security">
-        <h2>7. Сигурност на данните</h2>
-        <p>Прилагаме организационни и технически мерки за защита на данните Ви: достъп само за служители с нужда от информацията, криптирано предаване на данни през сайта (HTTPS) и редовно архивиране. Въпреки това, никоя система не е напълно неуязвима, и Ви молим да съобщавате веднага, ако подозирате злоупотреба.</p>
+        <h2><%= t("privacy.sections.security.heading") %></h2>
+        <%= t("privacy.sections.security.body_html") %>
       </section>
 
       <section id="rights">
-        <h2>8. Вашите права</h2>
-        <p>Съгласно GDPR имате право да:</p>
-        <ul>
-          <li><strong>Достъп</strong> — да получите информация какви Ваши данни обработваме.</li>
-          <li><strong>Корекция</strong> — да поискате коригиране на неточни или непълни данни.</li>
-          <li><strong>Изтриване</strong> — да поискате изтриване на данните, освен когато имаме законово задължение да ги пазим.</li>
-          <li><strong>Ограничаване</strong> — да поискате ограничаване на обработването.</li>
-          <li><strong>Преносимост</strong> — да получите данните си в структуриран машинно четим формат.</li>
-          <li><strong>Възражение</strong> — да възразите срещу обработването, основано на легитимен интерес.</li>
-          <li><strong>Жалба</strong> — да подадете жалба до Комисията за защита на личните данни (КЗЛД).</li>
-        </ul>
+        <h2><%= t("privacy.sections.rights.heading") %></h2>
+        <%= t("privacy.sections.rights.body_html") %>
       </section>
 
       <section id="cookies">
-        <h2>9. Бисквитки</h2>
-        <p>Сайтът използва само бисквитки, необходими за основното му функциониране (например за поддържане на сесия при влизане в администраторския панел). Не използваме рекламни или проследяващи бисквитки от трети страни.</p>
+        <h2><%= t("privacy.sections.cookies.heading") %></h2>
+        <%= t("privacy.sections.cookies.body_html") %>
       </section>
 
       <section id="contact">
-        <h2>10. Контакт за лични данни</h2>
-        <p>Ако имате въпроси относно обработването на Вашите данни или искате да упражните някое от правата си, свържете се с нас:</p>
-        <ul>
-          <li>Телефон: <a href="tel:+359899771972">+359 899 771 972</a></li>
-          <li>Имейл: <a href="mailto:office@nexus-cleaning.com">office@nexus-cleaning.com</a></li>
-        </ul>
-        <p>Ще отговорим на запитването Ви в рамките на един месец от получаването му.</p>
+        <h2><%= t("privacy.sections.contact.heading") %></h2>
+        <%= t("privacy.sections.contact.body_html") %>
       </section>
 
       <section id="changes">
-        <h2>11. Промени в политиката</h2>
-        <p>Можем да актуализираме настоящата политика при промяна в практиките ни или законовите изисквания. Актуалната версия е винаги публикувана на този адрес с дата на последна актуализация. При съществени промени ще Ви уведомим по подходящ начин (например с известие на сайта или по имейл).</p>
+        <h2><%= t("privacy.sections.changes.heading") %></h2>
+        <%= t("privacy.sections.changes.body_html") %>
       </section>
     </article>
   </div>

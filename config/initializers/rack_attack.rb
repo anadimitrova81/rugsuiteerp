@@ -22,10 +22,11 @@ class Rack::Attack
     req.ip if req.post? && req.path == "/requests"
   end
 
-  # Custom response for throttled requests — keep it short and in Bulgarian so
-  # a tripped real user isn't completely lost.
+  # Custom response for throttled requests — kept short so a tripped real user
+  # isn't completely lost. Uses the default locale (per-request locale isn't
+  # resolved yet this early in the stack).
   self.throttled_responder = lambda do |_env|
-    [429, { "Content-Type" => "text/plain; charset=utf-8", "Retry-After" => "60" },
-     ["Твърде много заявки. Моля, опитайте отново след минута."]]
+    [ 429, { "Content-Type" => "text/plain; charset=utf-8", "Retry-After" => "60" },
+     [ I18n.t("rack_attack.too_many_requests") ], ]
   end
 end
