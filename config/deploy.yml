@@ -12,6 +12,11 @@
 service: rugsuiteerp
 image: anadimitrova81/rugsuiteerp
 
+# The VPS is memory-tight (2 GB); during a redeploy the old and new app
+# containers run together, so Puma can boot slowly under swap. Give the health
+# check more room before it gives up (default is 30s).
+deploy_timeout: 120
+
 servers:
   web:
     - 93.94.140.141
