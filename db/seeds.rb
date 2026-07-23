@@ -147,3 +147,11 @@ ActsAsTenant.with_tenant(default_factory) do
 
   puts "[seeds] Created #{requests_data.size} demo requests in 'default'"
 end
+
+# Platform operator for the super-admin console (admin.rugsuiteerp.com).
+# Dev/test only — in production create via `bin/kamal console`:
+#   PlatformAdmin.create!(email: "you@example.com", password: "…")
+if Rails.env.local? && PlatformAdmin.none?
+  PlatformAdmin.create!(email: "platform@rugsuiteerp.com", password: "password")
+  puts "[seeds] Created platform admin platform@rugsuiteerp.com / password"
+end

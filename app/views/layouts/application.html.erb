@@ -75,6 +75,12 @@
         <span><%= t("admin.impersonation.banner_html", current: tag.strong(current_admin.email), true: true_admin&.email).html_safe %></span>
         <%= button_to t("admin.impersonation.stop"), admin_stop_impersonating_path, method: :delete, class: "impersonation-banner-btn" %>
       </div>
+    <% elsif platform_impersonating? %>
+      <div class="impersonation-banner impersonation-banner-platform">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        <span><%= t("admin.impersonation.platform_banner_html", email: tag.strong(current_admin.email)).html_safe %></span>
+        <%= button_to t("admin.impersonation.platform_exit"), platform_exit_path, method: :delete, class: "impersonation-banner-btn" %>
+      </div>
     <% end %>
     <% topbar_socials = factory_social_links(current_factory) %>
     <% if current_factory.phone.present? || current_factory.business_hours.present? || topbar_socials.any? %>

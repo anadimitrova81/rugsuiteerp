@@ -1,0 +1,46 @@
+<% content_for(:title) { "Subscriptions · Platform" } %>
+
+<div class="platform-page">
+  <header class="platform-page-head">
+    <h1>Subscriptions</h1>
+    <p class="platform-lede"><%= pluralize(@factories.size, "factory", plural: "factories") %></p>
+  </header>
+
+  <% if @factories.empty? %>
+    <p class="platform-empty">No factories yet.</p>
+  <% else %>
+    <div class="platform-table-wrap">
+      <table class="platform-table">
+        <thead>
+          <tr>
+            <th>Factory</th>
+            <th>Plan</th>
+            <th>Orders (this month)</th>
+            <th>Users</th>
+            <th>Created</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @factories.each do |factory| %>
+            <% usage = @usage[factory] %>
+            <tr>
+              <td>
+                <%= link_to factory.name, platform_subscription_path(factory), class: "platform-link" %>
+                <span class="platform-slug"><%= factory.slug %></span>
+              </td>
+              <td><span class="platform-plan platform-plan-<%= factory.plan %>"><%= factory.plan.capitalize %></span></td>
+              <td><%= usage[:orders_used] %><%= " / #{usage[:order_limit]}" if usage[:order_limit] %></td>
+              <td><%= usage[:users_used] %><%= " / #{usage[:user_limit]}" if usage[:user_limit] %></td>
+              <td><%= factory.created_at.to_date.iso8601 %></td>
+              <td class="platform-actions">
+                <%= link_to "Open site", tenant_site_url(factory), target: "_blank", rel: "noopener", class: "btn btn-secondary btn-sm" %>
+                <%= link_to "View", platform_subscription_path(factory), class: "btn btn-secondary btn-sm" %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  <% end %>
+</div>

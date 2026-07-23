@@ -9,6 +9,22 @@ Rails.application.routes.draw do
   # get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
   # get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
 
+  # ===== Platform operator console (admin.rugsuiteerp.com) =====
+  # Cross-tenant super-admin. Must come before the marketing + tenant routes so
+  # the admin host is claimed first. Platform controllers don't run the tenant
+  # filter.
+  constraints ->(req) { HostType.platform?(req) } do
+    root "platform/subscriptions#index", as: :platform_root
+    get    "login",  to: "platform/sessions#new",     as: :platform_login
+    post   "login",  to: "platform/sessions#create"
+    delete "logout", to: "platform/sessions#destroy", as: :platform_logout
+
+    resources :subscriptions, only: %i[show], controller: "platform/subscriptions",
+                              as: :platform_subscription do
+      post :impersonate, to: "platform/impersonations#create", on: :member
+    end
+  end
+
   # ===== Marketing site (apex / reserved subdomains) =====
   # Lives at the bare hostname (e.g. rugsuite.app, www.rugsuite.app, or
   # rugsuiteerp.localhost in dev). Marketing controllers don't run the tenant
@@ -35,6 +51,12 @@ Rails.application.routes.draw do
   get "login", to: "sessions#new"
   post "login", to: "sessions#create"
   delete "logout", to: "sessions#destroy", as: :logout
+
+  # Platform-admin impersonation hand-off: the operator console mints a signed,
+  # short-lived token and redirects here (on the tenant subdomain) to establish
+  # the impersonated session. `destroy` ends the impersonation.
+  get    "enter", to: "platform_handoffs#show",    as: :platform_enter
+  delete "enter", to: "platform_handoffs#destroy", as: :platform_exit
 
   namespace :admin do
     resources :requests, only: %i[index show new create edit update]

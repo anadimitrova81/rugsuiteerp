@@ -40,6 +40,9 @@ en:
     impersonation:
       banner_html: "You're signed in as <strong>%{current}</strong> (you are %{true}.)"
       stop: "Exit role"
+      platform_banner_html: "Platform admin — impersonating <strong>%{email}</strong>."
+      platform_exit: "Exit to console"
+      platform_entered: "You are impersonating %{email}."
     request_status:
       pending: "Received"
       pickup_confirmed: "Pickup confirmed"

@@ -2523,3 +2523,64 @@
   cursor: pointer;
 }
 [data-pricing-mode-target="panel"][hidden] { display: none; }
+
+/* ===== Platform operator console (admin.rugsuiteerp.com) ===== */
+.platform-body {
+  margin: 0;
+  background: var(--color-bg, #f6f7f9);
+  color: var(--color-text, #0f172a);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+.platform-header {
+  background: #0f172a;
+  color: #fff;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+.platform-header-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 14px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+.platform-brand { color: #fff; text-decoration: none; font-weight: 700; letter-spacing: 0.01em; }
+.platform-brand span { color: var(--color-secondary, #52b765); }
+.platform-header-right { display: flex; align-items: center; gap: 12px; }
+.platform-admin-email { font-size: 13px; color: rgba(255, 255, 255, 0.75); }
+.platform-main { max-width: 1100px; margin: 0 auto; padding: 28px 24px 60px; }
+.platform-page-head { margin-bottom: 20px; }
+.platform-lede { color: var(--color-text-muted, #64748b); margin: 4px 0 0; }
+.platform-back { color: var(--color-text-muted, #64748b); text-decoration: none; font-size: 14px; }
+.platform-subhead { margin-top: 32px; }
+.platform-link { color: var(--color-primary, #0f3f7e); text-decoration: none; font-weight: 600; }
+.platform-slug { display: block; font-size: 12px; color: var(--color-text-muted, #64748b); }
+.platform-empty { color: var(--color-text-muted, #64748b); padding: 24px 0; }
+
+.platform-table-wrap { overflow-x: auto; }
+.platform-table { width: 100%; border-collapse: collapse; background: #fff; border-radius: var(--radius, 8px); overflow: hidden; box-shadow: 0 1px 2px rgba(15, 23, 42, 0.06); }
+.platform-table th, .platform-table td { text-align: left; padding: 12px 14px; border-bottom: 1px solid var(--color-border, #e2e8f0); font-size: 14px; }
+.platform-table th { font-size: 12px; text-transform: uppercase; letter-spacing: 0.04em; color: var(--color-text-muted, #64748b); background: #fafbfc; }
+.platform-table tr:last-child td { border-bottom: none; }
+.platform-actions { display: flex; gap: 8px; white-space: nowrap; }
+
+.platform-plan { display: inline-block; padding: 2px 9px; border-radius: 999px; font-size: 12px; font-weight: 600; background: rgba(15, 23, 42, 0.08); color: var(--color-text, #0f172a); }
+.platform-plan-trial { background: rgba(100, 116, 139, 0.15); color: #475569; }
+.platform-plan-starter { background: rgba(59, 130, 246, 0.15); color: #1d4ed8; }
+.platform-plan-pro { background: rgba(82, 183, 101, 0.18); color: #15803d; }
+.platform-plan-enterprise { background: rgba(139, 92, 246, 0.18); color: #6d28d9; }
+
+.platform-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin: 20px 0; }
+.platform-stats div { background: #fff; border: 1px solid var(--color-border, #e2e8f0); border-radius: var(--radius, 8px); padding: 14px 16px; }
+.platform-stats dt { font-size: 12px; text-transform: uppercase; letter-spacing: 0.04em; color: var(--color-text-muted, #64748b); }
+.platform-stats dd { margin: 4px 0 0; font-size: 18px; font-weight: 600; }
+
+.platform-login { max-width: 380px; margin: 8vh auto 0; background: #fff; border: 1px solid var(--color-border, #e2e8f0); border-radius: var(--radius, 8px); padding: 32px; box-shadow: 0 6px 24px rgba(15, 23, 42, 0.08); }
+.platform-login h1 { margin: 0 0 4px; font-size: 22px; }
+.platform-login-lede { color: var(--color-text-muted, #64748b); margin: 0 0 20px; font-size: 14px; }
+.platform-login-form { display: flex; flex-direction: column; gap: 14px; }
+.platform-field { display: flex; flex-direction: column; gap: 6px; font-size: 14px; font-weight: 600; }
+.platform-field input { padding: 10px 12px; border: 1px solid var(--color-border, #e2e8f0); border-radius: var(--radius, 8px); font-size: 15px; }
+
+.impersonation-banner-platform { background: #0f172a; color: #fff; }

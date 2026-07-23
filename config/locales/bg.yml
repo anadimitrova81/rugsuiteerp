@@ -40,6 +40,9 @@ bg:
     impersonation:
       banner_html: "Влезли сте като <strong>%{current}</strong> (вие сте %{true}.)"
       stop: "Излез от ролята"
+      platform_banner_html: "Платформен админ — имитирате <strong>%{email}</strong>."
+      platform_exit: "Към конзолата"
+      platform_entered: "Имитирате %{email}."
     request_status:
       pending: "Получена"
       pickup_confirmed: "Потвърдено вземане"

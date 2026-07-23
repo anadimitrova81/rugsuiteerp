@@ -1,0 +1,18 @@
+<% content_for(:title) { "Sign in · Platform" } %>
+
+<div class="platform-login">
+  <h1>Platform console</h1>
+  <p class="platform-login-lede">Operator access — all tenants.</p>
+
+  <%= form_with url: platform_login_path, method: :post, class: "platform-login-form" do |form| %>
+    <label class="platform-field">
+      <span>Email</span>
+      <%= form.email_field :email, autofocus: true, autocomplete: "email", required: true %>
+    </label>
+    <label class="platform-field">
+      <span>Password</span>
+      <%= form.password_field :password, autocomplete: "current-password", required: true %>
+    </label>
+    <%= form.submit "Sign in", class: "btn btn-primary" %>
+  <% end %>
+</div>

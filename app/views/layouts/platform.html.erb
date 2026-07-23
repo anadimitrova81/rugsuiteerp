@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title><%= content_for(:title) || "Platform · RugSuite ERP" %></title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="robots" content="noindex, nofollow">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <link rel="icon" href="/icon.png" type="image/png">
+    <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+  </head>
+
+  <body class="platform-body">
+    <header class="platform-header">
+      <div class="platform-header-inner">
+        <%= link_to platform_root_path, class: "platform-brand" do %>
+          RugSuite <span>Platform</span>
+        <% end %>
+        <% if current_platform_admin %>
+          <div class="platform-header-right">
+            <span class="platform-admin-email"><%= current_platform_admin.email %></span>
+            <%= button_to "Log out", platform_logout_path, method: :delete, class: "btn btn-secondary btn-sm" %>
+          </div>
+        <% end %>
+      </div>
+    </header>
+
+    <main class="platform-main">
+      <% if notice.present? %><div class="flash flash-notice"><%= notice %></div><% end %>
+      <% if alert.present? %><div class="flash flash-alert"><%= alert %></div><% end %>
+      <%= yield %>
+    </main>
+  </body>
+</html>

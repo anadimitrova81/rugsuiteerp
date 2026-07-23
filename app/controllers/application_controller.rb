@@ -13,7 +13,7 @@ class ApplicationController < ActionController::Base
   before_action :resolve_current_factory
   around_action :switch_locale
 
-  helper_method :current_admin, :admin_logged_in?, :recaptcha_site_key, :true_admin, :impersonating?, :current_factory
+  helper_method :current_admin, :admin_logged_in?, :recaptcha_site_key, :true_admin, :impersonating?, :current_factory, :platform_impersonating?
 
   class FactoryNotFound < StandardError; end
   rescue_from FactoryNotFound, with: :render_factory_not_found
@@ -92,6 +92,12 @@ class ApplicationController < ActionController::Base
 
   def impersonating?
     session[:true_admin_id].present? && current_admin.present? && current_admin.id != session[:true_admin_id]
+  end
+
+  # A platform operator viewing a tenant via the cross-tenant impersonation
+  # hand-off (distinct from same-tenant admin impersonation above).
+  def platform_impersonating?
+    session[:platform_impersonator_id].present? && current_admin.present?
   end
 
   def recaptcha_site_key

@@ -10,14 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_07_22_120000) do
+ActiveRecord::Schema[8.1].define(version: 2026_07_23_140000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
   # Custom types defined in this database.
   # Note that some types may not work with other database engines. Be careful if changing database.
-  create_enum "requests_status", [ "pending", "pickup_confirmed", "picked_up", "in_progress", "ready_for_delivery", "delivery_confirmed", "delivered", "cancelled" ]
-  create_enum "user_role", [ "admin", "courier", "operator", "coordinator" ]
+  create_enum "requests_status", ["pending", "pickup_confirmed", "picked_up", "in_progress", "ready_for_delivery", "delivery_confirmed", "delivered", "cancelled"]
+  create_enum "user_role", ["admin", "courier", "operator", "coordinator"]
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.bigint "blob_id", null: false
@@ -25,8 +25,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_22_120000) do
     t.string "name", null: false
     t.bigint "record_id", null: false
     t.string "record_type", null: false
-    t.index [ "blob_id" ], name: "index_active_storage_attachments_on_blob_id"
-    t.index [ "record_type", "record_id", "name", "blob_id" ], name: "index_active_storage_attachments_uniqueness", unique: true
+    t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
+    t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
   end
 
   create_table "active_storage_blobs", force: :cascade do |t|
@@ -38,13 +38,13 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_22_120000) do
     t.string "key", null: false
     t.text "metadata"
     t.string "service_name", null: false
-    t.index [ "key" ], name: "index_active_storage_blobs_on_key", unique: true
+    t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
 
   create_table "active_storage_variant_records", force: :cascade do |t|
     t.bigint "blob_id", null: false
     t.string "variation_digest", null: false
-    t.index [ "blob_id", "variation_digest" ], name: "index_active_storage_variant_records_uniqueness", unique: true
+    t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
   create_table "factories", force: :cascade do |t|
@@ -80,8 +80,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_22_120000) do
     t.datetime "updated_at", null: false
     t.string "viber_url"
     t.string "whatsapp_url"
-    t.index [ "plan" ], name: "index_factories_on_plan"
-    t.index [ "slug" ], name: "index_factories_on_slug", unique: true
+    t.index ["plan"], name: "index_factories_on_plan"
+    t.index ["slug"], name: "index_factories_on_slug", unique: true
   end
 
   create_table "notifications", force: :cascade do |t|
@@ -97,10 +97,10 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_22_120000) do
     t.datetime "sent_at", null: false
     t.string "status", default: "sent", null: false
     t.datetime "updated_at", null: false
-    t.index [ "factory_id" ], name: "index_notifications_on_factory_id"
-    t.index [ "request_id", "kind" ], name: "index_notifications_on_request_id_and_kind"
-    t.index [ "request_id" ], name: "index_notifications_on_request_id"
-    t.index [ "sent_at" ], name: "index_notifications_on_sent_at"
+    t.index ["factory_id"], name: "index_notifications_on_factory_id"
+    t.index ["request_id", "kind"], name: "index_notifications_on_request_id_and_kind"
+    t.index ["request_id"], name: "index_notifications_on_request_id"
+    t.index ["sent_at"], name: "index_notifications_on_sent_at"
   end
 
   create_table "page_visits", force: :cascade do |t|
@@ -110,9 +110,17 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_22_120000) do
     t.string "referrer"
     t.string "route_key", null: false
     t.string "user_agent"
-    t.index [ "created_at" ], name: "index_page_visits_on_created_at"
-    t.index [ "factory_id" ], name: "index_page_visits_on_factory_id"
-    t.index [ "route_key" ], name: "index_page_visits_on_route_key"
+    t.index ["created_at"], name: "index_page_visits_on_created_at"
+    t.index ["factory_id"], name: "index_page_visits_on_factory_id"
+    t.index ["route_key"], name: "index_page_visits_on_route_key"
+  end
+
+  create_table "platform_admins", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "email", null: false
+    t.string "password_digest", null: false
+    t.datetime "updated_at", null: false
+    t.index ["email"], name: "index_platform_admins_on_email", unique: true
   end
 
   create_table "process_steps", force: :cascade do |t|
@@ -122,8 +130,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_22_120000) do
     t.integer "position", default: 0, null: false
     t.string "title", null: false
     t.datetime "updated_at", null: false
-    t.index [ "factory_id", "position" ], name: "index_process_steps_on_factory_id_and_position"
-    t.index [ "factory_id" ], name: "index_process_steps_on_factory_id"
+    t.index ["factory_id", "position"], name: "index_process_steps_on_factory_id_and_position"
+    t.index ["factory_id"], name: "index_process_steps_on_factory_id"
   end
 
   create_table "requests", force: :cascade do |t|
@@ -157,14 +165,14 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_22_120000) do
     t.decimal "weight", precision: 10, scale: 2
     t.index "((((delivery_at AT TIME ZONE 'UTC'::text) AT TIME ZONE 'Europe/Sofia'::text))::date)", name: "index_requests_delivery_today", where: "(status = ANY (ARRAY['delivery_confirmed'::requests_status, 'delivered'::requests_status]))"
     t.index "((((pick_up_at AT TIME ZONE 'UTC'::text) AT TIME ZONE 'Europe/Sofia'::text))::date)", name: "index_requests_pickup_today", where: "(status = ANY (ARRAY['pickup_confirmed'::requests_status, 'picked_up'::requests_status]))"
-    t.index [ "delivery_courier_id", "status" ], name: "index_requests_on_delivery_courier_id_and_status"
-    t.index [ "delivery_courier_id" ], name: "index_requests_on_delivery_courier_id"
-    t.index [ "factory_id", "customer_id" ], name: "index_requests_on_factory_id_and_customer_id", unique: true, where: "(customer_id IS NOT NULL)"
-    t.index [ "factory_id" ], name: "index_requests_on_factory_id"
-    t.index [ "pickup_courier_id", "status" ], name: "index_requests_on_pickup_courier_id_and_status"
-    t.index [ "pickup_courier_id" ], name: "index_requests_on_pickup_courier_id"
-    t.index [ "status" ], name: "index_requests_on_status"
-    t.index [ "status_token" ], name: "index_requests_on_status_token", unique: true
+    t.index ["delivery_courier_id", "status"], name: "index_requests_on_delivery_courier_id_and_status"
+    t.index ["delivery_courier_id"], name: "index_requests_on_delivery_courier_id"
+    t.index ["factory_id", "customer_id"], name: "index_requests_on_factory_id_and_customer_id", unique: true, where: "(customer_id IS NOT NULL)"
+    t.index ["factory_id"], name: "index_requests_on_factory_id"
+    t.index ["pickup_courier_id", "status"], name: "index_requests_on_pickup_courier_id_and_status"
+    t.index ["pickup_courier_id"], name: "index_requests_on_pickup_courier_id"
+    t.index ["status"], name: "index_requests_on_status"
+    t.index ["status_token"], name: "index_requests_on_status_token", unique: true
   end
 
   create_table "users", force: :cascade do |t|
@@ -174,8 +182,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_22_120000) do
     t.string "password_digest", null: false
     t.enum "role", default: "operator", null: false, enum_type: "user_role"
     t.datetime "updated_at", null: false
-    t.index [ "factory_id", "email" ], name: "index_users_on_factory_id_and_email", unique: true
-    t.index [ "factory_id" ], name: "index_users_on_factory_id"
+    t.index ["factory_id", "email"], name: "index_users_on_factory_id_and_email", unique: true
+    t.index ["factory_id"], name: "index_users_on_factory_id"
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"

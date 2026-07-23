@@ -1,0 +1,50 @@
+<% content_for(:title) { "#{@factory.name} · Platform" } %>
+
+<div class="platform-page">
+  <p><%= link_to "← All subscriptions", platform_root_path, class: "platform-back" %></p>
+
+  <header class="platform-page-head">
+    <h1>
+      <%= @factory.name %>
+      <span class="platform-plan platform-plan-<%= @factory.plan %>"><%= @factory.plan.capitalize %></span>
+    </h1>
+    <p class="platform-lede">
+      <%= link_to tenant_site_url(@factory), tenant_site_url(@factory), target: "_blank", rel: "noopener", class: "platform-link" %>
+    </p>
+  </header>
+
+  <dl class="platform-stats">
+    <div><dt>Orders (this month)</dt><dd><%= @usage[:orders_used] %><%= " / #{@usage[:order_limit]}" if @usage[:order_limit] %></dd></div>
+    <div><dt>Users</dt><dd><%= @usage[:users_used] %><%= " / #{@usage[:user_limit]}" if @usage[:user_limit] %></dd></div>
+    <div><dt>Locale</dt><dd><%= @factory.default_locale %></dd></div>
+    <div><dt>Created</dt><dd><%= @factory.created_at.to_date.iso8601 %></dd></div>
+  </dl>
+
+  <h2 class="platform-subhead">Users</h2>
+  <% if @users.empty? %>
+    <p class="platform-empty">This factory has no users.</p>
+  <% else %>
+    <div class="platform-table-wrap">
+      <table class="platform-table">
+        <thead><tr><th>Email</th><th>Role</th><th></th></tr></thead>
+        <tbody>
+          <% @users.each do |user| %>
+            <tr>
+              <td><%= user.email %></td>
+              <td><%= user.role.capitalize %></td>
+              <td class="platform-actions">
+                <%= button_to "Impersonate & enter",
+                              impersonate_platform_subscription_path(@factory),
+                              method: :post,
+                              params: { user_id: user.id },
+                              class: "btn btn-primary btn-sm",
+                              data: { turbo: false,
+                                      turbo_confirm: "Enter #{@factory.name} as #{user.email}?" } %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  <% end %>
+</div>
