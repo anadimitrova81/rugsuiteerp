@@ -16,17 +16,18 @@ servers:
   web:
     - 93.94.140.141
 
-# Let's Encrypt SSL via the shared Kamal proxy (HTTP-01). Requires the hosts to
-# already resolve to 93.94.140.141 before the first deploy.
-#
-# NOTE — multi-tenant subdomains: customers live at <slug>.rugsuiteerp.com.
-# HTTP-01 can't issue a wildcard cert, so tenant subdomains are NOT served yet
-# by this config. Add `*.rugsuiteerp.com` behind a wildcard-TLS proxy
-# (e.g. Cloudflare) or a DNS-01 cert as a follow-up; the apex + www below cover
-# the marketing/product site.
+# TLS: Cloudflare fronts the site (Full strict) and holds the public certs.
+# kamal-proxy serves a Cloudflare Origin CA cert (covers rugsuiteerp.com +
+# *.rugsuiteerp.com) so the CF->origin hop validates, and routes the apex, www
+# and every tenant subdomain (<slug>.rugsuiteerp.com) to the app.
 proxy:
-  ssl: true
-  host: rugsuiteerp.com,www.rugsuiteerp.com
+  ssl:
+    certificate_pem: CERTIFICATE_PEM
+    private_key_pem: PRIVATE_KEY_PEM
+  hosts:
+    - rugsuiteerp.com
+    - www.rugsuiteerp.com
+    - "*.rugsuiteerp.com"
 
 registry:
   server: ghcr.io
