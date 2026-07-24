@@ -403,7 +403,7 @@ en:
           tagline: "Get started — no card needed."
           features:
             - "Up to 30 orders / month"
-            - "3 staff users"
+            - "5 staff users"
             - "Email support"
             - "No card required"
         starter:
@@ -412,7 +412,7 @@ en:
           tagline: "One factory, getting started."
           features:
             - "Up to 200 orders / month"
-            - "10 staff users"
+            - "20 staff users"
             - "SMS notifications (pay as you go)"
             - "Email support"
         pro:

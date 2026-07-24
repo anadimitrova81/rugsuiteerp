@@ -275,14 +275,14 @@ bg:
       tier_free_name: Безплатен
       tier_free_tagline: Започнете — без карта.
       tier_free_feat_1: До 30 поръчки / месец
-      tier_free_feat_2: 3 потребители от екипа
+      tier_free_feat_2: 5 потребители от екипа
       tier_free_feat_3: Поддръжка по имейл
       tier_free_feat_4: Без кредитна карта
       tier_starter_name: Starter
       tier_starter_tagline: Една фабрика, в началото на пътя.
       per_month: "/месец"
       tier_starter_feat_1: До 200 поръчки / месец
-      tier_starter_feat_2: 10 потребители от екипа
+      tier_starter_feat_2: 20 потребители от екипа
       tier_starter_feat_3: SMS известия (плащане при ползване)
       tier_starter_feat_4: Поддръжка по имейл
       tier_badge_popular: Най-популярен

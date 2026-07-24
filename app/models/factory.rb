@@ -15,8 +15,8 @@ class Factory < ApplicationRecord
   # visible to the admin. Hard gating (refusing to create the 31st request on
   # the free plan) is a separate piece of work.
   PLAN_LIMITS = {
-    "free"    => { monthly_orders: 30,   users: 3   },
-    "starter" => { monthly_orders: 200,  users: 10  },
+    "free"    => { monthly_orders: 30,   users: 5   },
+    "starter" => { monthly_orders: 200,  users: 20  },
     "pro"     => { monthly_orders: 1000, users: nil },
   }.freeze
 

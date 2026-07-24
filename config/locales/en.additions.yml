@@ -275,14 +275,14 @@ en:
       tier_free_name: Free
       tier_free_tagline: Get started — no card needed.
       tier_free_feat_1: Up to 30 orders / month
-      tier_free_feat_2: 3 staff users
+      tier_free_feat_2: 5 staff users
       tier_free_feat_3: Email support
       tier_free_feat_4: No card required
       tier_starter_name: Starter
       tier_starter_tagline: One factory, getting started.
       per_month: "/month"
       tier_starter_feat_1: Up to 200 orders / month
-      tier_starter_feat_2: 10 staff users
+      tier_starter_feat_2: 20 staff users
       tier_starter_feat_3: SMS notifications (pay as you go)
       tier_starter_feat_4: Email support
       tier_badge_popular: Most popular
