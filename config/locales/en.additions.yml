@@ -272,17 +272,23 @@ en:
       step5_body: Daily intake, weekly revenue, courier load, repeat-customer share — visible on a single dashboard, exportable on demand.
       pricing_title: Pricing that scales with your factory.
       pricing_lede: Pay-as-you-grow. No setup fees, no per-courier nickel-and-dime, no surprises. Talk to us for an exact quote.
+      tier_free_name: Free
+      tier_free_tagline: Get started — no card needed.
+      tier_free_feat_1: Up to 30 orders / month
+      tier_free_feat_2: 3 staff users
+      tier_free_feat_3: Email support
+      tier_free_feat_4: No card required
       tier_starter_name: Starter
       tier_starter_tagline: One factory, getting started.
       per_month: "/month"
-      tier_starter_feat_1: Up to 300 orders / month
-      tier_starter_feat_2: 3 staff users
+      tier_starter_feat_1: Up to 200 orders / month
+      tier_starter_feat_2: 10 staff users
       tier_starter_feat_3: SMS notifications (pay as you go)
       tier_starter_feat_4: Email support
       tier_badge_popular: Most popular
       tier_pro_name: Pro
       tier_pro_tagline: Established factory, multiple couriers.
-      tier_pro_feat_1: Up to 2,000 orders / month
+      tier_pro_feat_1: Up to 1,000 orders / month
       tier_pro_feat_2: Unlimited staff users
       tier_pro_feat_3: Route optimisation included
       tier_pro_feat_4: SMS bundle (1,500 / month)

@@ -145,6 +145,18 @@
     </div>
     <div class="mkt-pricing">
       <div class="mkt-tier">
+        <h3 class="mkt-tier-name"><%= t("marketing.home.tier_free_name") %></h3>
+        <p class="mkt-tier-tagline"><%= t("marketing.home.tier_free_tagline") %></p>
+        <p class="mkt-tier-price"><span>€0</span></p>
+        <ul class="mkt-tier-list">
+          <li><%= t("marketing.home.tier_free_feat_1") %></li>
+          <li><%= t("marketing.home.tier_free_feat_2") %></li>
+          <li><%= t("marketing.home.tier_free_feat_3") %></li>
+          <li><%= t("marketing.home.tier_free_feat_4") %></li>
+        </ul>
+        <%= link_to t("marketing.home.start_free_trial"), marketing_signup_path, class: "btn btn-secondary btn-full" %>
+      </div>
+      <div class="mkt-tier">
         <h3 class="mkt-tier-name"><%= t("marketing.home.tier_starter_name") %></h3>
         <p class="mkt-tier-tagline"><%= t("marketing.home.tier_starter_tagline") %></p>
         <p class="mkt-tier-price"><span>€49</span><small><%= t("marketing.home.per_month") %></small></p>
@@ -169,19 +181,6 @@
           <li><%= t("marketing.home.tier_pro_feat_5") %></li>
         </ul>
         <%= link_to t("marketing.home.start_free_trial"), marketing_signup_path, class: "btn btn-primary btn-full" %>
-      </div>
-      <div class="mkt-tier">
-        <h3 class="mkt-tier-name"><%= t("marketing.home.tier_enterprise_name") %></h3>
-        <p class="mkt-tier-tagline"><%= t("marketing.home.tier_enterprise_tagline") %></p>
-        <p class="mkt-tier-price"><span><%= t("marketing.home.tier_price_custom") %></span></p>
-        <ul class="mkt-tier-list">
-          <li><%= t("marketing.home.tier_enterprise_feat_1") %></li>
-          <li><%= t("marketing.home.tier_enterprise_feat_2") %></li>
-          <li><%= t("marketing.home.tier_enterprise_feat_3") %></li>
-          <li><%= t("marketing.home.tier_enterprise_feat_4") %></li>
-          <li><%= t("marketing.home.tier_enterprise_feat_5") %></li>
-        </ul>
-        <a href="#contact" class="btn btn-secondary btn-full"><%= t("marketing.home.talk_to_us") %></a>
       </div>
     </div>
   </div>

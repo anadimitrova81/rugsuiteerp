@@ -4,10 +4,9 @@ en:
     sqm: "m²"
 
   plan:
-    trial: "Trial"
+    free: "Free"
     starter: "Starter"
     pro: "Pro"
-    enterprise: "Enterprise"
 
   requests:
     order_limit_reached: "We're not taking new online orders right now. Please call us to place an order."
@@ -399,11 +398,12 @@ en:
           capped:    "%{used} of %{limit} users"
         over_limit_hint: "You're over the limit for this plan — pick a higher tier."
       tiers:
-        trial:
-          tagline: "First 14 days. All features unlocked."
+        free:
+          price: "€0"
+          tagline: "Get started — no card needed."
           features:
-            - "All features unlocked"
-            - "Up to 100 orders"
+            - "Up to 30 orders / month"
+            - "3 staff users"
             - "Email support"
             - "No card required"
         starter:
@@ -411,8 +411,8 @@ en:
           period: "/month"
           tagline: "One factory, getting started."
           features:
-            - "Up to 300 orders / month"
-            - "3 staff users"
+            - "Up to 200 orders / month"
+            - "10 staff users"
             - "SMS notifications (pay as you go)"
             - "Email support"
         pro:
@@ -421,20 +421,11 @@ en:
           tagline: "Established factory, multiple couriers."
           badge: "Most popular"
           features:
-            - "Up to 2,000 orders / month"
+            - "Up to 1,000 orders / month"
             - "Unlimited staff users"
             - "Route optimisation included"
             - "SMS bundle (1,500 / month)"
             - "Priority support"
-        enterprise:
-          price: "Custom"
-          tagline: "Multi-location or white-label."
-          features:
-            - "Unlimited orders"
-            - "Multi-location / multi-tenant"
-            - "Custom domain, branding"
-            - "SSO, audit logs, SLA"
-            - "Onboarding included"
     settings:
       title: "Settings"
       lede: "Configure your factory's branding, contact info, pickup options and prices."

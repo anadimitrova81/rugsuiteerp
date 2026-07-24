@@ -65,20 +65,15 @@
           </div>
         <% end %>
 
-        <%# CTA. For enterprise, "Talk to us" mailto. For everything else,
-            a button that PATCHes /admin/subscription with the chosen plan
+        <%# CTA: a button that PATCHes /admin/subscription with the chosen plan
             (or hides the button entirely when it's already current). %>
         <% if is_current %>
           <button type="button" class="btn btn-secondary btn-full" disabled>
             <%= t("admin.subscription.current_plan_label") %>
           </button>
-        <% elsif plan == "enterprise" %>
-          <a href="mailto:sales@rugsuite.app" class="btn btn-secondary btn-full">
-            <%= t("admin.subscription.contact") %>
-          </a>
         <% else %>
           <% downgrade = Factory::PLANS.index(plan) < Factory::PLANS.index(@factory.plan) %>
-          <% label_key = downgrade ? "downgrade" : (@factory.plan == "trial" ? "choose" : "switch") %>
+          <% label_key = downgrade ? "downgrade" : (@factory.plan == "free" ? "choose" : "switch") %>
           <%= button_to t("admin.subscription.#{label_key}", plan: t("plan.#{plan}")),
                         admin_subscription_path,
                         method: :patch,

@@ -201,14 +201,13 @@ body {
   line-height: 1.4;
   white-space: nowrap;
 }
-.plan-badge-trial {
+.plan-badge-free {
   background: #fef3c7;
   color: #92400e;
   border: 1px solid #fde68a;
 }
 .plan-badge-starter,
-.plan-badge-pro,
-.plan-badge-enterprise {
+.plan-badge-pro {
   background: rgba(var(--color-primary-rgb), 0.1);
   color: var(--color-primary);
   border: 1px solid rgba(var(--color-primary-rgb), 0.25);

@@ -8,17 +8,16 @@ class Factory < ApplicationRecord
   HERO_CONTENT_TYPES = %w[image/png image/jpeg image/webp].freeze
   HERO_MAX_BYTES = 5.megabytes
   PRICING_MODES = %w[per_kg per_sqm].freeze
-  PLANS = %w[trial starter pro enterprise].freeze
+  PLANS = %w[free starter pro].freeze
 
   # Caps per plan. `nil` means unlimited. Subscribing to a plan that's stricter
   # than current usage doesn't block existing data — it just makes the limit
-  # visible to the admin. Hard gating (refusing to create the 101st request on
-  # trial) is a separate piece of work.
+  # visible to the admin. Hard gating (refusing to create the 31st request on
+  # the free plan) is a separate piece of work.
   PLAN_LIMITS = {
-    "trial"      => { monthly_orders: 100,  users: 5   },
-    "starter"    => { monthly_orders: 300,  users: 3   },
-    "pro"        => { monthly_orders: 2000, users: nil },
-    "enterprise" => { monthly_orders: nil,  users: nil },
+    "free"    => { monthly_orders: 30,   users: 3   },
+    "starter" => { monthly_orders: 200,  users: 10  },
+    "pro"     => { monthly_orders: 1000, users: nil },
   }.freeze
 
   has_one_attached :logo
@@ -58,8 +57,8 @@ class Factory < ApplicationRecord
     pricing_mode == "per_sqm"
   end
 
-  def trial?
-    plan == "trial"
+  def free?
+    plan == "free"
   end
 
   def monthly_order_limit
