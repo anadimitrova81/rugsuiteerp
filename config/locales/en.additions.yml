@@ -229,14 +229,14 @@ en:
           <p>For contact on matters related to these terms, you can reach us by phone at <a href="tel:+359899771972">+359 899 771 972</a> or by email at <a href="mailto:office@nexus-cleaning.com">office@nexus-cleaning.com</a>.</p>
   marketing:
     home:
-      page_title: RugSuite ERP — software for carpet wash factories
-      hero_eyebrow: Operations software for carpet wash factories
-      hero_title: Run your carpet wash factory like a tech company.
-      hero_subtitle: RugSuite ERP replaces the spreadsheets, paper tickets and phone-tag with one platform that handles every step from booking to delivery — for one factory or a hundred.
+      page_title: RugSuite ERP — software for rug washing businesses
+      hero_eyebrow: Operations software for rug washing businesses
+      hero_title: Run your rug washing business like a tech company.
+      hero_subtitle: RugSuite ERP replaces the spreadsheets, paper tickets and phone-tag with one platform that handles every step from booking to delivery — for one business or a hundred.
       start_free_trial: Start for free
       hero_see_how: See how it works
       hero_bullet_1: Multi-tenant — one platform per company, one company per subdomain
-      hero_bullet_2: Per-factory pricing, currencies, languages and service areas
+      hero_bullet_2: Per-business pricing, currencies, languages and service areas
       hero_bullet_3: Built on Rails 8 + Postgres — yours to host or ours to run
       status_picked_up: Picked up
       status_in_wash: In wash
@@ -245,7 +245,7 @@ en:
       hero_card_wash_meta: 'Drum 3 · Programme: Wool · ETA 16:40'
       hero_card_delivery_meta: 'Courier: Marko · 7 stops on route'
       features_eyebrow: What you get
-      features_title: Everything a wash factory needs, nothing it doesn't.
+      features_title: Everything a rug washing business needs, nothing it doesn't.
       features_lede: Purpose-built for the carpet wash workflow. No generic CRM contortions, no ERP bloat.
       feature_routing_title: Pickup & delivery routing
       feature_routing_body: Customers book online. Couriers see today's stops in optimal order, swipe to confirm pickup, snap a photo, done. No more shouting addresses into the phone.
@@ -258,7 +258,7 @@ en:
       feature_reports_title: Reports the office actually reads
       feature_reports_body: Daily intake, revenue by week, courier performance, churn signals. Plain charts, exportable to CSV. No data lake required.
       feature_roles_title: Roles & tenant isolation
-      feature_roles_body: Admin, coordinator, operator, courier — each role sees only what they need. Every factory's data is hard-isolated; nothing leaks between tenants.
+      feature_roles_body: Admin, coordinator, operator, courier — each role sees only what they need. Every business's data is hard-isolated; nothing leaks between tenants.
       how_title: From web form to washed rug in 5 steps.
       step1_title: Customer books online
       step1_body: A clean public form on your subdomain. Address validated against Google Maps, pickup window picked, SMS confirmation sent.
@@ -270,7 +270,7 @@ en:
       step4_body: Done rugs are bundled into a delivery route. Customer chooses or confirms the slot. Courier delivers, customer pays.
       step5_title: You see the numbers
       step5_body: Daily intake, weekly revenue, courier load, repeat-customer share — visible on a single dashboard, exportable on demand.
-      pricing_title: Pricing that scales with your factory.
+      pricing_title: Pricing that scales with your business.
       pricing_lede: Pay-as-you-grow. No setup fees, no per-courier nickel-and-dime, no surprises. Talk to us for an exact quote.
       tier_free_name: Free
       tier_free_tagline: Get started — no card needed.
@@ -279,7 +279,7 @@ en:
       tier_free_feat_3: Email support
       tier_free_feat_4: No card required
       tier_starter_name: Starter
-      tier_starter_tagline: One factory, getting started.
+      tier_starter_tagline: One business, getting started.
       per_month: "/month"
       tier_starter_feat_1: Up to 200 orders / month
       tier_starter_feat_2: 20 staff users
@@ -287,7 +287,7 @@ en:
       tier_starter_feat_4: Email support
       tier_badge_popular: Most popular
       tier_pro_name: Pro
-      tier_pro_tagline: Established factory, multiple couriers.
+      tier_pro_tagline: Established business, multiple couriers.
       tier_pro_feat_1: Up to 1,000 orders / month
       tier_pro_feat_2: Unlimited staff users
       tier_pro_feat_3: Route optimisation included
@@ -302,23 +302,23 @@ en:
       tier_enterprise_feat_4: SSO, audit logs, SLA
       tier_enterprise_feat_5: Onboarding included
       talk_to_us: Talk to us
-      cta_title: Ready to run your factory on RugSuite?
+      cta_title: Ready to run your business on RugSuite?
       cta_subtitle: Set up a tenant in under a minute. Free plan, no credit card.
       talk_to_us_first: Talk to us first
       contact_title: We answer fast.
-      contact_body: If you run a carpet wash factory and the workflow above sounds familiar, we want to hear from you. Tell us a bit about how many orders you do today and where you operate.
+      contact_body: If you run a rug washing business and the workflow above sounds familiar, we want to hear from you. Tell us a bit about how many orders you do today and where you operate.
       contact_email_label: Email
       contact_sales_label: Sales
       contact_support_label: Support
     signup:
-      page_title: Create your factory — RugSuite ERP
+      page_title: Create your business — RugSuite ERP
       eyebrow: Free plan
-      title: Set up your factory in under a minute.
+      title: Set up your business in under a minute.
       intro_html: Fill in five fields and you'll have a working tenant at <code>yourname.rugsuite.app</code> with an admin login ready to go. No credit card.
       bullet_1: Your own subdomain & isolated data
       bullet_2: All features unlocked on the free plan
       bullet_3: Switch to a paid plan anytime later
-      error_heading: Couldn't create your factory.
+      error_heading: Couldn't create your business.
       company_name_label: Company name
       company_name_placeholder: Acme Carpet Wash
       subdomain_label: Subdomain
@@ -331,11 +331,11 @@ en:
       admin_email_placeholder: you@yourcompany.com
       password_label: Password
       password_hint: At least 8 characters.
-      submit: Create my factory
+      submit: Create my business
       fine_print: By signing up you agree to our terms of service. We'll never share your data with another tenant.
     meta:
-      default_title: RugSuite ERP — software for carpet wash factories
-      description: 'The all-in-one operations platform for carpet wash factories: bookings, pickup/delivery routing, intake, washing, billing and customer notifications.'
+      default_title: RugSuite ERP — software for rug washing businesses
+      description: 'The all-in-one operations platform for rug washing businesses: bookings, pickup/delivery routing, intake, washing, billing and customer notifications.'
     nav:
       features: Features
       how_it_works: How it works
@@ -344,7 +344,7 @@ en:
     cta:
       trial: Start for free
     footer:
-      tagline: Operations software for carpet wash factories.
+      tagline: Operations software for rug washing businesses.
       copyright: "© %{year} RugSuite ERP. All rights reserved."
   activerecord:
     attributes:
