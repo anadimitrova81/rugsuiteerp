@@ -233,7 +233,7 @@ en:
       hero_eyebrow: Operations software for carpet wash factories
       hero_title: Run your carpet wash factory like a tech company.
       hero_subtitle: RugSuite ERP replaces the spreadsheets, paper tickets and phone-tag with one platform that handles every step from booking to delivery — for one factory or a hundred.
-      start_free_trial: Start free trial
+      start_free_trial: Start for free
       hero_see_how: See how it works
       hero_bullet_1: Multi-tenant — one platform per company, one company per subdomain
       hero_bullet_2: Per-factory pricing, currencies, languages and service areas
@@ -303,7 +303,7 @@ en:
       tier_enterprise_feat_5: Onboarding included
       talk_to_us: Talk to us
       cta_title: Ready to run your factory on RugSuite?
-      cta_subtitle: Set up a tenant in under a minute. Free trial, no credit card.
+      cta_subtitle: Set up a tenant in under a minute. Free plan, no credit card.
       talk_to_us_first: Talk to us first
       contact_title: We answer fast.
       contact_body: If you run a carpet wash factory and the workflow above sounds familiar, we want to hear from you. Tell us a bit about how many orders you do today and where you operate.
@@ -312,11 +312,11 @@ en:
       contact_support_label: Support
     signup:
       page_title: Create your factory — RugSuite ERP
-      eyebrow: Start free trial
+      eyebrow: Free plan
       title: Set up your factory in under a minute.
       intro_html: Fill in five fields and you'll have a working tenant at <code>yourname.rugsuite.app</code> with an admin login ready to go. No credit card.
       bullet_1: Your own subdomain & isolated data
-      bullet_2: All features unlocked during trial
+      bullet_2: All features unlocked on the free plan
       bullet_3: Switch to a paid plan anytime later
       error_heading: Couldn't create your factory.
       company_name_label: Company name
@@ -342,7 +342,7 @@ en:
       pricing: Pricing
       contact: Contact
     cta:
-      trial: Start free trial
+      trial: Start for free
     footer:
       tagline: Operations software for carpet wash factories.
       copyright: "© %{year} RugSuite ERP. All rights reserved."
