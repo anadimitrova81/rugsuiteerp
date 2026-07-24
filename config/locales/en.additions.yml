@@ -237,7 +237,7 @@ en:
       hero_see_how: See how it works
       hero_bullet_1: Multi-tenant — one platform per company, one company per subdomain
       hero_bullet_2: Per-business pricing, currencies, languages and service areas
-      hero_bullet_3: Built on Rails 8 + Postgres — yours to host or ours to run
+      hero_bullet_3: Built on Rails 8 + Postgres — fully hosted and managed by us
       status_picked_up: Picked up
       status_in_wash: In wash
       status_ready: Ready for delivery
@@ -252,13 +252,13 @@ en:
       feature_workflow_title: Wash workflow, tracked
       feature_workflow_body: Every rug moves through pending → picked up → in wash → ready → delivered. Operators see what's in the building. Coordinators see what's overdue. Customers get an SMS when it's ready.
       feature_pricing_title: Pricing that fits your business
-      feature_pricing_body: Per-kilogram, per-item, bulk discounts, vouchers, free pickup zones — configure once, apply everywhere. Multi-currency from day one.
+      feature_pricing_body: Per-kilogram, per-item, bulk discounts, pay-by-invoice, free pickup zones — configure once, apply everywhere. Multi-currency from day one.
       feature_notifications_title: Customer notifications
       feature_notifications_body: Booking confirmations, price quotes, "your rug is ready" alerts — automated by SMS in the customer's own language. You stop chasing, customers stop calling.
       feature_reports_title: Reports the office actually reads
       feature_reports_body: Daily intake, revenue by week, courier performance, churn signals. Plain charts, exportable to CSV. No data lake required.
-      feature_roles_title: Roles & tenant isolation
-      feature_roles_body: Admin, coordinator, operator, courier — each role sees only what they need. Every business's data is hard-isolated; nothing leaks between tenants.
+      feature_roles_title: Roles & data isolation
+      feature_roles_body: Admin, coordinator, operator, courier — each role sees only what they need. Every business's data is hard-isolated; nothing leaks between businesses.
       how_title: From web form to washed rug in 5 steps.
       step1_title: Customer books online
       step1_body: A clean public form on your subdomain. Address validated against Google Maps, pickup window picked, SMS confirmation sent.
@@ -303,7 +303,7 @@ en:
       tier_enterprise_feat_5: Onboarding included
       talk_to_us: Talk to us
       cta_title: Ready to run your business on RugSuite?
-      cta_subtitle: Set up a tenant in under a minute. Free plan, no credit card.
+      cta_subtitle: Set up your business in under a minute. Free plan, no credit card.
       talk_to_us_first: Talk to us first
       contact_title: We answer fast.
       contact_body: If you run a rug washing business and the workflow above sounds familiar, we want to hear from you. Tell us a bit about how many orders you do today and where you operate.
@@ -314,7 +314,7 @@ en:
       page_title: Create your business — RugSuite ERP
       eyebrow: Free plan
       title: Set up your business in under a minute.
-      intro_html: Fill in five fields and you'll have a working tenant at <code>yourname.rugsuite.app</code> with an admin login ready to go. No credit card.
+      intro_html: Fill in five fields and you'll have a working site at <code>yourname.rugsuite.app</code> with an admin login ready to go. No credit card.
       bullet_1: Your own subdomain & isolated data
       bullet_2: All features unlocked on the free plan
       bullet_3: Switch to a paid plan anytime later
@@ -332,7 +332,7 @@ en:
       password_label: Password
       password_hint: At least 8 characters.
       submit: Create my business
-      fine_print: By signing up you agree to our terms of service. We'll never share your data with another tenant.
+      fine_print: By signing up you agree to our terms of service. We'll never share your data with any other business.
     meta:
       default_title: RugSuite ERP — software for rug washing businesses
       description: 'The all-in-one operations platform for rug washing businesses: bookings, pickup/delivery routing, intake, washing, billing and customer notifications.'
