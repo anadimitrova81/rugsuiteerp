@@ -15,9 +15,9 @@ class Factory < ApplicationRecord
   # visible to the admin. Hard gating (refusing to create the 31st request on
   # the free plan) is a separate piece of work.
   PLAN_LIMITS = {
-    "free"    => { monthly_orders: 30,   users: 5   },
-    "starter" => { monthly_orders: 200,  users: 20  },
-    "pro"     => { monthly_orders: 1000, users: nil },
+    "free"    => { monthly_orders: 30,  users: 5,  daily_route_operations: 5  },
+    "starter" => { monthly_orders: 200, users: 10, daily_route_operations: 10 },
+    "pro"     => { monthly_orders: 500, users: 20, daily_route_operations: 20 },
   }.freeze
 
   has_one_attached :logo
@@ -89,6 +89,31 @@ class Factory < ApplicationRecord
 
   def user_limit_reached?
     user_limit.present? && users_count >= user_limit
+  end
+
+  # Route optimisation + calculation both call the Google Routes API and share a
+  # per-day quota by plan (nil = unlimited). Counted in the cache (solid_cache,
+  # DB-backed) per factory per local day.
+  def route_operation_limit
+    PLAN_LIMITS.dig(plan, :daily_route_operations)
+  end
+
+  def route_operations_used_today
+    Rails.cache.read(route_operations_cache_key).to_i
+  end
+
+  def route_operation_limit_reached?
+    route_operation_limit.present? && route_operations_used_today >= route_operation_limit
+  end
+
+  # Bump the daily counter after a successful optimise/calculate. The key
+  # embeds the local date, so yesterday's key simply expires.
+  def record_route_operation!
+    Rails.cache.write(route_operations_cache_key, route_operations_used_today + 1, expires_in: 36.hours)
+  end
+
+  def route_operations_cache_key
+    "route_operations/#{id}/#{Time.current.in_time_zone(time_zone).to_date.iso8601}"
   end
 
   # The active per-unit rate, considering the chosen pricing_mode. Used by

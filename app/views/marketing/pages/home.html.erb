@@ -132,6 +132,11 @@
         <h3><%= t("marketing.home.step5_title") %></h3>
         <p><%= t("marketing.home.step5_body") %></p>
       </li>
+      <li class="mkt-step">
+        <span class="mkt-step-num">06</span>
+        <h3><%= t("marketing.home.step6_title") %></h3>
+        <p><%= t("marketing.home.step6_body") %></p>
+      </li>
     </ol>
   </div>
 </section>
@@ -154,9 +159,9 @@
           <li><%= t("marketing.home.tier_free_feat_3") %></li>
           <li><%= t("marketing.home.tier_free_feat_4") %></li>
         </ul>
-        <%= link_to t("marketing.home.start_free_trial"), marketing_signup_path, class: "btn btn-secondary btn-full" %>
       </div>
-      <div class="mkt-tier">
+      <div class="mkt-tier mkt-tier-featured">
+        <span class="mkt-tier-badge"><%= t("marketing.home.tier_badge_popular") %></span>
         <h3 class="mkt-tier-name"><%= t("marketing.home.tier_starter_name") %></h3>
         <p class="mkt-tier-tagline"><%= t("marketing.home.tier_starter_tagline") %></p>
         <p class="mkt-tier-price"><span>€49</span><small><%= t("marketing.home.per_month") %></small></p>
@@ -166,21 +171,18 @@
           <li><%= t("marketing.home.tier_starter_feat_3") %></li>
           <li><%= t("marketing.home.tier_starter_feat_4") %></li>
         </ul>
-        <%= link_to t("marketing.home.start_free_trial"), marketing_signup_path, class: "btn btn-secondary btn-full" %>
       </div>
-      <div class="mkt-tier mkt-tier-featured">
-        <span class="mkt-tier-badge"><%= t("marketing.home.tier_badge_popular") %></span>
+      <div class="mkt-tier">
         <h3 class="mkt-tier-name"><%= t("marketing.home.tier_pro_name") %></h3>
         <p class="mkt-tier-tagline"><%= t("marketing.home.tier_pro_tagline") %></p>
-        <p class="mkt-tier-price"><span>€149</span><small><%= t("marketing.home.per_month") %></small></p>
+        <p class="mkt-tier-price"><span>€99</span><small><%= t("marketing.home.per_month") %></small></p>
         <ul class="mkt-tier-list">
           <li><%= t("marketing.home.tier_pro_feat_1") %></li>
           <li><%= t("marketing.home.tier_pro_feat_2") %></li>
           <li><%= t("marketing.home.tier_pro_feat_3") %></li>
           <li><%= t("marketing.home.tier_pro_feat_4") %></li>
-          <li><%= t("marketing.home.tier_pro_feat_5") %></li>
         </ul>
-        <%= link_to t("marketing.home.start_free_trial"), marketing_signup_path, class: "btn btn-primary btn-full" %>
+        <a href="#contact" class="mkt-tier-note"><%= t("marketing.home.tier_pro_contact") %></a>
       </div>
     </div>
   </div>

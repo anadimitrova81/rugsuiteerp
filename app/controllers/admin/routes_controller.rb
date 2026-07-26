@@ -1,6 +1,7 @@
 module Admin
   class RoutesController < BaseController
     before_action :require_planner_role
+    before_action :enforce_route_operation_limit, only: %i[optimize calculate]
 
     def show
       @date = Date.current
@@ -14,7 +15,10 @@ module Admin
       courier_ids = selected.presence || User.where(role: "courier").pluck(:id)
       result = Routes::DailyRouteOptimizer.run(courier_ids: courier_ids)
 
-      cache_lane_summary(result) if result[:ordered].positive?
+      if result[:ordered].positive?
+        cache_lane_summary(result)
+        current_factory.record_route_operation!
+      end
 
       notice =
         if result[:ordered].positive?
@@ -40,6 +44,7 @@ module Admin
       end
 
       cache_lane(lane_id, stops.map(&:id), result.distance_km, result.total_minutes)
+      current_factory.record_route_operation!
       redirect_to admin_route_path,
                   notice: t("admin.routes.calculate_success",
                             distance: format("%.1f", result.distance_km),
@@ -102,6 +107,15 @@ module Admin
       unless current_admin&.admin? || current_admin&.coordinator?
         redirect_to admin_requests_path, alert: t("admin.sms_log.admin_only")
       end
+    end
+
+    # Route optimise + calculate share a per-day, per-plan quota (both hit the
+    # Google Routes API). Block once the day's allowance is used up.
+    def enforce_route_operation_limit
+      return unless current_factory.route_operation_limit_reached?
+
+      redirect_to admin_route_path,
+                  alert: t("admin.limits.route_operation.reached", limit: current_factory.route_operation_limit)
     end
 
     def open_stops

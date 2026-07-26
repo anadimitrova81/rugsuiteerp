@@ -376,6 +376,10 @@ en:
         reached_generic: "This factory has reached its user limit for the current plan."
         upgrade_cta: "View plans"
         new_disabled_hint: "You've reached your user limit."
+      route_operation:
+        reached: "You've used all %{limit} route optimisations for today on your plan. It resets tomorrow."
+        usage: "%{used} / %{limit} route optimisations today"
+        limit_hint: "Daily limit reached — resets tomorrow."
 
     subscription:
       title: "Your plan"
@@ -412,20 +416,22 @@ en:
           tagline: "One factory, getting started."
           features:
             - "Up to 200 orders / month"
-            - "20 staff users"
+            - "10 staff users"
+            - "10 route optimisations / day"
             - "SMS notifications (pay as you go)"
             - "Email support"
         pro:
-          price: "€149"
+          price: "€99"
           period: "/month"
           tagline: "Established factory, multiple couriers."
           badge: "Most popular"
           features:
-            - "Up to 1,000 orders / month"
-            - "Unlimited staff users"
-            - "Route optimisation included"
+            - "Up to 500 orders / month"
+            - "20 staff users"
+            - "20 route optimisations / day"
             - "SMS bundle (1,500 / month)"
             - "Priority support"
+            - "Need more? Contact us"
     settings:
       title: "Settings"
       lede: "Configure your factory's branding, contact info, pickup options and prices."

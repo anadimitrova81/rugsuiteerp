@@ -303,7 +303,7 @@
   padding: 0;
   margin: 0;
   display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 20px;
   counter-reset: mkt-step;
 }
@@ -406,7 +406,7 @@
 .mkt-tier-list {
   list-style: none;
   padding: 0;
-  margin: 0 0 28px;
+  margin: 0;
   display: grid;
   gap: 10px;
 }
@@ -424,7 +424,16 @@
   color: var(--color-secondary);
   font-weight: 800;
 }
-.mkt-tier .btn { margin-top: auto; }
+.mkt-tier-note {
+  margin-top: 20px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-primary);
+  text-decoration: none;
+}
+.mkt-tier-note:hover {
+  text-decoration: underline;
+}
 @media (max-width: 980px) {
   .mkt-pricing { grid-template-columns: 1fr; }
   .mkt-tier-featured { transform: none; }

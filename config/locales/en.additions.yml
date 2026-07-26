@@ -259,17 +259,19 @@ en:
       feature_reports_body: Daily intake, revenue by week, courier performance, churn signals. Plain charts, exportable to CSV. No data lake required.
       feature_roles_title: Roles & data isolation
       feature_roles_body: Admin, coordinator, operator, courier — each role sees only what they need. Every business's data is hard-isolated; nothing leaks between businesses.
-      how_title: From web form to washed rug in 5 steps.
+      how_title: From web form to washed rug in 6 steps.
       step1_title: Customer books online
-      step1_body: A clean public form on your subdomain. Address validated against Google Maps, pickup window picked, SMS confirmation sent.
-      step2_title: Courier picks up
-      step2_body: Today's stops in optimal order on the courier's phone. Confirm pickup, count the rugs, move on.
-      step3_title: Operator weighs & washes
-      step3_body: Weight or item count goes in, the system calculates the price, the customer gets a quote SMS, the rug enters the wash queue.
-      step4_title: Coordinator schedules delivery
-      step4_body: Done rugs are bundled into a delivery route. Customer chooses or confirms the slot. Courier delivers, customer pays.
-      step5_title: You see the numbers
-      step5_body: Daily intake, weekly revenue, courier load, repeat-customer share — visible on a single dashboard, exportable on demand.
+      step1_body: A clean public form on your subdomain. Address validated against Google Maps, pickup window chosen.
+      step2_title: Coordinator confirms the pickup
+      step2_body: The coordinator reviews the request and confirms the pickup date with the customer.
+      step3_title: Courier collects the rugs
+      step3_body: Today's stops in optimal order on the courier's phone. Confirm pickup, count the rugs, move on.
+      step4_title: Operator weighs & starts washing
+      step4_body: Weight or item count goes in, the system calculates the price, and the rug enters the wash queue.
+      step5_title: We send the quote by SMS
+      step5_body: The customer gets an SMS with the exact weight and cost as soon as the rug is weighed.
+      step6_title: Coordinator confirms delivery
+      step6_body: Done rugs are bundled into a delivery route. The coordinator confirms the slot, the courier delivers, the customer pays.
       pricing_title: Pricing that scales with your business.
       pricing_lede: Pay-as-you-grow. No setup fees, no per-courier nickel-and-dime, no surprises. Talk to us for an exact quote.
       tier_free_name: Free
@@ -277,22 +279,22 @@ en:
       tier_free_feat_1: Up to 30 orders / month
       tier_free_feat_2: 5 staff users
       tier_free_feat_3: Email support
-      tier_free_feat_4: No card required
+      tier_free_feat_4: 5 route optimisations / day
       tier_starter_name: Starter
       tier_starter_tagline: One business, getting started.
       per_month: "/month"
       tier_starter_feat_1: Up to 200 orders / month
-      tier_starter_feat_2: 20 staff users
-      tier_starter_feat_3: SMS notifications (pay as you go)
-      tier_starter_feat_4: Email support
+      tier_starter_feat_2: 10 staff users
+      tier_starter_feat_3: Email support
+      tier_starter_feat_4: 10 route optimisations / day
       tier_badge_popular: Most popular
       tier_pro_name: Pro
       tier_pro_tagline: Established business, multiple couriers.
-      tier_pro_feat_1: Up to 1,000 orders / month
-      tier_pro_feat_2: Unlimited staff users
-      tier_pro_feat_3: Route optimisation included
-      tier_pro_feat_4: SMS bundle (1,500 / month)
-      tier_pro_feat_5: Priority support
+      tier_pro_feat_1: Up to 500 orders / month
+      tier_pro_feat_2: 20 staff users
+      tier_pro_feat_3: 20 route optimisations / day
+      tier_pro_feat_4: Priority support
+      tier_pro_contact: Need more? Contact us →
       tier_enterprise_name: Enterprise
       tier_enterprise_tagline: Multi-location or white-label.
       tier_price_custom: Custom
