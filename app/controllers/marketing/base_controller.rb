@@ -6,6 +6,8 @@ module Marketing
   # marketing view then raises via the strict acts_as_tenant initializer, which
   # is the safety net we want.
   class BaseController < ActionController::Base
+    include LocaleDetection
+
     allow_browser versions: :modern
 
     layout "marketing"
@@ -16,8 +18,12 @@ module Marketing
 
     # The marketing site isn't tenant-scoped, so locale comes from an explicit
     # ?locale= choice (validated, then remembered in the session), else the
-    # visitor's remembered choice, else the global default.
+    # visitor's remembered choice, else a guess from the browser/location, else
+    # the global default.
     def switch_locale(&action)
+      # The auto-detected fallback varies the response by Accept-Language, so
+      # shared caches must key on it too.
+      response.headers["Vary"] = [response.headers["Vary"], "Accept-Language"].compact.join(", ")
       I18n.with_locale(requested_locale, &action)
     end
 
@@ -31,7 +37,7 @@ module Marketing
       remembered = session[:locale]&.to_sym
       return remembered if remembered && I18n.available_locales.include?(remembered)
 
-      I18n.default_locale
+      browser_preferred_locale || I18n.default_locale
     end
   end
 end

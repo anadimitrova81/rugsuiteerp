@@ -1,4 +1,6 @@
 class ApplicationController < ActionController::Base
+  include LocaleDetection
+
   # Only allow modern browsers supporting webp images, web push, badges, import maps, CSS nesting, and CSS :has.
   allow_browser versions: :modern
 
@@ -54,7 +56,7 @@ class ApplicationController < ActionController::Base
     factory_locale = current_factory&.default_locale&.to_sym
     return factory_locale if factory_locale && I18n.available_locales.include?(factory_locale)
 
-    I18n.default_locale
+    browser_preferred_locale || I18n.default_locale
   end
 
   # Pull the tenant slug from the leftmost subdomain (e.g. acme.rugsuite.app → "acme").
