@@ -3,8 +3,11 @@ module ApplicationHelper
   # native names label it for screen readers, and `locale_switch_url` re-renders
   # the current page in the chosen locale — the controller validates the value
   # and remembers it for the session.
-  LOCALE_SHORT_LABELS = { en: "EN", bg: "БГ" }.freeze
-  LOCALE_NATIVE_NAMES = { en: "English", bg: "Български" }.freeze
+  LOCALE_SHORT_LABELS = { en: "EN", bg: "БГ", fr: "FR", tr: "TR", mk: "МК", sr: "СР" }.freeze
+  LOCALE_NATIVE_NAMES = {
+    en: "English", bg: "Български", fr: "Français",
+    tr: "Türkçe", mk: "Македонски", sr: "Српски"
+  }.freeze
 
   def locale_short_label(loc)
     LOCALE_SHORT_LABELS[loc.to_sym] || loc.to_s.upcase

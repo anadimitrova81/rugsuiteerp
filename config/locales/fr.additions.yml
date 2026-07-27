@@ -1,0 +1,597 @@
+---
+fr:
+  admin:
+    request:
+      labels:
+        unit_piece: pc
+      new:
+        meta_title: Nouvelle commande · Admin
+        status_hint: Vous pouvez créer une commande dans n'importe quel statut — par exemple pour enregistrer une commande déjà terminée ou en cours.
+        section_processing_hint: Renseignez selon les besoins — le poids est requis pour le statut « Lavage », le nombre d'articles pour « Enlevée ».
+        delivery_notes_placeholder: Exigences particulières concernant l'heure ou le lieu de livraison
+        created: La commande a été créée avec succès.
+      edit:
+        meta_title: Modifier la commande %{id} · Admin
+        pick_up_notes_placeholder: Exigences particulières concernant l'heure d'enlèvement
+        paid_by_card_label: Payé par carte (sinon en espèces)
+        updated: La commande %{customer_id} a été mise à jour avec succès.
+        update_failed: 'Commande #%{customer_id} : %{errors}'
+      courier:
+        collected_cash_label: 'Espèces :'
+        collected_card_label: 'Carte :'
+        pay_by_card_toggle: Payer par carte
+      courier_new:
+        eyebrow: Coursier
+        lede: Enregistrez une commande que vous avez enlevée sur place. Elle est immédiatement enregistrée comme « Enlevée ».
+        section_details: Détails
+        submit: Enregistrer comme enlevée
+        created: La commande %{customer_id} a été enregistrée comme enlevée.
+      validations:
+        address_not_found: est introuvable sur Google Maps. Veuillez vérifier l'orthographe ou saisir une description plus précise.
+        phone_invalid: doit être un numéro de téléphone valide pour %{country}
+        pick_up_at_not_past_today: doit être aujourd'hui ou plus tard
+        pick_up_at_not_past_tomorrow: doit être demain ou plus tard
+    routes:
+      meta_title: Tournée du jour · Admin
+      km_unit: km
+      swap_label: Échanger les coursiers
+      swap_button: Échanger les tournées
+      swap_confirm: Cette action échangera les deux tournées sélectionnées. Continuer ?
+      optimize_success: Tournée optimisée — %{count} arrêts répartis entre %{couriers} coursiers.
+      optimize_none: Aucun arrêt à optimiser.
+      calculate_empty: Aucun arrêt à calculer.
+      calculate_failed: Impossible de récupérer les données depuis Google Maps. Vérifiez la clé API.
+      calculate_success: 'Calculé : %{distance} km, %{duration}.'
+      swap_invalid: Sélectionnez deux coursiers différents à échanger.
+      swap_success: Les tournées ont été échangées entre les coursiers.
+      empty_lane_drop: Voie vide — déposez un arrêt ici
+    notifications:
+      no_pending: Aucune commande pour laquelle envoyer un devis.
+      sent:
+        one: Devis envoyés par SMS pour %{count} commande.
+        other: Devis envoyés par SMS pour %{count} commandes.
+      partial_failure: 'Envoyés : %{sent}. Échoués : %{failed}. Consultez les journaux.'
+      all_failed:
+        one: L'envoi des devis par SMS a échoué pour %{count} commande. Consultez les journaux.
+        other: L'envoi des devis par SMS a échoué pour %{count} commandes. Consultez les journaux.
+    address_lookups:
+      parse_error: Nous n'avons pas pu extraire les coordonnées du lien.
+  privacy:
+    meta_title: Politique de confidentialité · Nexus Cleaning
+    eyebrow: Document
+    title: Politique de confidentialité
+    subtitle: Comment nous traitons et protégeons les données personnelles de nos clients.
+    updated: 'Dernière mise à jour : %{date}.'
+    toc_heading: Sommaire
+    toc:
+      controller: Responsable du traitement
+      data: Quelles données nous collectons
+      purposes: Finalités du traitement
+      legal_basis: Base légale
+      sharing: Partage avec des tiers
+      retention: Durées de conservation
+      security: Sécurité des données
+      rights: Vos droits
+      cookies: Cookies
+      contact: Contact pour les données personnelles
+      changes: Modifications de la politique
+    sections:
+      controller:
+        heading: 1. Responsable du traitement
+        body_html: "<p>Le responsable du traitement de vos données personnelles est <strong>Nexus Cleaning</strong> (Nexus Ltd., UIC : 112641285, Plovdiv, 4 rue Deacon Ilarion), exerçant son activité à Plovdiv et dans les localités desservies.</p>\n"
+      data:
+        heading: 2. Quelles données nous collectons
+        body_html: |
+          <p>Afin d'exécuter une commande de nettoyage, nous collectons les catégories de données personnelles suivantes, que vous nous fournissez volontairement :</p>
+          <ul>
+            <li><strong>Coordonnées</strong> — numéro de téléphone et, éventuellement, adresse e-mail.</li>
+            <li><strong>Adresse</strong> — rue, numéro et localité, nécessaires à l'enlèvement et au retour.</li>
+            <li><strong>Informations sur la commande</strong> — horaire d'enlèvement souhaité, consignes d'accès, description des tapis.</li>
+            <li><strong>Données techniques</strong> — adresse IP et informations sur le navigateur, collectées automatiquement lors de l'utilisation du site (voir la section « Cookies »).</li>
+          </ul>
+          <p>Nous ne collectons pas de données personnelles sensibles (état de santé, opinions politiques, religion, etc.).</p>
+      purposes:
+        heading: 3. Finalités du traitement
+        body_html: |
+          <p>Nous utilisons vos données aux finalités suivantes :</p>
+          <ul>
+            <li>Exécution de la commande précise — coordination de l'enlèvement, du nettoyage et du retour.</li>
+            <li>Communication relative à la commande — confirmation, notifications de statut, réponse aux demandes.</li>
+            <li>Amélioration de nos services — analyse des statistiques sur la charge de travail et les zones desservies.</li>
+          </ul>
+      legal_basis:
+        heading: 4. Base légale
+        body_html: |
+          <p>Nous traitons vos données personnelles sur les bases suivantes :</p>
+          <ul>
+            <li><strong>Exécution d'un contrat</strong> — pour traiter votre commande.</li>
+            <li><strong>Intérêt légitime</strong> — pour améliorer le service et prévenir les abus.</li>
+          </ul>
+      sharing:
+        heading: 5. Partage avec des tiers
+        body_html: |
+          <p>Nous ne vendons pas vos données. Nous ne les partageons qu'avec :</p>
+          <ul>
+            <li>Nos coursiers (employés ou sous-traitants) — pour l'enlèvement et le retour des tapis.</li>
+            <li>Les autorités publiques — uniquement lorsque la loi l'exige.</li>
+          </ul>
+      retention:
+        heading: 6. Durées de conservation
+        body_html: |
+          <p>Nous ne conservons vos données que pendant la durée nécessaire à la réalisation de leurs finalités :</p>
+          <ul>
+            <li>Données de commande — pendant la durée de l'exécution et une période supplémentaire pour les réclamations.</li>
+            <li>Journaux techniques — généralement jusqu'à 12 mois.</li>
+          </ul>
+      security:
+        heading: 7. Sécurité des données
+        body_html: "<p>Nous appliquons des mesures organisationnelles et techniques pour protéger vos données : accès réservé aux seuls employés qui ont besoin de l'information, transmission chiffrée des données via le site (HTTPS) et sauvegardes régulières. Néanmoins, aucun système n'est totalement invulnérable, et nous vous prions de nous signaler immédiatement tout soupçon d'utilisation abusive.</p>\n"
+      rights:
+        heading: 8. Vos droits
+        body_html: |
+          <p>En vertu du RGPD, vous avez le droit de :</p>
+          <ul>
+            <li><strong>Accès</strong> — obtenir des informations sur les données vous concernant que nous traitons.</li>
+            <li><strong>Rectification</strong> — demander la correction de données inexactes ou incomplètes.</li>
+            <li><strong>Effacement</strong> — demander la suppression des données, sauf lorsque nous avons une obligation légale de les conserver.</li>
+            <li><strong>Limitation</strong> — demander la limitation du traitement.</li>
+            <li><strong>Portabilité</strong> — recevoir vos données dans un format structuré et lisible par machine.</li>
+            <li><strong>Opposition</strong> — vous opposer à un traitement fondé sur l'intérêt légitime.</li>
+            <li><strong>Réclamation</strong> — déposer une réclamation auprès de la Commission de protection des données personnelles (CPDP).</li>
+          </ul>
+      cookies:
+        heading: 9. Cookies
+        body_html: "<p>Le site n'utilise que les cookies nécessaires à son fonctionnement de base (par exemple, pour maintenir une session lors de la connexion au panneau d'administration). Nous n'utilisons pas de cookies publicitaires ou de suivi de tiers.</p>\n"
+      contact:
+        heading: 10. Contact pour les données personnelles
+        body_html: |
+          <p>Si vous avez des questions sur le traitement de vos données ou souhaitez exercer l'un de vos droits, contactez-nous :</p>
+          <ul>
+            <li>Téléphone : <a href="tel:+359899771972">+359 899 771 972</a></li>
+            <li>E-mail : <a href="mailto:office@nexus-cleaning.com">office@nexus-cleaning.com</a></li>
+          </ul>
+          <p>Nous répondrons à votre demande dans un délai d'un mois à compter de sa réception.</p>
+      changes:
+        heading: 11. Modifications de la politique
+        body_html: "<p>Nous pouvons mettre à jour cette politique lorsque nos pratiques ou les exigences légales évoluent. La version en vigueur est toujours publiée à cette adresse avec la date de dernière mise à jour. En cas de modifications importantes, nous vous en informerons de manière appropriée (par exemple, par un avis sur le site ou par e-mail).</p>\n"
+  terms:
+    meta_title: Conditions générales · Nexus Cleaning
+    eyebrow: Document
+    title: Conditions générales
+    subtitle: Conditions d'utilisation des services de Nexus Cleaning.
+    updated: 'Dernière mise à jour : %{date}.'
+    toc_heading: Sommaire
+    toc:
+      scope: Champ d'application et parties
+      services: Services
+      orders: Commandes et confirmation
+      pricing: Prix et paiements
+      pickup: Enlèvement et retour
+      timing: Délais de traitement
+      liability: Responsabilité et dommages
+      cancellation: Annulation de commande
+      complaints: Réclamations
+      privacy: Données personnelles
+      changes: Modifications des conditions
+      disputes: Droit applicable et litiges
+    sections:
+      scope:
+        heading: 1. Champ d'application et parties
+        body_html: '<p>Les présentes conditions générales régissent la relation entre <strong>Nexus Cleaning</strong> (Nexus Ltd., UIC : 112641285, Plovdiv, 4 rue Deacon Ilarion, ci-après le « Prestataire ») et les personnes physiques ou morales qui commandent des services (dénommées le « Client ») via le site web <strong>nexus-cleaning.com</strong>, par téléphone ou par message.</p>
+
+          '
+      services:
+        heading: 2. Services
+        body_html: "<p>Le Prestataire propose le nettoyage en machine des tapis, chemins de couloir, couvertures, édredons traditionnels et couettes, y compris l'enlèvement et le retour gratuits à Plovdiv et dans les localités desservies. Le processus comprend le battage, le lavage, l'essorage, le brossage, la désodorisation et l'emballage.</p>\n"
+      orders:
+        heading: 3. Commandes et confirmation
+        body_html: |
+          <p>Une commande peut être passée en ligne via le formulaire de demande du site, par téléphone ou par message en utilisant les coordonnées fournies. Après réception de la demande, le Prestataire contacte le Client pour confirmer l'heure d'enlèvement.</p>
+          <p>Le contrat est réputé conclu une fois l'heure et l'adresse d'enlèvement précises confirmées.</p>
+      pricing:
+        heading: 4. Prix et paiements
+        body_html: |
+          <p>Les prix en vigueur sont publiés sur la page d'accueil du site. Les prix des tapis, chemins de couloir et couvertures sont déterminés au poids, mesuré à l'aide d'une balance électronique calibrée dans les locaux du Prestataire. Les prix des couettes sont à l'article.</p>
+          <p>Le paiement s'effectue à la livraison — en espèces ou par carte bancaire. Après paiement, le Client reçoit un reçu avec un numéro de référence unique.</p>
+      pickup:
+        heading: 5. Enlèvement et retour
+        body_html: |
+          <p>Les coursiers du Prestataire effectuent l'enlèvement et le retour dans le créneau compris entre 18:00 et 20:30, sur rendez-vous préalable. Le transport est gratuit dans les localités desservies.</p>
+          <p>Le Client assure la remise des tapis à l'heure convenue, en personne ou par l'intermédiaire d'une personne désignée.</p>
+      timing:
+        heading: 6. Délais de traitement
+        body_html: "<p>Le délai de traitement standard est de 3 à 5 jours ouvrables à compter de la date d'enlèvement. Pendant les périodes de forte activité, pour des tissus spécifiques ou en cas de circonstances imprévues, le délai peut être prolongé jusqu'à 7 jours ouvrables. Le Prestataire informe le Client de la date de retour effective.</p>\n"
+      liability:
+        heading: 7. Responsabilité et dommages
+        body_html: |
+          <p>Le Prestataire fait preuve d'un soin professionnel dans le traitement de chaque article. Si des défauts cachés, une usure ou des caractéristiques particulières susceptibles d'entraîner des dommages lors d'un nettoyage standard sont identifiés, le Prestataire en informe le Client au préalable et convient de la marche à suivre.</p>
+          <p>Le montant maximal de l'indemnisation pour un article endommagé ou manquant est de 50,00 € (97,79 BGN), selon l'état de l'article et la nature du dommage.</p>
+      cancellation:
+        heading: 8. Annulation de commande
+        body_html: "<p>Le Client peut annuler une commande sans frais avant l'enlèvement des tapis.</p>\n"
+      complaints:
+        heading: 9. Réclamations
+        body_html: |
+          <p>Le Client a le droit de déposer une réclamation concernant la qualité du service dans un délai de <em>14</em> jours à compter du retour des tapis. La réclamation est soumise par téléphone ou par e-mail, accompagnée d'une description du problème.</p>
+          <p>Le Prestataire examine la réclamation dans un délai de 30 jours et propose une solution — nouveau nettoyage, correction ou remboursement partiel.</p>
+      privacy:
+        heading: 10. Données personnelles
+        body_before: Le traitement des données personnelles du Client est effectué conformément à
+        link_text: la Politique de confidentialité
+        body_after: ", qui fait partie intégrante des présentes conditions générales."
+      changes:
+        heading: 11. Modifications des conditions
+        body_html: "<p>Le Prestataire se réserve le droit de modifier les présentes conditions générales. La version en vigueur est toujours publiée à cette adresse avec la date de dernière mise à jour. Les modifications prennent effet à la date de publication et n'affectent pas les commandes déjà confirmées.</p>\n"
+      disputes:
+        heading: 12. Droit applicable et litiges
+        body_html: |
+          <p>Le droit bulgare s'applique aux présentes conditions générales. Les litiges sont résolus à l'amiable et, lorsque cela n'est pas possible, devant le tribunal bulgare compétent.</p>
+          <p>Pour toute question relative aux présentes conditions, vous pouvez nous joindre par téléphone au <a href="tel:+359899771972">+359 899 771 972</a> ou par e-mail à <a href="mailto:office@nexus-cleaning.com">office@nexus-cleaning.com</a>.</p>
+  marketing:
+    home:
+      page_title: RugSuite ERP — logiciel pour les entreprises de lavage de tapis
+      hero_eyebrow: Logiciel d'exploitation pour les entreprises de lavage de tapis
+      hero_title: Digitalisez votre entreprise de lavage de tapis
+      hero_subtitle: RugSuite ERP remplace les tableurs, les tickets papier et les allers-retours téléphoniques par une plateforme unique qui gère chaque étape, de la réservation à la livraison — pour une entreprise ou pour une centaine.
+      start_free_trial: Commencer gratuitement
+      hero_see_how: Voir comment ça marche
+      hero_bullet_1: Multi-tenant — une plateforme par entreprise, une entreprise par sous-domaine
+      hero_bullet_2: Tarifs, devises, langues et zones de service par entreprise
+      hero_bullet_3: Bâti sur Rails 8 + Postgres — entièrement hébergé et géré par nos soins
+      status_picked_up: Enlevée
+      status_in_wash: En lavage
+      status_ready: Prête pour livraison
+      hero_card_pickup_meta: 5 tapis · 23,8 kg · Acme Carpets
+      hero_card_wash_meta: 'Tambour 3 · Programme : Laine · ETA 16:40'
+      hero_card_delivery_meta: 'Coursier : Marko · 7 arrêts sur la tournée'
+      features_eyebrow: Ce que vous obtenez
+      features_title: Tout ce dont une entreprise de lavage de tapis a besoin, rien de superflu
+      features_lede: Conçu spécifiquement pour le flux de travail du lavage de tapis. Aucune contorsion de CRM générique, aucune lourdeur d'ERP.
+      feature_routing_title: Optimisation des tournées d'enlèvement et de livraison
+      feature_routing_body: Les clients réservent en ligne. Les coursiers voient les arrêts du jour dans l'ordre optimal, confirment l'enlèvement d'un geste, prennent une photo, c'est fait. Fini les adresses criées au téléphone.
+      feature_workflow_title: Flux de lavage, suivi
+      feature_workflow_body: Chaque tapis passe par en attente → enlevé → en lavage → prêt → livré. Les opérateurs voient ce qui est dans le bâtiment. Les coordinateurs voient ce qui est en retard. Les clients reçoivent un SMS dès que c'est prêt.
+      feature_pricing_title: Une tarification adaptée à votre entreprise
+      feature_pricing_body: Au kilogramme, à l'article, remises de volume, paiement sur facture, zones d'enlèvement gratuites — configurez une fois, appliquez partout. Multidevise dès le premier jour.
+      feature_notifications_title: Notifications aux clients
+      feature_notifications_body: Confirmations de réservation, devis, alertes « votre tapis est prêt » — automatisés par SMS dans la langue du client. Vous cessez de relancer, les clients cessent d'appeler.
+      feature_reports_title: Des rapports que le bureau lit vraiment
+      feature_reports_body: Réceptions quotidiennes, chiffre d'affaires par semaine, performance des coursiers, signaux d'attrition. Des graphiques clairs, exportables en CSV. Aucun data lake requis.
+      feature_roles_title: Rôles et cloisonnement des données
+      feature_roles_body: Administrateur, coordinateur, opérateur, coursier — chaque rôle ne voit que ce dont il a besoin. Les données de chaque entreprise sont strictement isolées ; rien ne fuit d'une entreprise à l'autre.
+      how_title: Du formulaire web au tapis lavé en 6 étapes
+      step1_title: Le client réserve en ligne
+      step1_body: Un formulaire public soigné sur votre sous-domaine. Adresse validée par Google Maps, créneau d'enlèvement choisi.
+      step2_title: Le coordinateur confirme l'enlèvement
+      step2_body: Le coordinateur examine la demande et confirme la date d'enlèvement avec le client.
+      step3_title: Le coursier collecte les tapis
+      step3_body: Les arrêts du jour dans l'ordre optimal sur le téléphone du coursier. Confirmer l'enlèvement, compter les tapis, passer au suivant.
+      step4_title: L'opérateur pèse et lance le lavage
+      step4_body: Le poids ou le nombre d'articles est saisi, le système calcule le prix, et le tapis entre dans la file de lavage.
+      step5_title: Nous envoyons le devis par SMS
+      step5_body: Le client reçoit un SMS avec le poids et le coût exacts dès que le tapis est pesé.
+      step6_title: Le coordinateur confirme la livraison
+      step6_body: Les tapis terminés sont regroupés dans une tournée de livraison. Le coordinateur confirme le créneau, le coursier livre, le client paie.
+      pricing_title: Une tarification qui évolue avec votre entreprise
+      pricing_lede: Payez au fur et à mesure de votre croissance. Aucuns frais d'installation, aucun coût par coursier, aucune surprise. Contactez-nous pour un devis précis.
+      tier_free_name: Gratuit
+      tier_free_tagline: Lancez-vous — sans carte bancaire.
+      tier_free_feat_1: Jusqu'à 30 commandes / mois
+      tier_free_feat_2: 5 utilisateurs
+      tier_free_feat_3: Assistance par e-mail
+      tier_free_feat_4: 5 optimisations de tournée / jour
+      tier_starter_name: Starter
+      tier_starter_tagline: Une entreprise, en phase de démarrage.
+      per_month: "/mois"
+      tier_starter_feat_1: Jusqu'à 200 commandes / mois
+      tier_starter_feat_2: 10 utilisateurs
+      tier_starter_feat_3: Assistance par e-mail
+      tier_starter_feat_4: 10 optimisations de tournée / jour
+      tier_badge_popular: Le plus populaire
+      tier_pro_name: Pro
+      tier_pro_tagline: Entreprise établie, plusieurs coursiers.
+      tier_pro_feat_1: Jusqu'à 500 commandes / mois
+      tier_pro_feat_2: 20 utilisateurs
+      tier_pro_feat_3: 20 optimisations de tournée / jour
+      tier_pro_feat_4: Assistance prioritaire
+      tier_pro_contact: Besoin de plus ? Contactez-nous →
+      tier_enterprise_name: Enterprise
+      tier_enterprise_tagline: Multi-sites ou marque blanche.
+      tier_price_custom: Sur mesure
+      tier_enterprise_feat_1: Commandes illimitées
+      tier_enterprise_feat_2: Multi-sites / multi-tenant
+      tier_enterprise_feat_3: Domaine et identité visuelle personnalisés
+      tier_enterprise_feat_4: SSO, journaux d'audit, SLA
+      tier_enterprise_feat_5: Accompagnement inclus
+      talk_to_us: Nous contacter
+      cta_title: Prêt à gérer votre entreprise sur RugSuite ?
+      cta_subtitle: Configurez votre entreprise en moins d'une minute. Forfait gratuit, sans carte bancaire.
+      talk_to_us_first: Parlons-en d'abord
+      contact_title: Nous répondons vite
+      contact_body: Si vous dirigez une entreprise de lavage de tapis et que le flux de travail ci-dessus vous parle, nous serions ravis d'échanger avec vous. Dites-nous combien de commandes vous traitez aujourd'hui et où vous opérez.
+      contact_email_label: E-mail
+      contact_sales_label: Ventes
+      contact_support_label: Assistance
+    signup:
+      page_title: Créez votre entreprise — RugSuite ERP
+      eyebrow: Forfait gratuit
+      title: Configurez votre entreprise en moins d'une minute.
+      intro_html: Remplissez cinq champs et vous disposerez d'un site fonctionnel à l'adresse <code>votrenom.rugsuite.app</code> avec un accès administrateur prêt à l'emploi. Sans carte bancaire.
+      bullet_1: Votre propre sous-domaine et des données isolées
+      bullet_2: Toutes les fonctionnalités débloquées sur le forfait gratuit
+      bullet_3: Passez à un forfait payant à tout moment ultérieurement
+      error_heading: Impossible de créer votre entreprise.
+      company_name_label: Nom de l'entreprise
+      company_name_placeholder: Acme Carpet Wash
+      subdomain_label: Sous-domaine
+      subdomain_placeholder: acme
+      subdomain_hint: Lettres minuscules, chiffres et traits d'union. 2 à 32 caractères.
+      country_label: Pays
+      country_blank: "— sélectionner un pays —"
+      country_hint: Nous l'utilisons pour définir votre fuseau horaire, votre devise et votre langue par défaut.
+      admin_email_label: E-mail administrateur
+      admin_email_placeholder: vous@votreentreprise.com
+      password_label: Mot de passe
+      password_hint: Au moins 8 caractères.
+      submit: Créer mon entreprise
+      fine_print: En vous inscrivant, vous acceptez nos conditions générales. Nous ne partagerons jamais vos données avec une autre entreprise.
+    meta:
+      default_title: RugSuite ERP — logiciel pour les entreprises de lavage de tapis
+      description: 'La plateforme d''exploitation tout-en-un pour les entreprises de lavage de tapis : réservations, optimisation des tournées d''enlèvement/livraison, réception, lavage, facturation et notifications clients.'
+    nav:
+      features: Avantages
+      how_it_works: Comment ça marche
+      pricing: Tarifs
+      contact: Contact
+    cta:
+      trial: Commencer gratuitement
+    footer:
+      tagline: Logiciel d'exploitation pour les entreprises de lavage de tapis.
+      copyright: "© %{year} RugSuite ERP. Tous droits réservés."
+  activerecord:
+    attributes:
+      request:
+        number_of_items: Nombre d'articles
+        weight: Poids
+        pick_up_at: Date d'enlèvement
+        items_only: Articles uniquement
+        address: Adresse
+        phone: Téléphone
+        delivery_at: Date de livraison
+  sms:
+    price_quote:
+      body: "%{prefix} %{summary}. Voir : %{url}"
+      prefix_weight: 'Lavage de tapis :'
+      prefix_items: 'Lavage de couettes :'
+      items_unit: pcs.
+  status:
+    errors:
+      empty_query: Veuillez saisir un numéro de téléphone ou de commande.
+      not_found: La commande est introuvable ou le lien a expiré.
+    page_title: Suivi de commande
+    hero_eyebrow: Suivi
+    hero_title: Vérifiez le statut de votre demande
+    hero_lede: Saisissez un numéro de téléphone ou de commande pour voir où elle en est actuellement.
+    search_placeholder: Téléphone ou numéro de commande
+    search_submit: Vérifier
+    results_count_html:
+      one: "%{count} résultat pour <strong>%{query}</strong>"
+      other: "%{count} résultats pour <strong>%{query}</strong>"
+    card_order_label: Commande
+    phone_label: Téléphone
+    amount_label: Montant
+    weight_label: Poids
+    items_label: Articles
+    unit_item: pcs
+    unit_bgn: BGN
+    requested_on: Demandée le %{date}
+    empty_title: Aucune commande trouvée
+    empty_hint_html: Nous n'avons rien trouvé pour <strong>%{query}</strong>. Vérifiez le numéro et réessayez, ou %{link}.
+    new_request_link: soumettez une nouvelle demande
+    aside_eyebrow: Que dois-je saisir ?
+    aside_item_phone_html: "<strong>Numéro de téléphone</strong> — le même que celui indiqué lors de votre demande."
+    aside_item_order_html: "<strong>Numéro de commande</strong> — nous vous l'envoyons après la confirmation de votre demande."
+    aside_contact_eyebrow: Vous ne trouvez pas votre commande ?
+    aside_hours: Jours ouvrables · 09:00 – 20:00
+  requests:
+    captcha_failed: Nous n'avons pas pu vérifier que vous êtes humain. Veuillez réessayer.
+    form:
+      section_contact: Contact
+      phone_label: Téléphone
+      phone_placeholder: ex. 0888 123 456
+      section_pickup_address: Adresse d'enlèvement
+      address_label: Adresse
+      address_placeholder: Rue et numéro
+      city_label: Ville
+      city_prompt: Sélectionner…
+      section_schedule: Planning
+      pickup_date_label: Date d'enlèvement
+      pickup_date_hint: Notre coursier passe entre 18:00 et 20:30, en semaine.
+      pickup_notes_label: Notes d'enlèvement
+      pickup_notes_placeholder: ex. merci de venir après 19h00, appartement 5, deuxième étage
+      recaptcha_notice_html: Ce formulaire est protégé par reCAPTCHA. La <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">politique de confidentialité</a> et les <a href="https://policies.google.com/terms" target="_blank" rel="noopener">conditions d'utilisation</a> de Google s'appliquent.
+      submit: Envoyer la demande
+    new:
+      page_title: Commande
+      hero_eyebrow: Commande
+      hero_title: Commander un lavage de tapis
+      hero_lede: Cela prend moins d'une minute. Nous vous contacterons pour confirmer l'heure d'enlèvement et discuter du prix estimé.
+      errors: Veuillez corriger les champs mis en évidence ci-dessous.
+      aside_next_eyebrow: Et ensuite
+      aside_step1_title: Nous recevons votre demande
+      aside_step1_body: Nous vous contactons pour confirmer l'heure d'enlèvement.
+      aside_step2_title: Le coursier arrive
+      aside_step2_body: Entre 18:00 et 20:30, le jour que vous avez choisi.
+      aside_step3_title: Nous lavons et retournons
+      aside_step3_body: Après 3 à 5 jours ouvrables — frais et emballés.
+      aside_contact_eyebrow: Vous préférez appeler ?
+      aside_hours: Jours ouvrables · 09:00 – 20:00
+    show:
+      page_title: Demande reçue
+      title: Demande reçue
+      message: Nous avons enregistré votre demande. Conservez le numéro de référence ci-dessous — il vous sera nécessaire pour suivre le statut.
+      reference_label: Numéro de référence
+      pickup_label: Heure d'enlèvement
+      phone_label: Téléphone
+      address_label: Adresse
+      notes_label: Notes
+      check_status: Vérifier le statut
+      new_request: Soumettre une nouvelle demande
+  date:
+    formats:
+      long: "%-d %B %Y"
+      short: "%-d %b"
+    day_names:
+    - dimanche
+    - lundi
+    - mardi
+    - mercredi
+    - jeudi
+    - vendredi
+    - samedi
+    abbr_day_names:
+    - dim.
+    - lun.
+    - mar.
+    - mer.
+    - jeu.
+    - ven.
+    - sam.
+    month_names:
+    -
+    - janvier
+    - février
+    - mars
+    - avril
+    - mai
+    - juin
+    - juillet
+    - août
+    - septembre
+    - octobre
+    - novembre
+    - décembre
+    abbr_month_names:
+    -
+    - janv.
+    - févr.
+    - mars
+    - avr.
+    - mai
+    - juin
+    - juil.
+    - août
+    - sept.
+    - oct.
+    - nov.
+    - déc.
+  datetime:
+    minutes_short: min
+    hours_short: h
+  js:
+    confirm:
+      delete: Supprimer
+      confirm: Confirmer
+      cancel: Annuler
+      title_delete: Confirmer la suppression
+      title_weigh: Peser les tapis
+      title_items: Nombre d'articles
+      title_weight: Poids du tapis
+      title_status: Changer le statut
+      items_label: Nombre d'articles
+      weight_label: Poids total (kg)
+    address_preview:
+      no_address: Le lien ne contient pas d'adresse.
+      parse_error: Erreur lors du traitement du lien.
+  rack_attack:
+    too_many_requests: Trop de requêtes. Veuillez réessayer dans une minute.
+  sessions:
+    page_title: Espace personnel
+    title: Bienvenue
+    subtitle: Connectez-vous pour gérer les commandes.
+    email_label: E-mail
+    password_label: Mot de passe
+    submit: Se connecter
+  faq:
+    hero:
+      eyebrow: Questions fréquentes
+      title: Réponses aux questions qui comptent le plus
+      lede_html: Si vous ne trouvez pas votre question ici, appelez-nous au <a href="tel:+359899771972">+359 899 771 972</a> entre 09:00 et 20:00.
+    items:
+      price:
+        q: Combien ça coûte ?
+        a_html: Nous lavons les tapis, chemins de couloir et couvertures à <strong>1,50 € / kg</strong>. Les édredons légers sont à <strong>7,50 € / article</strong>. Pour les quantités supérieures à 50 kg, une remise s'applique — <strong>1,35 € / kg</strong>
+        a: Nous lavons les tapis, chemins de couloir et couvertures à 1,50 € / kg. Les édredons légers sont à 7,50 € / article. Pour les quantités supérieures à 50 kg, une remise s'applique — 1,35 € / kg.
+      fees:
+        q: Y a-t-il des frais supplémentaires ou des quantités minimales ?
+        a_html: Non. Le transport est <strong>gratuit</strong> à Plovdiv et dans la région. Il n'y a aucuns frais cachés ni quantité minimale — nous prenons tout, d'un simple chemin de couloir aux tapis et couettes.
+        a: Non. Le transport est gratuit à Plovdiv et dans la région. Il n'y a aucuns frais cachés ni quantité minimale — nous prenons tout, d'un simple chemin de couloir aux tapis et couettes.
+      how_to_order:
+        q: Comment passer une commande ?
+        intro: 'Vous avez trois options — choisissez celle qui vous convient le mieux :'
+        form_link: le formulaire de commande
+        online_html: "<strong>En ligne</strong> — remplissez %{link}. Cela prend moins d'une minute."
+        by_phone_html: <strong>Par téléphone</strong> — appelez-nous au <a href="tel:+359899771972">+359 899 771 972</a> entre 09:00 et 20:00.
+        by_sms_html: "<strong>SMS ou Viber</strong> — écrivez-nous au même numéro et nous vous recontacterons pour régler les détails."
+        a: 'Vous avez trois options : en ligne via le formulaire de commande, par téléphone au +359 899 771 972 entre 09:00 et 20:00, ou par SMS/Viber au même numéro.'
+      turnaround:
+        q: Combien de jours cela prend-il ?
+        a_html: Les commandes sont normalement traitées sous <strong>3 à 5 jours ouvrables</strong>. Pendant les périodes de forte activité ou pour des tissus spécifiques, cela peut prendre jusqu'à 7 jours. Nous vous contactons dès que les tapis sont prêts à être retournés.
+        a: Les commandes sont normalement traitées sous 3 à 5 jours ouvrables. Pendant les périodes de forte activité ou pour des tissus spécifiques, cela peut prendre jusqu'à 7 jours. Nous vous contactons dès que les tapis sont prêts à être retournés.
+      weighing:
+        q: Où les tapis sont-ils pesés ?
+        a_html: Les tapis sont pesés dans <strong>notre atelier</strong> sur une balance électronique calibrée avant que nous commencions le lavage. Vous recevez un message avec le poids et le prix final.
+        a: Les tapis sont pesés dans notre atelier sur une balance électronique calibrée avant le lavage. Vous recevez un message avec le poids et le prix final.
+      materials:
+        q: Quels matériaux lavez-vous ?
+        a: Tapis en laine, synthétiques et mixtes ; coton et microfibre pour les couvertures ; garnissages en duvet et synthétiques pour les couettes.
+      stains:
+        q: Que faire si j'ai des taches qui m'inquiètent ?
+        a_html: Indiquez-nous à l'avance la nature de la tache et son ancienneté. Nous traitons les taches <strong>dans le cadre du lavage standard, sans frais supplémentaires</strong>. Dans la plupart des cas, le résultat dépasse les attentes. Nous ne pouvons pas garantir l'élimination des taches très anciennes ou spécifiques (par exemple l'encre ou la peinture).
+        a: Indiquez-nous à l'avance la nature de la tache et son ancienneté. Nous traitons les taches dans le cadre du lavage standard, sans frais supplémentaires. Nous ne pouvons pas garantir l'élimination des taches très anciennes ou spécifiques (par exemple l'encre ou la peinture).
+      safety:
+        q: Est-ce sans danger pour les enfants et les animaux ?
+        a_html: Oui. Nous utilisons des <strong>détergents biodégradables et hypoallergéniques</strong> sans produits chimiques agressifs. Sans danger pour les peaux sensibles, les jeunes enfants et les foyers avec animaux.
+        a: Oui. Nous utilisons des détergents biodégradables et hypoallergéniques sans produits chimiques agressifs. Sans danger pour les peaux sensibles, les jeunes enfants et les foyers avec animaux.
+      not_home:
+        q: Que faire si je ne suis pas chez moi à l'heure de l'enlèvement ?
+        a_html: Contactez-nous — nous pouvons facilement décaler l'enlèvement à un autre jour, ou vous pouvez laisser le tapis à une personne convenue (un voisin, un concierge ou un membre de la famille). Le retour est également organisé à l'avance afin que nous ne manquions pas le rendez-vous.
+        a: Contactez-nous — nous pouvons facilement décaler l'enlèvement à un autre jour, ou vous pouvez laisser le tapis à une personne convenue (un voisin, un concierge ou un membre de la famille). Le retour est également organisé à l'avance.
+      frequency:
+        q: À quelle fréquence faut-il laver les tapis ?
+        a_html: Nous recommandons un lavage professionnel <strong>tous les 12 à 18 mois</strong> pour un usage domestique, et <strong>tous les 6 à 12 mois</strong> si vous avez des animaux ou de jeunes enfants. Entre deux lavages, un battage et un aspirateur réguliers prolongent la durée de vie du tapis.
+        a: Nous recommandons un lavage professionnel tous les 12 à 18 mois pour un usage domestique, et tous les 6 à 12 mois si vous avez des animaux ou de jeunes enfants.
+    cta:
+      heading: Prêt à commander ?
+      lede: La demande prend moins d'une minute. Nous vous recontacterons pour confirmer votre heure d'enlèvement.
+  contacts:
+    hero:
+      eyebrow: Contact
+      title: Prendre contact
+      lede: Nous répondons par téléphone, e-mail, SMS et Viber. Choisissez ce qui vous convient le mieux — nous répondons généralement en quelques minutes.
+    cards:
+      phone:
+        label: Téléphone
+        note: En semaine · 09:00 – 20:00
+      sms:
+        label: SMS / Viber
+        note: Pratique pour les questions rapides
+      email:
+        label: E-mail
+        note: Nous répondons dans la journée ouvrable
+      pickup:
+        label: Enlèvement et retour
+        note: Tous les jours, sur rendez-vous préalable
+    coverage:
+      eyebrow: Couverture
+      heading: Où nous opérons
+      lede: Enlèvement et retour gratuits à Plovdiv et dans les villes voisines. Votre ville n'apparaît pas ? Appelez-nous — nous faisons souvent des exceptions.
+    cta:
+      heading: Prêt à commander ?
+      lede: La demande prend moins d'une minute. Nous vous recontacterons pour confirmer votre heure d'enlèvement.
+  cookie_consent:
+    title: Nous utilisons des cookies
+    body_html: Ce site utilise des cookies nécessaires à son fonctionnement de base et, en option, des statistiques anonymes qui nous aident à l'améliorer. Vous trouverez les détails dans notre %{link}.
+    privacy_link: Politique de confidentialité
+    reject: Uniquement l'essentiel
+    accept: Tout accepter

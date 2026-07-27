@@ -15,7 +15,9 @@ module LocaleDetection
   extend ActiveSupport::Concern
 
   # ISO-3166-1 alpha-2 country → locale, for the languages we ship.
-  COUNTRY_LOCALES = { "BG" => :bg }.freeze
+  COUNTRY_LOCALES = {
+    "BG" => :bg, "FR" => :fr, "TR" => :tr, "MK" => :mk, "RS" => :sr
+  }.freeze
 
   private
 

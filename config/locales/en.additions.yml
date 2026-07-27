@@ -231,7 +231,7 @@ en:
     home:
       page_title: RugSuite ERP — software for rug washing businesses
       hero_eyebrow: Operations software for rug washing businesses
-      hero_title: Run your rug washing business like a tech company.
+      hero_title: Digitalise your rug washing business
       hero_subtitle: RugSuite ERP replaces the spreadsheets, paper tickets and phone-tag with one platform that handles every step from booking to delivery — for one business or a hundred.
       start_free_trial: Start for free
       hero_see_how: See how it works
@@ -245,7 +245,7 @@ en:
       hero_card_wash_meta: 'Drum 3 · Programme: Wool · ETA 16:40'
       hero_card_delivery_meta: 'Courier: Marko · 7 stops on route'
       features_eyebrow: What you get
-      features_title: Everything a rug washing business needs, nothing it doesn't.
+      features_title: Everything a rug washing business needs, nothing it doesn't
       features_lede: Purpose-built for the carpet wash workflow. No generic CRM contortions, no ERP bloat.
       feature_routing_title: Pickup & delivery routing
       feature_routing_body: Customers book online. Couriers see today's stops in optimal order, swipe to confirm pickup, snap a photo, done. No more shouting addresses into the phone.
@@ -259,7 +259,7 @@ en:
       feature_reports_body: Daily intake, revenue by week, courier performance, churn signals. Plain charts, exportable to CSV. No data lake required.
       feature_roles_title: Roles & data isolation
       feature_roles_body: Admin, coordinator, operator, courier — each role sees only what they need. Every business's data is hard-isolated; nothing leaks between businesses.
-      how_title: From web form to washed rug in 6 steps.
+      how_title: From web form to washed rug in 6 steps
       step1_title: Customer books online
       step1_body: A clean public form on your subdomain. Address validated against Google Maps, pickup window chosen.
       step2_title: Coordinator confirms the pickup
@@ -272,7 +272,7 @@ en:
       step5_body: The customer gets an SMS with the exact weight and cost as soon as the rug is weighed.
       step6_title: Coordinator confirms delivery
       step6_body: Done rugs are bundled into a delivery route. The coordinator confirms the slot, the courier delivers, the customer pays.
-      pricing_title: Pricing that scales with your business.
+      pricing_title: Pricing that scales with your business
       pricing_lede: Pay-as-you-grow. No setup fees, no per-courier charges, no surprises. Talk to us for an exact quote.
       tier_free_name: Free
       tier_free_tagline: Get started — no card needed.
@@ -307,7 +307,7 @@ en:
       cta_title: Ready to run your business on RugSuite?
       cta_subtitle: Set up your business in under a minute. Free plan, no credit card.
       talk_to_us_first: Talk to us first
-      contact_title: We answer fast.
+      contact_title: We answer fast
       contact_body: If you run a rug washing business and the workflow above sounds familiar, we want to hear from you. Tell us a bit about how many orders you handle today and where you operate.
       contact_email_label: Email
       contact_sales_label: Sales

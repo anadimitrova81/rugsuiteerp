@@ -28,7 +28,7 @@ module Rugsuiteerp
     # I18n. Default is English; per-tenant locales come from
     # `Factory#default_locale` and are set per request in ApplicationController.
     config.i18n.default_locale = :en
-    config.i18n.available_locales = [:en, :bg]
+    config.i18n.available_locales = [:en, :bg, :fr, :tr, :mk, :sr]
     config.i18n.fallbacks = [:en]
     # config.eager_load_paths << Rails.root.join("extras")
 

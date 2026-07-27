@@ -1,0 +1,597 @@
+---
+tr:
+  admin:
+    request:
+      labels:
+        unit_piece: adet
+      new:
+        meta_title: Yeni sipariş · Yönetici
+        status_hint: Bir siparişi herhangi bir durumda oluşturabilirsiniz — örn. hâlihazırda tamamlanmış veya devam eden bir siparişi kaydetmek için.
+        section_processing_hint: Gerektiği kadar doldurun — “Yıkanıyor” durumu için ağırlık, “Alındı” için adet sayısı gereklidir.
+        delivery_notes_placeholder: Teslimat zamanına veya yerine ilişkin özel gereksinimler
+        created: Sipariş başarıyla oluşturuldu.
+      edit:
+        meta_title: "%{id} numaralı siparişi düzenle · Yönetici"
+        pick_up_notes_placeholder: Alım zamanına ilişkin özel gereksinimler
+        paid_by_card_label: Kartla ödendi (aksi halde nakit)
+        updated: "%{customer_id} numaralı sipariş başarıyla güncellendi."
+        update_failed: '#%{customer_id} numaralı sipariş: %{errors}'
+      courier:
+        collected_cash_label: 'Nakit:'
+        collected_card_label: 'Kart:'
+        pay_by_card_toggle: Kartla öde
+      courier_new:
+        eyebrow: Kurye
+        lede: Yerinde aldığınız bir siparişi kaydedin. Anında “Alındı” olarak kaydedilir.
+        section_details: Ayrıntılar
+        submit: Alındı olarak kaydet
+        created: "%{customer_id} numaralı sipariş alındı olarak kaydedildi."
+      validations:
+        address_not_found: Google Maps'te bulunamadı. Lütfen yazımı kontrol edin veya daha kesin bir tarif girin.
+        phone_invalid: "%{country} için geçerli bir telefon numarası olmalıdır"
+        pick_up_at_not_past_today: bugün veya sonrası olmalıdır
+        pick_up_at_not_past_tomorrow: yarın veya sonrası olmalıdır
+    routes:
+      meta_title: Günün rotası · Yönetici
+      km_unit: km
+      swap_label: Kuryeleri değiştir
+      swap_button: Rotaları değiştir
+      swap_confirm: Bu işlem, seçili iki rotayı değiştirir. Devam edilsin mi?
+      optimize_success: Rota optimize edildi — %{count} durak, %{couriers} kurye arasında dağıtıldı.
+      optimize_none: Optimize edilecek durak yok.
+      calculate_empty: Hesaplanacak durak yok.
+      calculate_failed: Google Maps'ten veri alınamadı. API anahtarını kontrol edin.
+      calculate_success: 'Hesaplandı: %{distance} km, %{duration}.'
+      swap_invalid: Değiştirmek için farklı iki kurye seçin.
+      swap_success: Rotalar kuryeler arasında değiştirildi.
+      empty_lane_drop: Boş şerit — buraya bir durak bırakın
+    notifications:
+      no_pending: Fiyat teklifi gönderilecek sipariş yok.
+      sent:
+        one: "%{count} sipariş için SMS fiyat teklifi gönderildi."
+        other: "%{count} sipariş için SMS fiyat teklifi gönderildi."
+      partial_failure: 'Gönderildi: %{sent}. Başarısız: %{failed}. Günlükleri kontrol edin.'
+      all_failed:
+        one: "%{count} sipariş için SMS fiyat teklifi gönderimi başarısız oldu. Günlükleri kontrol edin."
+        other: "%{count} sipariş için SMS fiyat teklifi gönderimi başarısız oldu. Günlükleri kontrol edin."
+    address_lookups:
+      parse_error: Bağlantıdan koordinatları çıkaramadık.
+  privacy:
+    meta_title: Gizlilik Politikası · Nexus Cleaning
+    eyebrow: Belge
+    title: Gizlilik Politikası
+    subtitle: Müşterilerimizin kişisel verilerini nasıl işlediğimiz ve koruduğumuz.
+    updated: 'Son güncelleme: %{date}.'
+    toc_heading: İçindekiler
+    toc:
+      controller: Veri sorumlusu
+      data: Hangi verileri topluyoruz
+      purposes: İşleme amaçları
+      legal_basis: Yasal dayanak
+      sharing: Üçüncü taraflarla paylaşım
+      retention: Saklama süreleri
+      security: Veri güvenliği
+      rights: Haklarınız
+      cookies: Çerezler
+      contact: Kişisel veriler için iletişim
+      changes: Politikadaki değişiklikler
+    sections:
+      controller:
+        heading: 1. Veri sorumlusu
+        body_html: "<p>Kişisel verilerinizin sorumlusu, Plovdiv ve hizmet verilen bölgelerde faaliyet gösteren <strong>Nexus Cleaning</strong>'dir (Nexus Ltd., UIC: 112641285, Plovdiv, Deacon Ilarion Sok. No: 4).</p>\n"
+      data:
+        heading: 2. Hangi verileri topluyoruz
+        body_html: |
+          <p>Bir temizlik siparişini yerine getirmek amacıyla, tarafınızca gönüllü olarak sağlanan aşağıdaki kişisel veri kategorilerini topluyoruz:</p>
+          <ul>
+            <li><strong>İletişim bilgileri</strong> — telefon numarası ve isteğe bağlı olarak e-posta.</li>
+            <li><strong>Adres</strong> — alım ve iade için gerekli olan sokak, numara ve yerleşim yeri.</li>
+            <li><strong>Sipariş bilgileri</strong> — istenen alım zamanı, erişim notları, halıların açıklaması.</li>
+            <li><strong>Teknik veriler</strong> — siteyi kullanırken otomatik olarak toplanan IP adresi ve tarayıcı bilgileri (bkz. "Çerezler" bölümü).</li>
+          </ul>
+          <p>Hassas kişisel verileri (sağlık durumu, siyasi görüşler, din vb.) toplamıyoruz.</p>
+      purposes:
+        heading: 3. İşleme amaçları
+        body_html: |
+          <p>Verilerinizi aşağıdaki amaçlarla kullanıyoruz:</p>
+          <ul>
+            <li>İlgili siparişi yerine getirme — alım, temizlik ve iadeyi koordine etme.</li>
+            <li>Siparişe ilişkin iletişim — onay, durum bildirimleri, taleplere yanıt verme.</li>
+            <li>Hizmetlerimizi iyileştirme — iş yükü ve hizmet verilen bölgelere ilişkin istatistikleri analiz etme.</li>
+          </ul>
+      legal_basis:
+        heading: 4. Yasal dayanak
+        body_html: |
+          <p>Kişisel verilerinizi aşağıdaki dayanaklarla işliyoruz:</p>
+          <ul>
+            <li><strong>Sözleşmenin ifası</strong> — siparişinizi işleme almak için.</li>
+            <li><strong>Meşru menfaat</strong> — hizmeti iyileştirmek ve kötüye kullanımı önlemek için.</li>
+          </ul>
+      sharing:
+        heading: 5. Üçüncü taraflarla paylaşım
+        body_html: |
+          <p>Verilerinizi satmıyoruz. Yalnızca aşağıdakilerle paylaşabiliriz:</p>
+          <ul>
+            <li>Kuryelerimiz (çalışanlar veya taşeronlar) — halıların alımı ve iadesi için.</li>
+            <li>Devlet kurumları — yalnızca yasaların gerektirdiği durumlarda.</li>
+          </ul>
+      retention:
+        heading: 6. Saklama süreleri
+        body_html: |
+          <p>Verilerinizi yalnızca amaçlarına ulaşmak için gerekli olan süre boyunca saklarız:</p>
+          <ul>
+            <li>Sipariş verileri — ifa süresi boyunca ve şikâyetler için ek bir süre.</li>
+            <li>Teknik günlükler — genellikle 12 aya kadar.</li>
+          </ul>
+      security:
+        heading: 7. Veri güvenliği
+        body_html: "<p>Verilerinizi korumak için organizasyonel ve teknik önlemler uyguluyoruz: yalnızca bilgiye ihtiyaç duyan çalışanlar için erişim, verilerin site üzerinden şifreli iletimi (HTTPS) ve düzenli yedeklemeler. Yine de hiçbir sistem tamamen dokunulmaz değildir; herhangi bir kötüye kullanımdan şüphelenirseniz derhal bildirmenizi rica ederiz.</p>\n"
+      rights:
+        heading: 8. Haklarınız
+        body_html: |
+          <p>GDPR kapsamında şu haklara sahipsiniz:</p>
+          <ul>
+            <li><strong>Erişim</strong> — hangi verilerinizi işlediğimize dair bilgi edinme.</li>
+            <li><strong>Düzeltme</strong> — yanlış veya eksik verilerin düzeltilmesini isteme.</li>
+            <li><strong>Silme</strong> — saklamak için yasal bir yükümlülüğümüz olmadığı durumlarda verilerin silinmesini isteme.</li>
+            <li><strong>Kısıtlama</strong> — işlemenin kısıtlanmasını isteme.</li>
+            <li><strong>Taşınabilirlik</strong> — verilerinizi yapılandırılmış, makinece okunabilir bir biçimde alma.</li>
+            <li><strong>İtiraz</strong> — meşru menfaate dayalı işlemeye itiraz etme.</li>
+            <li><strong>Şikâyet</strong> — Kişisel Verilerin Korunması Komisyonu'na (CPDP) şikâyette bulunma.</li>
+          </ul>
+      cookies:
+        heading: 9. Çerezler
+        body_html: "<p>Site, yalnızca temel işleyişi için gerekli çerezleri kullanır (örneğin yönetici paneline giriş yaparken oturumu sürdürmek için). Üçüncü taraflardan reklam veya takip çerezleri kullanmıyoruz.</p>\n"
+      contact:
+        heading: 10. Kişisel veriler için iletişim
+        body_html: |
+          <p>Verilerinizin işlenmesiyle ilgili sorularınız varsa veya haklarınızdan herhangi birini kullanmak isterseniz bizimle iletişime geçin:</p>
+          <ul>
+            <li>Telefon: <a href="tel:+359899771972">+359 899 771 972</a></li>
+            <li>E-posta: <a href="mailto:office@nexus-cleaning.com">office@nexus-cleaning.com</a></li>
+          </ul>
+          <p>Talebinizi aldıktan sonraki bir ay içinde yanıt vereceğiz.</p>
+      changes:
+        heading: 11. Politikadaki değişiklikler
+        body_html: "<p>Uygulamalarımız veya yasal gereklilikler değiştiğinde bu politikayı güncelleyebiliriz. Güncel sürüm, son güncelleme tarihiyle birlikte her zaman bu adreste yayımlanır. Önemli değişiklikler durumunda sizi uygun bir şekilde bilgilendireceğiz (örneğin sitede bir bildirimle veya e-postayla).</p>\n"
+  terms:
+    meta_title: Hizmet Koşulları · Nexus Cleaning
+    eyebrow: Belge
+    title: Hizmet Koşulları
+    subtitle: Nexus Cleaning hizmetlerinin kullanımına ilişkin koşullar.
+    updated: 'Son güncelleme: %{date}.'
+    toc_heading: İçindekiler
+    toc:
+      scope: Kapsam ve taraflar
+      services: Hizmetler
+      orders: Siparişler ve onay
+      pricing: Fiyatlar ve ödemeler
+      pickup: Alım ve iade
+      timing: Teslim süreleri
+      liability: Sorumluluk ve zararlar
+      cancellation: Sipariş iptali
+      complaints: Şikâyetler
+      privacy: Kişisel veriler
+      changes: Koşullardaki değişiklikler
+      disputes: Uygulanacak hukuk ve uyuşmazlıklar
+    sections:
+      scope:
+        heading: 1. Kapsam ve taraflar
+        body_html: '<p>Bu hizmet koşulları, <strong>Nexus Cleaning</strong> (Nexus Ltd., UIC: 112641285, Plovdiv, Deacon Ilarion Sok. No: 4, bundan böyle "Sağlayıcı") ile <strong>nexus-cleaning.com</strong> web sitesi üzerinden, telefonla veya mesajla hizmet sipariş eden gerçek veya tüzel kişiler ("Müşteri" olarak anılır) arasındaki ilişkiyi düzenler.</p>
+
+          '
+      services:
+        heading: 2. Hizmetler
+        body_html: "<p>Sağlayıcı; halıların, yollukların, battaniyelerin, geleneksel yorganların ve nevresimlerin makinede temizliğini, Plovdiv ve hizmet verilen bölgelerde ücretsiz alım ve iade dahil olmak üzere sunar. Süreç; çırpma, yıkama, sıkarak kurutma, fırçalama, koku giderme ve paketlemeyi içerir.</p>\n"
+      orders:
+        heading: 3. Siparişler ve onay
+        body_html: |
+          <p>Bir sipariş, sitedeki talep formu aracılığıyla çevrimiçi olarak, telefonla veya belirtilen iletişim bilgileri kullanılarak mesajla verilebilir. Talebi aldıktan sonra Sağlayıcı, alım zamanını onaylamak için Müşteri ile iletişime geçer.</p>
+          <p>Sözleşme, belirli alım zamanı ve adresi onaylandığında akdedilmiş sayılır.</p>
+      pricing:
+        heading: 4. Fiyatlar ve ödemeler
+        body_html: |
+          <p>Güncel fiyatlar, sitenin ana sayfasında yayımlanır. Halı, yolluk ve battaniye fiyatları, Sağlayıcının tesisinde kalibre edilmiş elektronik bir teraziyle ölçülen ağırlığa göre belirlenir. Yorgan fiyatları adet başınadır.</p>
+          <p>Ödeme, teslimatta — nakit veya banka kartıyla — yapılır. Ödemeden sonra Müşteri, benzersiz bir referans numarası içeren bir makbuz alır.</p>
+      pickup:
+        heading: 5. Alım ve iade
+        body_html: |
+          <p>Sağlayıcının kuryeleri, alım ve iadeyi önceden yapılan mutabakatla 18:00 ile 20:30 arasındaki zaman aralığında gerçekleştirir. Hizmet verilen bölgelerde taşıma ücretsizdir.</p>
+          <p>Müşteri, halıların kararlaştırılan zamanda bizzat veya görevlendirdiği bir kişi aracılığıyla teslimini sağlar.</p>
+      timing:
+        heading: 6. Teslim süreleri
+        body_html: "<p>Standart teslim süresi, alım tarihinden itibaren 3 – 5 iş günüdür. Yoğun dönemlerde, özel kumaşlar için veya öngörülemeyen durumlarda süre 7 iş gününe kadar uzayabilir. Sağlayıcı, Müşteriyi gerçek iade tarihi hakkında bilgilendirir.</p>\n"
+      liability:
+        heading: 7. Sorumluluk ve zararlar
+        body_html: |
+          <p>Sağlayıcı, her ürünü işlerken profesyonel özen gösterir. Standart temizlik sırasında hasara yol açabilecek gizli kusurlar, aşınma veya özel nitelikler tespit edilirse Sağlayıcı, Müşteriyi önceden bilgilendirir ve izlenecek yol konusunda mutabık kalınır.</p>
+          <p>Hasarlı veya kayıp bir ürün için azami tazminat tutarı, ürünün durumuna ve hasarın niteliğine bağlı olarak 50,00 €'ya (97,79 BGN) kadardır.</p>
+      cancellation:
+        heading: 8. Sipariş iptali
+        body_html: "<p>Müşteri, halılar alınmadan önce bir siparişi ücretsiz olarak iptal edebilir.</p>\n"
+      complaints:
+        heading: 9. Şikâyetler
+        body_html: |
+          <p>Müşteri, halıların iadesinden itibaren <em>14</em> gün içinde hizmet kalitesi hakkında şikâyette bulunma hakkına sahiptir. Şikâyet, sorunun bir açıklamasıyla birlikte telefon veya e-postayla iletilir.</p>
+          <p>Sağlayıcı, şikâyeti 30 gün içinde inceler ve bir çözüm önerir — yeniden temizleme, düzeltme veya kısmi geri ödeme.</p>
+      privacy:
+        heading: 10. Kişisel veriler
+        body_before: Müşterinin kişisel verilerinin işlenmesi,
+        link_text: Gizlilik Politikası
+        body_after: " uyarınca gerçekleştirilir; bu politika, bu hizmet koşullarının ayrılmaz bir parçasını oluşturur."
+      changes:
+        heading: 11. Koşullardaki değişiklikler
+        body_html: "<p>Sağlayıcı, bu hizmet koşullarını değiştirme hakkını saklı tutar. Güncel sürüm, son güncelleme tarihiyle birlikte her zaman bu adreste yayımlanır. Değişiklikler, yayımlandıkları tarihten itibaren yürürlüğe girer ve hâlihazırda onaylanmış siparişleri etkilemez.</p>\n"
+      disputes:
+        heading: 12. Uygulanacak hukuk ve uyuşmazlıklar
+        body_html: |
+          <p>Bu hizmet koşullarına Bulgaristan hukuku uygulanır. Uyuşmazlıklar karşılıklı mutabakatla, bunun mümkün olmadığı durumlarda ise yetkili Bulgaristan mahkemesi önünde çözülür.</p>
+          <p>Bu koşullarla ilgili konularda bizimle <a href="tel:+359899771972">+359 899 771 972</a> numaralı telefondan veya <a href="mailto:office@nexus-cleaning.com">office@nexus-cleaning.com</a> e-posta adresinden iletişime geçebilirsiniz.</p>
+  marketing:
+    home:
+      page_title: RugSuite ERP — halı yıkama işletmeleri için yazılım
+      hero_eyebrow: Halı yıkama işletmeleri için operasyon yazılımı
+      hero_title: Halı yıkama işletmenizi dijitalleştirin
+      hero_subtitle: RugSuite ERP; elektronik tabloları, kâğıt fişleri ve telefon trafiğini, siparişten teslimata her adımı yöneten tek bir platformla değiştirir — ister tek işletme, ister yüz işletme olsun.
+      start_free_trial: Ücretsiz başlayın
+      hero_see_how: Nasıl çalıştığını görün
+      hero_bullet_1: Çok kiracılı — şirket başına bir platform, alt alan başına bir şirket
+      hero_bullet_2: İşletme başına fiyatlandırma, para birimleri, diller ve hizmet bölgeleri
+      hero_bullet_3: Rails 8 + Postgres üzerine kurulu — tamamen bizim tarafımızdan barındırılır ve yönetilir
+      status_picked_up: Alındı
+      status_in_wash: Yıkanıyor
+      status_ready: Teslimata hazır
+      hero_card_pickup_meta: 5 halı · 23,8 kg · Acme Carpets
+      hero_card_wash_meta: 'Tambur 3 · Program: Yün · THS 16:40'
+      hero_card_delivery_meta: 'Kurye: Marko · rotada 7 durak'
+      features_eyebrow: Neler elde edersiniz
+      features_title: Bir halı yıkama işletmesinin ihtiyaç duyduğu her şey, gereksiz hiçbir şey olmadan
+      features_lede: Halı yıkama iş akışı için özel olarak tasarlandı. Genel amaçlı CRM zorlamaları yok, ERP şişkinliği yok.
+      feature_routing_title: Alım ve teslimat rotalaması
+      feature_routing_body: Müşteriler çevrimiçi sipariş verir. Kuryeler bugünün duraklarını en uygun sırada görür, alımı onaylamak için kaydırır, bir fotoğraf çeker, tamamdır. Adresleri telefona bağırmaya son.
+      feature_workflow_title: İzlenen yıkama iş akışı
+      feature_workflow_body: Her halı beklemede → alındı → yıkanıyor → hazır → teslim edildi aşamalarından geçer. Operatörler binada ne olduğunu görür. Koordinatörler gecikeni görür. Halı hazır olduğunda müşteriler bir SMS alır.
+      feature_pricing_title: İşletmenize uygun fiyatlandırma
+      feature_pricing_body: Kilogram başına, adet başına, toplu indirimler, faturayla ödeme, ücretsiz alım bölgeleri — bir kez yapılandırın, her yerde uygulayın. İlk günden itibaren çoklu para birimi.
+      feature_notifications_title: Müşteri bildirimleri
+      feature_notifications_body: Sipariş onayları, fiyat teklifleri, "halınız hazır" uyarıları — müşterinin kendi dilinde SMS ile otomatikleştirilir. Siz peşinden koşmayı, müşteriler aramayı bırakır.
+      feature_reports_title: Ofisin gerçekten okuduğu raporlar
+      feature_reports_body: Günlük sipariş alımı, haftaya göre gelir, kurye performansı, kayıp sinyalleri. Sade grafikler, CSV'ye aktarılabilir. Veri gölü gerekmez.
+      feature_roles_title: Roller ve veri izolasyonu
+      feature_roles_body: Yönetici, koordinatör, operatör, kurye — her rol yalnızca ihtiyaç duyduğunu görür. Her işletmenin verisi katı biçimde izole edilir; işletmeler arasında hiçbir şey sızmaz.
+      how_title: Web formundan yıkanmış halıya 6 adımda
+      step1_title: Müşteri çevrimiçi sipariş verir
+      step1_body: Alt alanınızda temiz bir genel form. Adres Google Maps'e göre doğrulanır, alım aralığı seçilir.
+      step2_title: Koordinatör alımı onaylar
+      step2_body: Koordinatör talebi inceler ve alım tarihini müşteriyle onaylar.
+      step3_title: Kurye halıları toplar
+      step3_body: Bugünün durakları kuryenin telefonunda en uygun sırada. Alımı onaylayın, halıları sayın, devam edin.
+      step4_title: Operatör tartar ve yıkamayı başlatır
+      step4_body: Ağırlık veya adet sayısı girilir, sistem fiyatı hesaplar ve halı yıkama kuyruğuna girer.
+      step5_title: Teklifi SMS ile göndeririz
+      step5_body: Halı tartılır tartılmaz müşteri, tam ağırlık ve tutarı içeren bir SMS alır.
+      step6_title: Koordinatör teslimatı onaylar
+      step6_body: Biten halılar bir teslimat rotasında toplanır. Koordinatör aralığı onaylar, kurye teslim eder, müşteri öder.
+      pricing_title: İşletmenizle birlikte ölçeklenen fiyatlandırma
+      pricing_lede: Büyüdükçe öde. Kurulum ücreti yok, kurye başına ücret yok, sürpriz yok. Kesin bir teklif için bize ulaşın.
+      tier_free_name: Ücretsiz
+      tier_free_tagline: Hemen başlayın — kart gerekmez.
+      tier_free_feat_1: Aylık 30 siparişe kadar
+      tier_free_feat_2: 5 personel kullanıcısı
+      tier_free_feat_3: E-posta desteği
+      tier_free_feat_4: Günlük 5 rota optimizasyonu
+      tier_starter_name: Başlangıç
+      tier_starter_tagline: Tek işletme, yeni başlıyor.
+      per_month: "/ay"
+      tier_starter_feat_1: Aylık 200 siparişe kadar
+      tier_starter_feat_2: 10 personel kullanıcısı
+      tier_starter_feat_3: E-posta desteği
+      tier_starter_feat_4: Günlük 10 rota optimizasyonu
+      tier_badge_popular: En popüler
+      tier_pro_name: Pro
+      tier_pro_tagline: Yerleşik işletme, birden fazla kurye.
+      tier_pro_feat_1: Aylık 500 siparişe kadar
+      tier_pro_feat_2: 20 personel kullanıcısı
+      tier_pro_feat_3: Günlük 20 rota optimizasyonu
+      tier_pro_feat_4: Öncelikli destek
+      tier_pro_contact: Daha fazlası mı lazım? Bize ulaşın →
+      tier_enterprise_name: Kurumsal
+      tier_enterprise_tagline: Çok konumlu veya beyaz etiket.
+      tier_price_custom: Özel
+      tier_enterprise_feat_1: Sınırsız sipariş
+      tier_enterprise_feat_2: Çok konumlu / çok kiracılı
+      tier_enterprise_feat_3: Özel alan adı, marka
+      tier_enterprise_feat_4: SSO, denetim günlükleri, SLA
+      tier_enterprise_feat_5: Kurulum dahil
+      talk_to_us: Bizimle konuşun
+      cta_title: İşletmenizi RugSuite üzerinde yönetmeye hazır mısınız?
+      cta_subtitle: İşletmenizi bir dakikadan kısa sürede kurun. Ücretsiz plan, kredi kartı gerekmez.
+      talk_to_us_first: Önce bizimle konuşun
+      contact_title: Hızlı yanıt veriyoruz
+      contact_body: Bir halı yıkama işletmesi yönetiyorsanız ve yukarıdaki iş akışı tanıdık geliyorsa, sizden haber almak isteriz. Bugün ne kadar sipariş işlediğinizi ve nerede faaliyet gösterdiğinizi bize kısaca anlatın.
+      contact_email_label: E-posta
+      contact_sales_label: Satış
+      contact_support_label: Destek
+    signup:
+      page_title: İşletmenizi oluşturun — RugSuite ERP
+      eyebrow: Ücretsiz plan
+      title: İşletmenizi bir dakikadan kısa sürede kurun.
+      intro_html: Beş alanı doldurun ve <code>adiniz.rugsuite.app</code> adresinde, kullanıma hazır bir yönetici girişiyle çalışan bir siteniz olsun. Kredi kartı gerekmez.
+      bullet_1: Kendi alt alanınız ve izole verileriniz
+      bullet_2: Ücretsiz planda tüm özellikler açık
+      bullet_3: Daha sonra istediğiniz zaman ücretli plana geçin
+      error_heading: İşletmeniz oluşturulamadı.
+      company_name_label: Şirket adı
+      company_name_placeholder: Acme Halı Yıkama
+      subdomain_label: Alt alan
+      subdomain_placeholder: acme
+      subdomain_hint: Küçük harfler, rakamlar ve tireler. 2–32 karakter.
+      country_label: Ülke
+      country_blank: "— ülke seçin —"
+      country_hint: Bunu; saat diliminizi, para biriminizi ve dil varsayılanlarınızı ayarlamak için kullanırız.
+      admin_email_label: Yönetici e-postası
+      admin_email_placeholder: siz@sirketiniz.com
+      password_label: Parola
+      password_hint: En az 8 karakter.
+      submit: İşletmemi oluştur
+      fine_print: Kaydolarak hizmet koşullarımızı kabul etmiş olursunuz. Verilerinizi asla başka bir işletmeyle paylaşmayız.
+    meta:
+      default_title: RugSuite ERP — halı yıkama işletmeleri için yazılım
+      description: 'Halı yıkama işletmeleri için hepsi bir arada operasyon platformu: siparişler, alım/teslimat rotalaması, sipariş alımı, yıkama, faturalama ve müşteri bildirimleri.'
+    nav:
+      features: Avantajlar
+      how_it_works: Nasıl çalışır
+      pricing: Fiyatlandırma
+      contact: İletişim
+    cta:
+      trial: Ücretsiz başlayın
+    footer:
+      tagline: Halı yıkama işletmeleri için operasyon yazılımı.
+      copyright: "© %{year} RugSuite ERP. Tüm hakları saklıdır."
+  activerecord:
+    attributes:
+      request:
+        number_of_items: Adet sayısı
+        weight: Ağırlık
+        pick_up_at: Alım tarihi
+        items_only: Yalnızca adet
+        address: Adres
+        phone: Telefon
+        delivery_at: Teslimat tarihi
+  sms:
+    price_quote:
+      body: "%{prefix} %{summary}. Bkz: %{url}"
+      prefix_weight: 'Halı yıkama:'
+      prefix_items: 'Yorgan yıkama:'
+      items_unit: adet
+  status:
+    errors:
+      empty_query: Lütfen bir telefon numarası veya sipariş numarası girin.
+      not_found: Sipariş bulunamadı veya bağlantının süresi dolmuş.
+    page_title: Sipariş sorgula
+    hero_eyebrow: Takip
+    hero_title: Talep durumunuzu sorgulayın
+    hero_lede: Şu anda nerede olduğunu görmek için bir telefon numarası veya sipariş numarası girin.
+    search_placeholder: Telefon veya sipariş numarası
+    search_submit: Sorgula
+    results_count_html:
+      one: "<strong>%{query}</strong> için %{count} sonuç"
+      other: "<strong>%{query}</strong> için %{count} sonuç"
+    card_order_label: Sipariş
+    phone_label: Telefon
+    amount_label: Tutar
+    weight_label: Ağırlık
+    items_label: Adet
+    unit_item: adet
+    unit_bgn: BGN
+    requested_on: "%{date} tarihinde talep edildi"
+    empty_title: Sipariş bulunamadı
+    empty_hint_html: "<strong>%{query}</strong> için bir şey bulamadık. Numarayı kontrol edip tekrar deneyin veya %{link}."
+    new_request_link: yeni bir talep gönderin
+    aside_eyebrow: Ne girmeliyim?
+    aside_item_phone_html: "<strong>Telefon numarası</strong> — talebi verirken kullandığınız numaranın aynısı."
+    aside_item_order_html: "<strong>Sipariş numarası</strong> — talebiniz onaylandıktan sonra bunu göndeririz."
+    aside_contact_eyebrow: Siparişinizi bulamıyor musunuz?
+    aside_hours: İş günleri · 09:00 – 20:00
+  requests:
+    captcha_failed: İnsan olduğunuzu doğrulayamadık. Lütfen tekrar deneyin.
+    form:
+      section_contact: İletişim
+      phone_label: Telefon
+      phone_placeholder: örn. 0888 123 456
+      section_pickup_address: Alım adresi
+      address_label: Adres
+      address_placeholder: Sokak ve numara
+      city_label: Şehir
+      city_prompt: Seçin…
+      section_schedule: Program
+      pickup_date_label: Alım tarihi
+      pickup_date_hint: Kuryemiz hafta içi 18:00 ile 20:30 arasında gelir.
+      pickup_notes_label: Alım notları
+      pickup_notes_placeholder: örn. lütfen 19:00'dan sonra gelin, 5 numaralı daire, ikinci kat
+      recaptcha_notice_html: Bu form reCAPTCHA ile korunmaktadır. Google'ın <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">gizlilik politikası</a> ve <a href="https://policies.google.com/terms" target="_blank" rel="noopener">hizmet koşulları</a> geçerlidir.
+      submit: Talebi gönder
+    new:
+      page_title: Sipariş
+      hero_eyebrow: Sipariş
+      hero_title: Halı yıkama siparişi verin
+      hero_lede: Bir dakikadan az sürer. Alım zamanını onaylamak ve tahmini fiyatı görüşmek için sizinle iletişime geçeceğiz.
+      errors: Lütfen aşağıda vurgulanan alanları düzeltin.
+      aside_next_eyebrow: Sırada ne var
+      aside_step1_title: Talebinizi alırız
+      aside_step1_body: Alım zamanını onaylamak için sizinle iletişime geçeriz.
+      aside_step2_title: Kurye gelir
+      aside_step2_body: Seçtiğiniz gün 18:00 ile 20:30 arasında.
+      aside_step3_title: Yıkar ve iade ederiz
+      aside_step3_body: 3–5 iş günü sonra — tertemiz ve paketlenmiş.
+      aside_contact_eyebrow: Aramayı mı tercih edersiniz?
+      aside_hours: İş günleri · 09:00 – 20:00
+    show:
+      page_title: Talep alındı
+      title: Talep alındı
+      message: Talebinizi kaydettik. Aşağıdaki referans numarasını saklayın — durumu sorgulamak için buna ihtiyacınız olacak.
+      reference_label: Referans numarası
+      pickup_label: Alım zamanı
+      phone_label: Telefon
+      address_label: Adres
+      notes_label: Notlar
+      check_status: Durumu sorgula
+      new_request: Yeni bir talep gönderin
+  date:
+    formats:
+      long: "%-d %B %Y"
+      short: "%-d %b"
+    day_names:
+    - Pazar
+    - Pazartesi
+    - Salı
+    - Çarşamba
+    - Perşembe
+    - Cuma
+    - Cumartesi
+    abbr_day_names:
+    - Paz
+    - Pzt
+    - Sal
+    - Çar
+    - Per
+    - Cum
+    - Cmt
+    month_names:
+    -
+    - Ocak
+    - Şubat
+    - Mart
+    - Nisan
+    - Mayıs
+    - Haziran
+    - Temmuz
+    - Ağustos
+    - Eylül
+    - Ekim
+    - Kasım
+    - Aralık
+    abbr_month_names:
+    -
+    - Oca
+    - Şub
+    - Mar
+    - Nis
+    - May
+    - Haz
+    - Tem
+    - Ağu
+    - Eyl
+    - Eki
+    - Kas
+    - Ara
+  datetime:
+    minutes_short: dk
+    hours_short: sa
+  js:
+    confirm:
+      delete: Sil
+      confirm: Onayla
+      cancel: İptal
+      title_delete: Silmeyi onayla
+      title_weigh: Halıları tart
+      title_items: Adet sayısı
+      title_weight: Halı ağırlığı
+      title_status: Durumu değiştir
+      items_label: Adet sayısı
+      weight_label: Toplam ağırlık (kg)
+    address_preview:
+      no_address: Bağlantı bir adres içermiyor.
+      parse_error: Bağlantı işlenirken hata oluştu.
+  rack_attack:
+    too_many_requests: Çok fazla istek. Lütfen bir dakika sonra tekrar deneyin.
+  sessions:
+    page_title: Personel girişi
+    title: Hoş geldiniz
+    subtitle: Siparişleri yönetmek için giriş yapın.
+    email_label: E-posta
+    password_label: Parola
+    submit: Giriş yap
+  faq:
+    hero:
+      eyebrow: Sıkça sorulan sorular
+      title: En önemli soruların yanıtları
+      lede_html: Sorunuzu burada bulamazsanız, 09:00 ile 20:00 arasında bizi <a href="tel:+359899771972">+359 899 771 972</a> numaradan arayın.
+    items:
+      price:
+        q: Maliyeti ne kadar?
+        a_html: Halıları, yollukları ve battaniyeleri <strong>1,50 € / kg</strong> fiyatla yıkıyoruz. Hafif yorganlar <strong>7,50 € / adet</strong>. 50 kg üzeri miktarlarda indirim uygulanır — <strong>1,35 € / kg</strong>
+        a: Halıları, yollukları ve battaniyeleri 1,50 € / kg fiyatla yıkıyoruz. Hafif yorganlar 7,50 € / adet. 50 kg üzeri miktarlarda indirim uygulanır — 1,35 € / kg.
+      fees:
+        q: Ek ücret veya asgari miktar var mı?
+        a_html: Hayır. Plovdiv ve çevresinde taşıma <strong>ücretsizdir</strong>. Gizli ücret ve asgari miktar yoktur — tek bir yolluktan halılara ve yorganlara kadar her şeyi alırız.
+        a: Hayır. Plovdiv ve çevresinde taşıma ücretsizdir. Gizli ücret ve asgari miktar yoktur — tek bir yolluktan halılara ve yorganlara kadar her şeyi alırız.
+      how_to_order:
+        q: Nasıl sipariş veririm?
+        intro: 'Üç seçeneğiniz var — en uygun olanı seçin:'
+        form_link: sipariş formu
+        online_html: "<strong>Çevrimiçi</strong> — %{link} doldurun. Bir dakikadan az sürer."
+        by_phone_html: <strong>Telefonla</strong> — 09:00 ile 20:00 arasında bizi <a href="tel:+359899771972">+359 899 771 972</a> numaradan arayın.
+        by_sms_html: "<strong>SMS veya Viber</strong> — aynı numaradan bize mesaj gönderin, ayrıntıları netleştirmek için sizinle iletişime geçelim."
+        a: 'Üç seçeneğiniz var: sipariş formu üzerinden çevrimiçi, 09:00 ile 20:00 arasında +359 899 771 972 numaradan telefonla veya aynı numaradan SMS/Viber ile.'
+      turnaround:
+        q: Kaç gün sürer?
+        a_html: Siparişler normalde <strong>3 – 5 iş günü</strong> içinde tamamlanır. Yoğun dönemlerde veya özel kumaşlarda 7 güne kadar sürebilir. Halılar iade edilmeye hazır olur olmaz sizinle iletişime geçeriz.
+        a: Siparişler normalde 3 – 5 iş günü içinde tamamlanır. Yoğun dönemlerde veya özel kumaşlarda 7 güne kadar sürebilir. Halılar iade edilmeye hazır olur olmaz sizinle iletişime geçeriz.
+      weighing:
+        q: Halılar nerede tartılır?
+        a_html: Halılar, yıkamaya başlamadan önce <strong>atölyemizde</strong> kalibre edilmiş elektronik bir teraziyle tartılır. Ağırlık ve nihai fiyatı içeren bir mesaj alırsınız.
+        a: Halılar, yıkamadan önce atölyemizde kalibre edilmiş elektronik bir teraziyle tartılır. Ağırlık ve nihai fiyatı içeren bir mesaj alırsınız.
+      materials:
+        q: Hangi malzemeleri yıkıyorsunuz?
+        a: Yün, sentetik ve karışık halılar; battaniyeler için pamuk ve mikrofiber; yorganlar için kuştüyü ve sentetik dolgular.
+      stains:
+        q: Endişelendiğim lekeler varsa ne olur?
+        a_html: Lekenin ne olduğunu ve ne kadar eski olduğunu önceden bize bildirin. Lekeleri <strong>standart yıkamanın bir parçası olarak, ek ücret almadan</strong> işleriz. Çoğu durumda sonuç beklentileri aşar. Çok eski veya özel lekelerin (örneğin mürekkep veya boya) çıkarılmasını garanti edemeyiz.
+        a: Lekenin ne olduğunu ve ne kadar eski olduğunu önceden bize bildirin. Lekeleri standart yıkamanın bir parçası olarak, ek ücret almadan işleriz. Çok eski veya özel lekelerin (örneğin mürekkep veya boya) çıkarılmasını garanti edemeyiz.
+      safety:
+        q: Çocuklar ve evcil hayvanlar için güvenli mi?
+        a_html: Evet. Agresif kimyasallar içermeyen <strong>biyolojik olarak parçalanabilen, hipoalerjenik deterjanlar</strong> kullanıyoruz. Hassas ciltler, küçük çocuklar ve evcil hayvanlı evler için güvenli.
+        a: Evet. Agresif kimyasallar içermeyen biyolojik olarak parçalanabilen, hipoalerjenik deterjanlar kullanıyoruz. Hassas ciltler, küçük çocuklar ve evcil hayvanlı evler için güvenli.
+      not_home:
+        q: Alım zamanında evde değilsem ne olur?
+        a_html: Bizimle iletişime geçin — alımı kolayca başka bir güne alabiliriz veya halıyı üzerinde anlaştığınız bir kişiye (komşu, kapıcı veya aile üyesi) bırakabilirsiniz. İade de randevuyu kaçırmamamız için önceden ayarlanır.
+        a: Bizimle iletişime geçin — alımı kolayca başka bir güne alabiliriz veya halıyı üzerinde anlaştığınız bir kişiye (komşu, kapıcı veya aile üyesi) bırakabilirsiniz. İade de önceden ayarlanır.
+      frequency:
+        q: Halılar ne sıklıkta yıkanmalı?
+        a_html: Ev kullanımı için <strong>12 – 18 ayda bir</strong>, evcil hayvanınız veya küçük çocuğunuz varsa <strong>6 – 12 ayda bir</strong> profesyonel yıkama öneriyoruz. Yıkamalar arasında düzenli çırpma ve süpürme, halının ömrünü uzatır.
+        a: Ev kullanımı için 12 – 18 ayda bir, evcil hayvanınız veya küçük çocuğunuz varsa 6 – 12 ayda bir profesyonel yıkama öneriyoruz.
+    cta:
+      heading: Sipariş vermeye hazır mısınız?
+      lede: Talep bir dakikadan az sürer. Alım zamanınızı onaylamak için sizinle iletişime geçeceğiz.
+  contacts:
+    hero:
+      eyebrow: İletişim
+      title: Bize ulaşın
+      lede: Telefon, e-posta, SMS ve Viber ile yanıt veriyoruz. En uygun olanı seçin — genellikle birkaç dakika içinde yanıtlıyoruz.
+    cards:
+      phone:
+        label: Telefon
+        note: Hafta içi · 09:00 – 20:00
+      sms:
+        label: SMS / Viber
+        note: Kısa sorular için kullanışlı
+      email:
+        label: E-posta
+        note: İş günü içinde yanıtlıyoruz
+      pickup:
+        label: Alım ve iade
+        note: Her gün, önceden randevuyla
+    coverage:
+      eyebrow: Kapsam
+      heading: Nerede faaliyet gösteriyoruz
+      lede: Plovdiv ve komşu kasabalarda ücretsiz alım ve iade. Kasabanızı görmüyor musunuz? Bizi arayın — sık sık istisna yapıyoruz.
+    cta:
+      heading: Sipariş vermeye hazır mısınız?
+      lede: Talep bir dakikadan az sürer. Alım zamanınızı onaylamak için sizinle iletişime geçeceğiz.
+  cookie_consent:
+    title: Çerez kullanıyoruz
+    body_html: Bu site, temel işleyişi için gerekli çerezleri ve isteğe bağlı olarak, siteyi geliştirmemize yardımcı olan anonim istatistikleri kullanır. Ayrıntıları %{link} bölümümüzde bulabilirsiniz.
+    privacy_link: Gizlilik Politikası
+    reject: Yalnızca gerekli olanlar
+    accept: Tümünü kabul et

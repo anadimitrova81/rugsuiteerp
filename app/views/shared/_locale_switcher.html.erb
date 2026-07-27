@@ -1,16 +1,23 @@
 <% if I18n.available_locales.size > 1 %>
-  <div class="locale-switch" role="group" aria-label="<%= t("nav.language") %>">
-    <% I18n.available_locales.each do |loc| %>
-      <% if loc == I18n.locale %>
-        <span class="locale-switch-option is-active" aria-current="true"><%= locale_short_label(loc) %></span>
-      <% else %>
-        <%= link_to locale_short_label(loc), locale_switch_url(loc),
-                    class: "locale-switch-option",
-                    rel: "nofollow",
-                    lang: loc,
-                    title: locale_native_name(loc),
-                    aria: { label: locale_native_name(loc) } %>
+  <details class="locale-switch">
+    <summary class="locale-switch-toggle" aria-label="<%= t("nav.language") %>">
+      <span class="locale-switch-current"><%= locale_short_label(I18n.locale) %></span>
+      <svg class="locale-switch-caret" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+    </summary>
+    <ul class="locale-switch-menu" role="menu">
+      <% I18n.available_locales.each do |loc| %>
+        <li role="none">
+          <% if loc == I18n.locale %>
+            <span class="locale-switch-option is-active" role="menuitem" aria-current="true"><%= locale_native_name(loc) %></span>
+          <% else %>
+            <%= link_to locale_native_name(loc), locale_switch_url(loc),
+                        class: "locale-switch-option",
+                        role: "menuitem",
+                        rel: "nofollow",
+                        lang: loc %>
+          <% end %>
+        </li>
       <% end %>
-    <% end %>
-  </div>
+    </ul>
+  </details>
 <% end %>
