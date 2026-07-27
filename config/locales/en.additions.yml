@@ -273,7 +273,7 @@ en:
       step6_title: Coordinator confirms delivery
       step6_body: Done rugs are bundled into a delivery route. The coordinator confirms the slot, the courier delivers, the customer pays.
       pricing_title: Pricing that scales with your business.
-      pricing_lede: Pay-as-you-grow. No setup fees, no per-courier nickel-and-dime, no surprises. Talk to us for an exact quote.
+      pricing_lede: Pay-as-you-grow. No setup fees, no per-courier charges, no surprises. Talk to us for an exact quote.
       tier_free_name: Free
       tier_free_tagline: Get started — no card needed.
       tier_free_feat_1: Up to 30 orders / month
@@ -308,7 +308,7 @@ en:
       cta_subtitle: Set up your business in under a minute. Free plan, no credit card.
       talk_to_us_first: Talk to us first
       contact_title: We answer fast.
-      contact_body: If you run a rug washing business and the workflow above sounds familiar, we want to hear from you. Tell us a bit about how many orders you do today and where you operate.
+      contact_body: If you run a rug washing business and the workflow above sounds familiar, we want to hear from you. Tell us a bit about how many orders you handle today and where you operate.
       contact_email_label: Email
       contact_sales_label: Sales
       contact_support_label: Support
