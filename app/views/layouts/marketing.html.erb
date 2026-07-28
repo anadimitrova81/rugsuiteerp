@@ -7,6 +7,10 @@
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
+    <% if recaptcha_site_key.present? %>
+      <script src="https://www.google.com/recaptcha/api.js?render=<%= recaptcha_site_key %>" async defer></script>
+    <% end %>
+
     <link rel="icon" href="/icon.svg" type="image/svg+xml">
     <link rel="icon" href="/icon.png" type="image/png">
     <link rel="apple-touch-icon" href="/icon.png">

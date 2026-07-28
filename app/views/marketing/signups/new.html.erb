@@ -17,8 +17,14 @@
     <div class="mkt-signup-card">
       <%# data: { turbo: false } — submit as a regular HTML POST so the
           cross-origin redirect to <slug>.localhost works on success. Turbo
-          intercepts otherwise and can't navigate across origins cleanly. %>
-      <%= form_with(model: @form, url: marketing_signup_path, method: :post, scope: :signup, data: { turbo: false }, class: "mkt-form") do |f| %>
+          intercepts otherwise and can't navigate across origins cleanly.
+          When a reCAPTCHA site key is set, the recaptcha controller fetches a
+          v3 token into the hidden field just before submit. %>
+      <% form_data = { turbo: false } %>
+      <% if recaptcha_site_key.present? %>
+        <% form_data.merge!(controller: "recaptcha", recaptcha_site_key_value: recaptcha_site_key, recaptcha_action_value: "signup") %>
+      <% end %>
+      <%= form_with(model: @form, url: marketing_signup_path, method: :post, scope: :signup, data: form_data, class: "mkt-form") do |f| %>
         <% if @form.errors.any? %>
           <div class="mkt-form-error mkt-form-error-base">
             <strong><%= t("marketing.signup.error_heading") %></strong>
@@ -68,7 +74,15 @@
           <% if @form.errors[:admin_password].any? %><p class="mkt-form-error"><%= @form.errors[:admin_password].first %></p><% end %>
         </div>
 
+        <% if recaptcha_site_key.present? %>
+          <input type="hidden" name="g-recaptcha-response" data-recaptcha-target="token">
+        <% end %>
+
         <%= f.submit t("marketing.signup.submit"), class: "btn btn-primary btn-full btn-lg" %>
+
+        <% if recaptcha_site_key.present? %>
+          <p class="recaptcha-notice"><%= t("requests.form.recaptcha_notice_html") %></p>
+        <% end %>
 
         <p class="mkt-form-fine">
           <%= t("marketing.signup.fine_print") %>

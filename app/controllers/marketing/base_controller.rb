@@ -7,10 +7,13 @@ module Marketing
   # is the safety net we want.
   class BaseController < ActionController::Base
     include LocaleDetection
+    include RecaptchaVerification
 
     allow_browser versions: :modern
 
     layout "marketing"
+
+    helper_method :recaptcha_site_key
 
     around_action :switch_locale
 
