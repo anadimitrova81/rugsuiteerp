@@ -1,0 +1,35 @@
+<% content_for(:title) { t("admin.subscription.billing.title") } %>
+
+<div class="container">
+  <header class="page-header">
+    <h1><%= t("admin.subscription.billing.title") %></h1>
+    <p class="page-header-lede">
+      <%= t("admin.subscription.billing.lede", plan: t("plan.#{@plan}")) %>
+    </p>
+  </header>
+
+  <% if @factory.errors.any? %>
+    <div class="flash flash-alert" role="alert">
+      <ul>
+        <% @factory.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <%= form_with(model: @factory, url: billing_admin_subscription_path(plan: @plan), method: :patch, class: "settings-form") do |f| %>
+    <section class="settings-section">
+      <%= f.text_field :billing_company_name, label: t("admin.subscription.billing.company_name") %>
+      <%= f.text_field :billing_eik, label: t("admin.subscription.billing.eik") %>
+      <%= f.text_field :billing_vat_number, label: t("admin.subscription.billing.vat_number"), hint: t("admin.subscription.billing.vat_optional") %>
+      <%= f.text_field :billing_mol, label: t("admin.subscription.billing.mol") %>
+      <%= f.text_area :billing_address, label: t("admin.subscription.billing.address"), rows: 3 %>
+    </section>
+
+    <div class="form-actions">
+      <%= link_to t("admin.subscription.billing.cancel"), admin_subscription_path, class: "btn btn-secondary" %>
+      <%= f.submit t("admin.subscription.billing.submit", plan: t("plan.#{@plan}")), class: "btn btn-primary" %>
+    </div>
+  <% end %>
+</div>

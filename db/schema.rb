@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_07_24_100000) do
+ActiveRecord::Schema[8.1].define(version: 2026_07_28_130001) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -48,6 +48,11 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_24_100000) do
   end
 
   create_table "factories", force: :cascade do |t|
+    t.text "billing_address"
+    t.string "billing_company_name"
+    t.string "billing_eik"
+    t.string "billing_mol"
+    t.string "billing_vat_number"
     t.string "brand_primary_color"
     t.string "brand_secondary_color"
     t.decimal "bulk_area_threshold", precision: 10, scale: 2, default: "0.0", null: false
@@ -82,6 +87,31 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_24_100000) do
     t.string "whatsapp_url"
     t.index ["plan"], name: "index_factories_on_plan"
     t.index ["slug"], name: "index_factories_on_slug", unique: true
+  end
+
+  create_table "invoices", force: :cascade do |t|
+    t.integer "amount_cents", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.string "currency", default: "EUR", null: false
+    t.integer "discount_percent", default: 0, null: false
+    t.bigint "factory_id", null: false
+    t.date "issued_on", null: false
+    t.string "number"
+    t.date "period_end", null: false
+    t.date "period_start", null: false
+    t.string "plan", null: false
+    t.text "recipient_address"
+    t.string "recipient_eik"
+    t.string "recipient_mol"
+    t.string "recipient_name"
+    t.string "recipient_vat_number"
+    t.string "status", default: "issued", null: false
+    t.datetime "updated_at", null: false
+    t.string "vat_grounds"
+    t.integer "vat_rate", default: 0, null: false
+    t.index ["factory_id", "period_start"], name: "index_invoices_on_factory_id_and_period_start"
+    t.index ["factory_id"], name: "index_invoices_on_factory_id"
+    t.index ["number"], name: "index_invoices_on_number", unique: true
   end
 
   create_table "notifications", force: :cascade do |t|
@@ -188,6 +218,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_24_100000) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "invoices", "factories"
   add_foreign_key "notifications", "factories"
   add_foreign_key "notifications", "requests", on_delete: :cascade
   add_foreign_key "page_visits", "factories"

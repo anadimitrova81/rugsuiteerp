@@ -23,6 +23,9 @@ Rails.application.routes.draw do
                               as: :platform_subscription do
       post :impersonate, to: "platform/impersonations#create", on: :member
     end
+
+    resources :invoices, only: %i[index show], controller: "platform/invoices",
+                         as: :platform_invoices
   end
 
   # ===== Marketing site (apex / reserved subdomains) =====
@@ -81,7 +84,11 @@ Rails.application.routes.draw do
     get "sms_log", to: "sms_log#index", as: :sms_log
 
     resource :settings, only: %i[show update]
-    resource :subscription, only: %i[show update]
+    resource :subscription, only: %i[show update] do
+      get   "billing", to: "subscriptions#billing"
+      patch "billing", to: "subscriptions#update_billing"
+    end
+    resources :invoices, only: %i[index show]
     resources :process_steps, only: %i[new create edit update destroy] do
       patch :move, on: :member
     end

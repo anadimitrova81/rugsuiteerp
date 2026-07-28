@@ -19,6 +19,10 @@
           RugSuite <span>Platform</span>
         <% end %>
         <% if current_platform_admin %>
+          <nav class="platform-nav">
+            <%= link_to "Subscriptions", platform_root_path %>
+            <%= link_to "Invoices", platform_invoices_path %>
+          </nav>
           <div class="platform-header-right">
             <span class="platform-admin-email"><%= current_platform_admin.email %></span>
             <%= button_to "Log out", platform_logout_path, method: :delete, class: "btn btn-secondary btn-sm" %>

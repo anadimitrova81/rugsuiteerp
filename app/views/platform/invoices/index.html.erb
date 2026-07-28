@@ -1,0 +1,54 @@
+<% content_for(:title) { "Invoices · Platform" } %>
+
+<div class="platform-page">
+  <header class="platform-page-head">
+    <h1>Invoices</h1>
+    <p class="platform-lede">
+      <%= pluralize(@invoices.size, "invoice") %> ·
+      Total <%= number_to_currency(@total_cents / 100.0, unit: "€", format: "%u%n") %>
+    </p>
+  </header>
+
+  <% if @invoices.empty? %>
+    <p class="platform-empty">No invoices yet.</p>
+  <% else %>
+    <div class="platform-table-wrap">
+      <table class="platform-table">
+        <thead>
+          <tr>
+            <th>Number</th>
+            <th>Factory</th>
+            <th>Plan</th>
+            <th>Period</th>
+            <th>Amount</th>
+            <th>Status</th>
+            <th>Issued</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @invoices.each do |invoice| %>
+            <tr>
+              <td><%= invoice.number %></td>
+              <td>
+                <%= link_to invoice.factory.name, platform_invoices_path(factory_id: invoice.factory_id), class: "platform-link" %>
+                <span class="platform-slug"><%= invoice.factory.slug %></span>
+              </td>
+              <td><span class="platform-plan platform-plan-<%= invoice.plan %>"><%= invoice.plan.capitalize %></span></td>
+              <td><%= invoice.period_start.iso8601 %> – <%= invoice.period_end.iso8601 %></td>
+              <td><%= number_to_currency(invoice.amount, unit: "€", format: "%u%n") %></td>
+              <td><%= invoice.status.capitalize %></td>
+              <td><%= invoice.issued_on.iso8601 %></td>
+              <td class="platform-actions">
+                <%= link_to "PDF", platform_invoice_path(invoice), target: "_blank", rel: "noopener", class: "btn btn-secondary btn-sm" %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+    <% if params[:factory_id].present? %>
+      <p><%= link_to "← All invoices", platform_invoices_path, class: "platform-link" %></p>
+    <% end %>
+  <% end %>
+</div>

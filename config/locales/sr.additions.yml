@@ -56,6 +56,42 @@ sr:
         other: Слање SMS понуда цене није успело за %{count} поруджбина. Проверите записе.
     address_lookups:
       parse_error: Нисмо могли да извучемо координате из линка.
+    nav:
+      invoices: Фактуре
+    invoices:
+      title: Фактуре
+      lede: Фактуре ваше претплате — нова сваког месеца док сте на плаћеном плану.
+      empty: Још нема фактура. Појавиће се овде чим пређете на плаћени план.
+      number: Број
+      period: Период
+      plan: План
+      amount: Износ
+      status: Статус
+      status_issued: Издата
+      status_paid: Плаћена
+      issued_on: Издата дана
+      view: Прикажи
+      show_title: 'Фактура %{number}'
+      back: Назад на фактуре
+      from: Од
+      billed_to: Фактурисано
+      description: Опис
+      line_item: 'План %{plan} — месечна претплата'
+      total: Укупно
+      download_pdf: Преузми PDF
+    subscription:
+      billing:
+        title: Подаци за фактурисање
+        lede: Унесите податке за фактурисање ваше фирме да бисте се претплатили на %{plan}. Појављују се на свакој фактури.
+        company_name: Фирма (правно име)
+        eik: ЕИК/Булстат
+        vat_number: ДДС №
+        vat_optional: Оставите празно ако нисте у систему ПДВ.
+        mol: МОЛ
+        address: Адреса за фактурисање
+        submit: Претплати се на %{plan}
+        cancel: Откажи
+        incomplete: Молимо попуните фирму, ЕИК, МОЛ и адресу за фактурисање.
   privacy:
     meta_title: Политика приватности · Nexus Cleaning
     eyebrow: Документ

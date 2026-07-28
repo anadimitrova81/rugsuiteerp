@@ -1,0 +1,41 @@
+<% content_for(:title) { t("admin.invoices.title") } %>
+
+<div class="container">
+  <header class="page-header">
+    <h1><%= t("admin.invoices.title") %></h1>
+    <p class="page-header-lede"><%= t("admin.invoices.lede") %></p>
+  </header>
+
+  <% if @invoices.empty? %>
+    <p class="empty-state"><%= t("admin.invoices.empty") %></p>
+  <% else %>
+    <div class="table-wrap">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th><%= t("admin.invoices.number") %></th>
+            <th><%= t("admin.invoices.period") %></th>
+            <th><%= t("admin.invoices.plan") %></th>
+            <th><%= t("admin.invoices.amount") %></th>
+            <th><%= t("admin.invoices.status") %></th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @invoices.each do |invoice| %>
+            <tr>
+              <td><%= invoice.number %></td>
+              <td><%= bg_long_date(invoice.period_start) %> – <%= bg_long_date(invoice.period_end) %></td>
+              <td><%= t("plan.#{invoice.plan}") %></td>
+              <td><%= number_to_currency(invoice.amount, unit: "€", format: "%u%n") %></td>
+              <td><span class="invoice-status invoice-status-<%= invoice.status %>"><%= t("admin.invoices.status_#{invoice.status}") %></span></td>
+              <td class="table-actions">
+                <%= link_to t("admin.invoices.view"), admin_invoice_path(invoice), class: "btn btn-secondary btn-sm" %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  <% end %>
+</div>

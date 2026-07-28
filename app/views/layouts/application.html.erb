@@ -155,6 +155,7 @@
                 <li><%= link_to t("admin.nav.users"),        admin_users_path %></li>
                 <li><%= link_to t("admin.nav.settings"),     admin_settings_path %></li>
                 <li><%= link_to t("admin.nav.subscription"), admin_subscription_path %></li>
+                <li><%= link_to t("admin.nav.invoices"),     admin_invoices_path %></li>
               <% end %>
               <li><%= link_to t("admin.nav.logout"), logout_path, data: { turbo_method: :delete }, class: "nav-logout" %></li>
             <% else %>

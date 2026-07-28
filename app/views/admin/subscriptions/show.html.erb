@@ -74,12 +74,19 @@
         <% else %>
           <% downgrade = Factory::PLANS.index(plan) < Factory::PLANS.index(@factory.plan) %>
           <% label_key = downgrade ? "downgrade" : (@factory.plan == "free" ? "choose" : "switch") %>
-          <%= button_to t("admin.subscription.#{label_key}", plan: t("plan.#{plan}")),
-                        admin_subscription_path,
-                        method: :patch,
-                        params: { factory: { plan: plan } },
-                        class: "btn #{featured ? 'btn-primary' : 'btn-secondary'} btn-full",
-                        data: { turbo_confirm: t("admin.subscription.confirm_change", plan: t("plan.#{plan}")) } %>
+          <% if Factory::PLAN_PRICES[plan].to_i.positive? %>
+            <%# Billable plan: collect billing details first, then issue an invoice. %>
+            <%= link_to t("admin.subscription.#{label_key}", plan: t("plan.#{plan}")),
+                        billing_admin_subscription_path(plan: plan),
+                        class: "btn #{featured ? 'btn-primary' : 'btn-secondary'} btn-full" %>
+          <% else %>
+            <%= button_to t("admin.subscription.#{label_key}", plan: t("plan.#{plan}")),
+                          admin_subscription_path,
+                          method: :patch,
+                          params: { factory: { plan: plan } },
+                          class: "btn #{featured ? 'btn-primary' : 'btn-secondary'} btn-full",
+                          data: { turbo_confirm: t("admin.subscription.confirm_change", plan: t("plan.#{plan}")) } %>
+          <% end %>
         <% end %>
       </article>
     <% end %>

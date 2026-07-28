@@ -56,6 +56,42 @@ en:
         other: Sending SMS price quotes failed for %{count} orders. Check the logs.
     address_lookups:
       parse_error: We couldn't extract coordinates from the link.
+    nav:
+      invoices: Invoices
+    invoices:
+      title: Invoices
+      lede: Your subscription invoices — a new one each month while you're on a paid plan.
+      empty: No invoices yet. They'll appear here once you're on a paid plan.
+      number: Number
+      period: Period
+      plan: Plan
+      amount: Amount
+      status: Status
+      status_issued: Issued
+      status_paid: Paid
+      issued_on: Issued on
+      view: View
+      show_title: 'Invoice %{number}'
+      back: Back to invoices
+      from: From
+      billed_to: Billed to
+      description: Description
+      line_item: '%{plan} plan — monthly subscription'
+      total: Total
+      download_pdf: Download PDF
+    subscription:
+      billing:
+        title: Billing details
+        lede: Enter your company's billing details to subscribe to %{plan}. They appear on every invoice.
+        company_name: Company (legal name)
+        eik: Company ID (ЕИК/Булстат)
+        vat_number: VAT number (ДДС №)
+        vat_optional: Leave blank if not VAT-registered.
+        mol: Responsible person (МОЛ)
+        address: Billing address
+        submit: Subscribe to %{plan}
+        cancel: Cancel
+        incomplete: Please fill in the company name, ID (ЕИК), responsible person (МОЛ) and billing address.
   privacy:
     meta_title: Privacy Policy · Nexus Cleaning
     eyebrow: Document

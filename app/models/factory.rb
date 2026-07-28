@@ -20,6 +20,15 @@ class Factory < ApplicationRecord
     "pro"     => { monthly_orders: 500, users: 20, daily_route_operations: 20 },
   }.freeze
 
+  # Monthly plan price in minor units (euro cents). Drives invoicing. Keep in
+  # sync with the marketing/admin price copy (€49 / €99). Free is not billed.
+  PLAN_PRICES = {
+    "free"    => 0,
+    "starter" => 4900,
+    "pro"     => 9900,
+  }.freeze
+  BILLING_CURRENCY = "EUR".freeze
+
   has_one_attached :logo
   has_one_attached :hero_image
 
@@ -28,6 +37,7 @@ class Factory < ApplicationRecord
   has_many :notifications, through: :requests
   has_many :page_visits,   dependent: :destroy
   has_many :process_steps, dependent: :destroy
+  has_many :invoices,      dependent: :destroy
 
   validates :slug, presence: true,
                    uniqueness: { case_sensitive: false },
@@ -59,6 +69,25 @@ class Factory < ApplicationRecord
 
   def free?
     plan == "free"
+  end
+
+  # Monthly price of the current plan, in cents. Zero for free.
+  def plan_price_cents
+    PLAN_PRICES.fetch(plan, 0)
+  end
+
+  # A plan we actually bill for (everything except free).
+  def billable_plan?
+    plan_price_cents.positive?
+  end
+
+  # Legal billing fields required to issue a valid Bulgarian фактура to this
+  # tenant. ДДС № (VAT number) is optional — many small companies aren't
+  # VAT-registered.
+  REQUIRED_BILLING_FIELDS = %i[billing_company_name billing_address billing_eik billing_mol].freeze
+
+  def billing_details_complete?
+    REQUIRED_BILLING_FIELDS.all? { |f| public_send(f).present? }
   end
 
   def monthly_order_limit

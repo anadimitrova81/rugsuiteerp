@@ -56,6 +56,42 @@ fr:
         other: L'envoi des devis par SMS a échoué pour %{count} commandes. Consultez les journaux.
     address_lookups:
       parse_error: Nous n'avons pas pu extraire les coordonnées du lien.
+    nav:
+      invoices: Factures
+    invoices:
+      title: Factures
+      lede: Les factures de votre abonnement — une nouvelle chaque mois tant que vous êtes sur une formule payante.
+      empty: Aucune facture pour le moment. Elles apparaîtront ici dès que vous passerez à une formule payante.
+      number: Numéro
+      period: Période
+      plan: Formule
+      amount: Montant
+      status: Statut
+      status_issued: Émise
+      status_paid: Payée
+      issued_on: Émise le
+      view: Voir
+      show_title: 'Facture %{number}'
+      back: Retour aux factures
+      from: De
+      billed_to: Facturé à
+      description: Description
+      line_item: 'Formule %{plan} — abonnement mensuel'
+      total: Total
+      download_pdf: Télécharger le PDF
+    subscription:
+      billing:
+        title: Coordonnées de facturation
+        lede: Saisissez les coordonnées de facturation de votre entreprise pour souscrire à %{plan}. Elles figurent sur chaque facture.
+        company_name: Entreprise (raison sociale)
+        eik: Numéro d'entreprise (ЕИК/Булстат)
+        vat_number: Numéro de TVA (ДДС №)
+        vat_optional: Laissez vide si non assujetti à la TVA.
+        mol: Personne responsable (МОЛ)
+        address: Adresse de facturation
+        submit: Souscrire à %{plan}
+        cancel: Annuler
+        incomplete: Veuillez renseigner la raison sociale, le numéro d'entreprise (ЕИК), la personne responsable (МОЛ) et l'adresse de facturation.
   privacy:
     meta_title: Politique de confidentialité · Nexus Cleaning
     eyebrow: Document

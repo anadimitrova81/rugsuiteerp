@@ -1,0 +1,66 @@
+<% content_for(:title) { t("admin.invoices.show_title", number: @invoice.number) } %>
+
+<div class="container">
+  <header class="page-header page-header-with-back">
+    <div>
+      <h1><%= t("admin.invoices.show_title", number: @invoice.number) %></h1>
+      <p class="page-header-lede">
+        <span class="invoice-status invoice-status-<%= @invoice.status %>"><%= t("admin.invoices.status_#{@invoice.status}") %></span>
+      </p>
+    </div>
+    <div class="page-header-actions">
+      <%= link_to t("admin.invoices.download_pdf"), admin_invoice_path(@invoice, format: :pdf), class: "btn btn-primary btn-sm" %>
+      <%= link_to t("admin.invoices.back"), admin_invoices_path, class: "btn btn-secondary btn-sm" %>
+    </div>
+  </header>
+
+  <article class="invoice-doc">
+    <div class="invoice-doc-head">
+      <div>
+        <p class="invoice-doc-label"><%= t("admin.invoices.from") %></p>
+        <p class="invoice-doc-strong">RugSuite ERP</p>
+      </div>
+      <div>
+        <p class="invoice-doc-label"><%= t("admin.invoices.billed_to") %></p>
+        <p class="invoice-doc-strong"><%= current_factory.name %></p>
+        <p class="invoice-doc-muted"><%= current_factory.slug %></p>
+      </div>
+    </div>
+
+    <dl class="invoice-doc-meta">
+      <div>
+        <dt><%= t("admin.invoices.number") %></dt>
+        <dd><%= @invoice.number %></dd>
+      </div>
+      <div>
+        <dt><%= t("admin.invoices.issued_on") %></dt>
+        <dd><%= bg_long_date(@invoice.issued_on) %></dd>
+      </div>
+      <div>
+        <dt><%= t("admin.invoices.period") %></dt>
+        <dd><%= bg_long_date(@invoice.period_start) %> – <%= bg_long_date(@invoice.period_end) %></dd>
+      </div>
+    </dl>
+
+    <table class="data-table invoice-doc-lines">
+      <thead>
+        <tr>
+          <th><%= t("admin.invoices.description") %></th>
+          <th class="invoice-doc-amount-col"><%= t("admin.invoices.amount") %></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><%= t("admin.invoices.line_item", plan: t("plan.#{@invoice.plan}")) %></td>
+          <td class="invoice-doc-amount-col"><%= number_to_currency(@invoice.amount, unit: "€", format: "%u%n") %></td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr>
+          <th><%= t("admin.invoices.total") %></th>
+          <th class="invoice-doc-amount-col"><%= number_to_currency(@invoice.amount, unit: "€", format: "%u%n") %></th>
+        </tr>
+      </tfoot>
+    </table>
+  </article>
+</div>

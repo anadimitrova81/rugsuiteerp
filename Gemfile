@@ -17,6 +17,11 @@ gem "stimulus-rails"
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 gem "jbuilder"
 
+# Generate subscription invoice PDFs (pure Ruby, no system binary — embeds a
+# vendored DejaVu font for Cyrillic). See app/pdfs/invoice_pdf.rb.
+gem "prawn"
+gem "prawn-table"
+
 # Use Active Model has_secure_password [https://guides.rubyonrails.org/active_model_basics.html#securepassword]
 gem "bcrypt", "~> 3.1.7"
 

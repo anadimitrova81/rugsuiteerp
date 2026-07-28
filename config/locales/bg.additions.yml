@@ -56,6 +56,42 @@ bg:
         other: Изпращането на SMS оферти се провали за %{count} поръчки. Виж логовете.
     address_lookups:
       parse_error: Не успяхме да извлечем координати от линка.
+    nav:
+      invoices: Фактури
+    invoices:
+      title: Фактури
+      lede: Фактурите за вашия абонамент — нова всеки месец, докато сте на платен план.
+      empty: Все още няма фактури. Ще се появят тук, щом преминете на платен план.
+      number: Номер
+      period: Период
+      plan: План
+      amount: Сума
+      status: Статус
+      status_issued: Издадена
+      status_paid: Платена
+      issued_on: Издадена на
+      view: Преглед
+      show_title: 'Фактура %{number}'
+      back: Обратно към фактурите
+      from: От
+      billed_to: Получател
+      description: Описание
+      line_item: 'План %{plan} — месечен абонамент'
+      total: Общо
+      download_pdf: Изтегли PDF
+    subscription:
+      billing:
+        title: Данни за фактуриране
+        lede: Въведете данните на фирмата за фактуриране, за да се абонирате за %{plan}. Те се появяват на всяка фактура.
+        company_name: Фирма (юридическо име)
+        eik: ЕИК/Булстат
+        vat_number: ДДС №
+        vat_optional: Оставете празно, ако не сте регистрирани по ДДС.
+        mol: МОЛ
+        address: Адрес за фактуриране
+        submit: Абонирай се за %{plan}
+        cancel: Отказ
+        incomplete: Моля, попълнете фирма, ЕИК, МОЛ и адрес за фактуриране.
   privacy:
     meta_title: Политика за поверителност · Nexus Cleaning
     eyebrow: Документ

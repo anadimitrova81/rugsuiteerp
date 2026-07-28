@@ -56,6 +56,42 @@ tr:
         other: "%{count} sipariş için SMS fiyat teklifi gönderimi başarısız oldu. Günlükleri kontrol edin."
     address_lookups:
       parse_error: Bağlantıdan koordinatları çıkaramadık.
+    nav:
+      invoices: Faturalar
+    invoices:
+      title: Faturalar
+      lede: Abonelik faturalarınız — ücretli bir plandayken her ay yeni bir tane oluşturulur.
+      empty: Henüz fatura yok. Ücretli bir plana geçtiğinizde burada görünecekler.
+      number: Numara
+      period: Dönem
+      plan: Plan
+      amount: Tutar
+      status: Durum
+      status_issued: Düzenlendi
+      status_paid: Ödendi
+      issued_on: Düzenlenme tarihi
+      view: Görüntüle
+      show_title: 'Fatura %{number}'
+      back: Faturalara dön
+      from: Gönderen
+      billed_to: Fatura edilen
+      description: Açıklama
+      line_item: '%{plan} planı — aylık abonelik'
+      total: Toplam
+      download_pdf: PDF indir
+    subscription:
+      billing:
+        title: Fatura bilgileri
+        lede: '%{plan} planına abone olmak için şirketinizin fatura bilgilerini girin. Her faturada görünürler.'
+        company_name: Şirket (ticari unvan)
+        eik: Şirket kimlik no (ЕИК/Булстат)
+        vat_number: KDV numarası (ДДС №)
+        vat_optional: KDV mükellefi değilseniz boş bırakın.
+        mol: Sorumlu kişi (МОЛ)
+        address: Fatura adresi
+        submit: '%{plan} planına abone ol'
+        cancel: İptal
+        incomplete: Lütfen şirket adını, kimlik no (ЕИК), sorumlu kişiyi (МОЛ) ve fatura adresini doldurun.
   privacy:
     meta_title: Gizlilik Politikası · Nexus Cleaning
     eyebrow: Belge
