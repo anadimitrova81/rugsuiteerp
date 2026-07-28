@@ -92,6 +92,32 @@ fr:
         submit: Souscrire à %{plan}
         cancel: Annuler
         incomplete: Veuillez renseigner la raison sociale, le numéro d'immatriculation, la personne responsable et l'adresse de facturation.
+  invoice_pdf:
+    original: Original
+    recipient: DESTINATAIRE
+    supplier: FOURNISSEUR
+    title: FACTURE
+    number: Numéro
+    issued_on: Date d'émission
+    tax_event: Date du fait générateur
+    col_no: 'N°'
+    col_item: Article
+    col_qty: Quantité
+    col_price: Prix unitaire
+    col_total: Montant
+    line_item: Abonnement RugSuite ERP — formule %{plan} (%{from} – %{to})
+    subtotal: Montant (hors remise)
+    discount: Remise
+    tax_base: Base imposable
+    vat_rate: Taux de TVA
+    vat_amount: TVA
+    total_due: Montant à payer
+    rate: Cours
+    vat_grounds: Motif d'exonération de TVA
+    payment_method: Mode de paiement
+    payment_by_bank: par virement bancaire
+    received_by: Reçu par
+    prepared_by: Établi par
   privacy:
     meta_title: Politique de confidentialité · Nexus Cleaning
     eyebrow: Document

@@ -92,6 +92,32 @@ en:
         submit: Subscribe to %{plan}
         cancel: Cancel
         incomplete: Please fill in the company name, registration number, responsible person and billing address.
+  invoice_pdf:
+    original: Original
+    recipient: RECIPIENT
+    supplier: SUPPLIER
+    title: INVOICE
+    number: Number
+    issued_on: Issue date
+    tax_event: Tax event date
+    col_no: 'No.'
+    col_item: Item
+    col_qty: Quantity
+    col_price: Unit price
+    col_total: Amount
+    line_item: RugSuite ERP subscription — %{plan} plan (%{from} – %{to})
+    subtotal: Subtotal (before discount)
+    discount: Discount
+    tax_base: Tax base
+    vat_rate: VAT rate
+    vat_amount: VAT amount
+    total_due: Total due
+    rate: Rate
+    vat_grounds: Grounds for 0% VAT
+    payment_method: Payment method
+    payment_by_bank: by bank transfer
+    received_by: Received by
+    prepared_by: Prepared by
   privacy:
     meta_title: Privacy Policy · Nexus Cleaning
     eyebrow: Document

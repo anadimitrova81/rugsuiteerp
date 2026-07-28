@@ -16,7 +16,8 @@ module Platform
     def show
       ActsAsTenant.without_tenant do
         invoice = Invoice.find(params[:id])
-        send_data InvoicePdf.new(invoice).render,
+        # Operator/accounting copy is always the Bulgarian фактура.
+        send_data InvoicePdf.new(invoice, locale: :bg).render,
                   filename: "faktura-#{invoice.number}.pdf",
                   type: "application/pdf",
                   disposition: "inline"

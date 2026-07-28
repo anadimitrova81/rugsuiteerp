@@ -92,6 +92,32 @@ sr:
         submit: Претплати се на %{plan}
         cancel: Откажи
         incomplete: Молимо попуните фирму, регистарски број, одговорно лице и адресу за фактурисање.
+  invoice_pdf:
+    original: Оригинал
+    recipient: ПРИМАЛАЦ
+    supplier: ДОБАВЉАЧ
+    title: ФАКТУРА
+    number: Број
+    issued_on: Датум издавања
+    tax_event: Датум пореског догађаја
+    col_no: 'Бр.'
+    col_item: Ставка
+    col_qty: Количина
+    col_price: Јединична цена
+    col_total: Вредност
+    line_item: RugSuite ERP претплата — %{plan} план (%{from} – %{to})
+    subtotal: Износ (без попуста)
+    discount: Попуст
+    tax_base: Пореска основица
+    vat_rate: Стопа ПДВ
+    vat_amount: Обрачунат ПДВ
+    total_due: Износ за плаћање
+    rate: Курс
+    vat_grounds: Основ за ослобођење од ПДВ
+    payment_method: Начин плаћања
+    payment_by_bank: преко банке
+    received_by: Примио
+    prepared_by: Саставио
   privacy:
     meta_title: Политика приватности · Nexus Cleaning
     eyebrow: Документ

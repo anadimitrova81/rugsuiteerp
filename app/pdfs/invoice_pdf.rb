@@ -3,32 +3,52 @@ require "prawn/table"
 
 # Renders a subscription Invoice as a Bulgarian VAT invoice (фактура), matching
 # the operator's standard layout. Pure Prawn (no browser/binary); Cyrillic comes
-# from the vendored DejaVu Sans font. Usage: InvoicePdf.new(invoice).render
+# from the vendored DejaVu Sans font.
+#
+# Structural labels are localised to the invoice's locale (the recipient's
+# language) so the company can read it. Bulgarian legal specifics stay as-is:
+# the issuer's own details, the ЗДДС grounds citation, the BGN dual currency,
+# and the "Словом" (amount in words) line, which only appears on the Bulgarian
+# copy. The platform console passes locale: :bg to force the Bulgarian version.
+#
+# Usage: InvoicePdf.new(invoice).render  /  InvoicePdf.new(invoice, locale: :bg)
 class InvoicePdf < Prawn::Document
   GREY   = "666666".freeze
   LIGHT  = "F2F2F2".freeze
   BORDER = "999999".freeze
 
-  def initialize(invoice)
+  def initialize(invoice, locale: nil)
     super(page_size: "A4", margin: 40)
     @invoice = invoice
+    @locale = resolve_locale(locale)
     setup_fonts
-    brand_header
-    move_down 14
-    parties
-    move_down 16
-    title_block
-    move_down 16
-    line_items
-    move_down 12
-    totals
-    move_down 18
-    notes
-    move_down 28
-    signatures
+    I18n.with_locale(@locale) do
+      brand_header
+      move_down 14
+      parties
+      move_down 16
+      title_block
+      move_down 16
+      line_items
+      move_down 12
+      totals
+      move_down 18
+      notes
+      move_down 28
+      signatures
+    end
   end
 
   private
+
+  def resolve_locale(override)
+    candidate = (override || @invoice.locale || I18n.default_locale).to_s.to_sym
+    I18n.available_locales.include?(candidate) ? candidate : I18n.default_locale
+  end
+
+  def tr(key, **opts)
+    I18n.t("invoice_pdf.#{key}", **opts)
+  end
 
   def setup_fonts
     font_families.update(
@@ -56,7 +76,7 @@ class InvoicePdf < Prawn::Document
     table([ cells ], width: bounds.width, column_widths: widths) { |t| t.cells.borders = [] }
   end
 
-  # ----- Получател / Доставчик boxes -----
+  # ----- Recipient / supplier boxes -----
   def parties
     recipient = {
       name:    @invoice.recipient_name,
@@ -71,7 +91,7 @@ class InvoicePdf < Prawn::Document
     supplier_labels  = BillingFields::PROFILES["BG"] # the issuer is always Bulgarian
 
     data = [
-      [ header_cell("ПОЛУЧАТЕЛ"), header_cell("ДОСТАВЧИК") ],
+      [ header_cell(tr(:recipient)), header_cell(tr(:supplier)) ],
       [ party_cell(recipient, recipient_labels), party_cell(supplier, supplier_labels) ],
     ]
     table(data, width: bounds.width, column_widths: [ bounds.width / 2, bounds.width / 2 ]) do |t|
@@ -98,15 +118,15 @@ class InvoicePdf < Prawn::Document
     { content: lines.join("\n"), inline_format: true }
   end
 
-  # ----- "Оригинал" / "ФАКТУРА" + number & dates -----
+  # ----- "Оригинал" / title + number & dates -----
   def title_block
-    right = "<font size='18'><b>ФАКТУРА</b></font>\n" \
-            "Номер: <b>#{@invoice.number}</b>\n" \
-            "Дата на издаване: <b>#{fmt_date(@invoice.issued_on)}</b>\n" \
-            "Дата на данъчно събитие: <b>#{fmt_date(@invoice.issued_on)}</b>"
+    right = "<font size='18'><b>#{tr(:title)}</b></font>\n" \
+            "#{tr(:number)}: <b>#{@invoice.number}</b>\n" \
+            "#{tr(:issued_on)}: <b>#{fmt_date(@invoice.issued_on)}</b>\n" \
+            "#{tr(:tax_event)}: <b>#{fmt_date(@invoice.issued_on)}</b>"
 
     table([ [
-      { content: "Оригинал", size: 20, font_style: :bold, valign: :center },
+      { content: tr(:original), size: 20, font_style: :bold, valign: :center },
       { content: right, inline_format: true, align: :right, valign: :center, leading: 2 },
     ] ], width: bounds.width, column_widths: [ bounds.width * 0.38, bounds.width * 0.62 ]) do |t|
       t.cells.borders = []
@@ -116,11 +136,13 @@ class InvoicePdf < Prawn::Document
 
   # ----- Line items -----
   def line_items
-    header = %w[№ Артикул Количество Ед.\ цена Стойност].map { |h| { content: h, font_style: :bold } }
+    header = [ tr(:col_no), tr(:col_item), tr(:col_qty), tr(:col_price), tr(:col_total) ]
+             .map { |h| { content: h, font_style: :bold } }
     row = [
       "1",
-      "Абонамент RugSuite ERP — план #{@invoice.plan.capitalize} (#{fmt_date(@invoice.period_start)} – #{fmt_date(@invoice.period_end)})",
-      "1.00 бр.",
+      tr(:line_item, plan: I18n.t("plan.#{@invoice.plan}"),
+                     from: fmt_date(@invoice.period_start), to: fmt_date(@invoice.period_end)),
+      "1.00",
       fmt_eur_plain(@invoice.amount),
       eur(@invoice.amount),
     ]
@@ -139,23 +161,24 @@ class InvoicePdf < Prawn::Document
   # ----- Totals (right aligned) -----
   def totals
     rows = []
-    rows << money_row("Сума (без отстъпка):", @invoice.amount)
-    rows << [ { content: "Отстъпка:", align: :right }, { content: "-#{@invoice.discount_percent} %", align: :right, font_style: :bold } ] if @invoice.discount_percent.positive?
-    rows << money_row("Данъчна основа:", @invoice.net_amount)
-    rows << [ { content: "Процент ДДС:", align: :right }, { content: "#{@invoice.vat_rate} %", align: :right, font_style: :bold } ]
-    rows << money_row("Начислен ДДС:", @invoice.vat_amount)
-    rows << money_row("Сума за плащане:", @invoice.total_amount, big: true)
+    rows << money_row("#{tr(:subtotal)}:", @invoice.amount)
+    if @invoice.discount_percent.positive?
+      rows << [ { content: "#{tr(:discount)}:", align: :right }, { content: "-#{@invoice.discount_percent} %", align: :right, font_style: :bold } ]
+    end
+    rows << money_row("#{tr(:tax_base)}:", @invoice.net_amount)
+    rows << [ { content: "#{tr(:vat_rate)}:", align: :right }, { content: "#{@invoice.vat_rate} %", align: :right, font_style: :bold } ]
+    rows << money_row("#{tr(:vat_amount)}:", @invoice.vat_amount)
+    rows << money_row("#{tr(:total_due)}:", @invoice.total_amount, big: true)
 
     tbl = make_table(rows, column_widths: [ 150, 110 ]) do |t|
       t.cells.borders = []
       t.cells.padding = [ 3, 4 ]
     end
-    # Right-align the whole totals block.
     bounding_box([ bounds.width - 260, cursor ], width: 260) do
       tbl.draw
     end
     move_down 4
-    text "Курс: 1 € = 1.95583 лв.", size: 7, align: :right, color: GREY
+    text "#{tr(:rate)}: 1 € = 1.95583 лв.", size: 7, align: :right, color: GREY
   end
 
   def money_row(label, euros, big: false)
@@ -170,9 +193,10 @@ class InvoicePdf < Prawn::Document
 
   # ----- Footer notes -----
   def notes
-    note_line("Словом:", BulgarianAmountInWords.call(@invoice.total_amount))
-    note_line("Основание за неначисляване на ДДС:", @invoice.vat_grounds) if @invoice.vat_grounds.present?
-    note_line("Начин на плащане:", Invoice::PAYMENT_METHOD)
+    # "Словом" (amount in words) is a Bulgarian invoicing element — only on the BG copy.
+    note_line("Словом:", BulgarianAmountInWords.call(@invoice.total_amount)) if @locale == :bg
+    note_line("#{tr(:vat_grounds)}:", @invoice.vat_grounds) if @invoice.vat_grounds.present?
+    note_line("#{tr(:payment_method)}:", tr(:payment_by_bank))
   end
 
   def note_line(label, value)
@@ -188,8 +212,8 @@ class InvoicePdf < Prawn::Document
   # ----- Signatures -----
   def signatures
     table([ [
-      { content: "Получател: <b>#{@invoice.recipient_mol.presence || @invoice.recipient_name}</b>", inline_format: true },
-      { content: "Съставил: <b>Ана Димитрова</b>", inline_format: true, align: :left },
+      { content: "#{tr(:received_by)}: <b>#{@invoice.recipient_mol.presence || @invoice.recipient_name}</b>", inline_format: true },
+      { content: "#{tr(:prepared_by)}: <b>Ана Димитрова</b>", inline_format: true, align: :left },
     ] ], width: bounds.width) do |t|
       t.cells.borders = []
       t.cells.padding = [ 2, 0 ]

@@ -92,6 +92,32 @@ bg:
         submit: Абонирай се за %{plan}
         cancel: Отказ
         incomplete: Моля, попълнете фирма, регистрационен номер, отговорно лице и адрес за фактуриране.
+  invoice_pdf:
+    original: Оригинал
+    recipient: ПОЛУЧАТЕЛ
+    supplier: ДОСТАВЧИК
+    title: ФАКТУРА
+    number: Номер
+    issued_on: Дата на издаване
+    tax_event: Дата на данъчно събитие
+    col_no: '№'
+    col_item: Артикул
+    col_qty: Количество
+    col_price: Ед. цена
+    col_total: Стойност
+    line_item: Абонамент RugSuite ERP — план %{plan} (%{from} – %{to})
+    subtotal: Сума (без отстъпка)
+    discount: Отстъпка
+    tax_base: Данъчна основа
+    vat_rate: Процент ДДС
+    vat_amount: Начислен ДДС
+    total_due: Сума за плащане
+    rate: Курс
+    vat_grounds: Основание за неначисляване на ДДС
+    payment_method: Начин на плащане
+    payment_by_bank: по банков път
+    received_by: Получател
+    prepared_by: Съставил
   privacy:
     meta_title: Политика за поверителност · Nexus Cleaning
     eyebrow: Документ

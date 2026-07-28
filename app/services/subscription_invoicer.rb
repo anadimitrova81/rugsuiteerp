@@ -56,6 +56,7 @@ class SubscriptionInvoicer
           recipient_vat_number:   factory.billing_vat_number,
           recipient_mol:          factory.billing_mol,
           recipient_country_code: factory.country_code,
+          locale:                 factory.default_locale,
           vat_rate:             0,
           vat_grounds:          Invoice::VAT_GROUNDS,
           discount_percent:     0,

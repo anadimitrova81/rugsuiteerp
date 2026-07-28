@@ -92,6 +92,32 @@ tr:
         submit: '%{plan} planına abone ol'
         cancel: İptal
         incomplete: Lütfen şirket adını, sicil numarasını, sorumlu kişiyi ve fatura adresini doldurun.
+  invoice_pdf:
+    original: Orijinal
+    recipient: ALICI
+    supplier: TEDARİKÇİ
+    title: FATURA
+    number: Numara
+    issued_on: Düzenleme tarihi
+    tax_event: Vergiyi doğuran olay tarihi
+    col_no: 'No.'
+    col_item: Kalem
+    col_qty: Miktar
+    col_price: Birim fiyat
+    col_total: Tutar
+    line_item: RugSuite ERP aboneliği — %{plan} planı (%{from} – %{to})
+    subtotal: Tutar (indirim hariç)
+    discount: İndirim
+    tax_base: Matrah
+    vat_rate: KDV oranı
+    vat_amount: Hesaplanan KDV
+    total_due: Ödenecek tutar
+    rate: Kur
+    vat_grounds: KDV muafiyeti gerekçesi
+    payment_method: Ödeme şekli
+    payment_by_bank: banka havalesi ile
+    received_by: Teslim alan
+    prepared_by: Düzenleyen
   privacy:
     meta_title: Gizlilik Politikası · Nexus Cleaning
     eyebrow: Belge
