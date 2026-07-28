@@ -91,7 +91,7 @@ en:
         address: Billing address
         submit: Subscribe to %{plan}
         cancel: Cancel
-        incomplete: Please fill in the company name, ID (ЕИК), responsible person (МОЛ) and billing address.
+        incomplete: Please fill in the company name, registration number, responsible person and billing address.
   privacy:
     meta_title: Privacy Policy · Nexus Cleaning
     eyebrow: Document

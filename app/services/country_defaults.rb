@@ -7,7 +7,10 @@ module CountryDefaults
     "RO" => { timezone: "Europe/Bucharest",  currency: "RON", default_locale: "en", phone_country: "RO" },
     "GR" => { timezone: "Europe/Athens",     currency: "EUR", default_locale: "en", phone_country: "GR" },
     "DE" => { timezone: "Europe/Berlin",     currency: "EUR", default_locale: "en", phone_country: "DE" },
-    "FR" => { timezone: "Europe/Paris",      currency: "EUR", default_locale: "en", phone_country: "FR" },
+    "FR" => { timezone: "Europe/Paris",      currency: "EUR", default_locale: "fr", phone_country: "FR" },
+    "TR" => { timezone: "Europe/Istanbul",   currency: "TRY", default_locale: "tr", phone_country: "TR" },
+    "MK" => { timezone: "Europe/Skopje",     currency: "MKD", default_locale: "mk", phone_country: "MK" },
+    "RS" => { timezone: "Europe/Belgrade",   currency: "RSD", default_locale: "sr", phone_country: "RS" },
     "IT" => { timezone: "Europe/Rome",       currency: "EUR", default_locale: "en", phone_country: "IT" },
     "ES" => { timezone: "Europe/Madrid",     currency: "EUR", default_locale: "en", phone_country: "ES" },
     "PL" => { timezone: "Europe/Warsaw",     currency: "PLN", default_locale: "en", phone_country: "PL" },
@@ -22,7 +25,8 @@ module CountryDefaults
   # demand for now; tweak when usage data tells us otherwise.
   COUNTRY_LABELS = {
     "BG" => "Bulgaria",     "RO" => "Romania",     "GR" => "Greece",
-    "DE" => "Germany",      "FR" => "France",      "IT" => "Italy",
+    "DE" => "Germany",      "FR" => "France",      "TR" => "Turkey",
+    "MK" => "North Macedonia", "RS" => "Serbia",   "IT" => "Italy",
     "ES" => "Spain",        "PL" => "Poland",      "GB" => "United Kingdom",
     "IE" => "Ireland",      "NL" => "Netherlands", "AT" => "Austria",
     "US" => "United States",

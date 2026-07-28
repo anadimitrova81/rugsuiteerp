@@ -50,9 +50,12 @@ class InvoicePdf < Prawn::Document
     }
     supplier = Invoice::SUPPLIER
 
+    recipient_labels = BillingFields.for(@invoice.recipient_country_code)
+    supplier_labels  = BillingFields::PROFILES["BG"] # the issuer is always Bulgarian
+
     data = [
       [ header_cell("ПОЛУЧАТЕЛ"), header_cell("ДОСТАВЧИК") ],
-      [ party_cell(recipient), party_cell(supplier) ],
+      [ party_cell(recipient, recipient_labels), party_cell(supplier, supplier_labels) ],
     ]
     table(data, width: bounds.width, column_widths: [ bounds.width / 2, bounds.width / 2 ]) do |t|
       t.cells.borders = [ :left, :right, :top, :bottom ]
@@ -68,13 +71,13 @@ class InvoicePdf < Prawn::Document
     { content: text, borders: [] }
   end
 
-  def party_cell(p)
+  def party_cell(p, labels)
     lines = []
     lines << "<b>#{p[:name]}</b>"
     lines << p[:address] if p[:address].present?
-    lines << "ЕИК/Булстат: #{p[:eik]}" if p[:eik].present?
-    lines << "ДДС №: #{p[:vat]}" if p[:vat].present?
-    lines << "МОЛ: #{p[:mol]}" if p[:mol].present?
+    lines << "#{labels[:reg]}: #{p[:eik]}" if p[:eik].present?
+    lines << "#{labels[:tax]}: #{p[:vat]}" if p[:vat].present?
+    lines << "#{labels[:rep]}: #{p[:mol]}" if p[:mol].present?
     { content: lines.join("\n"), inline_format: true }
   end
 

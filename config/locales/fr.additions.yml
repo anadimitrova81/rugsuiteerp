@@ -91,7 +91,7 @@ fr:
         address: Adresse de facturation
         submit: Souscrire à %{plan}
         cancel: Annuler
-        incomplete: Veuillez renseigner la raison sociale, le numéro d'entreprise (ЕИК), la personne responsable (МОЛ) et l'adresse de facturation.
+        incomplete: Veuillez renseigner la raison sociale, le numéro d'immatriculation, la personne responsable et l'adresse de facturation.
   privacy:
     meta_title: Politique de confidentialité · Nexus Cleaning
     eyebrow: Document

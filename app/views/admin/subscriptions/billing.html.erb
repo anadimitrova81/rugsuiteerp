@@ -19,11 +19,12 @@
   <% end %>
 
   <%= form_with(model: @factory, url: billing_admin_subscription_path(plan: @plan), method: :patch, class: "settings-form") do |f| %>
+    <% labels = BillingFields.for(@factory.country_code) %>
     <section class="settings-section">
       <%= f.text_field :billing_company_name, label: t("admin.subscription.billing.company_name") %>
-      <%= f.text_field :billing_eik, label: t("admin.subscription.billing.eik") %>
-      <%= f.text_field :billing_vat_number, label: t("admin.subscription.billing.vat_number"), hint: t("admin.subscription.billing.vat_optional") %>
-      <%= f.text_field :billing_mol, label: t("admin.subscription.billing.mol") %>
+      <%= f.text_field :billing_eik, label: labels[:reg] %>
+      <%= f.text_field :billing_vat_number, label: labels[:tax], hint: t("admin.subscription.billing.vat_optional") %>
+      <%= f.text_field :billing_mol, label: labels[:rep] %>
       <%= f.text_area :billing_address, label: t("admin.subscription.billing.address"), rows: 3 %>
     </section>
 

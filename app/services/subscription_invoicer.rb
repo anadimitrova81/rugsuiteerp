@@ -50,11 +50,12 @@ class SubscriptionInvoicer
           status:       "issued",
           # Snapshot the recipient (получател) at issue time so later edits to
           # the tenant's billing details never rewrite past invoices.
-          recipient_name:       factory.billing_company_name.presence || factory.name,
-          recipient_address:    factory.billing_address,
-          recipient_eik:        factory.billing_eik,
-          recipient_vat_number: factory.billing_vat_number,
-          recipient_mol:        factory.billing_mol,
+          recipient_name:         factory.billing_company_name.presence || factory.name,
+          recipient_address:      factory.billing_address,
+          recipient_eik:          factory.billing_eik,
+          recipient_vat_number:   factory.billing_vat_number,
+          recipient_mol:          factory.billing_mol,
+          recipient_country_code: factory.country_code,
           vat_rate:             0,
           vat_grounds:          Invoice::VAT_GROUNDS,
           discount_percent:     0,

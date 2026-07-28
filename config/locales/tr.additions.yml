@@ -91,7 +91,7 @@ tr:
         address: Fatura adresi
         submit: '%{plan} planına abone ol'
         cancel: İptal
-        incomplete: Lütfen şirket adını, kimlik no (ЕИК), sorumlu kişiyi (МОЛ) ve fatura adresini doldurun.
+        incomplete: Lütfen şirket adını, sicil numarasını, sorumlu kişiyi ve fatura adresini doldurun.
   privacy:
     meta_title: Gizlilik Politikası · Nexus Cleaning
     eyebrow: Belge
