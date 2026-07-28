@@ -30,7 +30,7 @@ class PlatformHandoffsController < ApplicationController
     session.delete(:admin_id)
     session.delete(:platform_impersonator_id)
 
-    host = HostType.tenant_host(request.host, HostType::PLATFORM_SUBDOMAIN)
+    host = HostType.platform_host(request.host)
     port = [ 80, 443 ].include?(request.port) ? "" : ":#{request.port}"
     redirect_to "#{request.scheme}://#{host}#{port}/", allow_other_host: true
   end

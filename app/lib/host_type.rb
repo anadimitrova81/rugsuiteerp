@@ -45,6 +45,17 @@ module HostType
   # apex domain with the leftmost label replaced by the slug
   # (e.g. from admin.rugsuiteerp.com → acme.rugsuiteerp.com). Used to build
   # cross-subdomain redirects (signup landing, platform impersonation).
+  # The platform console host that is a sibling of the current host: replaces
+  # the leftmost subdomain label with the platform subdomain. From any tenant
+  # host `<slug>.rugsuiteerp.com` (or `<slug>.rugsuiteerp.localhost` in dev) it
+  # returns `admin.rugsuiteerp.com` — unlike `tenant_host`, it doesn't care
+  # whether the leftmost label is a reserved subdomain.
+  def platform_host(request_host)
+    labels = request_host.to_s.downcase.split(".")
+    labels.shift if labels.size > 2 # drop the tenant slug, keep the base domain
+    "#{PLATFORM_SUBDOMAIN}.#{labels.join('.')}"
+  end
+
   def tenant_host(request_host, slug)
     host = request_host.to_s.downcase
     if host.end_with?(".localhost") || host == "localhost"
