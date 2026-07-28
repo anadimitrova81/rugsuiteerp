@@ -2332,7 +2332,7 @@
  * ============================================================ */
 .subscription-grid {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 18px;
   margin-bottom: 32px;
   align-items: stretch;
@@ -2420,6 +2420,8 @@
   padding: 0;
   margin: 0 0 22px;
   display: grid;
+  grid-auto-rows: min-content;
+  align-content: start;
   gap: 8px;
   flex-grow: 1;
 }
