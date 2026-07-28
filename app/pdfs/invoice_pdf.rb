@@ -13,6 +13,8 @@ class InvoicePdf < Prawn::Document
     super(page_size: "A4", margin: 40)
     @invoice = invoice
     setup_fonts
+    brand_header
+    move_down 14
     parties
     move_down 16
     title_block
@@ -37,6 +39,21 @@ class InvoicePdf < Prawn::Document
     )
     font "DejaVu"
     font_size 9
+  end
+
+  # ----- Brand header (issuer logo + wordmark) -----
+  def brand_header
+    logo = Rails.root.join("public/icon.png").to_s
+    cells = []
+    if File.exist?(logo)
+      cells << { image: logo, image_width: 34, image_height: 34, borders: [], padding: 0, vposition: :center }
+    end
+    cells << {
+      content: "<b>RugSuite</b> ERP", inline_format: true, size: 16,
+      text_color: "0f3f7e", valign: :center, borders: [], padding: [ 0, 0, 0, 8 ]
+    }
+    widths = cells.size == 2 ? [ 40, bounds.width - 40 ] : [ bounds.width ]
+    table([ cells ], width: bounds.width, column_widths: widths) { |t| t.cells.borders = [] }
   end
 
   # ----- Получател / Доставчик boxes -----
@@ -83,17 +100,15 @@ class InvoicePdf < Prawn::Document
 
   # ----- "Оригинал" / "ФАКТУРА" + number & dates -----
   def title_block
-    right = [
-      [ { content: "<b>ФАКТУРА</b>", size: 18, align: :right, inline_format: true } ],
-      [ { content: "Номер: <b>#{@invoice.number}</b>", align: :right, inline_format: true } ],
-      [ { content: "Дата на издаване: <b>#{fmt_date(@invoice.issued_on)}</b>", align: :right, inline_format: true } ],
-      [ { content: "Дата на данъчно събитие: <b>#{fmt_date(@invoice.issued_on)}</b>", align: :right, inline_format: true } ],
-    ]
+    right = "<font size='18'><b>ФАКТУРА</b></font>\n" \
+            "Номер: <b>#{@invoice.number}</b>\n" \
+            "Дата на издаване: <b>#{fmt_date(@invoice.issued_on)}</b>\n" \
+            "Дата на данъчно събитие: <b>#{fmt_date(@invoice.issued_on)}</b>"
 
     table([ [
       { content: "Оригинал", size: 20, font_style: :bold, valign: :center },
-      { content: make_table(right) { |t| t.cells.borders = []; t.cells.padding = [ 1, 0 ] } },
-    ] ], width: bounds.width, column_widths: [ bounds.width * 0.45, bounds.width * 0.55 ]) do |t|
+      { content: right, inline_format: true, align: :right, valign: :center, leading: 2 },
+    ] ], width: bounds.width, column_widths: [ bounds.width * 0.38, bounds.width * 0.62 ]) do |t|
       t.cells.borders = []
       t.cells.padding = [ 2, 0 ]
     end
