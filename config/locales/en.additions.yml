@@ -395,7 +395,7 @@ en:
         q4: Can my customers book online?
         a4: Yes. Customers book on your public page, the address is validated against Google Maps and they pick a pickup window. You can also add walk-in and phone orders yourself.
         q5: Does it send SMS notifications to customers?
-        a5: Yes — booking confirmations, price quotes and "your rug is ready" alerts are sent automatically by SMS, in the customer's own language.
+        a5: Yes — price quotes are sent automatically by SMS, so the customer knows the volume and price of the service.
         q6: Which languages does it support?
         a6: The platform is available in English, Bulgarian, French, Turkish, Macedonian and Serbian, and detects the visitor's language automatically.
     signup:

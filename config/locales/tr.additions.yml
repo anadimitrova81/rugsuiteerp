@@ -395,7 +395,7 @@ tr:
         q4: Müşterilerim çevrimiçi sipariş verebilir mi?
         a4: Evet. Müşteriler herkese açık sayfanızda sipariş verir, adres Google Maps ile doğrulanır ve bir alma zaman aralığı seçerler. Yerinde veya telefonla gelen siparişleri kendiniz de ekleyebilirsiniz.
         q5: Müşterilere SMS bildirimi gönderir mi?
-        a5: Evet — sipariş onayları, fiyat teklifleri ve "halınız hazır" bildirimleri müşterinin kendi dilinde otomatik olarak SMS ile gönderilir.
+        a5: Evet — fiyat teklifleri otomatik olarak SMS ile gönderilir, böylece müşteri hizmetin hacmini ve fiyatını öğrenir.
         q6: Hangi dilleri destekliyor?
         a6: Platform İngilizce, Bulgarca, Fransızca, Türkçe, Makedonca ve Sırpça olarak sunulur ve ziyaretçinin dilini otomatik olarak algılar.
     signup:

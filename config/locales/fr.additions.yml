@@ -395,7 +395,7 @@ fr:
         q4: Mes clients peuvent-ils commander en ligne ?
         a4: Oui. Les clients commandent sur votre page publique, l'adresse est validée via Google Maps et ils choisissent un créneau d'enlèvement. Vous pouvez aussi saisir vous-même les commandes sur place ou par téléphone.
         q5: Envoie-t-il des SMS aux clients ?
-        a5: Oui — les confirmations de commande, les devis et les alertes « votre tapis est prêt » sont envoyés automatiquement par SMS, dans la langue du client.
+        a5: Oui — les devis sont envoyés automatiquement par SMS, pour que le client connaisse le volume et le prix de la prestation.
         q6: Quelles langues sont prises en charge ?
         a6: La plateforme est disponible en anglais, bulgare, français, turc, macédonien et serbe, et détecte automatiquement la langue du visiteur.
     signup:
