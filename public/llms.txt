@@ -7,7 +7,7 @@
 - **Route optimisation** for couriers: today's stops in optimal order, plus a daily route planner.
 - **Order workflow**: pending → picked up → in wash → ready → delivered, visible to the whole team.
 - **Flexible pricing**: per kilogram, per item, or per square metre; bulk discounts; pay by invoice; multi-currency.
-- **Automated SMS notifications**: booking confirmation, price quote, and "your rug is ready" — in the customer's own language.
+- **Automated SMS price quotes**: after intake, the customer automatically gets an SMS with the volume and cost of the service, in their own language.
 - **Reports**: daily intake, revenue by week, courier performance.
 - **Role-based access**: admin, coordinator, operator, courier — each sees only what they need. Every business's data is fully isolated.
 - **Subscription invoices**: monthly VAT invoices (Bulgarian фактура format) in the company's language.
