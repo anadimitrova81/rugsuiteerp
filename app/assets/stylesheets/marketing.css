@@ -233,6 +233,48 @@
   margin: 0 auto;
   padding: 0 24px;
 }
+.mkt-section-inner-narrow { max-width: 820px; }
+
+/* FAQ accordion */
+.mkt-faq {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.mkt-faq-item {
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  background: #fff;
+  padding: 4px 20px;
+}
+.mkt-faq-q {
+  list-style: none;
+  cursor: pointer;
+  padding: 16px 28px 16px 0;
+  font-size: 17px;
+  font-weight: 700;
+  color: #0b1726;
+  position: relative;
+}
+.mkt-faq-q::-webkit-details-marker { display: none; }
+.mkt-faq-q::after {
+  content: "+";
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 22px;
+  font-weight: 400;
+  color: var(--color-primary);
+}
+.mkt-faq-item[open] .mkt-faq-q::after { content: "\2013"; }
+.mkt-faq-a {
+  margin: 0;
+  padding: 0 0 18px;
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--color-text-muted);
+}
 .mkt-section-head {
   max-width: 760px;
   margin: 0 auto 56px;

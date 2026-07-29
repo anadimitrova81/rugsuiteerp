@@ -21,6 +21,30 @@ module MarketingHelper
     request.base_url + "/og-image.png"
   end
 
+  FAQ_COUNT = 6
+
+  # The home-page FAQ, from i18n — used both for the visible section and the
+  # FAQPage structured data so they always match.
+  def marketing_faq_items
+    (1..FAQ_COUNT).map do |i|
+      { question: t("marketing.home.faq.q#{i}"), answer: t("marketing.home.faq.a#{i}") }
+    end
+  end
+
+  def marketing_faq_structured_data
+    {
+      "@context" => "https://schema.org",
+      "@type" => "FAQPage",
+      "mainEntity" => marketing_faq_items.map do |item|
+        {
+          "@type" => "Question",
+          "name" => item[:question],
+          "acceptedAnswer" => { "@type" => "Answer", "text" => item[:answer] },
+        }
+      end,
+    }
+  end
+
   # Structured data (JSON-LD) describing the product + issuer, as a @graph so
   # Google and LLMs get Organization + SoftwareApplication (with pricing) in one
   # block. Rendered on the marketing home.

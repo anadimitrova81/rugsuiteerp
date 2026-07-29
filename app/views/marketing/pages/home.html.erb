@@ -188,6 +188,28 @@
   </div>
 </section>
 
+<section class="mkt-section mkt-section-alt" id="faq">
+  <div class="mkt-section-inner mkt-section-inner-narrow">
+    <div class="mkt-section-head">
+      <span class="mkt-eyebrow"><%= t("marketing.home.faq_eyebrow") %></span>
+      <h2><%= t("marketing.home.faq_title") %></h2>
+    </div>
+    <div class="mkt-faq">
+      <% marketing_faq_items.each do |item| %>
+        <details class="mkt-faq-item">
+          <summary class="mkt-faq-q"><%= item[:question] %></summary>
+          <p class="mkt-faq-a"><%= item[:answer] %></p>
+        </details>
+      <% end %>
+    </div>
+  </div>
+</section>
+
+<%# FAQPage structured data — matches the visible FAQ above. %>
+<script type="application/ld+json">
+  <%= raw marketing_faq_structured_data.to_json %>
+</script>
+
 <section class="mkt-section mkt-section-cta" id="signup">
   <div class="mkt-section-inner mkt-cta">
     <h2><%= t("marketing.home.cta_title") %></h2>

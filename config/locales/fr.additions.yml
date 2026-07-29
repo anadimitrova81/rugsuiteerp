@@ -383,6 +383,21 @@ fr:
       contact_email_label: E-mail
       contact_sales_label: Ventes
       contact_support_label: Assistance
+      faq_eyebrow: FAQ
+      faq_title: Questions fréquentes
+      faq:
+        q1: Qu'est-ce que RugSuite ERP ?
+        a1: RugSuite ERP est une plateforme tout-en-un pour les entreprises de lavage de tapis. Elle couvre la prise de commande en ligne, l'optimisation des tournées d'enlèvement et de livraison, le flux de lavage, la tarification, la facturation et les SMS automatiques aux clients — le tout sur votre propre sous-domaine.
+        q2: Existe-t-il une formule gratuite ?
+        a2: Oui. La formule Free est à 0 €/mois et couvre jusqu'à 30 commandes par mois avec 5 utilisateurs, sans carte bancaire. Les formules payantes (Starter et Pro) offrent des limites plus élevées et davantage d'optimisations de tournées par jour.
+        q3: Dois-je installer quelque chose ?
+        a3: Non. RugSuite ERP fonctionne entièrement dans le navigateur. Chaque entreprise dispose de son propre sous-domaine — vous et vos clients n'avez qu'à ouvrir un lien.
+        q4: Mes clients peuvent-ils commander en ligne ?
+        a4: Oui. Les clients commandent sur votre page publique, l'adresse est validée via Google Maps et ils choisissent un créneau d'enlèvement. Vous pouvez aussi saisir vous-même les commandes sur place ou par téléphone.
+        q5: Envoie-t-il des SMS aux clients ?
+        a5: Oui — les confirmations de commande, les devis et les alertes « votre tapis est prêt » sont envoyés automatiquement par SMS, dans la langue du client.
+        q6: Quelles langues sont prises en charge ?
+        a6: La plateforme est disponible en anglais, bulgare, français, turc, macédonien et serbe, et détecte automatiquement la langue du visiteur.
     signup:
       page_title: Créez votre entreprise — RugSuite ERP
       eyebrow: Forfait gratuit

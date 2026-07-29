@@ -383,6 +383,21 @@ en:
       contact_email_label: Email
       contact_sales_label: Sales
       contact_support_label: Support
+      faq_eyebrow: FAQ
+      faq_title: Frequently asked questions
+      faq:
+        q1: What is RugSuite ERP?
+        a1: RugSuite ERP is an all-in-one platform for rug and carpet washing businesses. It covers online booking, courier pickup and delivery routing, the washing workflow, pricing, invoicing and automated customer SMS — all on your own branded subdomain.
+        q2: Is there a free plan?
+        a2: Yes. The Free plan is €0 per month and covers up to 30 orders a month with 5 users — no credit card required. Paid plans (Starter and Pro) add higher limits and more daily route optimisations.
+        q3: Do I need to install anything?
+        a3: No. RugSuite ERP runs entirely in the browser. Each business gets its own branded subdomain — you and your customers just open a link.
+        q4: Can my customers book online?
+        a4: Yes. Customers book on your public page, the address is validated against Google Maps and they pick a pickup window. You can also add walk-in and phone orders yourself.
+        q5: Does it send SMS notifications to customers?
+        a5: Yes — booking confirmations, price quotes and "your rug is ready" alerts are sent automatically by SMS, in the customer's own language.
+        q6: Which languages does it support?
+        a6: The platform is available in English, Bulgarian, French, Turkish, Macedonian and Serbian, and detects the visitor's language automatically.
     signup:
       page_title: Create your business — RugSuite ERP
       eyebrow: Free plan

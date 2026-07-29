@@ -383,6 +383,21 @@ tr:
       contact_email_label: E-posta
       contact_sales_label: Satış
       contact_support_label: Destek
+      faq_eyebrow: SSS
+      faq_title: Sıkça sorulan sorular
+      faq:
+        q1: RugSuite ERP nedir?
+        a1: RugSuite ERP, halı yıkama işletmeleri için hepsi bir arada bir platformdur. Çevrimiçi sipariş, alma ve teslimat rota optimizasyonu, yıkama akışı, fiyatlandırma, faturalandırma ve otomatik müşteri SMS'lerini kapsar — hepsi kendi markalı alt alan adınızda.
+        q2: Ücretsiz bir plan var mı?
+        a2: Evet. Free planı ayda 0 €'dur ve 5 kullanıcıyla ayda 30 siparişe kadar kapsar — kredi kartı gerekmez. Ücretli planlar (Starter ve Pro) daha yüksek limitler ve günde daha fazla rota optimizasyonu ekler.
+        q3: Bir şey kurmam gerekiyor mu?
+        a3: Hayır. RugSuite ERP tamamen tarayıcıda çalışır. Her işletme kendi markalı alt alan adını alır — siz ve müşterileriniz yalnızca bir bağlantı açarsınız.
+        q4: Müşterilerim çevrimiçi sipariş verebilir mi?
+        a4: Evet. Müşteriler herkese açık sayfanızda sipariş verir, adres Google Maps ile doğrulanır ve bir alma zaman aralığı seçerler. Yerinde veya telefonla gelen siparişleri kendiniz de ekleyebilirsiniz.
+        q5: Müşterilere SMS bildirimi gönderir mi?
+        a5: Evet — sipariş onayları, fiyat teklifleri ve "halınız hazır" bildirimleri müşterinin kendi dilinde otomatik olarak SMS ile gönderilir.
+        q6: Hangi dilleri destekliyor?
+        a6: Platform İngilizce, Bulgarca, Fransızca, Türkçe, Makedonca ve Sırpça olarak sunulur ve ziyaretçinin dilini otomatik olarak algılar.
     signup:
       page_title: İşletmenizi oluşturun — RugSuite ERP
       eyebrow: Ücretsiz plan
