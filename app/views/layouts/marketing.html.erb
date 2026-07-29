@@ -3,9 +3,10 @@
   <head>
     <title><%= content_for(:title) || t("marketing.meta.default_title") %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="description" content="<%= t("marketing.meta.description") %>">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
+
+    <%= render "marketing/seo" %>
 
     <% if recaptcha_site_key.present? %>
       <script src="https://www.google.com/recaptcha/api.js?render=<%= recaptcha_site_key %>" async defer></script>

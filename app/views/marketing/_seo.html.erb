@@ -1,0 +1,33 @@
+<%# Marketing-site SEO + social + structured data. Rendered in the head. %>
+<% page_title = content_for(:title).presence || t("marketing.meta.default_title") %>
+<% page_desc  = content_for(:meta_description).presence || t("marketing.meta.description") %>
+
+<meta name="description" content="<%= page_desc %>">
+<link rel="canonical" href="<%= marketing_canonical_url %>">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+<meta name="theme-color" content="#0f3f7e">
+
+<% marketing_hreflang_alternates.each do |hreflang, url| %>
+  <link rel="alternate" hreflang="<%= hreflang %>" href="<%= url %>">
+<% end %>
+
+<%# Open Graph %>
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="RugSuite ERP">
+<meta property="og:title" content="<%= page_title %>">
+<meta property="og:description" content="<%= page_desc %>">
+<meta property="og:url" content="<%= marketing_canonical_url %>">
+<meta property="og:locale" content="<%= I18n.locale %>">
+<meta property="og:image" content="<%= marketing_og_image_url %>">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+
+<%# Twitter Card %>
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="<%= page_title %>">
+<meta name="twitter:description" content="<%= page_desc %>">
+<meta name="twitter:image" content="<%= marketing_og_image_url %>">
+
+<script type="application/ld+json">
+  <%= raw marketing_structured_data.to_json %>
+</script>

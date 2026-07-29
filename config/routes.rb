@@ -36,6 +36,7 @@ Rails.application.routes.draw do
     root "marketing/pages#home", as: :marketing_root
     get  "signup", to: "marketing/signups#new",    as: :marketing_signup
     post "signup", to: "marketing/signups#create"
+    get  "sitemap.xml", to: "marketing/sitemaps#show", as: :marketing_sitemap, format: false
   end
 
   # ===== Tenant app (real factory subdomains) =====

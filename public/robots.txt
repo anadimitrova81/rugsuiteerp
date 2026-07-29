@@ -1,5 +1,8 @@
 # See https://www.robotstxt.org/robotstxt.html for documentation on how to use the robots.txt file
 
+Sitemap: https://rugsuiteerp.com/sitemap.xml
+
+
 # All crawlers — including AI search bots (GPTBot, OAI-SearchBot, ChatGPT-User,
 # PerplexityBot, ClaudeBot, etc.) — may crawl the public pages. Only the
 # private/staff and transactional areas are off limits.

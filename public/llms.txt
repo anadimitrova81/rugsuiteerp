@@ -1,0 +1,29 @@
+# RugSuite ERP
+
+> RugSuite ERP is an all-in-one operations platform (SaaS) for rug and carpet washing businesses. It replaces spreadsheets, paper tickets and phone calls with one system covering every step from online booking to delivery. Each business gets its own branded subdomain. Available in English, Bulgarian, French, Turkish, Macedonian and Serbian.
+
+## What it does
+- **Online booking** on a branded public page, with Google Maps address validation and a chosen pickup window.
+- **Route optimisation** for couriers: today's stops in optimal order, plus a daily route planner.
+- **Order workflow**: pending → picked up → in wash → ready → delivered, visible to the whole team.
+- **Flexible pricing**: per kilogram, per item, or per square metre; bulk discounts; pay by invoice; multi-currency.
+- **Automated SMS notifications**: booking confirmation, price quote, and "your rug is ready" — in the customer's own language.
+- **Reports**: daily intake, revenue by week, courier performance.
+- **Role-based access**: admin, coordinator, operator, courier — each sees only what they need. Every business's data is fully isolated.
+- **Subscription invoices**: monthly VAT invoices (Bulgarian фактура format) in the company's language.
+
+## Plans (billed monthly, in EUR)
+- **Free** — €0/month: up to 30 orders/month, 5 staff users, 5 route optimisations/day.
+- **Starter** — €49/month: up to 200 orders/month, 10 staff users, 10 route optimisations/day.
+- **Pro** — €99/month: up to 500 orders/month, 20 staff users, 20 route optimisations/day. Need more? Contact us.
+
+## Who it's for
+Rug and carpet washing / cleaning businesses — from a single workshop to multi-courier operations across several localities.
+
+## Links
+- Home: https://rugsuiteerp.com/
+- Sign up (free, no credit card): https://rugsuiteerp.com/signup
+
+## Contact
+- Sales: sales@rugsuite.app
+- Support: support@rugsuite.app
