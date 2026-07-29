@@ -92,6 +92,15 @@ bg:
         submit: Абонирай се за %{plan}
         cancel: Отказ
         incomplete: Моля, попълнете фирма, регистрационен номер, отговорно лице и адрес за фактуриране.
+    settings:
+      fields:
+        service_cities: Обслужвани градове
+      hints:
+        service_cities: Градовете, в които предлагате вземане и доставка. Показват се във формата за заявка и на публичните ви страници.
+      placeholders:
+        service_city: напр. Пловдив
+      add_city: Добави град
+      remove_city: Премахни град
   invoice_pdf:
     original: Оригинал
     recipient: ПОЛУЧАТЕЛ

@@ -67,6 +67,13 @@ class Factory < ApplicationRecord
     pricing_mode == "per_sqm"
   end
 
+  # Cities the factory serves (editable in Settings). Normalise on assignment:
+  # trim each, drop blanks, de-duplicate, keep the admin's order.
+  def service_cities=(value)
+    cleaned = Array(value).map { |c| c.to_s.strip }.reject(&:blank?).uniq
+    write_attribute(:service_cities, cleaned)
+  end
+
   def free?
     plan == "free"
   end

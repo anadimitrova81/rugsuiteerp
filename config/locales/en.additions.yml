@@ -92,6 +92,15 @@ en:
         submit: Subscribe to %{plan}
         cancel: Cancel
         incomplete: Please fill in the company name, registration number, responsible person and billing address.
+    settings:
+      fields:
+        service_cities: Service cities
+      hints:
+        service_cities: The cities where you offer pickup and delivery. They appear in the booking form and on your public pages.
+      placeholders:
+        service_city: e.g. Plovdiv
+      add_city: Add city
+      remove_city: Remove city
   invoice_pdf:
     original: Original
     recipient: RECIPIENT

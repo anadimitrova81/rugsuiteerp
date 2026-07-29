@@ -92,6 +92,15 @@ sr:
         submit: Претплати се на %{plan}
         cancel: Откажи
         incomplete: Молимо попуните фирму, регистарски број, одговорно лице и адресу за фактурисање.
+    settings:
+      fields:
+        service_cities: Градови које опслужујете
+      hints:
+        service_cities: Градови у којима нудите преузимање и доставу. Приказују се у формулару за поруџбину и на вашим јавним страницама.
+      placeholders:
+        service_city: нпр. Београд
+      add_city: Додај град
+      remove_city: Уклони град
   invoice_pdf:
     original: Оригинал
     recipient: ПРИМАЛАЦ

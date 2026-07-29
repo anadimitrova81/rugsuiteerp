@@ -94,6 +94,32 @@
         <h2 class="settings-section-title"><%= t("admin.settings.pickup") %></h2>
         <p class="settings-section-lede"><%= t("admin.settings.pickup_lede") %></p>
 
+        <div class="form-group" data-controller="city-list">
+          <span class="form-label-like"><%= t("admin.settings.fields.service_cities") %></span>
+          <div class="form-hint"><%= t("admin.settings.hints.service_cities") %></div>
+
+          <%# Always send at least one (empty) value so clearing every row stores []. %>
+          <%= hidden_field_tag "factory[service_cities][]", "" %>
+
+          <div class="city-list" data-city-list-target="list">
+            <% @factory.service_cities.each do |city| %>
+              <div class="city-row" data-city-list-target="row">
+                <%= text_field_tag "factory[service_cities][]", city, class: "form-control", placeholder: t("admin.settings.placeholders.service_city") %>
+                <button type="button" class="city-remove" data-action="city-list#remove" aria-label="<%= t("admin.settings.remove_city") %>">&times;</button>
+              </div>
+            <% end %>
+          </div>
+
+          <template data-city-list-target="template">
+            <div class="city-row" data-city-list-target="row">
+              <input type="text" name="factory[service_cities][]" value="" class="form-control" placeholder="<%= t("admin.settings.placeholders.service_city") %>">
+              <button type="button" class="city-remove" data-action="city-list#remove" aria-label="<%= t("admin.settings.remove_city") %>">&times;</button>
+            </div>
+          </template>
+
+          <button type="button" class="btn btn-secondary btn-sm" data-action="city-list#add"><%= t("admin.settings.add_city") %></button>
+        </div>
+
         <%= f.text_field :business_hours, label: t("admin.settings.fields.business_hours"),
                                           hint: t("admin.settings.hints.business_hours") %>
         <%= f.text_field :pickup_window, label: t("admin.settings.fields.pickup_window"),

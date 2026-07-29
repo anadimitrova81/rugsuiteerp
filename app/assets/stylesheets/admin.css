@@ -2593,6 +2593,34 @@
 .platform-nav a:hover { color: var(--color-primary); }
 
 /* Pricing mode toggle (per kg vs per m²) */
+/* Service-cities repeatable editor */
+.city-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 8px 0 12px;
+}
+.city-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.city-row .form-control { flex: 1; }
+.city-remove {
+  flex-shrink: 0;
+  width: 34px;
+  height: 34px;
+  line-height: 1;
+  font-size: 20px;
+  color: var(--color-text-muted);
+  background: #fff;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+.city-remove:hover { color: var(--color-danger); border-color: var(--color-danger); }
+
 .settings-mode-toggle {
   display: flex;
   flex-direction: column;

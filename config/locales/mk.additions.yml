@@ -92,6 +92,15 @@ mk:
         submit: Претплати се на %{plan}
         cancel: Откажи
         incomplete: Ве молиме пополнете фирма, регистрациски број, одговорно лице и адреса за фактурирање.
+    settings:
+      fields:
+        service_cities: Опслужувани градови
+      hints:
+        service_cities: Градовите каде што нудите преземање и достава. Се појавуваат во формуларот за нарачка и на вашите јавни страници.
+      placeholders:
+        service_city: пр. Скопје
+      add_city: Додади град
+      remove_city: Отстрани град
   invoice_pdf:
     original: Оригинал
     recipient: ПРИМАЧ

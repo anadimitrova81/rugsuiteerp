@@ -92,6 +92,15 @@ fr:
         submit: Souscrire à %{plan}
         cancel: Annuler
         incomplete: Veuillez renseigner la raison sociale, le numéro d'immatriculation, la personne responsable et l'adresse de facturation.
+    settings:
+      fields:
+        service_cities: Villes desservies
+      hints:
+        service_cities: Les villes où vous proposez l'enlèvement et la livraison. Elles apparaissent dans le formulaire de commande et sur vos pages publiques.
+      placeholders:
+        service_city: ex. Paris
+      add_city: Ajouter une ville
+      remove_city: Supprimer la ville
   invoice_pdf:
     original: Original
     recipient: DESTINATAIRE

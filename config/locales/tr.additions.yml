@@ -92,6 +92,15 @@ tr:
         submit: '%{plan} planına abone ol'
         cancel: İptal
         incomplete: Lütfen şirket adını, sicil numarasını, sorumlu kişiyi ve fatura adresini doldurun.
+    settings:
+      fields:
+        service_cities: Hizmet verilen şehirler
+      hints:
+        service_cities: Alma ve teslimat sunduğunuz şehirler. Sipariş formunda ve herkese açık sayfalarınızda görünür.
+      placeholders:
+        service_city: örn. İstanbul
+      add_city: Şehir ekle
+      remove_city: Şehri kaldır
   invoice_pdf:
     original: Orijinal
     recipient: ALICI
