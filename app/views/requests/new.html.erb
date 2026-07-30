@@ -65,7 +65,9 @@
         </div>
         <div class="request-aside-contact-body">
           <span class="request-aside-eyebrow"><%= t("requests.new.aside_contact_eyebrow") %></span>
-          <a class="request-aside-phone" href="tel:+359899771972">+359 899 771 972</a>
+          <% if current_factory.phone.present? %>
+            <a class="request-aside-phone" href="tel:<%= current_factory.phone.gsub(/\s+/, "") %>"><%= current_factory.phone %></a>
+          <% end %>
           <span class="request-aside-hours"><%= t("requests.new.aside_hours") %></span>
         </div>
       </div>
