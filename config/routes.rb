@@ -26,6 +26,8 @@ Rails.application.routes.draw do
 
     resources :invoices, only: %i[index show], controller: "platform/invoices",
                          as: :platform_invoices
+
+    post "reseed_demo", to: "platform/demo_data#reseed", as: :platform_reseed_demo
   end
 
   # ===== Marketing site (apex / reserved subdomains) =====

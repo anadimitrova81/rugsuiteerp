@@ -2,8 +2,14 @@
 
 <div class="platform-page">
   <header class="platform-page-head">
-    <h1>Subscriptions</h1>
-    <p class="platform-lede"><%= pluralize(@factories.size, "factory", plural: "factories") %></p>
+    <div>
+      <h1>Subscriptions</h1>
+      <p class="platform-lede"><%= pluralize(@factories.size, "factory", plural: "factories") %></p>
+    </div>
+    <%= button_to "↻ Reseed demo data", platform_reseed_demo_path, method: :post,
+                  class: "btn btn-secondary btn-sm",
+                  form: { style: "margin-left:auto" },
+                  data: { turbo_confirm: "Wipe the default company's orders and recreate fresh demo data?" } %>
   </header>
 
   <% if @factories.empty? %>
