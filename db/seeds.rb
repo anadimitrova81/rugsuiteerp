@@ -9,15 +9,15 @@ ADMIN_SEED_PASSWORD = ENV.fetch("ADMIN_SEED_PASSWORD", "password").freeze
 
 # ---------- Default (Bulgaria, bg/BGN) ----------
 default_factory = Factory.find_or_create_by!(slug: "default") do |f|
-  f.name                  = "Nexus Cleaning"
-  f.legal_name            = "Nexus Cleaning"
+  f.name                  = "Example Cleaning"
+  f.legal_name            = "Example Cleaning"
   f.country_code          = "BG"
   f.timezone              = "Europe/Sofia"
   f.currency              = "BGN"
   f.default_locale        = "bg"
   f.phone_country         = "BG"
   f.phone                 = "+359 899 771 972"
-  f.email                 = "office@nexus-cleaning.com"
+  f.email                 = "office@example.com"
   f.pickup_window         = "18:00 – 20:30"
   f.business_hours        = "09:00 – 20:00"
   f.price_per_kg          = 1.50

@@ -128,7 +128,7 @@ fr:
     received_by: Reçu par
     prepared_by: Établi par
   privacy:
-    meta_title: Politique de confidentialité · Nexus Cleaning
+    meta_title: Politique de confidentialité · Example Cleaning
     eyebrow: Document
     title: Politique de confidentialité
     subtitle: Comment nous traitons et protégeons les données personnelles de nos clients.
@@ -149,7 +149,7 @@ fr:
     sections:
       controller:
         heading: 1. Responsable du traitement
-        body_html: "<p>Le responsable du traitement de vos données personnelles est <strong>Nexus Cleaning</strong> (Nexus Ltd., UIC : 112641285, Plovdiv, 4 rue Deacon Ilarion), exerçant son activité à Plovdiv et dans les localités desservies.</p>\n"
+        body_html: "<p>Le responsable du traitement de vos données personnelles est <strong>Example Cleaning</strong> (Example Ltd., UIC : 112641285, Plovdiv, 4 rue Deacon Ilarion), exerçant son activité à Plovdiv et dans les localités desservies.</p>\n"
       data:
         heading: 2. Quelles données nous collectons
         body_html: |
@@ -219,17 +219,17 @@ fr:
           <p>Si vous avez des questions sur le traitement de vos données ou souhaitez exercer l'un de vos droits, contactez-nous :</p>
           <ul>
             <li>Téléphone : <a href="tel:+359899771972">+359 899 771 972</a></li>
-            <li>E-mail : <a href="mailto:office@nexus-cleaning.com">office@nexus-cleaning.com</a></li>
+            <li>E-mail : <a href="mailto:office@example.com">office@example.com</a></li>
           </ul>
           <p>Nous répondrons à votre demande dans un délai d'un mois à compter de sa réception.</p>
       changes:
         heading: 11. Modifications de la politique
         body_html: "<p>Nous pouvons mettre à jour cette politique lorsque nos pratiques ou les exigences légales évoluent. La version en vigueur est toujours publiée à cette adresse avec la date de dernière mise à jour. En cas de modifications importantes, nous vous en informerons de manière appropriée (par exemple, par un avis sur le site ou par e-mail).</p>\n"
   terms:
-    meta_title: Conditions générales · Nexus Cleaning
+    meta_title: Conditions générales · Example Cleaning
     eyebrow: Document
     title: Conditions générales
-    subtitle: Conditions d'utilisation des services de Nexus Cleaning.
+    subtitle: Conditions d'utilisation des services de Example Cleaning.
     updated: 'Dernière mise à jour : %{date}.'
     toc_heading: Sommaire
     toc:
@@ -248,7 +248,7 @@ fr:
     sections:
       scope:
         heading: 1. Champ d'application et parties
-        body_html: '<p>Les présentes conditions générales régissent la relation entre <strong>Nexus Cleaning</strong> (Nexus Ltd., UIC : 112641285, Plovdiv, 4 rue Deacon Ilarion, ci-après le « Prestataire ») et les personnes physiques ou morales qui commandent des services (dénommées le « Client ») via le site web <strong>nexus-cleaning.com</strong>, par téléphone ou par message.</p>
+        body_html: '<p>Les présentes conditions générales régissent la relation entre <strong>Example Cleaning</strong> (Example Ltd., UIC : 112641285, Plovdiv, 4 rue Deacon Ilarion, ci-après le « Prestataire ») et les personnes physiques ou morales qui commandent des services (dénommées le « Client ») via le site web <strong>example.com</strong>, par téléphone ou par message.</p>
 
           '
       services:
@@ -297,7 +297,7 @@ fr:
         heading: 12. Droit applicable et litiges
         body_html: |
           <p>Le droit bulgare s'applique aux présentes conditions générales. Les litiges sont résolus à l'amiable et, lorsque cela n'est pas possible, devant le tribunal bulgare compétent.</p>
-          <p>Pour toute question relative aux présentes conditions, vous pouvez nous joindre par téléphone au <a href="tel:+359899771972">+359 899 771 972</a> ou par e-mail à <a href="mailto:office@nexus-cleaning.com">office@nexus-cleaning.com</a>.</p>
+          <p>Pour toute question relative aux présentes conditions, vous pouvez nous joindre par téléphone au <a href="tel:+359899771972">+359 899 771 972</a> ou par e-mail à <a href="mailto:office@example.com">office@example.com</a>.</p>
   marketing:
     home:
       page_title: RugSuite ERP — logiciel pour les entreprises de lavage de tapis

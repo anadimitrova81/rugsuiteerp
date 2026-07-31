@@ -128,7 +128,7 @@ en:
     received_by: Received by
     prepared_by: Prepared by
   privacy:
-    meta_title: Privacy Policy · Nexus Cleaning
+    meta_title: Privacy Policy · Example Cleaning
     eyebrow: Document
     title: Privacy Policy
     subtitle: How we process and protect the personal data of our clients.
@@ -149,7 +149,7 @@ en:
     sections:
       controller:
         heading: 1. Data controller
-        body_html: "<p>The controller of your personal data is <strong>Nexus Cleaning</strong> (Nexus Ltd., UIC: 112641285, Plovdiv, 4 Deacon Ilarion St.), operating within Plovdiv and the served localities.</p>\n"
+        body_html: "<p>The controller of your personal data is <strong>Example Cleaning</strong> (Example Ltd., UIC: 112641285, Plovdiv, 4 Deacon Ilarion St.), operating within Plovdiv and the served localities.</p>\n"
       data:
         heading: 2. What data we collect
         body_html: |
@@ -219,17 +219,17 @@ en:
           <p>If you have questions about the processing of your data or wish to exercise any of your rights, contact us:</p>
           <ul>
             <li>Phone: <a href="tel:+359899771972">+359 899 771 972</a></li>
-            <li>Email: <a href="mailto:office@nexus-cleaning.com">office@nexus-cleaning.com</a></li>
+            <li>Email: <a href="mailto:office@example.com">office@example.com</a></li>
           </ul>
           <p>We will respond to your enquiry within one month of receiving it.</p>
       changes:
         heading: 11. Changes to the policy
         body_html: "<p>We may update this policy when our practices or legal requirements change. The current version is always published at this address with the date of last update. In the event of material changes, we will notify you in an appropriate manner (for example, by a notice on the site or by email).</p>\n"
   terms:
-    meta_title: Terms of Service · Nexus Cleaning
+    meta_title: Terms of Service · Example Cleaning
     eyebrow: Document
     title: Terms of Service
-    subtitle: Terms for using the services of Nexus Cleaning.
+    subtitle: Terms for using the services of Example Cleaning.
     updated: 'Last updated: %{date}.'
     toc_heading: Contents
     toc:
@@ -248,7 +248,7 @@ en:
     sections:
       scope:
         heading: 1. Scope and parties
-        body_html: '<p>These terms of service govern the relationship between <strong>Nexus Cleaning</strong> (Nexus Ltd., UIC: 112641285, Plovdiv, 4 Deacon Ilarion St., hereinafter the "Provider") and natural or legal persons who order services (referred to as the "Client") through the website <strong>nexus-cleaning.com</strong>, by telephone or by message.</p>
+        body_html: '<p>These terms of service govern the relationship between <strong>Example Cleaning</strong> (Example Ltd., UIC: 112641285, Plovdiv, 4 Deacon Ilarion St., hereinafter the "Provider") and natural or legal persons who order services (referred to as the "Client") through the website <strong>example.com</strong>, by telephone or by message.</p>
 
           '
       services:
@@ -297,7 +297,7 @@ en:
         heading: 12. Governing law and disputes
         body_html: |
           <p>Bulgarian law applies to these terms of service. Disputes are resolved by mutual agreement, and where this is not possible — before the competent Bulgarian court.</p>
-          <p>For contact on matters related to these terms, you can reach us by phone at <a href="tel:+359899771972">+359 899 771 972</a> or by email at <a href="mailto:office@nexus-cleaning.com">office@nexus-cleaning.com</a>.</p>
+          <p>For contact on matters related to these terms, you can reach us by phone at <a href="tel:+359899771972">+359 899 771 972</a> or by email at <a href="mailto:office@example.com">office@example.com</a>.</p>
   marketing:
     home:
       page_title: RugSuite ERP — software for rug washing businesses

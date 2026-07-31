@@ -128,7 +128,7 @@ tr:
     received_by: Teslim alan
     prepared_by: Düzenleyen
   privacy:
-    meta_title: Gizlilik Politikası · Nexus Cleaning
+    meta_title: Gizlilik Politikası · Example Cleaning
     eyebrow: Belge
     title: Gizlilik Politikası
     subtitle: Müşterilerimizin kişisel verilerini nasıl işlediğimiz ve koruduğumuz.
@@ -149,7 +149,7 @@ tr:
     sections:
       controller:
         heading: 1. Veri sorumlusu
-        body_html: "<p>Kişisel verilerinizin sorumlusu, Plovdiv ve hizmet verilen bölgelerde faaliyet gösteren <strong>Nexus Cleaning</strong>'dir (Nexus Ltd., UIC: 112641285, Plovdiv, Deacon Ilarion Sok. No: 4).</p>\n"
+        body_html: "<p>Kişisel verilerinizin sorumlusu, Plovdiv ve hizmet verilen bölgelerde faaliyet gösteren <strong>Example Cleaning</strong>'dir (Example Ltd., UIC: 112641285, Plovdiv, Deacon Ilarion Sok. No: 4).</p>\n"
       data:
         heading: 2. Hangi verileri topluyoruz
         body_html: |
@@ -219,17 +219,17 @@ tr:
           <p>Verilerinizin işlenmesiyle ilgili sorularınız varsa veya haklarınızdan herhangi birini kullanmak isterseniz bizimle iletişime geçin:</p>
           <ul>
             <li>Telefon: <a href="tel:+359899771972">+359 899 771 972</a></li>
-            <li>E-posta: <a href="mailto:office@nexus-cleaning.com">office@nexus-cleaning.com</a></li>
+            <li>E-posta: <a href="mailto:office@example.com">office@example.com</a></li>
           </ul>
           <p>Talebinizi aldıktan sonraki bir ay içinde yanıt vereceğiz.</p>
       changes:
         heading: 11. Politikadaki değişiklikler
         body_html: "<p>Uygulamalarımız veya yasal gereklilikler değiştiğinde bu politikayı güncelleyebiliriz. Güncel sürüm, son güncelleme tarihiyle birlikte her zaman bu adreste yayımlanır. Önemli değişiklikler durumunda sizi uygun bir şekilde bilgilendireceğiz (örneğin sitede bir bildirimle veya e-postayla).</p>\n"
   terms:
-    meta_title: Hizmet Koşulları · Nexus Cleaning
+    meta_title: Hizmet Koşulları · Example Cleaning
     eyebrow: Belge
     title: Hizmet Koşulları
-    subtitle: Nexus Cleaning hizmetlerinin kullanımına ilişkin koşullar.
+    subtitle: Example Cleaning hizmetlerinin kullanımına ilişkin koşullar.
     updated: 'Son güncelleme: %{date}.'
     toc_heading: İçindekiler
     toc:
@@ -248,7 +248,7 @@ tr:
     sections:
       scope:
         heading: 1. Kapsam ve taraflar
-        body_html: '<p>Bu hizmet koşulları, <strong>Nexus Cleaning</strong> (Nexus Ltd., UIC: 112641285, Plovdiv, Deacon Ilarion Sok. No: 4, bundan böyle "Sağlayıcı") ile <strong>nexus-cleaning.com</strong> web sitesi üzerinden, telefonla veya mesajla hizmet sipariş eden gerçek veya tüzel kişiler ("Müşteri" olarak anılır) arasındaki ilişkiyi düzenler.</p>
+        body_html: '<p>Bu hizmet koşulları, <strong>Example Cleaning</strong> (Example Ltd., UIC: 112641285, Plovdiv, Deacon Ilarion Sok. No: 4, bundan böyle "Sağlayıcı") ile <strong>example.com</strong> web sitesi üzerinden, telefonla veya mesajla hizmet sipariş eden gerçek veya tüzel kişiler ("Müşteri" olarak anılır) arasındaki ilişkiyi düzenler.</p>
 
           '
       services:
@@ -297,7 +297,7 @@ tr:
         heading: 12. Uygulanacak hukuk ve uyuşmazlıklar
         body_html: |
           <p>Bu hizmet koşullarına Bulgaristan hukuku uygulanır. Uyuşmazlıklar karşılıklı mutabakatla, bunun mümkün olmadığı durumlarda ise yetkili Bulgaristan mahkemesi önünde çözülür.</p>
-          <p>Bu koşullarla ilgili konularda bizimle <a href="tel:+359899771972">+359 899 771 972</a> numaralı telefondan veya <a href="mailto:office@nexus-cleaning.com">office@nexus-cleaning.com</a> e-posta adresinden iletişime geçebilirsiniz.</p>
+          <p>Bu koşullarla ilgili konularda bizimle <a href="tel:+359899771972">+359 899 771 972</a> numaralı telefondan veya <a href="mailto:office@example.com">office@example.com</a> e-posta adresinden iletişime geçebilirsiniz.</p>
   marketing:
     home:
       page_title: RugSuite ERP — halı yıkama işletmeleri için yazılım
