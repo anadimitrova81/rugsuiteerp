@@ -64,7 +64,9 @@ module HostType
       "#{slug}.lvh.me"
     else
       parts = host.split(".")
-      parts.shift if RESERVED_SUBDOMAINS.include?(parts.first)
+      # Only strip a leading reserved subdomain when one actually precedes the
+      # base domain (3+ labels); on the apex the leftmost label is the domain.
+      parts.shift if parts.size > 2 && RESERVED_SUBDOMAINS.include?(parts.first)
       "#{slug}.#{parts.join('.')}"
     end
   end

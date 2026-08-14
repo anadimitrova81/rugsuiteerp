@@ -51,8 +51,10 @@ class Marketing::SignupsController < Marketing::BaseController
         "#{factory.slug}.lvh.me"
       else
         parts = host.split(".")
-        # Replace or prepend the leftmost label.
-        parts.shift if HostType::RESERVED_SUBDOMAINS.include?(parts.first)
+        # Strip a leading reserved subdomain (www/app/…) only when there's an
+        # actual subdomain to strip — on the apex (rugsuiteerp.com) the leftmost
+        # label IS the domain, so keep it and just prepend the slug.
+        parts.shift if parts.size > 2 && HostType::RESERVED_SUBDOMAINS.include?(parts.first)
         "#{factory.slug}.#{parts.join('.')}"
       end
 
