@@ -3,17 +3,15 @@ class Marketing::SignupsController < Marketing::BaseController
   # handles tenant-scoped writes with `ActsAsTenant.with_tenant`.
   protect_from_forgery with: :exception
 
-  RECAPTCHA_ACTION = "signup".freeze
-
   def new
     @form = FactoryProvisioner.new
   end
 
   def create
     # Bot gate before we provision a tenant. Skipped only when no secret key is
-    # configured (e.g. dev without reCAPTCHA set up), matching the tenant form.
-    if recaptcha_secret_key.present? &&
-       !verify_recaptcha(params[:"g-recaptcha-response"], action: RECAPTCHA_ACTION)
+    # configured (e.g. dev without Turnstile set up), matching the tenant form.
+    if turnstile_secret_key.present? &&
+       !verify_turnstile(params[:"cf-turnstile-response"])
       @form = FactoryProvisioner.new(signup_params)
       @form.errors.add(:base, t("requests.captcha_failed"))
       render :new, status: :unprocessable_entity and return

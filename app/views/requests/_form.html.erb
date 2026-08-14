@@ -1,7 +1,4 @@
 <% form_data = { turbo: false } %>
-<% if recaptcha_site_key.present? %>
-  <% form_data.merge!(controller: "recaptcha", recaptcha_site_key_value: recaptcha_site_key, recaptcha_action_value: "request_create") %>
-<% end %>
 <%= form_with(model: request, scope: :request, class: "request-form", data: form_data) do |form| %>
   <section class="form-section">
     <h2 class="form-section-title"><%= t("requests.form.section_contact") %></h2>
@@ -22,9 +19,8 @@
     <%= form.text_area :pick_up_notes, label: t("requests.form.pickup_notes_label"), rows: 3, placeholder: t("requests.form.pickup_notes_placeholder") %>
   </section>
 
-  <% if recaptcha_site_key.present? %>
-    <input type="hidden" name="g-recaptcha-response" data-recaptcha-target="token">
-    <p class="recaptcha-notice"><%= t("requests.form.recaptcha_notice_html") %></p>
+  <% if turnstile_site_key.present? %>
+    <div class="cf-turnstile" data-sitekey="<%= turnstile_site_key %>" data-action="request_create"></div>
   <% end %>
 
   <div class="form-actions">

@@ -1,5 +1,6 @@
 class ApplicationController < ActionController::Base
   include LocaleDetection
+  include TurnstileVerification
 
   # Only allow modern browsers supporting webp images, web push, badges, import maps, CSS nesting, and CSS :has.
   allow_browser versions: :modern
@@ -15,7 +16,7 @@ class ApplicationController < ActionController::Base
   before_action :resolve_current_factory
   around_action :switch_locale
 
-  helper_method :current_admin, :admin_logged_in?, :recaptcha_site_key, :true_admin, :impersonating?, :current_factory, :platform_impersonating?
+  helper_method :current_admin, :admin_logged_in?, :turnstile_site_key, :true_admin, :impersonating?, :current_factory, :platform_impersonating?
 
   class FactoryNotFound < StandardError; end
   rescue_from FactoryNotFound, with: :render_factory_not_found
@@ -102,9 +103,6 @@ class ApplicationController < ActionController::Base
     session[:platform_impersonator_id].present? && current_admin.present?
   end
 
-  def recaptcha_site_key
-    Rails.application.credentials.dig(:recaptcha, :site_key) || ENV["RECAPTCHA_SITE_KEY"]
-  end
 
   def require_admin
     unless admin_logged_in?

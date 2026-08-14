@@ -31,8 +31,8 @@
 
     <%= yield :head %>
 
-    <% if recaptcha_site_key.present? %>
-      <script src="https://www.google.com/recaptcha/api.js?render=<%= recaptcha_site_key %>" async defer></script>
+    <% if turnstile_site_key.present? %>
+      <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
     <% end %>
 
     <%# Enable PWA manifest for installable apps (make sure to enable in config/routes.rb too!) %>

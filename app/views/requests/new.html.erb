@@ -2,8 +2,8 @@
 
 <% content_for :head do %>
   <%# Force a full reload whenever Turbo would navigate to or from this page,
-      and disable Turbo's snapshot cache for it. grecaptcha v3 keeps internal
-      state on the document/window that doesn't survive Turbo's morphed
+      and disable Turbo's snapshot cache for it. The Turnstile widget keeps
+      internal state on the document that doesn't survive Turbo's morphed
       navigations or cached previews — without this, submitting from a Turbo
       snapshot of /requests/new lands the form with an empty token. %>
   <meta name="turbo-visit-control" content="reload">
