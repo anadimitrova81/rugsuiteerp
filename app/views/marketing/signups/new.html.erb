@@ -1,5 +1,13 @@
 <% content_for(:title) { t("marketing.signup.page_title") } %>
 
+<% content_for :head do %>
+  <%# Load this page fresh (no Turbo morph / cached preview) so the Turnstile
+      widget initialises on a real page load and its token is present at submit
+      time — otherwise a restored snapshot submits an empty cf-turnstile-response. %>
+  <meta name="turbo-visit-control" content="reload">
+  <meta name="turbo-cache-control" content="no-preview">
+<% end %>
+
 <section class="mkt-signup">
   <div class="mkt-signup-inner">
     <div class="mkt-signup-intro">
