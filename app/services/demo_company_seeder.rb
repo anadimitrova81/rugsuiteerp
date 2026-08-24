@@ -1,9 +1,11 @@
-# Fresh demo data for the "default" company — used for live demos. Wipes and
-# recreates that company's orders (never touches any other tenant) and ensures a
-# set of demo staff exist. Safe to run repeatedly; each run re-anchors the dates
-# to "now" so orders always look current.
-class DefaultCompanySeeder
-  SLUG = "default".freeze
+# Fresh demo data for the public "demo" company (demo.<domain>, advertised on
+# the marketing site). Wipes and recreates that company's orders (never touches
+# any other tenant) and ensures a set of demo staff exist. Safe to run
+# repeatedly; each run re-anchors the dates to "now" so orders always look
+# current. Run daily via config/recurring.yml and on demand from the platform
+# console.
+class DemoCompanySeeder
+  SLUG = "demo".freeze
   DEMO_STAFF_PASSWORD = "demo1234".freeze
 
   STAFF = [
@@ -27,11 +29,11 @@ class DefaultCompanySeeder
     end
   end
 
+  # Resets role and password every run — the coordinator login is advertised on
+  # the marketing page, so a visitor changing it must not break the demo.
   def self.ensure_staff
     STAFF.each do |attrs|
       user = User.find_or_initialize_by(email: attrs[:email])
-      next unless user.new_record?
-
       user.role = attrs[:role]
       user.password = DEMO_STAFF_PASSWORD
       user.save!

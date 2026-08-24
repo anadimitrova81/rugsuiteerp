@@ -305,6 +305,7 @@ tr:
       hero_title: Halı yıkama işletmenizi dijitalleştirin
       hero_subtitle: RugSuite ERP; elektronik tabloları, kâğıt fişleri ve telefon trafiğini, siparişten teslimata her adımı yöneten tek bir platformla değiştirir — ister tek işletme, ister yüz işletme olsun.
       start_free_trial: Ücretsiz başlayın
+      hero_try_demo: Canlı demoyu deneyin
       hero_see_how: Nasıl çalıştığını görün
       hero_bullet_1: Çok kiracılı — şirket başına bir platform, alt alan başına bir şirket
       hero_bullet_2: İşletme başına fiyatlandırma, para birimleri, diller ve hizmet bölgeleri
@@ -343,6 +344,16 @@ tr:
       step5_body: Halı tartılır tartılmaz müşteri, tam ağırlık ve tutarı içeren bir SMS alır.
       step6_title: Koordinatör teslimatı onaylar
       step6_body: Biten halılar bir teslimat rotasında toplanır. Koordinatör aralığı onaylar, kurye teslim eder, müşteri öder.
+      demo_eyebrow: Canlı demo
+      demo_title: Kaydolmadan önce çalışırken görün
+      demo_lede: '"Demo Rug Wash", RugSuite ERP üzerinde gerçek ve tamamen çalışan bir şirkettir. Müşterilerinizin ve ekibinizin kullanacağı sayfaların aynısında gezinin — hesap gerekmez.'
+      demo_public_title: Müşteri sayfası
+      demo_public_body: 'Müşterilerinizin göreceği: online rezervasyon, fiyatlar, hizmet bölgeleri ve sipariş durumu takibi içeren markalı sayfanız.'
+      demo_public_cta: Demo sayfasını aç
+      demo_admin_title: Ekip admin paneli
+      demo_admin_body: 'Ekibinizin göreceği: bugünün siparişleri, alım rotaları, yıkama kuyruğu ve raporlar. Demo hesabıyla giriş yapın:'
+      demo_admin_cta: Demo admin girişi
+      demo_note: Demo her gün taze örnek siparişlerle sıfırlanır — gönül rahatlığıyla tıklayın, düzenleyin, taşıyın.
       pricing_title: İşletmenizle birlikte ölçeklenen fiyatlandırma
       pricing_lede: Büyüdükçe öde. Kurulum ücreti yok, kurye başına ücret yok, sürpriz yok. Kesin bir teklif için bize ulaşın.
       tier_free_name: Ücretsiz
@@ -427,6 +438,7 @@ tr:
     nav:
       features: Avantajlar
       how_it_works: Nasıl çalışır
+      demo: Demo
       pricing: Fiyatlandırma
       contact: İletişim
     cta:

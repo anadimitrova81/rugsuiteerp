@@ -21,6 +21,14 @@ module MarketingHelper
     request.base_url + "/og-image.png"
   end
 
+  # Public URL of the live demo company, derived from the current request host
+  # (demo.localhost:3000 in dev, demo.rugsuiteerp.com in production).
+  def marketing_demo_url(path: "/")
+    host = HostType.tenant_host(request.host, DemoCompanySeeder::SLUG)
+    port = [ 80, 443 ].include?(request.port) ? "" : ":#{request.port}"
+    "#{request.scheme}://#{host}#{port}#{path}"
+  end
+
   FAQ_COUNT = 6
 
   # The home-page FAQ, from i18n — used both for the visible section and the

@@ -62,7 +62,7 @@ class ApplicationController < ActionController::Base
 
   # Pull the tenant slug from the leftmost subdomain (e.g. acme.rugsuite.app → "acme").
   # In development we accept a ?factory= override and fall back to the seeded
-  # "default" tenant so the app remains usable on http://localhost:3000.
+  # "demo" tenant so the app remains usable on http://localhost:3000.
   def tenant_slug
     sub = HostType.extract_subdomain(request)
     sub = nil if HostType::RESERVED_SUBDOMAINS.include?(sub)
@@ -70,7 +70,7 @@ class ApplicationController < ActionController::Base
     return sub if sub.present?
 
     if Rails.env.development? || Rails.env.test?
-      return params[:factory].to_s.downcase.presence || "default"
+      return params[:factory].to_s.downcase.presence || DemoCompanySeeder::SLUG
     end
 
     nil

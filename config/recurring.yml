@@ -17,3 +17,7 @@ production:
     class: GenerateMonthlyInvoicesJob
     queue: default
     schedule: every day at 6am
+  reseed_demo_company:
+    class: ReseedDemoCompanyJob
+    queue: default
+    schedule: every day at 4am

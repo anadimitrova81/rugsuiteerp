@@ -4,7 +4,7 @@ Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
   # Allow requests from custom local hosts. The `.localhost` TLD resolves to
-  # 127.0.0.1 on macOS, so any subdomain like `default.localhost:3000` or
+  # 127.0.0.1 on macOS, so any subdomain like `demo.localhost:3000` or
   # `acme.localhost:3000` works without /etc/hosts edits — useful for testing
   # the per-tenant subdomain router in development.
   config.hosts << "rugsuiteerp.localhost"

@@ -305,6 +305,7 @@ en:
       hero_title: Digitalise your rug washing business
       hero_subtitle: RugSuite ERP replaces the spreadsheets, paper tickets and phone-tag with one platform that handles every step from booking to delivery — for one business or a hundred.
       start_free_trial: Start for free
+      hero_try_demo: Try the live demo
       hero_see_how: See how it works
       hero_bullet_1: Multi-tenant — one platform per company, one company per subdomain
       hero_bullet_2: Per-business pricing, currencies, languages and service areas
@@ -343,6 +344,16 @@ en:
       step5_body: The customer gets an SMS with the exact weight and cost as soon as the rug is weighed.
       step6_title: Coordinator confirms delivery
       step6_body: Done rugs are bundled into a delivery route. The coordinator confirms the slot, the courier delivers, the customer pays.
+      demo_eyebrow: Live demo
+      demo_title: See it working before you sign up
+      demo_lede: '"Demo Rug Wash" is a real, fully working company on RugSuite ERP. Click around the exact pages your customers and your team would get — no account needed.'
+      demo_public_title: The customer page
+      demo_public_body: 'What your customers will see: your branded page with online booking, prices, service areas and order status tracking.'
+      demo_public_cta: Open the demo page
+      demo_admin_title: The staff admin
+      demo_admin_body: 'What your team will see: today''s orders, pickup routes, the wash queue and reports. Log in with the demo account:'
+      demo_admin_cta: Log in to the demo admin
+      demo_note: The demo resets every day with fresh sample orders — feel free to click around, edit and move things.
       pricing_title: Pricing that scales with your business
       pricing_lede: Pay-as-you-grow. No setup fees, no per-courier charges, no surprises. Talk to us for an exact quote.
       tier_free_name: Free
@@ -427,6 +438,7 @@ en:
     nav:
       features: Benefits
       how_it_works: How it works
+      demo: Live demo
       pricing: Pricing
       contact: Contact
     cta:

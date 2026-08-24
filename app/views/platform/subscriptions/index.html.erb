@@ -9,7 +9,7 @@
     <%= button_to "↻ Reseed demo data", platform_reseed_demo_path, method: :post,
                   class: "btn btn-secondary btn-sm",
                   form: { style: "margin-left:auto" },
-                  data: { turbo_confirm: "Wipe the default company's orders and recreate fresh demo data?" } %>
+                  data: { turbo_confirm: "Wipe the demo company's orders and recreate fresh demo data?" } %>
   </header>
 
   <% if @factories.empty? %>

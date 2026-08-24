@@ -305,6 +305,7 @@ fr:
       hero_title: Digitalisez votre entreprise de lavage de tapis
       hero_subtitle: RugSuite ERP remplace les tableurs, les tickets papier et les allers-retours téléphoniques par une plateforme unique qui gère chaque étape, de la réservation à la livraison — pour une entreprise ou pour une centaine.
       start_free_trial: Commencer gratuitement
+      hero_try_demo: Essayer la démo
       hero_see_how: Voir comment ça marche
       hero_bullet_1: Multi-tenant — une plateforme par entreprise, une entreprise par sous-domaine
       hero_bullet_2: Tarifs, devises, langues et zones de service par entreprise
@@ -343,6 +344,16 @@ fr:
       step5_body: Le client reçoit un SMS avec le poids et le coût exacts dès que le tapis est pesé.
       step6_title: Le coordinateur confirme la livraison
       step6_body: Les tapis terminés sont regroupés dans une tournée de livraison. Le coordinateur confirme le créneau, le coursier livre, le client paie.
+      demo_eyebrow: Démo en direct
+      demo_title: Voyez la plateforme fonctionner avant de vous inscrire
+      demo_lede: « Demo Rug Wash » est une vraie entreprise entièrement fonctionnelle sur RugSuite ERP. Parcourez exactement les pages que vos clients et votre équipe utiliseront — sans créer de compte.
+      demo_public_title: La page client
+      demo_public_body: 'Ce que verront vos clients : votre page à vos couleurs avec réservation en ligne, tarifs, zones desservies et suivi du statut des commandes.'
+      demo_public_cta: Ouvrir la page démo
+      demo_admin_title: L'admin de l'équipe
+      demo_admin_body: 'Ce que verra votre équipe : les commandes du jour, les tournées d''enlèvement, la file de lavage et les rapports. Connectez-vous avec le compte démo :'
+      demo_admin_cta: Se connecter à l'admin démo
+      demo_note: La démo est réinitialisée chaque jour avec de nouvelles commandes d'exemple — cliquez, modifiez et déplacez sans crainte.
       pricing_title: Une tarification qui évolue avec votre entreprise
       pricing_lede: Payez au fur et à mesure de votre croissance. Aucuns frais d'installation, aucun coût par coursier, aucune surprise. Contactez-nous pour un devis précis.
       tier_free_name: Gratuit
@@ -427,6 +438,7 @@ fr:
     nav:
       features: Avantages
       how_it_works: Comment ça marche
+      demo: Démo
       pricing: Tarifs
       contact: Contact
     cta:
