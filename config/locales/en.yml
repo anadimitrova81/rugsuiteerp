@@ -480,6 +480,7 @@ en:
         price_per_sqm_bulk: "Bulk price per m²"
         bulk_area_threshold: "Bulk area threshold (m²)"
         price_per_item: "Price per item"
+        currency: "Currency"
       hints:
         legal_name: "Shown in the footer copyright line. Defaults to Company name."
         logo: "PNG, JPEG, WebP or SVG. Max 2 MB. Shown in the site header."
@@ -497,6 +498,7 @@ en:
         price_per_kg_bulk: "Discounted rate for orders over the bulk threshold."
         bulk_weight_threshold: "Weight (kg) at which the bulk rate kicks in."
         price_per_item: "Per-item rate for orders priced by piece (e.g. quilts)."
+        currency: "Used for all prices shown to customers and in reports. Changing it does not convert existing amounts."
     process_steps:
       title: "How it works steps"
       lede: "The steps shown on your home page. Drag the order with the arrows. Leave empty to show the default steps."

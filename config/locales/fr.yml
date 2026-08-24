@@ -480,6 +480,7 @@ fr:
         price_per_sqm_bulk: "Prix dégressif au m²"
         bulk_area_threshold: "Seuil de surface pour le tarif dégressif (m²)"
         price_per_item: "Prix à l'article"
+        currency: "Devise"
       hints:
         legal_name: "Affichée dans la ligne de copyright du pied de page. Par défaut, le nom de l'entreprise."
         logo: "PNG, JPEG, WebP ou SVG. 2 Mo max. Affiché dans l'en-tête du site."
@@ -497,6 +498,7 @@ fr:
         price_per_kg_bulk: "Tarif réduit pour les commandes dépassant le seuil dégressif."
         bulk_weight_threshold: "Poids (kg) à partir duquel le tarif dégressif s'applique."
         price_per_item: "Tarif à l'article pour les commandes facturées à la pièce (ex. couettes)."
+        currency: "Utilisée pour tous les prix affichés aux clients et dans les rapports. Le changement ne convertit pas les montants existants."
     process_steps:
       title: "Étapes du fonctionnement"
       lede: "Les étapes affichées sur votre page d'accueil. Réordonnez-les avec les flèches. Laissez vide pour afficher les étapes par défaut."

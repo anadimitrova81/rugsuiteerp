@@ -480,6 +480,7 @@ tr:
         price_per_sqm_bulk: "m² başına toplu fiyat"
         bulk_area_threshold: "Toplu alan eşiği (m²)"
         price_per_item: "Adet başına fiyat"
+        currency: "Para birimi"
       hints:
         legal_name: "Altbilgi telif hakkı satırında gösterilir. Varsayılan olarak Şirket adıdır."
         logo: "PNG, JPEG, WebP veya SVG. En fazla 2 MB. Site başlığında gösterilir."
@@ -497,6 +498,7 @@ tr:
         price_per_kg_bulk: "Toplu eşiğin üzerindeki siparişler için indirimli tarife."
         bulk_weight_threshold: "Toplu tarifenin devreye girdiği ağırlık (kg)."
         price_per_item: "Adet başına fiyatlandırılan siparişler için birim tarife (örn. yorganlar)."
+        currency: "Müşterilere gösterilen tüm fiyatlarda ve raporlarda kullanılır. Değiştirmek mevcut tutarları dönüştürmez."
     process_steps:
       title: "Nasıl çalışır adımları"
       lede: "Ana sayfanızda gösterilen adımlar. Sırayı oklarla sürükleyin. Varsayılan adımları göstermek için boş bırakın."

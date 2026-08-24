@@ -133,6 +133,10 @@
         <h2 class="settings-section-title"><%= t("admin.settings.pricing") %></h2>
         <p class="settings-section-lede"><%= t("admin.settings.pricing_lede", currency: @factory.currency) %></p>
 
+        <%= f.select :currency, Factory::CURRENCIES,
+                     { label: t("admin.settings.fields.currency"),
+                       hint: t("admin.settings.hints.currency") } %>
+
         <div class="settings-mode-toggle">
           <span class="form-label-like"><%= t("admin.settings.pricing_mode_label") %></span>
           <% Factory::PRICING_MODES.each do |mode| %>

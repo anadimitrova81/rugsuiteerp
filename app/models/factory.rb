@@ -29,6 +29,11 @@ class Factory < ApplicationRecord
   }.freeze
   BILLING_CURRENCY = "EUR".freeze
 
+  # Currencies a factory can price in — everything the supported signup
+  # countries use. Factory pricing currency is display-only (no conversion);
+  # platform billing always happens in BILLING_CURRENCY.
+  CURRENCIES = CountryDefaults::DEFAULTS.values.map { |d| d[:currency] }.uniq.sort.freeze
+
   has_one_attached :logo
   has_one_attached :hero_image
 
@@ -46,7 +51,7 @@ class Factory < ApplicationRecord
   validates :name, presence: true
   validates :country_code,   presence: true, length: { is: 2 }
   validates :phone_country,  presence: true, length: { is: 2 }
-  validates :currency,       presence: true, length: { is: 3 }
+  validates :currency,       presence: true, inclusion: { in: CURRENCIES }
   validates :default_locale, presence: true
   validates :timezone,       presence: true
   validate  :timezone_must_be_valid
