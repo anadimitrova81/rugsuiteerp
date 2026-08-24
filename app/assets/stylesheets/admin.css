@@ -1643,6 +1643,23 @@
   font-size: 12px;
   color: var(--color-text-muted);
 }
+.route-lane-summary {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.route-lane-maps-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--color-primary);
+  text-decoration: none;
+}
+.route-lane-maps-link:hover { color: var(--color-primary-hover); text-decoration: underline; }
 .route-lane-summary-value {
   font-size: 13px;
   color: var(--color-text);

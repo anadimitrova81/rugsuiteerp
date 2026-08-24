@@ -16,7 +16,7 @@ class ApplicationController < ActionController::Base
   before_action :resolve_current_factory
   around_action :switch_locale
 
-  helper_method :current_admin, :admin_logged_in?, :turnstile_site_key, :true_admin, :impersonating?, :current_factory, :platform_impersonating?
+  helper_method :current_admin, :admin_logged_in?, :turnstile_site_key, :true_admin, :impersonating?, :current_factory, :platform_impersonating?, :show_admin_chrome?
 
   class FactoryNotFound < StandardError; end
   rescue_from FactoryNotFound, with: :render_factory_not_found
@@ -86,6 +86,14 @@ class ApplicationController < ActionController::Base
 
   def admin_logged_in?
     current_admin.present?
+  end
+
+  # Whether the layout shows the admin nav/badge/banner. On the demo company a
+  # visitor who tried the one-click demo admin keeps their session, but the
+  # customer-facing pages must still read like a customer visit — so there the
+  # admin chrome is confined to the /admin area.
+  def show_admin_chrome?
+    admin_logged_in? && (!current_factory.demo? || request.path.start_with?("/admin"))
   end
 
   def true_admin

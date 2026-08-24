@@ -128,7 +128,7 @@
               <span class="site-brand-text"><%= current_factory.name %></span>
             <% end %>
           <% end %>
-          <% if admin_logged_in? %>
+          <% if show_admin_chrome? %>
             <span class="plan-badge plan-badge-<%= current_factory.plan %>" title="<%= t("plan.#{current_factory.plan}") %>">
               <%= t("plan.#{current_factory.plan}") %>
             </span>
@@ -146,7 +146,7 @@
         </button>
         <nav class="site-nav" id="primary-nav" data-nav-toggle-target="menu" data-open="false">
           <ul>
-            <% if admin_logged_in? %>
+            <% if show_admin_chrome? %>
               <li><%= link_to t("admin.nav.requests"), admin_requests_path %></li>
               <% if current_admin&.admin? || current_admin&.coordinator? %>
                 <li><%= link_to t("admin.nav.route"),   admin_route_path %></li>
@@ -174,7 +174,7 @@
       </div>
     </header>
 
-    <% if admin_logged_in? && current_factory.demo? %>
+    <% if show_admin_chrome? && current_factory.demo? %>
       <div class="demo-banner" role="status">
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
         <span><%= t("admin.demo.banner") %></span>
@@ -183,7 +183,7 @@
 
     <main>
       <% if notice.present? %>
-        <div class="flash-container <%= 'container-wide' if admin_logged_in? %>">
+        <div class="flash-container <%= 'container-wide' if show_admin_chrome? %>">
           <div class="flash flash-notice flash-icon">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
             <span><%= notice %></span>
@@ -191,7 +191,7 @@
         </div>
       <% end %>
       <% if alert.present? %>
-        <div class="flash-container <%= 'container-wide' if admin_logged_in? %>">
+        <div class="flash-container <%= 'container-wide' if show_admin_chrome? %>">
           <div class="flash flash-alert flash-icon">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
             <span><%= alert %></span>
@@ -201,7 +201,7 @@
       <%= yield %>
     </main>
 
-    <% unless admin_logged_in? %>
+    <% unless show_admin_chrome? %>
       <%= render "shared/cookie_consent" %>
     <% end %>
   </body>
