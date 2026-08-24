@@ -7,12 +7,26 @@
 class DemoCompanySeeder
   SLUG = "demo".freeze
   DEMO_STAFF_PASSWORD = "demo1234".freeze
+  # The account the marketing site's one-click demo login signs in as.
+  DEMO_ADMIN_EMAIL = "admin@example.com".freeze
 
   STAFF = [
+    { email: DEMO_ADMIN_EMAIL,          role: "admin" },
     { email: "courier@example.com",     role: "courier" },
     { email: "courier2@example.com",    role: "courier" },
     { email: "operator@example.com",    role: "operator" },
     { email: "coordinator@example.com", role: "coordinator" },
+  ].freeze
+
+  # The washing-process steps shown on the public page and editable in the
+  # admin settings. In Bulgarian — the demo company's locale.
+  PROCESS_STEPS = [
+    { position: 1, title: "Приемане и оглед",       body: "Преглеждаме всеки килим за петна, увреждания и тип материя, и записваме размерите му." },
+    { position: 2, title: "Обезпрашаване",           body: "Машинно избиване на дълбоко набития прах преди мокрото пране." },
+    { position: 3, title: "Основно пране",           body: "Пране с професионални препарати, съобразени с материята и цветовете на килима." },
+    { position: 4, title: "Изплакване и центрофуга", body: "Обилно изплакване с чиста вода и центрофугиране за отстраняване на влагата." },
+    { position: 5, title: "Сушене",                  body: "Сушене в специализирано помещение с контролирана температура и влажност." },
+    { position: 6, title: "Финален контрол",         body: "Оглед на качеството, ароматизиране и опаковане, готово за доставка." },
   ].freeze
 
   # pick_up_at is filled in relative to today at run time (see #requests_data).
@@ -22,6 +36,7 @@ class DemoCompanySeeder
 
     ActsAsTenant.with_tenant(factory) do
       ensure_staff
+      reset_process_steps
       Request.delete_all
       created = requests_data.map { |attrs| Request.create!(attrs) }
       backdate(created)
@@ -29,8 +44,8 @@ class DemoCompanySeeder
     end
   end
 
-  # Resets role and password every run — the coordinator login is advertised on
-  # the marketing page, so a visitor changing it must not break the demo.
+  # Resets role and password every run — the admin login is advertised on the
+  # marketing page, so a visitor changing it must not break the demo.
   def self.ensure_staff
     STAFF.each do |attrs|
       user = User.find_or_initialize_by(email: attrs[:email])
@@ -38,6 +53,12 @@ class DemoCompanySeeder
       user.password = DEMO_STAFF_PASSWORD
       user.save!
     end
+  end
+
+  # Recreated (not just topped up) so visitor edits don't outlive the reseed.
+  def self.reset_process_steps
+    ProcessStep.delete_all
+    PROCESS_STEPS.each { |attrs| ProcessStep.create!(attrs) }
   end
 
   # Spread created_at over ~2 months so the reports chart has shape.

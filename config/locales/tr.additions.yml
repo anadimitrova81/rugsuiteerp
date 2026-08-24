@@ -351,7 +351,7 @@ tr:
       demo_public_body: 'Müşterilerinizin göreceği: online rezervasyon, fiyatlar, hizmet bölgeleri ve sipariş durumu takibi içeren markalı sayfanız.'
       demo_public_cta: Demo sayfasını aç
       demo_admin_title: Ekip admin paneli
-      demo_admin_body: 'Ekibinizin göreceği: bugünün siparişleri, alım rotaları, yıkama kuyruğu ve raporlar. Demo hesabıyla giriş yapın:'
+      demo_admin_body: 'Ekibinizin göreceği: bugünün siparişleri, alım rotaları, yıkama kuyruğu ve raporlar. Tek tıkla demo yönetici olarak giriş yaparsınız — şifre gerekmez.'
       demo_admin_cta: Demo admin girişi
       demo_note: Demo her gün taze örnek siparişlerle sıfırlanır — gönül rahatlığıyla tıklayın, düzenleyin, taşıyın.
       pricing_title: İşletmenizle birlikte ölçeklenen fiyatlandırma

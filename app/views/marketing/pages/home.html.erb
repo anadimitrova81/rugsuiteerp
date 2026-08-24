@@ -10,8 +10,8 @@
       </p>
       <div class="mkt-hero-actions">
         <%= link_to t("marketing.home.start_free_trial"), marketing_signup_path, class: "btn btn-primary btn-lg" %>
-        <a href="#demo" class="btn btn-secondary btn-lg"><%= t("marketing.home.hero_try_demo") %></a>
-        <a href="#how-it-works" class="btn btn-secondary btn-lg"><%= t("marketing.home.hero_see_how") %></a>
+        <a href="#demo" class="btn btn-lg mkt-btn-outline"><span class="mkt-live-dot" aria-hidden="true"></span><%= t("marketing.home.hero_try_demo") %></a>
+        <a href="#how-it-works" class="mkt-hero-link"><%= t("marketing.home.hero_see_how") %></a>
       </div>
       <ul class="mkt-hero-bullets">
         <li><%= t("marketing.home.hero_bullet_1") %></li>
@@ -159,11 +159,8 @@
       <article class="mkt-demo-card">
         <h3><%= t("marketing.home.demo_admin_title") %></h3>
         <p><%= t("marketing.home.demo_admin_body") %></p>
-        <p class="mkt-demo-creds">
-          <code>coordinator@example.com</code> / <code><%= DemoCompanySeeder::DEMO_STAFF_PASSWORD %></code>
-        </p>
-        <%= link_to t("marketing.home.demo_admin_cta"), marketing_demo_url(path: "/login"),
-                    class: "btn btn-secondary", target: "_blank", rel: "noopener" %>
+        <%= link_to t("marketing.home.demo_admin_cta"), marketing_demo_url(path: "/demo_login"),
+                    class: "btn mkt-btn-outline", target: "_blank", rel: "noopener" %>
       </article>
     </div>
     <p class="mkt-demo-note"><%= t("marketing.home.demo_note") %></p>

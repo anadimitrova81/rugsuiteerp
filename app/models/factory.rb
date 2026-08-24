@@ -127,6 +127,12 @@ class Factory < ApplicationRecord
     user_limit.present? && users_count >= user_limit
   end
 
+  # The public demo company, advertised on the marketing site. Its admin is
+  # one-click loginable and read-mostly (no creating orders or users).
+  def demo?
+    slug == DemoCompanySeeder::SLUG
+  end
+
   # Route optimisation + calculation both call the Google Routes API and share a
   # per-day quota by plan (nil = unlimited). Counted in the cache (solid_cache,
   # DB-backed) per factory per local day.

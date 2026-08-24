@@ -12,6 +12,8 @@ fr:
     order_limit_reached: "Nous n'acceptons pas de nouvelles commandes en ligne pour le moment. Merci de nous appeler pour passer commande."
 
   admin:
+    demo:
+      creation_disabled: "La création de commandes et d'utilisateurs est désactivée dans l'entreprise de démonstration."
     nav:
       requests: "Commandes"
       route: "Tournée"

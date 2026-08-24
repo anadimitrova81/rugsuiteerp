@@ -12,6 +12,8 @@ en:
     order_limit_reached: "We're not taking new online orders right now. Please call us to place an order."
 
   admin:
+    demo:
+      creation_disabled: "Creating orders and users is disabled in the demo company."
     nav:
       requests: "Orders"
       route: "Route"

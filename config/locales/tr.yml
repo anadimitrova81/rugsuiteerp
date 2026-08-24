@@ -12,6 +12,8 @@ tr:
     order_limit_reached: "Şu anda çevrimiçi yeni sipariş almıyoruz. Sipariş vermek için lütfen bizi arayın."
 
   admin:
+    demo:
+      creation_disabled: "Demo şirketinde sipariş ve kullanıcı oluşturma devre dışıdır."
     nav:
       requests: "Siparişler"
       route: "Rota"

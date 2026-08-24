@@ -351,7 +351,7 @@ en:
       demo_public_body: 'What your customers will see: your branded page with online booking, prices, service areas and order status tracking.'
       demo_public_cta: Open the demo page
       demo_admin_title: The staff admin
-      demo_admin_body: 'What your team will see: today''s orders, pickup routes, the wash queue and reports. Log in with the demo account:'
+      demo_admin_body: 'What your team will see: today''s orders, pickup routes, the wash queue and reports. One click logs you in as the demo admin — nothing to type.'
       demo_admin_cta: Log in to the demo admin
       demo_note: The demo resets every day with fresh sample orders — feel free to click around, edit and move things.
       pricing_title: Pricing that scales with your business

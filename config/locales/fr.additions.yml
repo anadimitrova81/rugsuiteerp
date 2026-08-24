@@ -351,7 +351,7 @@ fr:
       demo_public_body: 'Ce que verront vos clients : votre page à vos couleurs avec réservation en ligne, tarifs, zones desservies et suivi du statut des commandes.'
       demo_public_cta: Ouvrir la page démo
       demo_admin_title: L'admin de l'équipe
-      demo_admin_body: 'Ce que verra votre équipe : les commandes du jour, les tournées d''enlèvement, la file de lavage et les rapports. Connectez-vous avec le compte démo :'
+      demo_admin_body: 'Ce que verra votre équipe : les commandes du jour, les tournées d''enlèvement, la file de lavage et les rapports. Un clic vous connecte en tant qu''admin démo — rien à saisir.'
       demo_admin_cta: Se connecter à l'admin démo
       demo_note: La démo est réinitialisée chaque jour avec de nouvelles commandes d'exemple — cliquez, modifiez et déplacez sans crainte.
       pricing_title: Une tarification qui évolue avec votre entreprise

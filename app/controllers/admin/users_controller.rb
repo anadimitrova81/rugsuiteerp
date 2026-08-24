@@ -1,6 +1,7 @@
 module Admin
   class UsersController < BaseController
     before_action :require_admin_role, except: :stop_impersonating
+    before_action :block_demo_creation, only: %i[new create]
     before_action :enforce_user_limit, only: %i[new create]
 
     def index

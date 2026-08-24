@@ -13,7 +13,9 @@
         <% end %>
       </p>
     </div>
-    <% if current_factory.user_limit_reached? %>
+    <%# The demo company's admin can't create users, so no button and no upsell. %>
+    <% if current_factory.demo? %>
+    <% elsif current_factory.user_limit_reached? %>
       <div class="plan-limit-action">
         <span class="plan-limit-hint"><%= t("admin.limits.user.new_disabled_hint") %></span>
         <%= link_to t("admin.limits.user.upgrade_cta"), admin_subscription_path, class: "btn btn-primary" %>

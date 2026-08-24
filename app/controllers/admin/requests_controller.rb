@@ -2,6 +2,7 @@ module Admin
   class RequestsController < BaseController
     PER_PAGE = 25
 
+    before_action :block_demo_creation, only: %i[new create]
     before_action :enforce_order_limit, only: %i[new create]
 
     def index

@@ -56,6 +56,8 @@ Rails.application.routes.draw do
 
   get "login", to: "sessions#new"
   post "login", to: "sessions#create"
+  # Marketing-site "try the demo admin" link; only answers on the demo tenant.
+  get "demo_login", to: "demo_sessions#create", as: :demo_login
   delete "logout", to: "sessions#destroy", as: :logout
 
   # Platform-admin impersonation hand-off: the operator console mints a signed,
