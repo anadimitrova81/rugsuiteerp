@@ -218,7 +218,7 @@ tr:
         body_html: |
           <p>Verilerinizin işlenmesiyle ilgili sorularınız varsa veya haklarınızdan herhangi birini kullanmak isterseniz bizimle iletişime geçin:</p>
           <ul>
-            <li>Telefon: <a href="tel:+359899771972">+359 899 771 972</a></li>
+            <li>Telefon: <a href="tel:%{phone_compact}">%{phone}</a></li>
             <li>E-posta: <a href="mailto:office@example.com">office@example.com</a></li>
           </ul>
           <p>Talebinizi aldıktan sonraki bir ay içinde yanıt vereceğiz.</p>
@@ -297,7 +297,7 @@ tr:
         heading: 12. Uygulanacak hukuk ve uyuşmazlıklar
         body_html: |
           <p>Bu hizmet koşullarına Bulgaristan hukuku uygulanır. Uyuşmazlıklar karşılıklı mutabakatla, bunun mümkün olmadığı durumlarda ise yetkili Bulgaristan mahkemesi önünde çözülür.</p>
-          <p>Bu koşullarla ilgili konularda bizimle <a href="tel:+359899771972">+359 899 771 972</a> numaralı telefondan veya <a href="mailto:office@example.com">office@example.com</a> e-posta adresinden iletişime geçebilirsiniz.</p>
+          <p>Bu koşullarla ilgili konularda bizimle <a href="tel:%{phone_compact}">%{phone}</a> numaralı telefondan veya <a href="mailto:office@example.com">office@example.com</a> e-posta adresinden iletişime geçebilirsiniz.</p>
   marketing:
     home:
       page_title: RugSuite ERP — halı yıkama işletmeleri için yazılım
@@ -614,7 +614,7 @@ tr:
     hero:
       eyebrow: Sıkça sorulan sorular
       title: En önemli soruların yanıtları
-      lede_html: Sorunuzu burada bulamazsanız, 09:00 ile 20:00 arasında bizi <a href="tel:+359899771972">+359 899 771 972</a> numaradan arayın.
+      lede_html: Sorunuzu burada bulamazsanız, 09:00 ile 20:00 arasında bizi <a href="tel:%{phone_compact}">%{phone}</a> numaradan arayın.
     items:
       price:
         q: Maliyeti ne kadar?
@@ -629,9 +629,9 @@ tr:
         intro: 'Üç seçeneğiniz var — en uygun olanı seçin:'
         form_link: sipariş formu
         online_html: "<strong>Çevrimiçi</strong> — %{link} doldurun. Bir dakikadan az sürer."
-        by_phone_html: <strong>Telefonla</strong> — 09:00 ile 20:00 arasında bizi <a href="tel:+359899771972">+359 899 771 972</a> numaradan arayın.
+        by_phone_html: <strong>Telefonla</strong> — 09:00 ile 20:00 arasında bizi <a href="tel:%{phone_compact}">%{phone}</a> numaradan arayın.
         by_sms_html: "<strong>SMS veya Viber</strong> — aynı numaradan bize mesaj gönderin, ayrıntıları netleştirmek için sizinle iletişime geçelim."
-        a: 'Üç seçeneğiniz var: sipariş formu üzerinden çevrimiçi, 09:00 ile 20:00 arasında +359 899 771 972 numaradan telefonla veya aynı numaradan SMS/Viber ile.'
+        a: 'Üç seçeneğiniz var: sipariş formu üzerinden çevrimiçi, 09:00 ile 20:00 arasında %{phone} numaradan telefonla veya aynı numaradan SMS/Viber ile.'
       turnaround:
         q: Kaç gün sürer?
         a_html: Siparişler normalde <strong>3 – 5 iş günü</strong> içinde tamamlanır. Yoğun dönemlerde veya özel kumaşlarda 7 güne kadar sürebilir. Halılar iade edilmeye hazır olur olmaz sizinle iletişime geçeriz.

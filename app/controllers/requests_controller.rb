@@ -34,8 +34,11 @@ class RequestsController < ApplicationController
 
   private
 
+  # Staff don't book through the public form — except on the demo company,
+  # where marketing visitors (auto-logged-in as the demo admin) must be able
+  # to try the customer booking flow.
   def redirect_logged_in_users
-    redirect_to admin_requests_path if admin_logged_in?
+    redirect_to admin_requests_path if admin_logged_in? && !current_factory.demo?
   end
 
   # When the factory has hit its plan's monthly order cap, stop taking new

@@ -5,7 +5,7 @@
   <div class="faq-hero-inner">
     <span class="home-eyebrow"><%= t("faq.hero.eyebrow") %></span>
     <h1><%= t("faq.hero.title") %></h1>
-    <p><%= t("faq.hero.lede_html") %></p>
+    <p><%= t("faq.hero.lede_html", **factory_phone_args) %></p>
   </div>
 </section>
 
@@ -40,7 +40,7 @@
         <p><%= t("faq.items.how_to_order.intro") %></p>
         <ul>
           <li><%= t("faq.items.how_to_order.online_html", link: link_to(t("faq.items.how_to_order.form_link"), new_request_path)) %></li>
-          <li><%= t("faq.items.how_to_order.by_phone_html") %></li>
+          <li><%= t("faq.items.how_to_order.by_phone_html", **factory_phone_args) %></li>
           <li><%= t("faq.items.how_to_order.by_sms_html") %></li>
         </ul>
       </div>

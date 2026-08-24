@@ -9,6 +9,8 @@ class DemoCompanySeeder
   DEMO_STAFF_PASSWORD = "demo1234".freeze
   # The account the marketing site's one-click demo login signs in as.
   DEMO_ADMIN_EMAIL = "admin@example.com".freeze
+  # Fake contact number shown on the demo's public pages — never a real phone.
+  DEMO_PHONE = "+359 899 000 000".freeze
 
   STAFF = [
     { email: DEMO_ADMIN_EMAIL,          role: "admin" },
@@ -33,6 +35,10 @@ class DemoCompanySeeder
   def self.reseed!
     factory = Factory.find_by(slug: SLUG)
     raise "No '#{SLUG}' company found" unless factory
+
+    # Keep the row's public-facing facts pinned: no real phone, euro prices
+    # (Bulgaria switched from BGN in 2026).
+    factory.update_columns(phone: DEMO_PHONE, currency: "EUR")
 
     ActsAsTenant.with_tenant(factory) do
       ensure_staff

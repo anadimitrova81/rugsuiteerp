@@ -7,16 +7,16 @@
 
 ADMIN_SEED_PASSWORD = ENV.fetch("ADMIN_SEED_PASSWORD", "password").freeze
 
-# ---------- Demo (Bulgaria, bg/BGN) — the public live demo ----------
+# ---------- Demo (Bulgaria, bg/EUR) — the public live demo ----------
 demo_factory = Factory.find_or_create_by!(slug: DemoCompanySeeder::SLUG) do |f|
   f.name                  = "Demo Rug Wash"
   f.legal_name            = "Demo Rug Wash"
   f.country_code          = "BG"
   f.timezone              = "Europe/Sofia"
-  f.currency              = "BGN"
+  f.currency              = "EUR"
   f.default_locale        = "bg"
   f.phone_country         = "BG"
-  f.phone                 = "+359 899 771 972"
+  f.phone                 = DemoCompanySeeder::DEMO_PHONE
   f.email                 = "office@example.com"
   f.pickup_window         = "18:00 – 20:30"
   f.business_hours        = "09:00 – 20:00"

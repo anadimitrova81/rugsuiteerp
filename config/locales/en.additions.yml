@@ -218,7 +218,7 @@ en:
         body_html: |
           <p>If you have questions about the processing of your data or wish to exercise any of your rights, contact us:</p>
           <ul>
-            <li>Phone: <a href="tel:+359899771972">+359 899 771 972</a></li>
+            <li>Phone: <a href="tel:%{phone_compact}">%{phone}</a></li>
             <li>Email: <a href="mailto:office@example.com">office@example.com</a></li>
           </ul>
           <p>We will respond to your enquiry within one month of receiving it.</p>
@@ -297,7 +297,7 @@ en:
         heading: 12. Governing law and disputes
         body_html: |
           <p>Bulgarian law applies to these terms of service. Disputes are resolved by mutual agreement, and where this is not possible — before the competent Bulgarian court.</p>
-          <p>For contact on matters related to these terms, you can reach us by phone at <a href="tel:+359899771972">+359 899 771 972</a> or by email at <a href="mailto:office@example.com">office@example.com</a>.</p>
+          <p>For contact on matters related to these terms, you can reach us by phone at <a href="tel:%{phone_compact}">%{phone}</a> or by email at <a href="mailto:office@example.com">office@example.com</a>.</p>
   marketing:
     home:
       page_title: RugSuite ERP — software for rug washing businesses
@@ -614,7 +614,7 @@ en:
     hero:
       eyebrow: Frequently asked questions
       title: Answers to the questions that matter most
-      lede_html: If you can't find your question here, call us at <a href="tel:+359899771972">+359 899 771 972</a> between 09:00 and 20:00.
+      lede_html: If you can't find your question here, call us at <a href="tel:%{phone_compact}">%{phone}</a> between 09:00 and 20:00.
     items:
       price:
         q: What does it cost?
@@ -629,9 +629,9 @@ en:
         intro: 'You have three options — pick whichever is most convenient:'
         form_link: the order form
         online_html: "<strong>Online</strong> — fill in %{link}. It takes under a minute."
-        by_phone_html: <strong>By phone</strong> — call us at <a href="tel:+359899771972">+359 899 771 972</a> between 09:00 and 20:00.
+        by_phone_html: <strong>By phone</strong> — call us at <a href="tel:%{phone_compact}">%{phone}</a> between 09:00 and 20:00.
         by_sms_html: "<strong>SMS or Viber</strong> — message us on the same number and we'll get in touch to sort out the details."
-        a: 'You have three options: online via the order form, by phone at +359 899 771 972 between 09:00 and 20:00, or by SMS/Viber on the same number.'
+        a: 'You have three options: online via the order form, by phone at %{phone} between 09:00 and 20:00, or by SMS/Viber on the same number.'
       turnaround:
         q: How many days does it take?
         a_html: Orders are normally completed within <strong>3 – 5 working days</strong>. During busier periods or with specific fabrics it may take up to 7 days. We contact you as soon as the carpets are ready to be returned.

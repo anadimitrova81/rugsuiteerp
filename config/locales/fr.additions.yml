@@ -218,7 +218,7 @@ fr:
         body_html: |
           <p>Si vous avez des questions sur le traitement de vos données ou souhaitez exercer l'un de vos droits, contactez-nous :</p>
           <ul>
-            <li>Téléphone : <a href="tel:+359899771972">+359 899 771 972</a></li>
+            <li>Téléphone : <a href="tel:%{phone_compact}">%{phone}</a></li>
             <li>E-mail : <a href="mailto:office@example.com">office@example.com</a></li>
           </ul>
           <p>Nous répondrons à votre demande dans un délai d'un mois à compter de sa réception.</p>
@@ -297,7 +297,7 @@ fr:
         heading: 12. Droit applicable et litiges
         body_html: |
           <p>Le droit bulgare s'applique aux présentes conditions générales. Les litiges sont résolus à l'amiable et, lorsque cela n'est pas possible, devant le tribunal bulgare compétent.</p>
-          <p>Pour toute question relative aux présentes conditions, vous pouvez nous joindre par téléphone au <a href="tel:+359899771972">+359 899 771 972</a> ou par e-mail à <a href="mailto:office@example.com">office@example.com</a>.</p>
+          <p>Pour toute question relative aux présentes conditions, vous pouvez nous joindre par téléphone au <a href="tel:%{phone_compact}">%{phone}</a> ou par e-mail à <a href="mailto:office@example.com">office@example.com</a>.</p>
   marketing:
     home:
       page_title: RugSuite ERP — logiciel pour les entreprises de lavage de tapis
@@ -614,7 +614,7 @@ fr:
     hero:
       eyebrow: Questions fréquentes
       title: Réponses aux questions qui comptent le plus
-      lede_html: Si vous ne trouvez pas votre question ici, appelez-nous au <a href="tel:+359899771972">+359 899 771 972</a> entre 09:00 et 20:00.
+      lede_html: Si vous ne trouvez pas votre question ici, appelez-nous au <a href="tel:%{phone_compact}">%{phone}</a> entre 09:00 et 20:00.
     items:
       price:
         q: Combien ça coûte ?
@@ -629,9 +629,9 @@ fr:
         intro: 'Vous avez trois options — choisissez celle qui vous convient le mieux :'
         form_link: le formulaire de commande
         online_html: "<strong>En ligne</strong> — remplissez %{link}. Cela prend moins d'une minute."
-        by_phone_html: <strong>Par téléphone</strong> — appelez-nous au <a href="tel:+359899771972">+359 899 771 972</a> entre 09:00 et 20:00.
+        by_phone_html: <strong>Par téléphone</strong> — appelez-nous au <a href="tel:%{phone_compact}">%{phone}</a> entre 09:00 et 20:00.
         by_sms_html: "<strong>SMS ou Viber</strong> — écrivez-nous au même numéro et nous vous recontacterons pour régler les détails."
-        a: 'Vous avez trois options : en ligne via le formulaire de commande, par téléphone au +359 899 771 972 entre 09:00 et 20:00, ou par SMS/Viber au même numéro.'
+        a: 'Vous avez trois options : en ligne via le formulaire de commande, par téléphone au %{phone} entre 09:00 et 20:00, ou par SMS/Viber au même numéro.'
       turnaround:
         q: Combien de jours cela prend-il ?
         a_html: Les commandes sont normalement traitées sous <strong>3 à 5 jours ouvrables</strong>. Pendant les périodes de forte activité ou pour des tissus spécifiques, cela peut prendre jusqu'à 7 jours. Nous vous contactons dès que les tapis sont prêts à être retournés.

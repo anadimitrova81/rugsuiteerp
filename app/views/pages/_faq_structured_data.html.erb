@@ -7,7 +7,7 @@
 <%
   faq_slugs = %w[price fees how_to_order turnaround weighing materials stains safety not_home frequency]
   faqs = faq_slugs.map do |slug|
-    [t("faq.items.#{slug}.q"), t("faq.items.#{slug}.a")]
+    [t("faq.items.#{slug}.q"), t("faq.items.#{slug}.a", **factory_phone_args)]
   end
 
   faq_data = {

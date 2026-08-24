@@ -1,4 +1,12 @@
 module ApplicationHelper
+  # Interpolation args for locale strings that embed the factory's contact
+  # phone (FAQ, terms, privacy) — %{phone} for display, %{phone_compact} for
+  # tel:/viber: hrefs.
+  def factory_phone_args
+    phone = current_factory.phone.to_s
+    { phone: phone, phone_compact: phone.delete(" ") }
+  end
+
   # Language switcher (client-facing pages). Short codes drive the toggle,
   # native names label it for screen readers, and `locale_switch_url` re-renders
   # the current page in the chosen locale — the controller validates the value
