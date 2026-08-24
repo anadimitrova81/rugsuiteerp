@@ -353,7 +353,7 @@ tr:
       demo_admin_title: Ekip admin paneli
       demo_admin_body: 'Ekibinizin göreceği: bugünün siparişleri, alım rotaları, yıkama kuyruğu ve raporlar. Tek tıkla demo yönetici olarak giriş yaparsınız — şifre gerekmez.'
       demo_admin_cta: Demo admin girişi
-      demo_note: Demo her gün taze örnek siparişlerle sıfırlanır — gönül rahatlığıyla tıklayın, düzenleyin, taşıyın.
+      demo_note: Demo salt okunurdur ve her gün taze örnek siparişlerle sıfırlanır.
       pricing_title: İşletmenizle birlikte ölçeklenen fiyatlandırma
       pricing_lede: Büyüdükçe öde. Kurulum ücreti yok, kurye başına ücret yok, sürpriz yok. Kesin bir teklif için bize ulaşın.
       tier_free_name: Ücretsiz

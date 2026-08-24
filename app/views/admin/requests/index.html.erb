@@ -14,8 +14,10 @@
         </p>
       <% end %>
     </div>
-    <% if current_admin&.admin? && !current_factory.demo? %>
-      <% if current_factory.order_limit_reached? %>
+    <% if current_admin&.admin? %>
+      <% if current_factory.demo? %>
+        <button type="button" class="btn btn-primary" disabled><%= t("admin.requests.new_button") %></button>
+      <% elsif current_factory.order_limit_reached? %>
         <div class="plan-limit-action">
           <span class="plan-limit-hint"><%= t("admin.limits.order.new_disabled_hint") %></span>
           <%= link_to t("admin.limits.order.upgrade_cta"), admin_subscription_path, class: "btn btn-primary" %>
@@ -44,6 +46,7 @@
       <%= button_to t("admin.requests.send_sms"),
                     price_quotes_admin_notifications_path,
                     method: :post,
+                    disabled: current_factory.demo?,
                     class: "btn btn-secondary sms-banner-btn",
                     data: { turbo_confirm: t("admin.requests.send_sms_confirm", count: @pending_price_notifications_count) } %>
     </div>

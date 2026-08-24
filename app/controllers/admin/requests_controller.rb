@@ -3,6 +3,9 @@ module Admin
     PER_PAGE = 25
 
     before_action :block_demo_creation, only: %i[new create]
+    # The edit form is also off-limits in the demo (update is caught by the
+    # global write guard; this stops the form from even rendering).
+    before_action :block_demo_edit, only: %i[edit]
     before_action :enforce_order_limit, only: %i[new create]
 
     def index

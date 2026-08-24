@@ -2,7 +2,10 @@ class PagesController < ApplicationController
   include TracksPublicVisits
 
   def home
-    redirect_to admin_requests_path and return if admin_logged_in?
+    # Staff landing on their own site go straight to the admin — except on the
+    # demo company, where marketing visitors (already auto-logged-in as the
+    # demo admin) must still be able to see the customer-facing page.
+    redirect_to admin_requests_path and return if admin_logged_in? && !current_factory.demo?
     @show_welcome = params[:welcome].present?
     @process_steps = process_steps_for_display
   end

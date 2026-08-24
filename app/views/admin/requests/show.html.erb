@@ -18,7 +18,11 @@
         <%= t("admin.request.show.back_to_list") %>
       <% end %>
       <% if current_admin&.admin? %>
-        <%= link_to t("admin.request.show.edit"), edit_admin_request_path(@request), class: "btn btn-primary" %>
+        <% if current_factory.demo? %>
+          <button type="button" class="btn btn-primary" disabled><%= t("admin.request.show.edit") %></button>
+        <% else %>
+          <%= link_to t("admin.request.show.edit"), edit_admin_request_path(@request), class: "btn btn-primary" %>
+        <% end %>
       <% end %>
     </div>
   </header>

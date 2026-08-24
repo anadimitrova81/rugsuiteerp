@@ -550,6 +550,26 @@ textarea.form-control { font-family: inherit; line-height: 1.5; resize: vertical
 }
 
 .btn:active { transform: scale(0.98); }
+.btn:disabled, .btn[disabled] {
+  opacity: 0.55;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* Persistent bar shown across the demo company's admin. */
+.demo-banner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 16px;
+  background: #fef3c7;
+  color: #92400e;
+  border-bottom: 1px solid #fde68a;
+  font-size: 14px;
+  font-weight: 600;
+  text-align: center;
+}
 .btn-sm { padding: 8px 14px; font-size: 14px; }
 .btn-primary { background-color: var(--color-primary); color: white; }
 .btn-primary:hover { background-color: var(--color-primary-hover); }

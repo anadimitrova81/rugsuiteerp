@@ -13,6 +13,8 @@ fr:
 
   admin:
     demo:
+      banner: "Vous parcourez l'entreprise de démonstration — l'ajout de commandes, la création d'utilisateurs et l'optimisation des tournées sont désactivés. Les données sont réinitialisées chaque jour."
+      read_only: "L'entreprise de démonstration est en lecture seule — les modifications sont désactivées."
       section_disabled: "Cette page n'est pas disponible dans l'entreprise de démonstration."
       creation_disabled: "La création de commandes et d'utilisateurs est désactivée dans l'entreprise de démonstration."
     nav:

@@ -13,6 +13,8 @@ en:
 
   admin:
     demo:
+      banner: "You're browsing the demo company — adding orders, creating users and optimizing routes are disabled. All data resets daily."
+      read_only: "The demo company is read-only — changes are disabled."
       section_disabled: "This page is not available in the demo company."
       creation_disabled: "Creating orders and users is disabled in the demo company."
     nav:

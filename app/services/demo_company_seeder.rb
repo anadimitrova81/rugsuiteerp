@@ -45,6 +45,7 @@ class DemoCompanySeeder
       backdate(created)
       # Today's route stops keep a fresh created_at — they were "booked recently".
       stops = route_stops_data(couriers).map { |attrs| Request.create!(attrs.merge(admin_initiated: true)) }
+      seed_optimized_route(stops)
       seed_sent_price_quote
       created.size + stops.size
     end
@@ -76,6 +77,26 @@ class DemoCompanySeeder
       { phone: "0888606060", address: "бул. Христо Ботев 92", city: "Пловдив",    pick_up_at: today, status: "delivery_confirmed", delivery_courier_id: c2, delivery_at: today, number_of_items: 1, weight: 5.6 },
       { phone: "0888707070", address: "ул. Лале 9",           city: "Труд",       pick_up_at: today, status: "pickup_confirmed" },
     ]
+  end
+
+  # The demo can't run the optimizer or the distance calculation (its CTAs are
+  # hidden and writes are blocked), so the route arrives ready-made: stop
+  # positions set per courier lane, and per-lane distance/duration summaries
+  # cached under the same key Admin::RoutesController reads and writes.
+  # Plausible round-trip figures, not Google's; the demo never calls the API.
+  LANE_SUMMARIES = [ { distance_km: 14.2, total_minutes: 38 }, { distance_km: 27.5, total_minutes: 54 } ].freeze
+
+  def self.seed_optimized_route(stops)
+    lanes = stops.group_by { |s| s.status == "pickup_confirmed" ? s.pickup_courier_id : s.delivery_courier_id }
+    lanes.delete(nil)
+    lanes.each_with_index do |(courier_id, lane_stops), idx|
+      lane_stops.each_with_index { |stop, i| stop.update_columns(route_position: i + 1) }
+      Rails.cache.write(
+        "route/optimized/#{Date.current.iso8601}/courier/#{courier_id}",
+        LANE_SUMMARIES[idx % LANE_SUMMARIES.size].merge(ordered_ids: lane_stops.map(&:id)),
+        expires_in: 1.day,
+      )
+    end
   end
 
   # One in-progress order gets its price-quote SMS recorded as already "sent",
