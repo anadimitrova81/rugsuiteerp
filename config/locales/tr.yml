@@ -13,8 +13,8 @@ tr:
 
   admin:
     demo:
-      banner: "Demo şirketini geziyorsunuz — sipariş ekleme, kullanıcı oluşturma ve rota optimizasyonu devre dışıdır. Veriler her gün sıfırlanır."
-      read_only: "Demo şirketi salt okunurdur — değişiklikler devre dışıdır."
+      banner: "Demo şirketini geziyorsunuz — sipariş ekleme, kullanıcı oluşturma ve rota optimizasyonu devre dışıdır. Tüm işlevler için ücretsiz kaydolun!"
+      read_only: "Demo yalnızca görüntüleme içindir ve her gün yeni örnek siparişlerle sıfırlanır. Tüm işlevler için ücretsiz kaydolun!"
       section_disabled: "Bu sayfa demo şirketinde kullanılamaz."
       creation_disabled: "Demo şirketinde sipariş ve kullanıcı oluşturma devre dışıdır."
     nav:
