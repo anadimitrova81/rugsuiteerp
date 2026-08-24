@@ -13,6 +13,7 @@ en:
 
   admin:
     demo:
+      section_disabled: "This page is not available in the demo company."
       creation_disabled: "Creating orders and users is disabled in the demo company."
     nav:
       requests: "Orders"

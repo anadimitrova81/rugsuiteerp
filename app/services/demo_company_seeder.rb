@@ -37,10 +37,16 @@ class DemoCompanySeeder
     ActsAsTenant.with_tenant(factory) do
       ensure_staff
       reset_process_steps
+      # FK-safe order: notifications reference requests.
+      Notification.delete_all
       Request.delete_all
-      created = requests_data.map { |attrs| Request.create!(attrs) }
+      couriers = User.where(role: "courier").order(:id).pluck(:id)
+      created = requests_data.map { |attrs| Request.create!(attrs.merge(admin_initiated: true)) }
       backdate(created)
-      created.size
+      # Today's route stops keep a fresh created_at — they were "booked recently".
+      stops = route_stops_data(couriers).map { |attrs| Request.create!(attrs.merge(admin_initiated: true)) }
+      seed_sent_price_quote
+      created.size + stops.size
     end
   end
 
@@ -53,6 +59,38 @@ class DemoCompanySeeder
       user.password = DEMO_STAFF_PASSWORD
       user.save!
     end
+  end
+
+  # Today's route: confirmed pickups and deliveries dated today and assigned
+  # to the two demo couriers (plus one unassigned stop, so the "unassigned"
+  # lane has something in it) — the admin Routes page is empty without them.
+  def self.route_stops_data(courier_ids)
+    c1, c2 = courier_ids
+    today = Date.current
+    [
+      { phone: "0888101010", address: "ул. Отец Паисий 24",   city: "Пловдив",    pick_up_at: today, status: "pickup_confirmed",   pickup_courier_id: c1 },
+      { phone: "0888202020", address: "бул. Марица 128",      city: "Пловдив",    pick_up_at: today, status: "pickup_confirmed",   pickup_courier_id: c1, pick_up_notes: "Позвънете на входа." },
+      { phone: "0888303030", address: "ул. Богомил 53",       city: "Пловдив",    pick_up_at: today, status: "pickup_confirmed",   pickup_courier_id: c2 },
+      { phone: "0888404040", address: "ул. Съединение 11",    city: "Асеновград", pick_up_at: today, status: "pickup_confirmed",   pickup_courier_id: c2, number_of_items: 2 },
+      { phone: "0888505050", address: "ул. Брезовска 42",     city: "Пловдив",    pick_up_at: today, status: "delivery_confirmed", delivery_courier_id: c1, delivery_at: today, number_of_items: 3, weight: 11.2 },
+      { phone: "0888606060", address: "бул. Христо Ботев 92", city: "Пловдив",    pick_up_at: today, status: "delivery_confirmed", delivery_courier_id: c2, delivery_at: today, number_of_items: 1, weight: 5.6 },
+      { phone: "0888707070", address: "ул. Лале 9",           city: "Труд",       pick_up_at: today, status: "pickup_confirmed" },
+    ]
+  end
+
+  # One in-progress order gets its price-quote SMS recorded as already "sent",
+  # so the SMS log page has a realistic entry. The other in-progress order
+  # stays awaiting, keeping the send-quotes button meaningful. (In the demo
+  # tenant Sms::Sender only logs, so pressing it never texts anyone.)
+  def self.seed_sent_price_quote
+    request = Request.where(status: "in_progress").where.not(weight: nil).order(:id).first
+    return unless request
+
+    request.notifications.create!(
+      kind: "price_quote", channel: "sms", recipient: request.phone,
+      body: Sms::PriceQuoteMessage.build(request), status: "sent",
+      sent_at: request.updated_at,
+    )
   end
 
   # Recreated (not just topped up) so visitor edits don't outlive the reseed.
@@ -92,6 +130,7 @@ class DemoCompanySeeder
       { phone: "0878112233", address: "ул. Капитан Райчо 8",     city: "Асеновград", pick_up_at: d2, status: "picked_up",          number_of_items: 4 },
       { phone: "0876543210", address: "ул. Шипка 14",            city: "Пловдив",    pick_up_at: d2, status: "picked_up",          number_of_items: 2 },
       { phone: "0887445566", address: "ул. Главна 17",           city: "Перущица",   pick_up_at: d2, status: "in_progress",        pick_up_notes: "Втори етаж, без асансьор.", number_of_items: 3, weight: 12.4 },
+      { phone: "0894556677", address: "ул. Родопи 21",           city: "Пловдив",    pick_up_at: d2, status: "in_progress",        number_of_items: 2, weight: 8.3 },
       { phone: "0899334455", address: "ул. Васил Левски 23",     city: "Крумово",    pick_up_at: d2, status: "ready_for_delivery", number_of_items: 5, weight: 18.7 },
       { phone: "0988778899", address: "ул. Цар Симеон 5",        city: "Цалапица",   pick_up_at: d2, status: "delivery_confirmed", number_of_items: 1, weight: 4.2, delivery_at: d5 },
       { phone: "0871122334", address: "бул. България 100",       city: "Брестовица", pick_up_at: d3, status: "delivered",          number_of_items: 2, weight: 9.1 },

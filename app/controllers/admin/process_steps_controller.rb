@@ -1,6 +1,7 @@
 module Admin
   class ProcessStepsController < BaseController
     before_action :require_admin_role
+    before_action :block_demo_section
     before_action :set_process_step, only: %i[edit update destroy move]
 
     def new

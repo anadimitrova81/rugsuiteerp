@@ -12,5 +12,13 @@ module Admin
       redirect_back fallback_location: admin_requests_path,
                     alert: t("admin.demo.creation_disabled")
     end
+
+    # Whole sections hidden in the demo company: settings and plan/billing
+    # would let a visitor reconfigure or "subscribe" the shared demo tenant.
+    def block_demo_section
+      return unless current_factory.demo?
+
+      redirect_to admin_requests_path, alert: t("admin.demo.section_disabled")
+    end
   end
 end

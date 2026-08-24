@@ -1,6 +1,7 @@
 module Admin
   class SettingsController < BaseController
     before_action :require_admin_role
+    before_action :block_demo_section
 
     def show
       @factory = current_factory

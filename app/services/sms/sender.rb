@@ -4,6 +4,11 @@ module Sms
     DeliveryError = Class.new(StandardError)
 
     def self.deliver(to:, body:)
+      # The public demo company must never text anyone — its seeded numbers
+      # aren't ours to message. Route to the log backend in every environment
+      # so the demo still records "sent" notifications realistically.
+      return LogBackend.new.deliver(to: to, body: body) if ActsAsTenant.current_tenant&.demo?
+
       # smsapi.bg only accepts E.164; convert 088... → +359888... here so
       # callers can pass whatever shape the database has.
       backend.deliver(to: PhoneNumber.normalize(to), body: body)

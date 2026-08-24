@@ -2,6 +2,11 @@ module HostType
   # The platform operator console (all tenants, cross-tenant impersonation).
   PLATFORM_SUBDOMAIN = "admin".freeze
 
+  # Canonical public apex domain — for building absolute tenant URLs outside a
+  # request context (e.g. SMS bodies), where `tenant_host` has no host to
+  # derive from.
+  APEX_DOMAIN = "rugsuiteerp.com".freeze
+
   # Reserved subdomains that are never a tenant — the app's own marketing
   # hostnames plus the conventional infrastructure prefixes. Includes the
   # platform console subdomain so it's never mistaken for a factory slug.
@@ -54,6 +59,12 @@ module HostType
     labels = request_host.to_s.downcase.split(".")
     labels.shift if labels.size > 2 # drop the tenant slug, keep the base domain
     "#{PLATFORM_SUBDOMAIN}.#{labels.join('.')}"
+  end
+
+  # The tenant's public host on the canonical domain, independent of any
+  # request (unlike `tenant_host`, which mirrors the current host in dev).
+  def tenant_public_host(slug)
+    "#{slug}.#{APEX_DOMAIN}"
   end
 
   def tenant_host(request_host, slug)

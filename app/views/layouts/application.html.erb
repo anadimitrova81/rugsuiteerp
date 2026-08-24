@@ -155,8 +155,10 @@
               <% if current_admin&.admin? %>
                 <li><%= link_to t("admin.nav.reports"),      admin_reports_path %></li>
                 <li><%= link_to t("admin.nav.users"),        admin_users_path %></li>
-                <li><%= link_to t("admin.nav.settings"),     admin_settings_path %></li>
-                <li><%= link_to t("admin.nav.subscription"), admin_subscription_path %></li>
+                <% unless current_factory.demo? %>
+                  <li><%= link_to t("admin.nav.settings"),     admin_settings_path %></li>
+                  <li><%= link_to t("admin.nav.subscription"), admin_subscription_path %></li>
+                <% end %>
                 <li><%= link_to t("admin.nav.invoices"),     admin_invoices_path %></li>
               <% end %>
               <li><%= link_to t("admin.nav.logout"), logout_path, data: { turbo_method: :delete }, class: "nav-logout" %></li>

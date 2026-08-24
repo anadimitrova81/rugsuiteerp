@@ -7,8 +7,6 @@ module Sms
   # modern phones auto-link it. The URL points to /r/:customer_id which 302s
   # to /status where the full breakdown lives.
   module PriceQuoteMessage
-    DETAILS_URL_HOST = "nexus-cleaning.com".freeze
-
     def self.build(request)
       I18n.t("sms.price_quote.body",
              prefix: prefix(request),
@@ -33,7 +31,7 @@ module Sms
     end
 
     def self.details_url(request)
-      "#{DETAILS_URL_HOST}/r/#{request.status_token}"
+      "#{HostType.tenant_public_host(request.factory.slug)}/r/#{request.status_token}"
     end
 
     def self.format_number(value, strip_zeros: false)

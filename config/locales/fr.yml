@@ -13,6 +13,7 @@ fr:
 
   admin:
     demo:
+      section_disabled: "Cette page n'est pas disponible dans l'entreprise de démonstration."
       creation_disabled: "La création de commandes et d'utilisateurs est désactivée dans l'entreprise de démonstration."
     nav:
       requests: "Commandes"
