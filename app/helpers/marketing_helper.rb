@@ -22,11 +22,15 @@ module MarketingHelper
   end
 
   # Public URL of the live demo company, derived from the current request host
-  # (demo.localhost:3000 in dev, demo.rugsuiteerp.com in production).
+  # (demo.localhost:3000 in dev, demo.rugsuiteerp.com in production). Carries
+  # the marketing visitor's locale: sessions don't cross subdomains, and the
+  # demo tenant defaults to bg, so without the param a non-Bulgarian visitor
+  # would land on a Bulgarian demo.
   def marketing_demo_url(path: "/")
     host = HostType.tenant_host(request.host, DemoCompanySeeder::SLUG)
     port = [ 80, 443 ].include?(request.port) ? "" : ":#{request.port}"
-    "#{request.scheme}://#{host}#{port}#{path}"
+    sep = path.include?("?") ? "&" : "?"
+    "#{request.scheme}://#{host}#{port}#{path}#{sep}locale=#{I18n.locale}"
   end
 
   FAQ_COUNT = 6
