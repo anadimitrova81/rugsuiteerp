@@ -32,16 +32,8 @@ class PagesController < ApplicationController
   def process_steps_for_display
     steps = current_factory.process_steps.ordered
     if steps.any?
-      steps.map.with_index(1) do |step, n|
-        image =
-          if step.image.attached?
-            step.image
-          elsif current_factory.demo? && n <= 6
-            # The demo company's seeded steps have no photos of their own;
-            # show the stock step images so the slider looks finished.
-            default_step_image(n)
-          end
-        { title: step.title, body: step.body.to_s, image: image }
+      steps.map do |step|
+        { title: step.title, body: step.body.to_s, image: step.image.attached? ? step.image : nil }
       end
     else
       (1..6).map do |n|

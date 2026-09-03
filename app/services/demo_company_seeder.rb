@@ -22,17 +22,6 @@ class DemoCompanySeeder
     { email: "coordinator@example.com", role: "coordinator" },
   ].freeze
 
-  # The washing-process steps shown on the public page and editable in the
-  # admin settings. In Bulgarian — the demo company's locale.
-  PROCESS_STEPS = [
-    { position: 1, title: "Приемане и оглед",       body: "Преглеждаме всеки килим за петна, увреждания и тип материя, и записваме размерите му." },
-    { position: 2, title: "Обезпрашаване",           body: "Машинно избиване на дълбоко набития прах преди мокрото пране." },
-    { position: 3, title: "Основно пране",           body: "Пране с професионални препарати, съобразени с материята и цветовете на килима." },
-    { position: 4, title: "Изплакване и центрофуга", body: "Обилно изплакване с чиста вода и центрофугиране за отстраняване на влагата." },
-    { position: 5, title: "Сушене",                  body: "Сушене в специализирано помещение с контролирана температура и влажност." },
-    { position: 6, title: "Финален контрол",         body: "Оглед на качеството, ароматизиране и опаковане, готово за доставка." },
-  ].freeze
-
   # pick_up_at is filled in relative to today at run time (see #requests_data).
   def self.reseed!
     factory = Factory.find_by(slug: SLUG)
@@ -122,10 +111,11 @@ class DemoCompanySeeder
     )
   end
 
-  # Recreated (not just topped up) so visitor edits don't outlive the reseed.
+  # The demo keeps no custom process steps: with none present, the public page
+  # renders the built-in default journey from the locale files, so every
+  # visitor sees the steps in their own language.
   def self.reset_process_steps
     ProcessStep.delete_all
-    PROCESS_STEPS.each { |attrs| ProcessStep.create!(attrs) }
   end
 
   # Spread created_at over ~2 months so the reports chart has shape.
