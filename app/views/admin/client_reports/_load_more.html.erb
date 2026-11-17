@@ -1,0 +1,8 @@
+<div id="client-report-load-more" class="requests-load-more">
+  <% if @has_more %>
+    <%= link_to t("admin.statistics.load_more"),
+                admin_client_reports_path(by: :month, page: @page + 1),
+                class: "btn btn-secondary",
+                data: { turbo_stream: true } %>
+  <% end %>
+</div>

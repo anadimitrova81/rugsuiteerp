@@ -2847,3 +2847,59 @@
   color: var(--color-text);
 }
 .report-courier-unassigned { color: var(--color-text-muted); font-style: italic; }
+.client-report-table th.num { white-space: normal; }
+.client-chart-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+.client-chart-grid .report-card { margin-bottom: 0; min-width: 0; }
+.client-chart-legend {
+  display: flex;
+  gap: 16px;
+  margin: 0 0 8px;
+  padding: 0;
+  list-style: none;
+  font-size: 13px;
+  color: var(--color-text-muted);
+}
+.client-chart-legend li { display: flex; align-items: center; gap: 6px; }
+.client-chart-swatch { width: 10px; height: 10px; border-radius: 2px; }
+.client-chart-frame { position: relative; }
+.client-chart-svg { display: block; width: 100%; height: auto; overflow: visible; }
+.client-chart-svg .client-chart-gridline { stroke: var(--color-border); stroke-width: 1; }
+.client-chart-svg .client-chart-baseline { stroke: #c3c2b7; stroke-width: 1; }
+.client-chart-svg text { font-family: inherit; }
+.client-chart-tick { font-size: 11px; fill: var(--color-text-muted); font-variant-numeric: tabular-nums; }
+.client-chart-year { font-size: 11px; font-weight: 600; fill: var(--color-text); }
+.client-chart-cap { font-size: 11px; font-weight: 600; fill: var(--color-text); font-variant-numeric: tabular-nums; }
+.client-chart-hit { fill: transparent; cursor: default; outline: none; }
+.client-chart-hit.is-active,
+.client-chart-hit:focus-visible { fill: rgba(15, 63, 126, 0.06); }
+.client-chart-tooltip {
+  position: absolute;
+  pointer-events: none;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  box-shadow: 0 4px 16px rgba(17, 24, 39, 0.12);
+  padding: 8px 10px;
+  font-size: 13px;
+  white-space: nowrap;
+  z-index: 2;
+}
+.client-chart-tooltip-title { font-size: 12px; color: var(--color-text-muted); margin-bottom: 4px; }
+.client-chart-tooltip-row { display: flex; align-items: center; gap: 6px; }
+.client-chart-tooltip-row strong { color: var(--color-text); font-variant-numeric: tabular-nums; }
+.client-chart-tooltip-label { color: var(--color-text-muted); }
+.client-chart-tooltip-key { width: 10px; height: 2px; border-radius: 1px; background: transparent; }
+/* Below this width the axis text would shrink past legible; scroll instead. */
+.client-chart-frame { overflow-x: auto; }
+.client-chart-svg { min-width: 640px; }
+
+.client-report-address {
+  display: block;
+  font-size: 12px;
+  color: var(--color-text-muted);
+}

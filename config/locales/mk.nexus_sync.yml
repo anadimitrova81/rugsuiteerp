@@ -7,6 +7,7 @@ mk:
       heading_settings: Поставки
       heading_work: Работа
       sidebar_label: Админ мени
+      statistics: Статистика
     reports:
       couriers:
         card: Со картичка
@@ -51,6 +52,58 @@ mk:
       resend_failed: Повторното испраќање до %{phone} не успеа.
       resend_no_amount: 'Нарачката #%{customer_id} нема износ — SMS не е испратен.'
       resend_sent: SMS до %{phone} е повторно испратен.
+    statistics:
+      by_month: По месеци
+      by_year: По години
+      chart_clients_meta: број клиенти по месеци
+      chart_clients_title: Нови и повратни клиенти
+      chart_revenue_meta: во %{currency}
+      chart_revenue_title: Приходи по месеци
+      col:
+        average_order: Просечна нарачка
+        client: Клиент
+        clients: Клиенти
+        last: Последна
+        month: Месец
+        new_came_back: Новите нарачале пак
+        new_came_back_hint: Нови клиенти од периодот кои подоцна повторно нарачале
+        orders: Нарачки
+        repeat_in_period: 2+ во периодот
+        repeat_in_period_hint: Нарачале 2+ пати во овој период
+        returning_hint: Нарачувале и во претходен период
+        weight: Тежина
+        year: Година
+      empty: Сѐ уште нема нарачки.
+      eyebrow: Админ
+      frequency_meta: број клиенти
+      frequency_title: Колку пати нарачале
+      grouping: Групирање
+      kpi:
+        clients: Клиенти
+        days: "%{days} дена"
+        days_between: Помеѓу две нарачки
+        days_between_meta: просек кај повторните клиенти
+        orders_meta: "%{count} нарачки"
+        orders_per_client: Нарачки по клиент
+        repeat_clients: Нарачале повеќе од еднаш
+        repeat_share: "%{percent} од клиентите"
+        revenue_per_client: Приход по клиент
+        revenue_per_client_meta: просек за целиот период
+      load_more: Вчитај повеќе
+      meta_title: Статистика · Админ
+      new: Нови
+      newest_first: најновите прво
+      returning: Повратни
+      revenue: Приходи
+      subtitle: Клиент = телефонски број. Без откажани нарачки; по датум на подигнување.
+      times:
+        one: 1 пат
+        other: "%{count} пати"
+      times_or_more: "%{count}+ пати"
+      title: Статистика
+      top_meta: по приходи
+      top_title: Топ клиенти
+      total: Вкупно
     user:
       index:
         activate_title: Активирај %{email}

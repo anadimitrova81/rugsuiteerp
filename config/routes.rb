@@ -77,6 +77,7 @@ Rails.application.routes.draw do
     end
     delete "impersonate", to: "users#stop_impersonating", as: :stop_impersonating
     resources :reports, only: %i[index]
+    resources :client_reports, only: %i[index], path: "statistics"
     resources :address_lookups, only: %i[create]
 
     resource :route, only: %i[show], controller: "routes" do

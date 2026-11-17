@@ -1,0 +1,18 @@
+<% cur = current_factory.currency %>
+<tr>
+  <td><%= p[:label] %></td>
+  <td class="num"><%= p[:orders] %></td>
+  <td class="num"><%= p[:clients] %></td>
+  <td class="num"><%= p[:new_clients] %></td>
+  <td class="num"><%= p[:returning_clients] %></td>
+  <td class="num"><%= p[:repeat_in_period] %></td>
+  <td class="num">
+    <%= p[:new_came_back] %>
+    <% if p[:new_clients].positive? %>
+      <span class="report-bar-meta">(<%= number_to_percentage(p[:new_came_back] * 100.0 / p[:new_clients], precision: 0) %>)</span>
+    <% end %>
+  </td>
+  <td class="num"><%= number_with_delimiter(p[:weight].round) %> <%= t("units.kg") %></td>
+  <td class="num report-courier-total"><%= number_with_precision(p[:revenue], precision: 2, delimiter: " ") %> <%= cur %></td>
+  <td class="num"><%= number_with_precision(p[:average_order], precision: 2) %> <%= cur %></td>
+</tr>

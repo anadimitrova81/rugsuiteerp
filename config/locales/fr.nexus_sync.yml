@@ -7,6 +7,7 @@ fr:
       heading_settings: Paramètres
       heading_work: Travail
       sidebar_label: Menu d'administration
+      statistics: Statistiques
     reports:
       couriers:
         card: Carte
@@ -51,6 +52,58 @@ fr:
       resend_failed: Le renvoi au %{phone} a échoué.
       resend_no_amount: 'La commande #%{customer_id} n''a pas de montant — SMS non envoyé.'
       resend_sent: SMS renvoyé au %{phone}.
+    statistics:
+      by_month: Par mois
+      by_year: Par année
+      chart_clients_meta: clients par mois
+      chart_clients_title: Clients nouveaux et récurrents
+      chart_revenue_meta: en %{currency}
+      chart_revenue_title: Chiffre d'affaires par mois
+      col:
+        average_order: Commande moy.
+        client: Client
+        clients: Clients
+        last: Dernière
+        month: Mois
+        new_came_back: Nouveaux revenus
+        new_came_back_hint: Nouveaux clients de la période qui ont recommandé plus tard
+        orders: Commandes
+        repeat_in_period: 2+ sur la période
+        repeat_in_period_hint: Ont commandé 2 fois ou plus sur cette période
+        returning_hint: Ont aussi commandé sur une période antérieure
+        weight: Poids
+        year: Année
+      empty: Aucune commande pour l'instant.
+      eyebrow: Admin
+      frequency_meta: nombre de clients
+      frequency_title: Nombre de commandes par client
+      grouping: Regroupement
+      kpi:
+        clients: Clients
+        days: "%{days} jours"
+        days_between: Entre deux commandes
+        days_between_meta: moyenne des clients fidèles
+        orders_meta: "%{count} commandes"
+        orders_per_client: Commandes par client
+        repeat_clients: Ont commandé plus d'une fois
+        repeat_share: "%{percent} des clients"
+        revenue_per_client: Chiffre d'affaires par client
+        revenue_per_client_meta: moyenne sur toute la période
+      load_more: Charger plus
+      meta_title: Statistiques · Admin
+      new: Nouveaux
+      newest_first: les plus récents d'abord
+      returning: Récurrents
+      revenue: Chiffre d'affaires
+      subtitle: Client = numéro de téléphone. Hors commandes annulées ; par date de collecte.
+      times:
+        one: 1 fois
+        other: "%{count} fois"
+      times_or_more: "%{count}+ fois"
+      title: Statistiques
+      top_meta: par chiffre d'affaires
+      top_title: Meilleurs clients
+      total: Total
     user:
       index:
         activate_title: Réactiver %{email}

@@ -7,6 +7,7 @@ sr:
       heading_settings: Подешавања
       heading_work: Рад
       sidebar_label: Админ мени
+      statistics: Статистика
     reports:
       couriers:
         card: Картица
@@ -51,6 +52,58 @@ sr:
       resend_failed: Поновно слање на %{phone} није успело.
       resend_no_amount: 'Поруџбина #%{customer_id} нема износ — SMS није послат.'
       resend_sent: SMS на %{phone} је поново послат.
+    statistics:
+      by_month: По месецима
+      by_year: По годинама
+      chart_clients_meta: број клијената по месецима
+      chart_clients_title: Нови и повратни клијенти
+      chart_revenue_meta: у %{currency}
+      chart_revenue_title: Приходи по месецима
+      col:
+        average_order: Просечна поруџбина
+        client: Клијент
+        clients: Клијенти
+        last: Последња
+        month: Месец
+        new_came_back: Нови који су се вратили
+        new_came_back_hint: Нови клијенти из периода који су касније поново наручили
+        orders: Поруџбине
+        repeat_in_period: 2+ у периоду
+        repeat_in_period_hint: Наручили 2+ пута у овом периоду
+        returning_hint: Наручивали и у ранијем периоду
+        weight: Тежина
+        year: Година
+      empty: Још нема поруџбина.
+      eyebrow: Админ
+      frequency_meta: број клијената
+      frequency_title: Колико пута су наручили
+      grouping: Груписање
+      kpi:
+        clients: Клијенти
+        days: "%{days} дана"
+        days_between: Између две поруџбине
+        days_between_meta: просек код поновљених клијената
+        orders_meta: "%{count} поруџбина"
+        orders_per_client: Поруџбина по клијенту
+        repeat_clients: Наручили више пута
+        repeat_share: "%{percent} клијената"
+        revenue_per_client: Приход по клијенту
+        revenue_per_client_meta: просек за цео период
+      load_more: Учитај још
+      meta_title: Статистика · Админ
+      new: Нови
+      newest_first: најновији прво
+      returning: Повратни
+      revenue: Приходи
+      subtitle: Клијент = број телефона. Без отказаних поруџбина; по датуму преузимања.
+      times:
+        one: 1 пут
+        other: "%{count} пута"
+      times_or_more: "%{count}+ пута"
+      title: Статистика
+      top_meta: по приходима
+      top_title: Топ клијенти
+      total: Укупно
     user:
       index:
         activate_title: Активирај %{email}

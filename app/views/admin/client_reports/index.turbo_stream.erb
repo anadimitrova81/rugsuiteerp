@@ -1,0 +1,9 @@
+<%# "Load more": append the next months to the table, then refresh the button. %>
+<%= turbo_stream.append "client-report-periods" do %>
+  <% @periods.each do |p| %>
+    <%= render "admin/client_reports/period_row", p: p %>
+  <% end %>
+<% end %>
+<%= turbo_stream.replace "client-report-load-more" do %>
+  <%= render "admin/client_reports/load_more" %>
+<% end %>

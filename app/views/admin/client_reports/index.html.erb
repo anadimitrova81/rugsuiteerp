@@ -1,0 +1,163 @@
+<% content_for(:title) { t("admin.statistics.meta_title") } %>
+<% totals = @analytics.totals %>
+<% cur = current_factory.currency %>
+
+<div class="container container-wide">
+  <header class="request-detail-page-header">
+    <div>
+      <p class="request-detail-eyebrow"><%= t("admin.statistics.eyebrow") %></p>
+      <h1 class="request-detail-title"><%= t("admin.statistics.title") %></h1>
+      <p class="request-detail-subtitle"><%= t("admin.statistics.subtitle") %></p>
+    </div>
+    <nav class="status-tabs report-period-tabs" aria-label="<%= t("admin.statistics.grouping") %>">
+      <% %i[month year].each do |key| %>
+        <%= link_to admin_client_reports_path(by: key),
+                    class: "status-tab #{'status-tab-active' if key == @grouping}" do %>
+          <span class="status-tab-label"><%= t("admin.statistics.by_#{key}") %></span>
+        <% end %>
+      <% end %>
+    </nav>
+  </header>
+
+  <% if @analytics.any? %>
+    <section class="report-kpis">
+      <div class="report-kpi">
+        <span class="report-kpi-label"><%= t("admin.statistics.kpi.clients") %></span>
+        <span class="report-kpi-value"><%= totals[:clients] %></span>
+        <span class="report-kpi-meta"><%= t("admin.statistics.kpi.orders_meta", count: totals[:orders]) %></span>
+      </div>
+      <div class="report-kpi report-kpi-accent">
+        <span class="report-kpi-label"><%= t("admin.statistics.kpi.repeat_clients") %></span>
+        <span class="report-kpi-value"><%= totals[:repeat_clients] %></span>
+        <span class="report-kpi-meta"><%= t("admin.statistics.kpi.repeat_share", percent: number_to_percentage(totals[:repeat_share], precision: 0)) %></span>
+      </div>
+      <div class="report-kpi">
+        <span class="report-kpi-label"><%= t("admin.statistics.kpi.orders_per_client") %></span>
+        <span class="report-kpi-value"><%= number_with_precision(totals[:orders_per_client], precision: 2) %></span>
+      </div>
+      <div class="report-kpi">
+        <span class="report-kpi-label"><%= t("admin.statistics.kpi.revenue_per_client") %></span>
+        <span class="report-kpi-value"><%= number_with_precision(totals[:revenue_per_client], precision: 2) %> <%= cur %></span>
+        <span class="report-kpi-meta"><%= t("admin.statistics.kpi.revenue_per_client_meta") %></span>
+      </div>
+      <div class="report-kpi">
+        <span class="report-kpi-label"><%= t("admin.statistics.kpi.days_between") %></span>
+        <span class="report-kpi-value"><%= totals[:days_between_orders] ? t("admin.statistics.kpi.days", days: totals[:days_between_orders].round) : "—" %></span>
+        <span class="report-kpi-meta"><%= t("admin.statistics.kpi.days_between_meta") %></span>
+      </div>
+    </section>
+
+    <div class="client-chart-grid">
+      <%= render "admin/client_reports/column_chart",
+                 title: t("admin.statistics.chart_clients_title"),
+                 meta: t("admin.statistics.chart_clients_meta"),
+                 chart: column_chart(columns: @chart_months,
+                                     series: [ { key: :new_clients, label: t("admin.statistics.new"), color: "#2a78d6" },
+                                               { key: :returning_clients, label: t("admin.statistics.returning"), color: "#eb6834" } ]) %>
+      <%= render "admin/client_reports/column_chart",
+                 title: t("admin.statistics.chart_revenue_title"),
+                 meta: t("admin.statistics.chart_revenue_meta", currency: cur),
+                 chart: column_chart(columns: @chart_months,
+                                     series: [ { key: :revenue, label: t("admin.statistics.revenue"), color: "#2a78d6" } ],
+                                     format: ->(v) { "#{number_with_delimiter(v.round, delimiter: ' ')} #{cur}" },
+                                     cap_format: ->(v) { number_with_delimiter(v.round, delimiter: " ") }) %>
+    </div>
+
+    <section class="report-card">
+      <header class="report-card-header">
+        <h2><%= t("admin.statistics.by_#{@grouping}") %></h2>
+        <span class="report-card-meta"><%= t("admin.statistics.newest_first") %></span>
+      </header>
+      <div class="requests-table-wrapper report-table-wrapper">
+        <table class="requests-table report-courier-table client-report-table">
+          <thead>
+            <tr>
+              <th><%= t("admin.statistics.col.#{@grouping}") %></th>
+              <th class="num"><%= t("admin.statistics.col.orders") %></th>
+              <th class="num"><%= t("admin.statistics.col.clients") %></th>
+              <th class="num"><%= t("admin.statistics.new") %></th>
+              <th class="num" title="<%= t("admin.statistics.col.returning_hint") %>"><%= t("admin.statistics.returning") %></th>
+              <th class="num" title="<%= t("admin.statistics.col.repeat_in_period_hint") %>"><%= t("admin.statistics.col.repeat_in_period") %></th>
+              <th class="num" title="<%= t("admin.statistics.col.new_came_back_hint") %>"><%= t("admin.statistics.col.new_came_back") %></th>
+              <th class="num"><%= t("admin.statistics.col.weight") %></th>
+              <th class="num"><%= t("admin.statistics.revenue") %></th>
+              <th class="num"><%= t("admin.statistics.col.average_order") %></th>
+            </tr>
+          </thead>
+          <tbody id="client-report-periods">
+            <% @periods.each do |p| %>
+              <%= render "admin/client_reports/period_row", p: p %>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+      <% if @grouping == :month %>
+        <%= render "admin/client_reports/load_more" %>
+      <% end %>
+    </section>
+
+    <div class="report-grid">
+      <section class="report-card">
+        <header class="report-card-header">
+          <h2><%= t("admin.statistics.frequency_title") %></h2>
+          <span class="report-card-meta"><%= t("admin.statistics.frequency_meta") %></span>
+        </header>
+        <% frequency = @analytics.frequency %>
+        <% max = frequency.map(&:last).max %>
+        <ul class="report-bars">
+          <% frequency.each do |times, count| %>
+            <li class="report-bar">
+              <div class="report-bar-row">
+                <span class="report-bar-label">
+                  <%= times == ClientAnalytics::FREQUENCY_BUCKETS.last ? t("admin.statistics.times_or_more", count: times) : t("admin.statistics.times.#{times == 1 ? 'one' : 'other'}", count: times) %>
+                </span>
+                <span class="report-bar-count">
+                  <%= count %>
+                  <span class="report-bar-weight"><%= number_to_percentage(count * 100.0 / totals[:clients], precision: 0) %></span>
+                </span>
+              </div>
+              <div class="report-bar-track" aria-hidden="true">
+                <span class="report-bar-fill report-bar-fill-city" style="width: <%= max.positive? ? (count * 100.0 / max).round(1) : 0 %>%"></span>
+              </div>
+            </li>
+          <% end %>
+        </ul>
+      </section>
+
+      <section class="report-card">
+        <header class="report-card-header">
+          <h2><%= t("admin.statistics.top_title") %></h2>
+          <span class="report-card-meta"><%= t("admin.statistics.top_meta") %></span>
+        </header>
+        <div class="requests-table-wrapper report-table-wrapper">
+          <table class="requests-table report-courier-table client-report-table">
+            <thead>
+              <tr>
+                <th><%= t("admin.statistics.col.client") %></th>
+                <th class="num"><%= t("admin.statistics.col.orders") %></th>
+                <th class="num"><%= t("admin.statistics.col.last") %></th>
+                <th class="num"><%= t("admin.statistics.revenue") %></th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @analytics.top_clients.each do |c| %>
+                <tr>
+                  <td>
+                    <%= link_to c.phone, admin_requests_path(q: c.phone) %>
+                    <span class="client-report-address"><%= c.address %></span>
+                  </td>
+                  <td class="num"><%= c.orders.size %></td>
+                  <td class="num"><%= c.last_date.strftime("%d.%m.%Y") %></td>
+                  <td class="num report-courier-total"><%= number_with_precision(c.revenue, precision: 2) %> <%= cur %></td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+
+  <% else %>
+    <p class="report-empty"><%= t("admin.statistics.empty") %></p>
+  <% end %>
+</div>

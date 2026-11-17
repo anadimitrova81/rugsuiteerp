@@ -7,6 +7,7 @@ tr:
       heading_settings: Ayarlar
       heading_work: İş
       sidebar_label: Yönetim menüsü
+      statistics: İstatistikler
     reports:
       couriers:
         card: Kart
@@ -51,6 +52,58 @@ tr:
       resend_failed: "%{phone} numarasına tekrar gönderim başarısız oldu."
       resend_no_amount: "#%{customer_id} numaralı siparişin tutarı yok — SMS gönderilmedi."
       resend_sent: SMS %{phone} numarasına tekrar gönderildi.
+    statistics:
+      by_month: Aylara göre
+      by_year: Yıllara göre
+      chart_clients_meta: aylık müşteri sayısı
+      chart_clients_title: Yeni ve geri dönen müşteriler
+      chart_revenue_meta: "%{currency} cinsinden"
+      chart_revenue_title: Aylık gelir
+      col:
+        average_order: Ort. sipariş
+        client: Müşteri
+        clients: Müşteriler
+        last: Son
+        month: Ay
+        new_came_back: Geri dönen yeniler
+        new_came_back_hint: Bu dönemin yeni müşterilerinden daha sonra tekrar sipariş verenler
+        orders: Siparişler
+        repeat_in_period: Dönemde 2+
+        repeat_in_period_hint: Bu dönemde 2+ kez sipariş vermiş
+        returning_hint: Daha önceki bir dönemde de sipariş vermiş
+        weight: Ağırlık
+        year: Yıl
+      empty: Henüz sipariş yok.
+      eyebrow: Yönetim
+      frequency_meta: müşteri sayısı
+      frequency_title: Kaç kez sipariş verdiler
+      grouping: Gruplama
+      kpi:
+        clients: Müşteriler
+        days: "%{days} gün"
+        days_between: İki sipariş arası
+        days_between_meta: tekrar eden müşteriler için ortalama
+        orders_meta: "%{count} sipariş"
+        orders_per_client: Müşteri başına sipariş
+        repeat_clients: Birden fazla sipariş veren
+        repeat_share: müşterilerin %{percent}'i
+        revenue_per_client: Müşteri başına gelir
+        revenue_per_client_meta: tüm dönem ortalaması
+      load_more: Daha fazla yükle
+      meta_title: İstatistikler · Yönetim
+      new: Yeni
+      newest_first: en yeniler önce
+      returning: Geri dönen
+      revenue: Gelir
+      subtitle: Müşteri = telefon numarası. İptal edilen siparişler hariç; alım tarihine göre.
+      times:
+        one: 1 kez
+        other: "%{count} kez"
+      times_or_more: "%{count}+ kez"
+      title: İstatistikler
+      top_meta: gelire göre
+      top_title: En iyi müşteriler
+      total: Toplam
     user:
       index:
         activate_title: "%{email} hesabını etkinleştir"

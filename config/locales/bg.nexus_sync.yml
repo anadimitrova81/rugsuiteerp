@@ -7,6 +7,7 @@ bg:
       heading_settings: Настройки
       heading_work: Работа
       sidebar_label: Админ меню
+      statistics: Статистика
     reports:
       couriers:
         card: С карта
@@ -51,6 +52,58 @@ bg:
       resend_failed: Повторното изпращане до %{phone} се провали.
       resend_no_amount: 'Поръчка #%{customer_id} няма сума — SMS не е изпратен.'
       resend_sent: SMS до %{phone} е изпратен отново.
+    statistics:
+      by_month: По месеци
+      by_year: По години
+      chart_clients_meta: брой клиенти по месеци
+      chart_clients_title: Нови и върнали се клиенти
+      chart_revenue_meta: в %{currency}
+      chart_revenue_title: Приходи по месеци
+      col:
+        average_order: Ср. поръчка
+        client: Клиент
+        clients: Клиенти
+        last: Последна
+        month: Месец
+        new_came_back: Новите поръчали пак
+        new_came_back_hint: Нови клиенти от периода, които са поръчали отново по-късно
+        orders: Поръчки
+        repeat_in_period: 2+ в периода
+        repeat_in_period_hint: Поръчали 2+ пъти в този период
+        returning_hint: Поръчвали и в по-ранен период
+        weight: Тегло
+        year: Година
+      empty: Все още няма поръчки.
+      eyebrow: Админ
+      frequency_meta: брой клиенти
+      frequency_title: Колко пъти са поръчали
+      grouping: Групиране
+      kpi:
+        clients: Клиенти
+        days: "%{days} дни"
+        days_between: Между две поръчки
+        days_between_meta: средно при повторните клиенти
+        orders_meta: "%{count} поръчки"
+        orders_per_client: Поръчки на клиент
+        repeat_clients: Поръчали повече от веднъж
+        repeat_share: "%{percent} от клиентите"
+        revenue_per_client: Приход на клиент
+        revenue_per_client_meta: средно за целия период
+      load_more: Зареди още
+      meta_title: Статистика · Админ
+      new: Нови
+      newest_first: най-новите първи
+      returning: Върнали се
+      revenue: Приходи
+      subtitle: Клиент = телефонен номер. Без отказани поръчки; по дата на вземане.
+      times:
+        one: 1 път
+        other: "%{count} пъти"
+      times_or_more: "%{count}+ пъти"
+      title: Статистика
+      top_meta: по приходи
+      top_title: Топ клиенти
+      total: Общо
     user:
       index:
         activate_title: Активирай %{email}

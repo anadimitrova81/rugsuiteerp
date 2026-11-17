@@ -1,0 +1,46 @@
+<%# A column chart from ClientChartsHelper#column_chart. locals: chart, title, meta %>
+<section class="report-card client-chart" data-controller="chart-tooltip">
+  <header class="report-card-header">
+    <h2><%= title %></h2>
+    <span class="report-card-meta"><%= meta %></span>
+  </header>
+  <% if chart[:series].size > 1 %>
+    <ul class="client-chart-legend">
+      <% chart[:series].each do |s| %>
+        <li><span class="client-chart-swatch" style="background: <%= s[:color] %>"></span><%= s[:label] %></li>
+      <% end %>
+    </ul>
+  <% end %>
+  <div class="client-chart-frame" data-chart-tooltip-target="frame">
+    <svg viewBox="0 0 <%= chart[:width] %> <%= chart[:height] %>" class="client-chart-svg" role="img"
+         style="min-width: <%= [ chart[:min_width], 640 ].max %>px" aria-label="<%= title %>">
+      <% chart[:ticks].each do |tick| %>
+        <line x1="<%= chart[:left] %>" x2="<%= chart[:right] %>" y1="<%= tick[:y].round(1) %>" y2="<%= tick[:y].round(1) %>"
+              class="<%= tick[:y].round(1) == chart[:baseline].round(1) ? 'client-chart-baseline' : 'client-chart-gridline' %>" />
+        <text x="<%= chart[:left] - 8 %>" y="<%= tick[:y].round(1) %>" class="client-chart-tick" text-anchor="end" dominant-baseline="middle"><%= tick[:label] %></text>
+      <% end %>
+
+      <% chart[:columns].each do |col| %>
+        <g class="client-chart-column">
+          <rect class="client-chart-hit" x="<%= col[:hit][:x].round(1) %>" y="<%= chart[:plot_top] %>"
+                width="<%= col[:hit][:width].round(1) %>" height="<%= chart[:plot_height] %>"
+                tabindex="0" aria-label="<%= col[:title] %>: <%= col[:rows].map { |r| "#{r[:label]} #{r[:value]}" }.join(', ') %>"
+                data-title="<%= col[:title] %>"
+                data-rows="<%= (col[:rows] + (chart[:show_totals_in_tooltip] ? [ { label: t("admin.statistics.total"), value: col[:total] } ] : [])).to_json %>"
+                data-action="pointerenter->chart-tooltip#show focus->chart-tooltip#show pointerleave->chart-tooltip#hide blur->chart-tooltip#hide" />
+          <% col[:segments].each do |seg| %>
+            <path d="<%= seg[:path] %>" fill="<%= seg[:color] %>" pointer-events="none" />
+          <% end %>
+          <% if col[:labeled] %>
+            <text x="<%= col[:center].round(1) %>" y="<%= (col[:top] - 6).round(1) %>" class="client-chart-cap" text-anchor="middle"><%= col[:cap] %></text>
+          <% end %>
+          <text x="<%= col[:center].round(1) %>" y="<%= chart[:baseline] + 16 %>" class="client-chart-tick" text-anchor="middle"><%= col[:month] %></text>
+          <% if col[:year] %>
+            <text x="<%= col[:center].round(1) %>" y="<%= chart[:baseline] + 31 %>" class="client-chart-year" text-anchor="middle"><%= col[:year] %></text>
+          <% end %>
+        </g>
+      <% end %>
+    </svg>
+    <div class="client-chart-tooltip" data-chart-tooltip-target="tooltip" hidden></div>
+  </div>
+</section>

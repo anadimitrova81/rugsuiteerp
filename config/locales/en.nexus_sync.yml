@@ -7,6 +7,7 @@ en:
       heading_settings: Settings
       heading_work: Work
       sidebar_label: Admin menu
+      statistics: Statistics
     reports:
       couriers:
         card: Card
@@ -51,6 +52,58 @@ en:
       resend_failed: Sending to %{phone} again failed.
       resend_no_amount: 'Order #%{customer_id} has no amount — SMS not sent.'
       resend_sent: SMS to %{phone} sent again.
+    statistics:
+      by_month: By month
+      by_year: By year
+      chart_clients_meta: clients per month
+      chart_clients_title: New and returning clients
+      chart_revenue_meta: in %{currency}
+      chart_revenue_title: Revenue by month
+      col:
+        average_order: Avg. order
+        client: Client
+        clients: Clients
+        last: Last
+        month: Month
+        new_came_back: New who came back
+        new_came_back_hint: New clients from the period who ordered again later
+        orders: Orders
+        repeat_in_period: 2+ in period
+        repeat_in_period_hint: Ordered 2+ times in this period
+        returning_hint: Also ordered in an earlier period
+        weight: Weight
+        year: Year
+      empty: No orders yet.
+      eyebrow: Admin
+      frequency_meta: number of clients
+      frequency_title: How many times they ordered
+      grouping: Grouping
+      kpi:
+        clients: Clients
+        days: "%{days} days"
+        days_between: Between two orders
+        days_between_meta: average for repeat clients
+        orders_meta: "%{count} orders"
+        orders_per_client: Orders per client
+        repeat_clients: Ordered more than once
+        repeat_share: "%{percent} of clients"
+        revenue_per_client: Revenue per client
+        revenue_per_client_meta: average over the whole period
+      load_more: Load more
+      meta_title: Statistics · Admin
+      new: New
+      newest_first: newest first
+      returning: Returning
+      revenue: Revenue
+      subtitle: Client = phone number. Cancelled orders excluded; by pickup date.
+      times:
+        one: once
+        other: "%{count} times"
+      times_or_more: "%{count}+ times"
+      title: Statistics
+      top_meta: by revenue
+      top_title: Top clients
+      total: Total
     user:
       index:
         activate_title: Activate %{email}
