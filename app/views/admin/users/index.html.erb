@@ -34,13 +34,16 @@
   <% if @users.any? %>
     <div class="users-list">
       <% @users.each do |user| %>
-        <div class="user-row">
+        <div class="user-row<%= " is-inactive" unless user.active? %>">
           <div class="user-identity">
             <div class="user-avatar user-avatar-<%= user.role %>"><%= role_icon(user.role, size: 18) %></div>
             <div class="user-identity-text">
               <span class="user-email"><%= user.email %></span>
               <% if user == current_admin %>
                 <span class="user-tag"><%= t("admin.common.you") %></span>
+              <% end %>
+              <% unless user.active? %>
+                <span class="user-tag user-tag-inactive"><%= t("admin.user.index.inactive_tag") %></span>
               <% end %>
               <span class="user-joined"><%= t("admin.common.created_at", date: long_date(user.created_at)) %></span>
             </div>
@@ -57,6 +60,25 @@
 
           <div class="user-actions">
             <% unless user == current_admin %>
+              <% if user.active? %>
+                <%= button_to deactivate_admin_user_path(user),
+                              method: :post, class: "user-deactivate",
+                              disabled: current_factory.demo?,
+                              title: t("admin.user.index.deactivate_title", email: user.email),
+                              "aria-label": t("admin.user.index.deactivate_title", email: user.email),
+                              form: { data: { turbo_confirm: t("admin.user.index.deactivate_confirm", email: user.email) } } do %>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M17 11h6"/></svg>
+                <% end %>
+              <% else %>
+                <%= button_to activate_admin_user_path(user),
+                              method: :post, class: "user-activate",
+                              disabled: current_factory.demo?,
+                              title: t("admin.user.index.activate_title", email: user.email),
+                              "aria-label": t("admin.user.index.activate_title", email: user.email) do %>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M20 8v6"/><path d="M17 11h6"/></svg>
+                <% end %>
+              <% end %>
+              <% if user.active? %>
               <%= button_to impersonate_admin_user_path(user),
                             method: :post,
                             disabled: current_factory.demo?,
@@ -64,6 +86,7 @@
                             title: t("admin.user.index.impersonate_title", email: user.email),
                             form: { data: { turbo_confirm: t("admin.user.index.impersonate_confirm", email: user.email) } } do %>
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="m17 11 2 2 4-4"/></svg>
+              <% end %>
               <% end %>
               <% if current_factory.demo? %>
                 <button type="button" class="user-delete" disabled title="<%= t("admin.common.delete") %>">

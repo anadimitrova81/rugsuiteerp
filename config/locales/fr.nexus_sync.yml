@@ -16,3 +16,14 @@ fr:
         skip_phone_validation: Ne pas valider le téléphone (numéros étrangers ou non standard)
       new:
         duplicate_lede: 'Copie de la commande #%{customer_id} — les coordonnées du client sont remplies. Choisissez une date de collecte et enregistrez.'
+    user:
+      index:
+        activate_title: Réactiver %{email}
+        deactivate_confirm: Désactiver %{email} ? Cette personne ne pourra plus se connecter ni figurer dans les tournées. Ses arrêts en cours redeviennent non attribués.
+        deactivate_title: Désactiver %{email}
+        inactive_tag: Inactif
+      messages:
+        activated: "%{email} a été réactivé."
+        cannot_deactivate_self: Vous ne pouvez pas désactiver votre propre compte.
+        deactivated: "%{email} a été désactivé."
+        inactive: "%{email} est désactivé."

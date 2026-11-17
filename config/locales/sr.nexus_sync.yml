@@ -16,3 +16,14 @@ sr:
         skip_phone_validation: Не проверавај телефон (за стране или нестандардне бројеве)
       new:
         duplicate_lede: 'Копија поруџбине #%{customer_id} — подаци клијента су попуњени. Изаберите датум преузимања и сачувајте.'
+    user:
+      index:
+        activate_title: Активирај %{email}
+        deactivate_confirm: Деактивирати %{email}? Неће моћи да се пријави нити да учествује у рутама. Отворена стајалишта остају без курира.
+        deactivate_title: Деактивирај %{email}
+        inactive_tag: Неактиван
+      messages:
+        activated: "%{email} је поново активиран."
+        cannot_deactivate_self: Не можете да деактивирате сопствени налог.
+        deactivated: "%{email} је деактивиран."
+        inactive: "%{email} је деактивиран."

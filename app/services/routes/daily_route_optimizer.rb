@@ -110,7 +110,7 @@ module Routes
     private
 
     def default_courier_ids
-      User.where(role: "courier").order(:id).pluck(:id)
+      User.couriers.order(:id).pluck(:id)
     end
 
     def empty_result

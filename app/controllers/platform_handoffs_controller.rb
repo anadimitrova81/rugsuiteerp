@@ -11,7 +11,7 @@ class PlatformHandoffsController < ApplicationController
     # A token minted for one tenant must not be replayable against another.
     return reject unless data["factory_id"] == current_factory.id
 
-    user = User.find_by(id: data["user_id"])
+    user = User.active.find_by(id: data["user_id"])
     return reject unless user
 
     reset_session

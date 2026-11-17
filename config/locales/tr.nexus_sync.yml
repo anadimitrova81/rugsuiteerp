@@ -16,3 +16,14 @@ tr:
         skip_phone_validation: Telefonu doğrulama (yabancı veya standart dışı numaralar için)
       new:
         duplicate_lede: "#%{customer_id} numaralı siparişin kopyası — müşteri bilgileri dolduruldu. Bir alım tarihi seçip kaydedin."
+    user:
+      index:
+        activate_title: "%{email} hesabını etkinleştir"
+        deactivate_confirm: "%{email} devre dışı bırakılsın mı? Giriş yapamayacak ve rotalara dahil edilmeyecek. Açık durakları atanmamışa döner."
+        deactivate_title: "%{email} hesabını devre dışı bırak"
+        inactive_tag: Pasif
+      messages:
+        activated: "%{email} yeniden etkinleştirildi."
+        cannot_deactivate_self: Kendi hesabınızı devre dışı bırakamazsınız.
+        deactivated: "%{email} devre dışı bırakıldı."
+        inactive: "%{email} devre dışı."

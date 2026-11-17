@@ -16,3 +16,14 @@ bg:
         skip_phone_validation: Не валидирай телефона (за чуждестранни или нестандартни номера)
       new:
         duplicate_lede: 'Копие на поръчка #%{customer_id} — данните на клиента са попълнени. Задайте дата на вземане и запишете.'
+    user:
+      index:
+        activate_title: Активирай %{email}
+        deactivate_confirm: Деактивиране на %{email}? Няма да може да влиза и няма да участва в маршрутите. Незавършените му спирки остават без куриер.
+        deactivate_title: Деактивирай %{email}
+        inactive_tag: Неактивен
+      messages:
+        activated: "%{email} е активиран отново."
+        cannot_deactivate_self: Не можете да деактивирате собствения си профил.
+        deactivated: "%{email} е деактивиран."
+        inactive: "%{email} е деактивиран."

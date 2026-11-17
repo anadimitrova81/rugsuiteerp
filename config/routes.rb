@@ -69,7 +69,11 @@ Rails.application.routes.draw do
   namespace :admin do
     resources :requests, only: %i[index show new create edit update destroy]
     resources :users, only: %i[index new create update destroy] do
-      post :impersonate, on: :member
+      member do
+        post :impersonate
+        post :deactivate
+        post :activate
+      end
     end
     delete "impersonate", to: "users#stop_impersonating", as: :stop_impersonating
     resources :reports, only: %i[index]

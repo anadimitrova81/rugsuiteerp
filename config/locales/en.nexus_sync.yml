@@ -16,3 +16,14 @@ en:
         skip_phone_validation: Don't validate the phone (for foreign or non-standard numbers)
       new:
         duplicate_lede: 'Copy of order #%{customer_id} — the customer''s details are filled in. Set a pickup date and save.'
+    user:
+      index:
+        activate_title: Activate %{email}
+        deactivate_confirm: Deactivate %{email}? They won't be able to log in or be planned on routes. Their open stops go back to unassigned.
+        deactivate_title: Deactivate %{email}
+        inactive_tag: Inactive
+      messages:
+        activated: "%{email} was activated again."
+        cannot_deactivate_self: You can't deactivate your own account.
+        deactivated: "%{email} was deactivated."
+        inactive: "%{email} is deactivated."

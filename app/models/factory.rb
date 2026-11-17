@@ -116,8 +116,9 @@ class Factory < ApplicationRecord
     requests.where("created_at >= ?", Time.current.beginning_of_month).count
   end
 
+  # Only active staff take a seat — deactivating a courier who left frees one.
   def users_count
-    users.count
+    users.where(active: true).count
   end
 
   # Plan gating. Both return false when the plan is unlimited (limit is nil).

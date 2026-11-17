@@ -5,14 +5,14 @@ module Admin
 
     def show
       @date = Date.current
-      @couriers = User.where(role: "courier").order(:id).to_a
+      @couriers = User.couriers.order(:id).to_a
       @stops_by_courier = build_stops_by_courier(@couriers)
       @lane_summaries = build_lane_summaries(@couriers)
     end
 
     def optimize
       selected = Array(params[:courier_ids]).map(&:to_i).reject(&:zero?)
-      courier_ids = selected.presence || User.where(role: "courier").pluck(:id)
+      courier_ids = User.couriers.where(id: selected.presence || User.couriers.select(:id)).pluck(:id)
       result = Routes::DailyRouteOptimizer.run(courier_ids: courier_ids)
 
       if result[:ordered].positive?

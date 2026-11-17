@@ -5,7 +5,7 @@ module Admin
     before_action :enforce_user_limit, only: %i[new create]
 
     def index
-      @users = User.order(:email)
+      @users = User.order(active: :desc, email: :asc)
     end
 
     def new
@@ -43,11 +43,36 @@ module Admin
       end
     end
 
+    def deactivate
+      user = User.find(params[:id])
+
+      if user == current_admin
+        redirect_to admin_users_path, alert: t("admin.user.messages.cannot_deactivate_self")
+      else
+        user.deactivate!
+        redirect_to admin_users_path, notice: t("admin.user.messages.deactivated", email: user.email)
+      end
+    end
+
+    # Reactivating takes a seat again, so it respects the plan's user limit.
+    def activate
+      user = User.find(params[:id])
+
+      if current_factory.user_limit_reached?
+        redirect_to admin_users_path, alert: t("admin.limits.user.reached_admin", limit: current_factory.user_limit)
+      else
+        user.activate!
+        redirect_to admin_users_path, notice: t("admin.user.messages.activated", email: user.email)
+      end
+    end
+
     def impersonate
       target = User.find(params[:id])
 
       if target == current_admin
         redirect_to admin_users_path, alert: t("admin.user.messages.cannot_impersonate_self")
+      elsif !target.active?
+        redirect_to admin_users_path, alert: t("admin.user.messages.inactive", email: target.email)
       else
         # `||=` keeps the original admin id if we chain-impersonate, so "stop"
         # always restores all the way back rather than to an intermediate hop.

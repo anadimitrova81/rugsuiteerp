@@ -31,6 +31,24 @@ class User < ApplicationRecord
 
   ROLES.each { |role| define_method(:"#{role}?") { self.role == role } }
 
+  scope :active, -> { where(active: true) }
+  scope :couriers, -> { active.where(role: "courier") }
+
+  # Deactivate a staff member: they can no longer log in or be planned on a
+  # route. Stops still open on their route go back to the planner's
+  # unassigned lane; orders they already handled keep pointing at them.
+  def deactivate!
+    transaction do
+      update!(active: false)
+      Request.where(status: "pickup_confirmed", pickup_courier_id: id).update_all(pickup_courier_id: nil, route_position: nil)
+      Request.where(status: "delivery_confirmed", delivery_courier_id: id).update_all(delivery_courier_id: nil, route_position: nil)
+    end
+  end
+
+  def activate!
+    update!(active: true)
+  end
+
   private
 
   def within_plan_user_limit
