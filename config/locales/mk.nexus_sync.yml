@@ -16,6 +16,16 @@ mk:
         skip_phone_validation: Не го валидирај телефонот (за странски или нестандардни броеви)
       new:
         duplicate_lede: 'Копија од нарачка #%{customer_id} — податоците на клиентот се пополнети. Изберете датум на подигнување и зачувајте.'
+    routes:
+      balance_time: Изедначи го времето
+      optimize_lane_button: Оптимизирај
+      optimize_lane_confirm: Ова ќе ги преуреди постојките на овој курир. Продолжи?
+      optimize_lane_empty: Нема постојки за оптимизација.
+      optimize_lane_success: 'Рутата на курирот е оптимизирана (постојки: %{count}).'
+      reverse_lane_button: Преврти
+      reverse_lane_success: 'Рутата на курирот е превртена (постојки: %{count}).'
+      reverse_lane_title: Го превртува редоследот — последната постојка станува прва
+      reverse_lane_too_few: Потребни се најмалку две постојки за да се преврти рутата.
     user:
       index:
         activate_title: Активирај %{email}

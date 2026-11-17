@@ -16,6 +16,16 @@ tr:
         skip_phone_validation: Telefonu doğrulama (yabancı veya standart dışı numaralar için)
       new:
         duplicate_lede: "#%{customer_id} numaralı siparişin kopyası — müşteri bilgileri dolduruldu. Bir alım tarihi seçip kaydedin."
+    routes:
+      balance_time: Süreyi dengele
+      optimize_lane_button: Optimize et
+      optimize_lane_confirm: Bu kuryenin durakları yeniden sıralanacak. Devam edilsin mi?
+      optimize_lane_empty: Optimize edilecek durak yok.
+      optimize_lane_success: 'Kuryenin rotası optimize edildi (durak: %{count}).'
+      reverse_lane_button: Ters çevir
+      reverse_lane_success: 'Kuryenin rotası ters çevrildi (durak: %{count}).'
+      reverse_lane_title: Durak sırasını ters çevirir — son durak ilk olur
+      reverse_lane_too_few: Rotayı ters çevirmek için en az iki durak gerekir.
     user:
       index:
         activate_title: "%{email} hesabını etkinleştir"

@@ -16,6 +16,16 @@ bg:
         skip_phone_validation: Не валидирай телефона (за чуждестранни или нестандартни номера)
       new:
         duplicate_lede: 'Копие на поръчка #%{customer_id} — данните на клиента са попълнени. Задайте дата на вземане и запишете.'
+    routes:
+      balance_time: Изравни времето
+      optimize_lane_button: Оптимизирай
+      optimize_lane_confirm: Това ще преподреди спирките на този куриер. Продължи?
+      optimize_lane_empty: Няма спирки за оптимизация.
+      optimize_lane_success: 'Маршрутът на куриера е оптимизиран (спирки: %{count}).'
+      reverse_lane_button: Обърни
+      reverse_lane_success: 'Маршрутът на куриера е обърнат (спирки: %{count}).'
+      reverse_lane_title: Обръща реда на спирките — последната става първа
+      reverse_lane_too_few: Нужни са поне две спирки, за да се обърне маршрутът.
     user:
       index:
         activate_title: Активирай %{email}

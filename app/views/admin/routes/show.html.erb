@@ -27,6 +27,10 @@
                 <span><%= courier.email.split("@").first.capitalize %></span>
               </label>
             <% end %>
+            <label class="route-optimize-courier route-optimize-balance">
+              <input type="checkbox" name="balance_time" value="1" checked>
+              <span><%= t("admin.routes.balance_time") %></span>
+            </label>
           </fieldset>
           <%= form.submit t("admin.routes.optimize_button"),
                           class: "btn btn-primary",
@@ -80,6 +84,18 @@
                 <%= button_to t("admin.routes.calculate_button"), calculate_admin_route_path(lane: courier.id),
                               method: :post, class: "btn btn-secondary btn-sm",
                               disabled: route_limit_reached || current_factory.demo? %>
+              <% end %>
+              <%= button_to t("admin.routes.optimize_lane_button"), optimize_lane_admin_route_path(lane: courier.id),
+                            method: :post, class: "btn btn-secondary btn-sm",
+                            form: { class: "route-lane-optimize" },
+                            disabled: route_limit_reached || current_factory.demo?,
+                            data: { turbo_confirm: t("admin.routes.optimize_lane_confirm") } %>
+              <% if lane_stops.size > 1 %>
+                <%= button_to t("admin.routes.reverse_lane_button"), reverse_lane_admin_route_path(lane: courier.id),
+                              method: :post, class: "btn btn-secondary btn-sm",
+                              form: { class: "route-lane-reverse" },
+                              disabled: current_factory.demo?,
+                              title: t("admin.routes.reverse_lane_title") %>
               <% end %>
               <% maps_url = google_maps_directions_url(lane_stops.map { |s| request_full_address(s) }) %>
               <% if maps_url %>

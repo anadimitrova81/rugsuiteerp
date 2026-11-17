@@ -1,7 +1,7 @@
 module Admin
   class RoutesController < BaseController
     before_action :require_planner_role
-    before_action :enforce_route_operation_limit, only: %i[optimize calculate]
+    before_action :enforce_route_operation_limit, only: %i[optimize optimize_lane calculate]
 
     def show
       @date = Date.current
@@ -13,7 +13,10 @@ module Admin
     def optimize
       selected = Array(params[:courier_ids]).map(&:to_i).reject(&:zero?)
       courier_ids = User.couriers.where(id: selected.presence || User.couriers.select(:id)).pluck(:id)
-      result = Routes::DailyRouteOptimizer.run(courier_ids: courier_ids)
+      result = Routes::DailyRouteOptimizer.run(
+        courier_ids: courier_ids,
+        balance_time: params[:balance_time].present?,
+      )
 
       if result[:ordered].positive?
         cache_lane_summary(result)
@@ -27,6 +30,46 @@ module Admin
           t("admin.routes.optimize_none")
         end
       redirect_to admin_route_path, notice: notice
+    end
+
+    # Re-orders one courier's current stops without moving anything between
+    # couriers — unlike `optimize`, which redistributes all open stops.
+    def optimize_lane
+      courier_id = params[:lane].to_i
+      stops = lane_stops_for(courier_id)
+      if stops.empty?
+        redirect_to admin_route_path, alert: t("admin.routes.optimize_lane_empty") and return
+      end
+
+      result = Routes::DailyRouteOptimizer.order_lane(stops)
+      cache_lane(courier_id, result[:ordered_ids], result[:distance_km], result[:total_minutes])
+      current_factory.record_route_operation!
+      redirect_to admin_route_path, notice: t("admin.routes.optimize_lane_success", count: stops.size)
+    end
+
+    # Drive one courier's route the other way round: the last stop becomes
+    # the first. The stops stay with the same courier; only their sequence
+    # flips. Distance/time is refreshed from Google straight away when the
+    # key is configured and the day's quota allows — otherwise the lane shows
+    # the calculate button as usual.
+    def reverse_lane
+      courier_id = params[:lane].to_i
+      stops = lane_stops_for(courier_id)
+      if stops.size < 2
+        redirect_to admin_route_path, alert: t("admin.routes.reverse_lane_too_few") and return
+      end
+
+      reversed = stops.reverse
+      Request.transaction do
+        reversed.each_with_index do |stop, index|
+          stop.update_columns(route_position: index + 1)
+        end
+      end
+
+      google = Google::Routes.calculate(stops: reversed) unless current_factory.route_operation_limit_reached?
+      current_factory.record_route_operation! if google
+      cache_lane(courier_id, reversed.map(&:id), google&.distance_km, google&.total_minutes)
+      redirect_to admin_route_path, notice: t("admin.routes.reverse_lane_success", count: stops.size)
     end
 
     def calculate

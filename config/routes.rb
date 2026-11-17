@@ -81,6 +81,8 @@ Rails.application.routes.draw do
 
     resource :route, only: %i[show], controller: "routes" do
       post :optimize
+      post :optimize_lane
+      post :reverse_lane
       post :calculate
       patch :reorder
       post :swap

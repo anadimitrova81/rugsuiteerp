@@ -16,6 +16,16 @@ fr:
         skip_phone_validation: Ne pas valider le téléphone (numéros étrangers ou non standard)
       new:
         duplicate_lede: 'Copie de la commande #%{customer_id} — les coordonnées du client sont remplies. Choisissez une date de collecte et enregistrez.'
+    routes:
+      balance_time: Équilibrer le temps
+      optimize_lane_button: Optimiser
+      optimize_lane_confirm: Les arrêts de ce coursier seront réordonnés. Continuer ?
+      optimize_lane_empty: Aucun arrêt à optimiser.
+      optimize_lane_success: 'Tournée du coursier optimisée (arrêts : %{count}).'
+      reverse_lane_button: Inverser
+      reverse_lane_success: 'Tournée du coursier inversée (arrêts : %{count}).'
+      reverse_lane_title: Inverse l'ordre des arrêts — le dernier devient le premier
+      reverse_lane_too_few: Il faut au moins deux arrêts pour inverser la tournée.
     user:
       index:
         activate_title: Réactiver %{email}
