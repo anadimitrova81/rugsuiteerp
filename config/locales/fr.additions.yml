@@ -504,7 +504,7 @@ fr:
       city_prompt: Sélectionner…
       section_schedule: Planning
       pickup_date_label: Date d'enlèvement
-      pickup_date_hint: Notre coursier passe entre 18:00 et 20:30, en semaine.
+      pickup_date_hint: Notre coursier passe entre 18:00 et 20:30, nos jours ouvrés.
       pickup_notes_label: Notes d'enlèvement
       pickup_notes_placeholder: ex. merci de venir après 19h00, appartement 5, deuxième étage
       recaptcha_notice_html: Ce formulaire est protégé par reCAPTCHA. La <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">politique de confidentialité</a> et les <a href="https://policies.google.com/terms" target="_blank" rel="noopener">conditions d'utilisation</a> de Google s'appliquent.

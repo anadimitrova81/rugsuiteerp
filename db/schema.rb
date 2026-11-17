@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_11_17_090200) do
+ActiveRecord::Schema[8.1].define(version: 2026_11_17_090300) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -222,6 +222,16 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_17_090200) do
     t.index ["factory_id"], name: "index_users_on_factory_id"
   end
 
+  create_table "working_days_rules", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.date "ends_on"
+    t.bigint "factory_id", null: false
+    t.date "starts_on"
+    t.datetime "updated_at", null: false
+    t.integer "weekdays", default: [], null: false, array: true
+    t.index ["factory_id"], name: "index_working_days_rules_on_factory_id"
+  end
+
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "invoices", "factories"
@@ -233,4 +243,5 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_17_090200) do
   add_foreign_key "requests", "users", column: "delivery_courier_id", on_delete: :nullify
   add_foreign_key "requests", "users", column: "pickup_courier_id", on_delete: :nullify
   add_foreign_key "users", "factories"
+  add_foreign_key "working_days_rules", "factories"
 end

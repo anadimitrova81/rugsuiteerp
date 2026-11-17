@@ -18,6 +18,7 @@
       <p class="admin-sidebar-heading"><%= t("admin.nav.heading_settings") %></p>
       <ul>
         <li><%= admin_nav_link t("admin.nav.users"), admin_users_path, icon: "users" %></li>
+        <li><%= admin_nav_link t("admin.nav.working_days"), admin_working_days_path, icon: "working_days" %></li>
         <% unless current_factory.demo? %>
           <li><%= admin_nav_link t("admin.nav.settings"), admin_settings_path, icon: "settings" %></li>
           <li><%= admin_nav_link t("admin.nav.subscription"), admin_subscription_path, icon: "plan" %></li>

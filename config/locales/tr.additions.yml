@@ -504,7 +504,7 @@ tr:
       city_prompt: Seçin…
       section_schedule: Program
       pickup_date_label: Alım tarihi
-      pickup_date_hint: Kuryemiz hafta içi 18:00 ile 20:30 arasında gelir.
+      pickup_date_hint: Kuryemiz çalışma günlerimizde 18:00 ile 20:30 arasında gelir.
       pickup_notes_label: Alım notları
       pickup_notes_placeholder: örn. lütfen 19:00'dan sonra gelin, 5 numaralı daire, ikinci kat
       recaptcha_notice_html: Bu form reCAPTCHA ile korunmaktadır. Google'ın <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">gizlilik politikası</a> ve <a href="https://policies.google.com/terms" target="_blank" rel="noopener">hizmet koşulları</a> geçerlidir.

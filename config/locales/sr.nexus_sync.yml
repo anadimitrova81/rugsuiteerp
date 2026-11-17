@@ -8,6 +8,7 @@ sr:
       heading_work: Рад
       sidebar_label: Админ мени
       statistics: Статистика
+      working_days: Радни дани
     reports:
       couriers:
         card: Картица
@@ -36,6 +37,8 @@ sr:
         skip_phone_validation: Не проверавај телефон (за стране или нестандардне бројеве)
       new:
         duplicate_lede: 'Копија поруџбине #%{customer_id} — подаци клијента су попуњени. Изаберите датум преузимања и сачувајте.'
+      validations:
+        pick_up_at_not_working_day: није радни дан — преузимамо у %{days}
     routes:
       balance_time: Уједначи време
       optimize_lane_button: Оптимизуј
@@ -115,3 +118,37 @@ sr:
         cannot_deactivate_self: Не можете да деактивирате сопствени налог.
         deactivated: "%{email} је деактивиран."
         inactive: "%{email} је деактивиран."
+    working_days:
+      add_period: Додај период
+      and: и
+      default_hint: Важи током целе године, осим у периодима испод.
+      default_not_removable: Уобичајени радни дани не могу да се уклоне.
+      default_saved: Уобичајено преузимамо у %{days}.
+      default_title: Уобичајено
+      errors:
+        dates_required: Унесите почетни и крајњи датум периода.
+        end_before_start: Крајњи датум мора бити после почетног.
+        invalid_day: Неважећи дан у недељи.
+        no_days: Изаберите бар један дан.
+        overlap: Период се преклапа са другим периодом.
+      existing_orders_hint: Већ направљене поруџбине за дане ван периода остају — проверите их у „Поруџбине“.
+      from: Од
+      meta_title: Радни дани · Админ
+      new_period: Нови период
+      now: Сада
+      past: Прошао
+      period_added: Од %{from} до %{to} преузимамо у %{days}.
+      period_removed: Период је уклоњен.
+      periods_hint: Између почетног и крајњег датума (укључиво) важе дани периода уместо уобичајених — на пример зими само понедељак, среда и петак. После крајњег датума уобичајени дани се враћају сами.
+      periods_title: Сезонски периоди
+      remove: Уклони период
+      remove_confirm: Уклонити период %{from} – %{to}? Постојеће поруџбине остају.
+      save: Сачувај
+      subtitle: Дани у које клијенти могу да закажу преузимање са сајта · у админ панелу може се изабрати сваки дан
+      title: Радни дани
+      to: До (укључиво)
+      upcoming: Предстојећи
+      weekdays_label: Дани у недељи
+  requests:
+    form:
+      pickup_date_not_working_day: Тог дана не преузимамо — изаберите други.

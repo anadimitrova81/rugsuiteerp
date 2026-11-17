@@ -1,0 +1,73 @@
+<% content_for(:title) { t("admin.working_days.meta_title") } %>
+
+<div class="container container-wide">
+  <header class="request-detail-page-header">
+    <div>
+      <p class="request-detail-eyebrow"><%= t("admin.statistics.eyebrow") %></p>
+      <h1 class="request-detail-title"><%= t("admin.working_days.title") %></h1>
+      <p class="request-detail-subtitle"><%= t("admin.working_days.subtitle") %></p>
+    </div>
+  </header>
+
+  <% if @errors.present? %>
+    <div class="flash flash-alert flash-icon">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      <span><%= @errors.join(" ") %></span>
+    </div>
+  <% end %>
+
+  <div class="request-form admin-request-form">
+    <section class="form-section">
+      <h2 class="form-section-title"><%= t("admin.working_days.default_title") %></h2>
+      <p class="form-section-hint"><%= t("admin.working_days.default_hint") %></p>
+      <%= form_with url: admin_working_day_path(@default_rule.persisted? ? @default_rule : "default"), method: :patch do %>
+        <%= render "weekday_checkboxes", rule: @default_rule, id_prefix: "default" %>
+        <%= submit_tag t("admin.working_days.save"), class: "btn btn-primary", disabled: current_factory.demo? %>
+      <% end %>
+    </section>
+
+    <section class="form-section">
+      <h2 class="form-section-title"><%= t("admin.working_days.periods_title") %></h2>
+      <p class="form-section-hint"><%= t("admin.working_days.periods_hint") %></p>
+
+      <% if @periods.any? %>
+        <div class="users-list working-days-periods">
+          <% @periods.each do |period| %>
+            <div class="user-row <%= 'is-inactive' if period.past? %>">
+              <div class="user-identity-text">
+                <span class="user-email"><%= l(period.starts_on) %> – <%= l(period.ends_on) %></span>
+                <% if period.current? %>
+                  <span class="user-tag"><%= t("admin.working_days.now") %></span>
+                <% elsif period.past? %>
+                  <span class="user-tag user-tag-inactive"><%= t("admin.working_days.past") %></span>
+                <% else %>
+                  <span class="user-tag user-tag-upcoming"><%= t("admin.working_days.upcoming") %></span>
+                <% end %>
+                <span class="user-joined"><%= period.short_label %></span>
+              </div>
+              <div class="user-actions">
+                <%= button_to admin_working_day_path(period), method: :delete,
+                              class: "user-delete", title: t("admin.working_days.remove"),
+                              disabled: current_factory.demo?,
+                              form: { data: { turbo_confirm: t("admin.working_days.remove_confirm", from: l(period.starts_on), to: l(period.ends_on)) } } do %>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M10 11v6"/><path d="M14 11v6"/></svg>
+                <% end %>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+
+      <h3 class="working-days-new-title"><%= t("admin.working_days.new_period") %></h3>
+      <%= form_with model: @period, url: admin_working_days_path do |form| %>
+        <div class="form-row form-row-1-1">
+          <%= form.date_field :starts_on, label: t("admin.working_days.from") %>
+          <%= form.date_field :ends_on, label: t("admin.working_days.to") %>
+        </div>
+        <%= render "weekday_checkboxes", rule: @period, id_prefix: "period" %>
+        <p class="form-section-hint"><%= t("admin.working_days.existing_orders_hint") %></p>
+        <%= form.submit t("admin.working_days.add_period"), class: "btn btn-primary", disabled: current_factory.demo? %>
+      <% end %>
+    </section>
+  </div>
+</div>

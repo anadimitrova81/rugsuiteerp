@@ -15,7 +15,7 @@
 
   <section class="form-section">
     <h2 class="form-section-title"><%= t("requests.form.section_schedule") %></h2>
-    <%= form.date_field :pick_up_at, label: t("requests.form.pickup_date_label"), min: Request.earliest_pick_up_date, hint: t("requests.form.pickup_date_hint"), onclick: "this.showPicker()", data: { controller: "pickup-date", action: "change->pickup-date#check", "pickup-date-message": t("admin.request.validations.pick_up_at_weekend") } %>
+    <%= form.date_field :pick_up_at, label: t("requests.form.pickup_date_label"), min: Request.earliest_pick_up_date, hint: t("requests.form.pickup_date_hint"), onclick: "this.showPicker()", data: { controller: "pickup-date", action: "change->pickup-date#check", "pickup-date-message": t("requests.form.pickup_date_not_working_day"), "pickup-date-schedule-value": WorkingDaysRule.calendar.to_json } %>
     <%= form.text_area :pick_up_notes, label: t("requests.form.pickup_notes_label"), rows: 3, placeholder: t("requests.form.pickup_notes_placeholder") %>
   </section>
 

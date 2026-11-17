@@ -8,6 +8,7 @@ bg:
       heading_work: Работа
       sidebar_label: Админ меню
       statistics: Статистика
+      working_days: Работни дни
     reports:
       couriers:
         card: С карта
@@ -36,6 +37,8 @@ bg:
         skip_phone_validation: Не валидирай телефона (за чуждестранни или нестандартни номера)
       new:
         duplicate_lede: 'Копие на поръчка #%{customer_id} — данните на клиента са попълнени. Задайте дата на вземане и запишете.'
+      validations:
+        pick_up_at_not_working_day: не е работен ден — вземаме в %{days}
     routes:
       balance_time: Изравни времето
       optimize_lane_button: Оптимизирай
@@ -115,3 +118,37 @@ bg:
         cannot_deactivate_self: Не можете да деактивирате собствения си профил.
         deactivated: "%{email} е деактивиран."
         inactive: "%{email} е деактивиран."
+    working_days:
+      add_period: Добави периода
+      and: и
+      default_hint: Важи през цялата година, освен в периодите по-долу.
+      default_not_removable: Обикновените работни дни не могат да бъдат премахнати.
+      default_saved: Обикновено вземаме в %{days}.
+      default_title: Обикновено
+      errors:
+        dates_required: Въведете начална и крайна дата на периода.
+        end_before_start: Крайната дата трябва да е след началната.
+        invalid_day: Невалиден ден от седмицата.
+        no_days: Изберете поне един ден.
+        overlap: Периодът се застъпва с друг период.
+      existing_orders_hint: Вече направените заявки за дни извън периода остават — проверете ги в „Поръчки“.
+      from: От
+      meta_title: Работни дни · Админ
+      new_period: Нов период
+      now: Сега
+      past: Отминал
+      period_added: От %{from} до %{to} вземаме в %{days}.
+      period_removed: Периодът е премахнат.
+      periods_hint: Между началната и крайната дата (включително) важат дните на периода вместо обикновените — например през зимата само понеделник, сряда и петък. След крайната дата обикновените дни се връщат сами.
+      periods_title: Сезонни периоди
+      remove: Премахни периода
+      remove_confirm: Премахване на периода %{from} – %{to}? Вече направените заявки остават.
+      save: Запази
+      subtitle: Дните, в които клиентите могат да заявят вземане от сайта · в админ панела може да се избере всеки ден
+      title: Работни дни
+      to: До (включително)
+      upcoming: Предстоящ
+      weekdays_label: Дни от седмицата
+  requests:
+    form:
+      pickup_date_not_working_day: Не вземаме в този ден — изберете друг.

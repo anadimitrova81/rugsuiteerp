@@ -8,6 +8,7 @@ en:
       heading_work: Work
       sidebar_label: Admin menu
       statistics: Statistics
+      working_days: Working days
     reports:
       couriers:
         card: Card
@@ -36,6 +37,8 @@ en:
         skip_phone_validation: Don't validate the phone (for foreign or non-standard numbers)
       new:
         duplicate_lede: 'Copy of order #%{customer_id} — the customer''s details are filled in. Set a pickup date and save.'
+      validations:
+        pick_up_at_not_working_day: isn't a working day — we collect on %{days}
     routes:
       balance_time: Balance time
       optimize_lane_button: Optimise
@@ -115,3 +118,37 @@ en:
         cannot_deactivate_self: You can't deactivate your own account.
         deactivated: "%{email} was deactivated."
         inactive: "%{email} is deactivated."
+    working_days:
+      add_period: Add the period
+      and: and
+      default_hint: Applies all year, except during the periods below.
+      default_not_removable: The usual working days can't be removed.
+      default_saved: We usually collect on %{days}.
+      default_title: Usually
+      errors:
+        dates_required: Enter the period's start and end date.
+        end_before_start: The end date must be after the start date.
+        invalid_day: Invalid day of the week.
+        no_days: Choose at least one day.
+        overlap: The period overlaps another period.
+      existing_orders_hint: Orders already booked on days outside the period stay — check them under Orders.
+      from: From
+      meta_title: Working days · Admin
+      new_period: New period
+      now: Now
+      past: Past
+      period_added: From %{from} to %{to} we collect on %{days}.
+      period_removed: The period was removed.
+      periods_hint: Between the start and end date (inclusive) the period's days apply instead of the usual ones — e.g. only Monday, Wednesday and Friday over the winter. After the end date the usual days come back by themselves.
+      periods_title: Seasonal periods
+      remove: Remove the period
+      remove_confirm: Remove the period %{from} – %{to}? Existing orders stay.
+      save: Save
+      subtitle: The days clients can book a pickup on from the website · staff can still pick any day
+      title: Working days
+      to: To (inclusive)
+      upcoming: Upcoming
+      weekdays_label: Days of the week
+  requests:
+    form:
+      pickup_date_not_working_day: We don't collect on that day — please choose another.

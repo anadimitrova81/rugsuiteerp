@@ -504,7 +504,7 @@ bg:
       city_prompt: Изберете…
       section_schedule: График
       pickup_date_label: Дата на вземане
-      pickup_date_hint: Куриерът ни идва между 18:00 и 20:30, в делнични дни.
+      pickup_date_hint: Куриерът ни идва между 18:00 и 20:30, в работните ни дни.
       pickup_notes_label: Бележки за вземането
       pickup_notes_placeholder: 'Например: моля елате след 19:00, апартамент 5, втори етаж'
       recaptcha_notice_html: Тази форма е защитена с reCAPTCHA. Прилагат се <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">политиката за поверителност</a> и <a href="https://policies.google.com/terms" target="_blank" rel="noopener">условията за ползване</a> на Google.

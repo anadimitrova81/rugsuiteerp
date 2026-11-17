@@ -1,0 +1,11 @@
+<%# Monday-first weekday toggles posting working_days_rule[weekdays][]. locals: rule, id_prefix %>
+<div class="working-days-picker" role="group" aria-label="<%= t("admin.working_days.weekdays_label") %>">
+  <%= hidden_field_tag "working_days_rule[weekdays][]", "", id: nil %>
+  <% WorkingDaysRule::WEEKDAYS.each do |wday| %>
+    <label class="working-days-day">
+      <%= check_box_tag "working_days_rule[weekdays][]", wday, rule.weekdays.include?(wday),
+                        id: "#{id_prefix}-#{wday}", class: "working-days-day-input" %>
+      <span><%= WorkingDaysRule.short_name(wday) %></span>
+    </label>
+  <% end %>
+</div>

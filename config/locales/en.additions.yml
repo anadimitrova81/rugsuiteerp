@@ -504,7 +504,7 @@ en:
       city_prompt: Select…
       section_schedule: Schedule
       pickup_date_label: Pickup date
-      pickup_date_hint: Our courier comes between 18:00 and 20:30, on weekdays.
+      pickup_date_hint: Our courier comes between 18:00 and 20:30, on our working days.
       pickup_notes_label: Pickup notes
       pickup_notes_placeholder: e.g. please come after 19:00, apartment 5, second floor
       recaptcha_notice_html: This form is protected by reCAPTCHA. Google's <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">privacy policy</a> and <a href="https://policies.google.com/terms" target="_blank" rel="noopener">terms of service</a> apply.

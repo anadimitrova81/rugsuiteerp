@@ -8,6 +8,7 @@ tr:
       heading_work: İş
       sidebar_label: Yönetim menüsü
       statistics: İstatistikler
+      working_days: Çalışma günleri
     reports:
       couriers:
         card: Kart
@@ -36,6 +37,8 @@ tr:
         skip_phone_validation: Telefonu doğrulama (yabancı veya standart dışı numaralar için)
       new:
         duplicate_lede: "#%{customer_id} numaralı siparişin kopyası — müşteri bilgileri dolduruldu. Bir alım tarihi seçip kaydedin."
+      validations:
+        pick_up_at_not_working_day: 'çalışma günü değil — alım günlerimiz: %{days}'
     routes:
       balance_time: Süreyi dengele
       optimize_lane_button: Optimize et
@@ -115,3 +118,37 @@ tr:
         cannot_deactivate_self: Kendi hesabınızı devre dışı bırakamazsınız.
         deactivated: "%{email} devre dışı bırakıldı."
         inactive: "%{email} devre dışı."
+    working_days:
+      add_period: Dönemi ekle
+      and: ve
+      default_hint: Aşağıdaki dönemler dışında tüm yıl geçerlidir.
+      default_not_removable: Normal çalışma günleri kaldırılamaz.
+      default_saved: 'Normal alım günlerimiz: %{days}.'
+      default_title: Normalde
+      errors:
+        dates_required: Dönemin başlangıç ve bitiş tarihini girin.
+        end_before_start: Bitiş tarihi başlangıçtan sonra olmalıdır.
+        invalid_day: Geçersiz gün.
+        no_days: En az bir gün seçin.
+        overlap: Dönem başka bir dönemle çakışıyor.
+      existing_orders_hint: Bu günlerin dışında önceden alınmış siparişler kalır — Siparişler bölümünden kontrol edin.
+      from: Başlangıç
+      meta_title: Çalışma günleri · Yönetim
+      new_period: Yeni dönem
+      now: Şimdi
+      past: Geçmiş
+      period_added: "%{from} – %{to} arasında alım günleri: %{days}."
+      period_removed: Dönem kaldırıldı.
+      periods_hint: Başlangıç ve bitiş tarihleri arasında (dahil) normal günler yerine dönemin günleri geçerlidir — örneğin kışın yalnızca pazartesi, çarşamba ve cuma. Bitiş tarihinden sonra normal günler kendiliğinden geri döner.
+      periods_title: Sezonluk dönemler
+      remove: Dönemi kaldır
+      remove_confirm: "%{from} – %{to} dönemi kaldırılsın mı? Mevcut siparişler kalır."
+      save: Kaydet
+      subtitle: Müşterilerin web sitesinden alım ayarlayabileceği günler · personel yine her günü seçebilir
+      title: Çalışma günleri
+      to: Bitiş (dahil)
+      upcoming: Yaklaşan
+      weekdays_label: Haftanın günleri
+  requests:
+    form:
+      pickup_date_not_working_day: O gün alım yapmıyoruz — lütfen başka bir gün seçin.

@@ -43,6 +43,7 @@ class Factory < ApplicationRecord
   has_many :page_visits,   dependent: :destroy
   has_many :process_steps, dependent: :destroy
   has_many :invoices,      dependent: :destroy
+  has_many :working_days_rules, dependent: :destroy
 
   validates :slug, presence: true,
                    uniqueness: { case_sensitive: false },

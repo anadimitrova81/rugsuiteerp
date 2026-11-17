@@ -9,8 +9,9 @@ class Request < ApplicationRecord
   belongs_to :delivery_courier, class_name: "User", optional: true
   has_many :notifications, dependent: :destroy
 
-  # Set by the admin controllers so staff can schedule weekend pickups. Client
-  # submissions leave it false, so the weekend validation below applies to them.
+  # Set by the admin controllers so staff can schedule pickups on any day.
+  # Client submissions leave it false, so the working-day validation below
+  # applies to them.
   attr_accessor :admin_initiated
 
   # The courier responsible for this stop given its current leg.
@@ -137,7 +138,9 @@ class Request < ApplicationRecord
                     (new_record? || will_save_change_to_pick_up_at?) }
 
   # Clients can only book weekday pickups; admins may schedule any day.
-  validate :pick_up_at_not_on_weekend,
+  # Clients can only book on working days (Admin → Working days); admins may
+  # schedule any day.
+  validate :pick_up_at_on_a_working_day,
            if: -> { pick_up_at.present? && !admin_initiated &&
                     status.in?(%w[pending pickup_confirmed]) &&
                     (new_record? || will_save_change_to_pick_up_at?) }
@@ -290,10 +293,12 @@ class Request < ApplicationRecord
     end
   end
 
-  def pick_up_at_not_on_weekend
-    if pick_up_at.to_date.on_weekend?
-      errors.add(:pick_up_at, I18n.t("admin.request.validations.pick_up_at_weekend"))
-    end
+  def pick_up_at_on_a_working_day
+    date = pick_up_at.to_date
+    return if WorkingDaysRule.working_day?(date)
+
+    errors.add(:pick_up_at, I18n.t("admin.request.validations.pick_up_at_not_working_day",
+                                   days: WorkingDaysRule.long_label(WorkingDaysRule.weekdays_on(date))))
   end
 
   def phone_must_be_valid_for_factory_country

@@ -504,7 +504,7 @@ mk:
       city_prompt: Изберете…
       section_schedule: Распоред
       pickup_date_label: Датум на преземање
-      pickup_date_hint: Нашиот курир доаѓа меѓу 18:00 и 20:30, во работни денови.
+      pickup_date_hint: Нашиот курир доаѓа меѓу 18:00 и 20:30, во нашите работни денови.
       pickup_notes_label: Забелешки за преземање
       pickup_notes_placeholder: на пр. дојдете по 19:00, стан 5, втори кат
       recaptcha_notice_html: Овој формулар е заштитен со reCAPTCHA. Се применуваат <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">политиката за приватност</a> и <a href="https://policies.google.com/terms" target="_blank" rel="noopener">условите на користење</a> на Google.

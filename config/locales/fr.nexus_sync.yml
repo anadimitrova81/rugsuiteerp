@@ -8,6 +8,7 @@ fr:
       heading_work: Travail
       sidebar_label: Menu d'administration
       statistics: Statistiques
+      working_days: Jours ouvrés
     reports:
       couriers:
         card: Carte
@@ -36,6 +37,8 @@ fr:
         skip_phone_validation: Ne pas valider le téléphone (numéros étrangers ou non standard)
       new:
         duplicate_lede: 'Copie de la commande #%{customer_id} — les coordonnées du client sont remplies. Choisissez une date de collecte et enregistrez.'
+      validations:
+        pick_up_at_not_working_day: n'est pas un jour ouvré — nous collectons le %{days}
     routes:
       balance_time: Équilibrer le temps
       optimize_lane_button: Optimiser
@@ -115,3 +118,37 @@ fr:
         cannot_deactivate_self: Vous ne pouvez pas désactiver votre propre compte.
         deactivated: "%{email} a été désactivé."
         inactive: "%{email} est désactivé."
+    working_days:
+      add_period: Ajouter la période
+      and: et
+      default_hint: S'applique toute l'année, sauf pendant les périodes ci-dessous.
+      default_not_removable: Les jours ouvrés habituels ne peuvent pas être supprimés.
+      default_saved: Nous collectons habituellement le %{days}.
+      default_title: Habituellement
+      errors:
+        dates_required: Saisissez les dates de début et de fin de la période.
+        end_before_start: La date de fin doit suivre la date de début.
+        invalid_day: Jour de la semaine invalide.
+        no_days: Choisissez au moins un jour.
+        overlap: La période chevauche une autre période.
+      existing_orders_hint: Les commandes déjà réservées hors de ces jours restent — vérifiez-les dans Commandes.
+      from: Du
+      meta_title: Jours ouvrés · Admin
+      new_period: Nouvelle période
+      now: En cours
+      past: Passée
+      period_added: Du %{from} au %{to}, nous collectons le %{days}.
+      period_removed: La période a été supprimée.
+      periods_hint: Entre la date de début et de fin (incluses), les jours de la période remplacent les jours habituels — par exemple seulement lundi, mercredi et vendredi en hiver. Après la date de fin, les jours habituels reviennent d'eux-mêmes.
+      periods_title: Périodes saisonnières
+      remove: Supprimer la période
+      remove_confirm: Supprimer la période %{from} – %{to} ? Les commandes existantes restent.
+      save: Enregistrer
+      subtitle: Les jours où les clients peuvent réserver une collecte sur le site · l'équipe peut toujours choisir n'importe quel jour
+      title: Jours ouvrés
+      to: Au (inclus)
+      upcoming: À venir
+      weekdays_label: Jours de la semaine
+  requests:
+    form:
+      pickup_date_not_working_day: Nous ne collectons pas ce jour-là — choisissez-en un autre.
