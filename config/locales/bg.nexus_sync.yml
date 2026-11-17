@@ -2,6 +2,11 @@
 ---
 bg:
   admin:
+    nav:
+      heading_analytics: Анализи
+      heading_settings: Настройки
+      heading_work: Работа
+      sidebar_label: Админ меню
     reports:
       couriers:
         card: С карта

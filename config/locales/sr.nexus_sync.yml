@@ -2,6 +2,11 @@
 ---
 sr:
   admin:
+    nav:
+      heading_analytics: Анализе
+      heading_settings: Подешавања
+      heading_work: Рад
+      sidebar_label: Админ мени
     reports:
       couriers:
         card: Картица

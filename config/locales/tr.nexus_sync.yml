@@ -2,6 +2,11 @@
 ---
 tr:
   admin:
+    nav:
+      heading_analytics: Analizler
+      heading_settings: Ayarlar
+      heading_work: İş
+      sidebar_label: Yönetim menüsü
     reports:
       couriers:
         card: Kart

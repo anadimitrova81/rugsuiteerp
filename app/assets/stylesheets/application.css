@@ -903,7 +903,90 @@ textarea.form-control { font-family: inherit; line-height: 1.5; resize: vertical
 .btn-full { width: 100%; margin-top: 4px; padding: 13px 24px; }
 
 /* Nav Logout */
-.site-nav a.nav-logout:hover { color: var(--color-danger); }
+.site-nav a.nav-logout:hover,
+.admin-sidebar-link.nav-logout:hover { color: var(--color-danger); }
+
+/* Staff layout: navigation down the left, page content beside it. */
+.admin-shell { display: flex; align-items: flex-start; }
+.admin-shell > main { flex: 1; min-width: 0; }
+.admin-sidebar {
+  position: sticky;
+  top: var(--admin-header-height, 73px);
+  flex: 0 0 216px;
+  height: calc(100vh - var(--admin-header-height, 73px));
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background: var(--color-surface);
+  border-right: 1px solid var(--color-border);
+  padding: 20px 12px;
+}
+.admin-sidebar ul { list-style: none; margin: 0 0 16px; padding: 0; }
+.admin-sidebar-heading {
+  margin: 0 0 6px;
+  padding: 0 12px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+.admin-sidebar-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  border-radius: var(--radius);
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--color-text);
+  text-decoration: none;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+.admin-sidebar-link:hover { background: var(--color-background); color: var(--color-primary); }
+.admin-sidebar-link.is-current {
+  background: rgba(var(--color-primary-rgb), 0.08);
+  color: var(--color-primary);
+  font-weight: 600;
+}
+.admin-sidebar-icon { flex-shrink: 0; color: var(--color-text-muted); transition: color 0.15s ease; }
+.admin-sidebar-link:hover .admin-sidebar-icon,
+.admin-sidebar-link.is-current .admin-sidebar-icon { color: currentColor; }
+.admin-sidebar-footer { border-top: 1px solid var(--color-border); padding-top: 12px; }
+.admin-sidebar-user {
+  display: block;
+  padding: 0 12px 6px;
+  font-size: 12px;
+  color: var(--color-text-muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+/* The ☰ button only matters on phones; staff headers have nothing else to open. */
+.admin-frame .site-header .nav-toggle { display: none; }
+
+@media (max-width: 760px) {
+  .admin-frame .site-header .nav-toggle { display: block; }
+  .admin-shell { display: block; }
+  .admin-sidebar {
+    position: fixed;
+    top: var(--admin-header-height, 73px);
+    left: 0;
+    right: 0;
+    height: auto;
+    max-height: calc(100vh - var(--admin-header-height, 73px));
+    border-right: 0;
+    border-bottom: 1px solid var(--color-border);
+    box-shadow: var(--shadow);
+    z-index: 99;
+    transform: translateY(-8px);
+    visibility: hidden;
+    opacity: 0;
+    transition: transform 0.18s ease, opacity 0.18s ease, visibility 0.18s ease;
+  }
+  .admin-sidebar[data-open="true"] { transform: translateY(0); visibility: visible; opacity: 1; }
+}
 
 /* Confirm Dialog */
 .confirm-dialog {

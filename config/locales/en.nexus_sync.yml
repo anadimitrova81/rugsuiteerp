@@ -2,6 +2,11 @@
 ---
 en:
   admin:
+    nav:
+      heading_analytics: Analytics
+      heading_settings: Settings
+      heading_work: Work
+      sidebar_label: Admin menu
     reports:
       couriers:
         card: Card

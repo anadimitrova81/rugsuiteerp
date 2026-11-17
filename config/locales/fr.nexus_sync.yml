@@ -2,6 +2,11 @@
 ---
 fr:
   admin:
+    nav:
+      heading_analytics: Analyses
+      heading_settings: Paramètres
+      heading_work: Travail
+      sidebar_label: Menu d'administration
     reports:
       couriers:
         card: Carte

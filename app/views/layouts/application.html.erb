@@ -118,8 +118,9 @@
       </div>
     <% end %>
 
+    <% if show_admin_chrome? %><div class="admin-frame" data-controller="nav-toggle"><% end %>
     <header class="site-header">
-      <div class="header-container" data-controller="nav-toggle">
+      <%= tag.div class: "header-container", data: ({ controller: "nav-toggle" } unless show_admin_chrome?) do %>
         <div class="site-brand-row">
           <%= link_to root_path, class: "site-brand", "aria-label": "#{current_factory.name} home" do %>
             <% if current_factory.logo.attached? %>
@@ -144,34 +145,18 @@
           <span class="nav-toggle-bar"></span>
           <span class="nav-toggle-bar"></span>
         </button>
+        <% unless show_admin_chrome? %>
         <nav class="site-nav" id="primary-nav" data-nav-toggle-target="menu" data-open="false">
           <ul>
-            <% if show_admin_chrome? %>
-              <li><%= link_to t("admin.nav.requests"), admin_requests_path %></li>
-              <% if current_admin&.admin? || current_admin&.coordinator? %>
-                <li><%= link_to t("admin.nav.route"),   admin_route_path %></li>
-                <li><%= link_to t("admin.nav.sms_log"), admin_sms_log_path %></li>
-              <% end %>
-              <% if current_admin&.admin? %>
-                <li><%= link_to t("admin.nav.reports"),      admin_reports_path %></li>
-                <li><%= link_to t("admin.nav.users"),        admin_users_path %></li>
-                <% unless current_factory.demo? %>
-                  <li><%= link_to t("admin.nav.settings"),     admin_settings_path %></li>
-                  <li><%= link_to t("admin.nav.subscription"), admin_subscription_path %></li>
-                <% end %>
-                <li><%= link_to t("admin.nav.invoices"),     admin_invoices_path %></li>
-              <% end %>
-              <li><%= link_to t("admin.nav.logout"), logout_path, data: { turbo_method: :delete }, class: "nav-logout" %></li>
-            <% else %>
-              <li><%= link_to t("nav.book"),        new_request_path %></li>
-              <li><%= link_to t("nav.prices"),      root_path(anchor: "prices") %></li>
-              <li><%= link_to t("nav.check_order"), status_path %></li>
-              <li><%= link_to t("nav.faq"),         faq_path %></li>
-              <li><%= link_to t("nav.contact"),     contacts_path %></li>
-            <% end %>
+            <li><%= link_to t("nav.book"),        new_request_path %></li>
+            <li><%= link_to t("nav.prices"),      root_path(anchor: "prices") %></li>
+            <li><%= link_to t("nav.check_order"), status_path %></li>
+            <li><%= link_to t("nav.faq"),         faq_path %></li>
+            <li><%= link_to t("nav.contact"),     contacts_path %></li>
           </ul>
         </nav>
-      </div>
+        <% end %>
+      <% end %>
     </header>
 
     <% if show_admin_chrome? && current_factory.demo? %>
@@ -181,6 +166,10 @@
       </div>
     <% end %>
 
+    <% if show_admin_chrome? %>
+      <div class="admin-shell">
+        <%= render "layouts/admin_sidebar" %>
+    <% end %>
     <main>
       <% if notice.present? %>
         <div class="flash-container <%= 'container-wide' if show_admin_chrome? %>">
@@ -200,6 +189,10 @@
       <% end %>
       <%= yield %>
     </main>
+    <% if show_admin_chrome? %>
+      </div>
+      </div>
+    <% end %>
 
     <% unless show_admin_chrome? %>
       <%= render "shared/cookie_consent" %>

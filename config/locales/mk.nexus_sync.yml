@@ -2,6 +2,11 @@
 ---
 mk:
   admin:
+    nav:
+      heading_analytics: Анализи
+      heading_settings: Поставки
+      heading_work: Работа
+      sidebar_label: Админ мени
     reports:
       couriers:
         card: Со картичка

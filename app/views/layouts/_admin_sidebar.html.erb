@@ -1,0 +1,34 @@
+<%# Staff navigation, down the left side. On phones it folds behind the header's ☰ button. %>
+<aside class="admin-sidebar" id="primary-nav" data-nav-toggle-target="menu" data-open="false" aria-label="<%= t("admin.nav.sidebar_label") %>">
+  <nav>
+    <p class="admin-sidebar-heading"><%= t("admin.nav.heading_work") %></p>
+    <ul>
+      <li><%= admin_nav_link t("admin.nav.requests"), admin_requests_path, icon: "orders" %></li>
+      <% if current_admin&.admin? || current_admin&.coordinator? %>
+        <li><%= admin_nav_link t("admin.nav.route"), admin_route_path, icon: "route" %></li>
+        <li><%= admin_nav_link t("admin.nav.sms_log"), admin_sms_log_path, icon: "sms" %></li>
+      <% end %>
+    </ul>
+    <% if current_admin&.admin? %>
+      <p class="admin-sidebar-heading"><%= t("admin.nav.heading_analytics") %></p>
+      <ul>
+        <li><%= admin_nav_link t("admin.nav.reports"), admin_reports_path, icon: "reports" %></li>
+      </ul>
+      <p class="admin-sidebar-heading"><%= t("admin.nav.heading_settings") %></p>
+      <ul>
+        <li><%= admin_nav_link t("admin.nav.users"), admin_users_path, icon: "users" %></li>
+        <% unless current_factory.demo? %>
+          <li><%= admin_nav_link t("admin.nav.settings"), admin_settings_path, icon: "settings" %></li>
+          <li><%= admin_nav_link t("admin.nav.subscription"), admin_subscription_path, icon: "plan" %></li>
+        <% end %>
+        <li><%= admin_nav_link t("admin.nav.invoices"), admin_invoices_path, icon: "invoices" %></li>
+      </ul>
+    <% end %>
+  </nav>
+  <div class="admin-sidebar-footer">
+    <span class="admin-sidebar-user"><%= current_admin&.email %></span>
+    <%= link_to logout_path, data: { turbo_method: :delete }, class: "admin-sidebar-link nav-logout" do %>
+      <%= nav_icon("logout") %><%= t("admin.nav.logout") %>
+    <% end %>
+  </div>
+</aside>
