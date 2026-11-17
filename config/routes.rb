@@ -67,7 +67,7 @@ Rails.application.routes.draw do
   delete "enter", to: "platform_handoffs#destroy", as: :platform_exit
 
   namespace :admin do
-    resources :requests, only: %i[index show new create edit update]
+    resources :requests, only: %i[index show new create edit update destroy]
     resources :users, only: %i[index new create update destroy] do
       post :impersonate, on: :member
     end

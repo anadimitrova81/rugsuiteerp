@@ -345,7 +345,7 @@ en:
       title: "Orders"
       new_button: "New order"
       filter_status_label: "Filter by status"
-      search_placeholder: "Search by phone or order number"
+      search_placeholder: "Search by phone, order number or address"
       from: "From"
       to: "To"
       apply: "Apply"

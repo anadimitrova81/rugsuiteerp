@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_08_24_090000) do
+ActiveRecord::Schema[8.1].define(version: 2026_11_17_090200) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -173,6 +173,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_24_090000) do
     t.datetime "cancelled_at"
     t.text "cancelled_reason"
     t.string "city", null: false
+    t.boolean "complaint", default: false, null: false
     t.datetime "created_at", null: false
     t.string "customer_id"
     t.datetime "delivery_at"
@@ -187,7 +188,9 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_24_090000) do
     t.datetime "pick_up_at"
     t.text "pick_up_notes"
     t.bigint "pickup_courier_id"
+    t.decimal "price_per_kg", precision: 10, scale: 2
     t.integer "route_position"
+    t.boolean "skip_phone_validation", default: false, null: false
     t.enum "status", default: "pending", null: false, enum_type: "requests_status"
     t.string "status_token", null: false
     t.datetime "updated_at", null: false
@@ -208,6 +211,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_24_090000) do
   end
 
   create_table "users", force: :cascade do |t|
+    t.boolean "active", default: true, null: false
     t.datetime "created_at", null: false
     t.string "email", null: false
     t.bigint "factory_id", null: false

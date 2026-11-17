@@ -1,0 +1,18 @@
+# Strings for features ported from nexus-cleaning (2026-11 sync).
+---
+sr:
+  admin:
+    request:
+      actions:
+        delete: Обриши
+        delete_admin_only: Само администратор може да брише поруџбине.
+        delete_confirm: 'Трајно обрисати поруџбину #%{customer_id}? Биће обрисане и послате SMS поруке за њу.'
+        deleted: 'Поруџбина #%{customer_id} је обрисана.'
+        duplicate: Дуплирај
+      labels:
+        complaint: Рекламација
+        complaint_checkbox: Рекламација (бесплатно — без SMS понуде и без плаћања)
+        complaint_free: Рекламација — бесплатно
+        skip_phone_validation: Не проверавај телефон (за стране или нестандардне бројеве)
+      new:
+        duplicate_lede: 'Копија поруџбине #%{customer_id} — подаци клијента су попуњени. Изаберите датум преузимања и сачувајте.'

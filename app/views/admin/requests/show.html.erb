@@ -7,6 +7,7 @@
       <h1 class="request-detail-title">
         #<%= @request.customer_id %>
         <span class="status-badge status-<%= @request.status %>"><%= Request.status_labels[@request.status] %></span>
+        <%= complaint_tag(@request) %>
       </h1>
       <p class="request-detail-subtitle">
         <%= t("admin.request.show.requested_on_at", date: long_date(@request.created_at), time: @request.created_at.strftime("%H:%M")) %>
@@ -21,6 +22,9 @@
         <% if current_factory.demo? %>
           <button type="button" class="btn btn-primary" disabled><%= t("admin.request.show.edit") %></button>
         <% else %>
+          <%= link_to t("admin.request.actions.duplicate"), new_admin_request_path(duplicate_from: @request.id), class: "btn btn-secondary" %>
+          <%= button_to t("admin.request.actions.delete"), admin_request_path(@request), method: :delete, class: "btn btn-danger",
+                        form: { data: { turbo_confirm: t("admin.request.actions.delete_confirm", customer_id: @request.customer_id) } } %>
           <%= link_to t("admin.request.show.edit"), edit_admin_request_path(@request), class: "btn btn-primary" %>
         <% end %>
       <% end %>
@@ -102,6 +106,9 @@
             <div class="request-detail-stat">
               <span class="request-detail-stat-label"><%= t("admin.request.labels.amount") %></span>
               <span class="request-detail-stat-value"><%= number_with_precision(@request.amount, precision: 2) %> <span class="request-detail-stat-unit"><%= current_factory.currency %></span></span>
+              <% if @request.complaint? %>
+                <span class="request-detail-stat-unit"><%= t("admin.request.labels.complaint_free") %></span>
+              <% end %>
             </div>
           <% end %>
         </div>

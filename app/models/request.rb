@@ -28,10 +28,13 @@ class Request < ApplicationRecord
                        will_save_change_to_pick_up_at? }
   before_create :generate_status_token
   before_save :clear_weight_when_items_only
+  before_save :store_price_per_kg
   before_save :recalculate_amount,
               if: -> { will_save_change_to_weight? ||
                        will_save_change_to_number_of_items? ||
-                       will_save_change_to_bulk_price? }
+                       will_save_change_to_bulk_price? ||
+                       will_save_change_to_price_per_kg? ||
+                       will_save_change_to_complaint? }
 
   STATUSES = %w[pending pickup_confirmed picked_up in_progress ready_for_delivery delivery_confirmed delivered cancelled]
 
@@ -96,7 +99,10 @@ class Request < ApplicationRecord
 
   validates :phone, :address, :city, :pick_up_at, presence: true
   validates :customer_id, uniqueness: { scope: :factory_id }, allow_nil: true
-  validate :phone_must_be_valid_for_factory_country
+  # Admins can tick "don't validate the phone" for the occasional foreign or
+  # non-standard number. The flag is persisted so later courier/operator saves
+  # on the same order don't re-trip this format check.
+  validate :phone_must_be_valid_for_factory_country, unless: :skip_phone_validation
 
   # Hard cap: refuse to create an order once the factory has hit its plan's
   # monthly quota. The controllers guard this earlier with an audience-specific
@@ -139,8 +145,12 @@ class Request < ApplicationRecord
   validate :address_resolvable_by_google,
            if: -> { address.present? && city.present? && (will_save_change_to_address? || will_save_change_to_city?) }
 
+  # Orders that still need their SMS price quote. A complaint is free, so it
+  # gets none; nor do orders whose phone check was switched off (foreign or
+  # non-standard numbers) — the SMS provider rejects those, so they'd only
+  # clutter the send with failures.
   scope :awaiting_price_notification,
-        -> { where(status: "in_progress", pay_by_invoice: false)
+        -> { where(status: "in_progress", pay_by_invoice: false, complaint: false, skip_phone_validation: false)
              .where("weight IS NOT NULL OR items_only = TRUE")
              .where.not(id: Notification.where(kind: "price_quote", status: "sent").select(:request_id)) }
 
@@ -193,6 +203,9 @@ class Request < ApplicationRecord
   end
 
   def calculated_amount
+    # A complaint is re-washed free of charge.
+    return 0.to_d if complaint? && (weight.present? || (items_only && number_of_items.present?))
+
     # pay_by_invoice orders are still priced normally — the flag only means the
     # courier doesn't collect on delivery and no SMS quote is sent; billing is
     # handled off-app by invoice.
@@ -203,10 +216,35 @@ class Request < ApplicationRecord
     end
   end
 
+  # The rate the order was priced at, until something that decides the rate
+  # (weight or the bulk flag) changes — then the company's current price.
   def effective_kg_rate
-    return factory.price_per_kg_bulk if bulk_price
-    return factory.price_per_kg_bulk if weight.present? && weight >= factory.bulk_weight_threshold
-    factory.price_per_kg
+    return price_per_kg if price_per_kg.present? && !kg_rate_inputs_changed?
+
+    current_kg_rate
+  end
+
+  def current_kg_rate
+    bulk_kg_rate? ? factory.price_per_kg_bulk : factory.price_per_kg
+  end
+
+  # Whether the order is on the bulk rate.
+  def bulk_kg_rate?
+    bulk_price || (weight.present? && weight >= factory.bulk_weight_threshold)
+  end
+
+  # Client/location/preference fields that carry over when an admin duplicates
+  # an order for a repeat client. The date, measurements, payment and workflow
+  # state are deliberately left blank so the new order starts fresh.
+  # verified_address (coordinates) is intentionally omitted — the admin new
+  # form has no coordinate field, so the copied address re-geocodes on save.
+  DUPLICABLE_ATTRIBUTES = %w[
+    phone city address pick_up_notes delivery_notes
+    items_only bulk_price pay_by_invoice skip_phone_validation
+  ].freeze
+
+  def duplicable_attributes
+    attributes.slice(*DUPLICABLE_ATTRIBUTES)
   end
 
   def amount_basis
@@ -225,6 +263,14 @@ class Request < ApplicationRecord
 
   def recalculate_amount
     self.amount = calculated_amount
+  end
+
+  def store_price_per_kg
+    self.price_per_kg = weight.present? ? effective_kg_rate : nil
+  end
+
+  def kg_rate_inputs_changed?
+    will_save_change_to_weight? || will_save_change_to_bulk_price?
   end
 
   def clear_weight_when_items_only

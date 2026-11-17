@@ -220,6 +220,13 @@ module ApplicationHelper
   # than dir/?api=1. The api=1 form caps the `waypoints` parameter at 9
   # intermediate stops and silently drops the rest; the path-based form carries
   # every assigned stop as its own path segment.
+  # "Complaint" tag shown next to an order's status when it is a complaint.
+  def complaint_tag(request)
+    return unless request.complaint?
+
+    tag.span(t("admin.request.labels.complaint"), class: "complaint-tag")
+  end
+
   def google_maps_directions_url(addresses)
     return nil if addresses.blank?
 

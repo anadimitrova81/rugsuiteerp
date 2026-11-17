@@ -61,6 +61,7 @@
                 <span class="courier-row-position">#<%= req.route_position %></span>
               <% end %>
               #<%= req.customer_id %>
+              <%= complaint_tag(req) %>
             </span>
             <span class="courier-row-address"><%= req.address %>, <%= req.city %></span>
             <% leg_notes = pickup ? req.pick_up_notes : req.delivery_notes %>
@@ -107,7 +108,7 @@
                 </div>
               <% end %>
             </div>
-            <% if req.amount.present? && req.status.in?(%w[delivery_confirmed delivered]) %>
+            <% if req.amount.present? && !req.complaint? && req.status.in?(%w[delivery_confirmed delivered]) %>
               <div class="courier-row-amount-cell">
                 <dt><%= t("admin.request.labels.amount_due") %></dt>
                 <dd>
@@ -154,11 +155,13 @@
                           namespace: "row#{req.id}",
                           class: "courier-row-action" do |form| %>
               <%= form.hidden_field :status, value: "delivered" %>
+              <% unless req.complaint? %>
               <label class="courier-row-toggle">
                 <span class="courier-row-toggle-label"><%= t("admin.request.courier.pay_by_card_toggle") %></span>
                 <%= form.check_box :paid_by_card, class: "courier-row-toggle-input" %>
                 <span class="courier-row-toggle-track" aria-hidden="true"></span>
               </label>
+              <% end %>
               <%= form.submit t("admin.request.courier.mark_delivered"), class: "btn btn-primary btn-full" %>
             <% end %>
           <% end %>

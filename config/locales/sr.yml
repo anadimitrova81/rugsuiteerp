@@ -345,7 +345,7 @@ sr:
       title: "Поруџбине"
       new_button: "Нова поруџбина"
       filter_status_label: "Филтрирај по статусу"
-      search_placeholder: "Претражите по телефону или броју поруџбине"
+      search_placeholder: "Претражите по телефону, броју поруџбине или адреси"
       from: "Од"
       to: "До"
       apply: "Примени"

@@ -1,0 +1,18 @@
+# Strings for features ported from nexus-cleaning (2026-11 sync).
+---
+fr:
+  admin:
+    request:
+      actions:
+        delete: Supprimer
+        delete_admin_only: Seul un administrateur peut supprimer des commandes.
+        delete_confirm: 'Supprimer définitivement la commande #%{customer_id} ? Les SMS envoyés pour elle seront aussi supprimés.'
+        deleted: 'La commande #%{customer_id} a été supprimée.'
+        duplicate: Dupliquer
+      labels:
+        complaint: Réclamation
+        complaint_checkbox: Réclamation (gratuit — sans devis SMS ni paiement)
+        complaint_free: Réclamation — gratuit
+        skip_phone_validation: Ne pas valider le téléphone (numéros étrangers ou non standard)
+      new:
+        duplicate_lede: 'Copie de la commande #%{customer_id} — les coordonnées du client sont remplies. Choisissez une date de collecte et enregistrez.'

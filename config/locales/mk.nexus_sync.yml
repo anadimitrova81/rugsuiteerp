@@ -1,0 +1,18 @@
+# Strings for features ported from nexus-cleaning (2026-11 sync).
+---
+mk:
+  admin:
+    request:
+      actions:
+        delete: Избриши
+        delete_admin_only: Само администратор може да брише нарачки.
+        delete_confirm: 'Трајно избриши ја нарачката #%{customer_id}? Ќе се избришат и испратените SMS пораки за неа.'
+        deleted: 'Нарачката #%{customer_id} е избришана.'
+        duplicate: Дуплирај
+      labels:
+        complaint: Рекламација
+        complaint_checkbox: Рекламација (бесплатно — без SMS понуда и без плаќање)
+        complaint_free: Рекламација — бесплатно
+        skip_phone_validation: Не го валидирај телефонот (за странски или нестандардни броеви)
+      new:
+        duplicate_lede: 'Копија од нарачка #%{customer_id} — податоците на клиентот се пополнети. Изберете датум на подигнување и зачувајте.'

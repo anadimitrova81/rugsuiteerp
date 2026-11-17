@@ -345,7 +345,7 @@ tr:
       title: "Siparişler"
       new_button: "Yeni sipariş"
       filter_status_label: "Duruma göre filtrele"
-      search_placeholder: "Telefon veya sipariş numarasıyla ara"
+      search_placeholder: "Telefon, sipariş numarası veya adresle ara"
       from: "Başlangıç"
       to: "Bitiş"
       apply: "Uygula"

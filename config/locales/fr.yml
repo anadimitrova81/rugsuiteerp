@@ -345,7 +345,7 @@ fr:
       title: "Commandes"
       new_button: "Nouvelle commande"
       filter_status_label: "Filtrer par statut"
-      search_placeholder: "Rechercher par téléphone ou numéro de commande"
+      search_placeholder: "Rechercher par téléphone, numéro de commande ou adresse"
       from: "Du"
       to: "Au"
       apply: "Appliquer"

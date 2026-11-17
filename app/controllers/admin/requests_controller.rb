@@ -2,6 +2,16 @@ module Admin
   class RequestsController < BaseController
     PER_PAGE = 25
 
+    # Admin list order: newest first by the human-facing customer_id. Its shape
+    # is a fixed 6-digit date prefix followed by an unpadded daily counter, so
+    # neither a whole-string nor a whole-number sort works: casting to a number
+    # makes a 2-digit counter (…10) outrank a 1-digit one (…9) from a later day.
+    # Sort the two parts independently — date prefix, then counter as a number.
+    CUSTOMER_ID_DESC = Arel.sql(
+      "LEFT(customer_id, 6) DESC NULLS LAST, " \
+      "NULLIF(SUBSTRING(customer_id FROM 7), '')::bigint DESC NULLS LAST",
+    )
+
     before_action :block_demo_creation, only: %i[new create]
     # The edit form is also off-limits in the demo (update is caught by the
     # global write guard; this stops the form from even rendering).
@@ -21,8 +31,11 @@ module Admin
         load_coordinator_index
         @pending_price_notifications_count = pending_price_notifications_count
       elsif @query.present? && current_admin.admin?
-        like = "%#{@query}%"
-        scope = admin_scope.where("phone ILIKE :q OR customer_id ILIKE :q", q: like).order(created_at: :desc)
+        like = "%#{Request.sanitize_sql_like(@query)}%"
+        scope = admin_scope.where(
+          "phone ILIKE :q OR customer_id ILIKE :q OR address ILIKE :q OR verified_address ILIKE :q OR city ILIKE :q",
+          q: like,
+        ).order(CUSTOMER_ID_DESC)
         paginate(scope, scope.count)
         @pending_price_notifications_count = pending_price_notifications_count
       else
@@ -30,7 +43,7 @@ module Admin
         @status_counts = admin_scope.group(:status).count
         requested = params[:status]
         @current_status = @tab_statuses.include?(requested) ? requested : @tab_statuses.first
-        scope = admin_scope.where(status: @current_status).order(created_at: :desc)
+        scope = admin_scope.where(status: @current_status).order(CUSTOMER_ID_DESC)
         paginate(scope, @status_counts[@current_status].to_i)
         @pending_price_notifications_count = pending_price_notifications_count
       end
@@ -50,10 +63,7 @@ module Admin
     end
 
     def new
-      # Couriers record walk-up pickups that are already in hand, so their form
-      # defaults to "picked_up" on today's date; everyone else starts a pending
-      # order.
-      @request = Request.new(current_admin.courier? ? { status: "picked_up", pick_up_at: Date.current } : { status: "pending" })
+      @request = Request.new(new_request_attributes)
       @statuses = Request.statuses_for(current_admin.role)
     end
 
@@ -113,7 +123,35 @@ module Admin
       end
     end
 
+    # Admins can delete an order outright — for duplicates and test entries.
+    # Its SMS log entries go with it.
+    def destroy
+      unless current_admin.admin?
+        redirect_to admin_requests_path, alert: t("admin.request.actions.delete_admin_only") and return
+      end
+
+      request_record = Request.find(params[:id])
+      request_record.destroy!
+      redirect_to admin_requests_path, notice: t("admin.request.actions.deleted", customer_id: request_record.customer_id)
+    end
+
     private
+
+    # Attributes for a blank new order. Couriers record walk-up pickups already
+    # in hand, so their form defaults to "picked_up" today. Admins can also
+    # duplicate an existing order for a repeat client, carrying over the client
+    # and location details while leaving the date and measurements blank.
+    def new_request_attributes
+      return { status: "picked_up", pick_up_at: Date.current } if current_admin.courier?
+
+      source = params[:duplicate_from].present? && scoped_requests.find_by(id: params[:duplicate_from])
+      if source
+        @duplicated_from = source.customer_id
+        return source.duplicable_attributes.merge("status" => "pending")
+      end
+
+      { status: "pending" }
+    end
 
     # Block creating orders once the factory hits its plan's monthly quota.
     # Points admins at the plan page to upgrade. The model validation is the
@@ -216,7 +254,7 @@ module Admin
     def request_params
       params.
         require(:request).
-        permit(:phone, :city, :address, :verified_address, :pick_up_at, :delivery_at, :status, :pick_up_notes, :delivery_notes, :items_only, :number_of_items, :weight, :pay_by_invoice, :bulk_price, :paid_by_card)
+        permit(:phone, :city, :address, :verified_address, :pick_up_at, :delivery_at, :status, :pick_up_notes, :delivery_notes, :items_only, :number_of_items, :weight, :pay_by_invoice, :complaint, :bulk_price, :paid_by_card, :skip_phone_validation)
     end
   end
 end

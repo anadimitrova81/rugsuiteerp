@@ -345,7 +345,7 @@ bg:
       title: "Поръчки"
       new_button: "Нова поръчка"
       filter_status_label: "Филтриране по статус"
-      search_placeholder: "Търсене по телефон или номер на поръчка"
+      search_placeholder: "Търсене по телефон, номер на поръчка или адрес"
       from: "От"
       to: "До"
       apply: "Приложи"

@@ -1,0 +1,18 @@
+# Strings for features ported from nexus-cleaning (2026-11 sync).
+---
+tr:
+  admin:
+    request:
+      actions:
+        delete: Sil
+        delete_admin_only: Siparişleri yalnızca yönetici silebilir.
+        delete_confirm: "#%{customer_id} numaralı sipariş kalıcı olarak silinsin mi? Gönderilen SMS'leri de silinecek."
+        deleted: "#%{customer_id} numaralı sipariş silindi."
+        duplicate: Çoğalt
+      labels:
+        complaint: Şikâyet
+        complaint_checkbox: Şikâyet (ücretsiz — SMS teklifi ve ödeme yok)
+        complaint_free: Şikâyet — ücretsiz
+        skip_phone_validation: Telefonu doğrulama (yabancı veya standart dışı numaralar için)
+      new:
+        duplicate_lede: "#%{customer_id} numaralı siparişin kopyası — müşteri bilgileri dolduruldu. Bir alım tarihi seçip kaydedin."

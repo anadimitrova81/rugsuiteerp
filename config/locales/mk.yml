@@ -345,7 +345,7 @@ mk:
       title: "Нарачки"
       new_button: "Нова нарачка"
       filter_status_label: "Филтрирај по статус"
-      search_placeholder: "Пребарај по телефон или број на нарачка"
+      search_placeholder: "Пребарај по телефон, број на нарачка или адреса"
       from: "Од"
       to: "До"
       apply: "Примени"

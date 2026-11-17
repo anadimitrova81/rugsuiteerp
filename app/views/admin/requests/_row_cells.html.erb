@@ -32,4 +32,4 @@
     <span class="requests-list-pickup-date">—</span>
   <% end %>
 </span>
-<span><span class="status-badge status-<%= req.status %>"><%= Request.status_labels[req.status] %></span></span>
+<span><span class="status-badge status-<%= req.status %>"><%= Request.status_labels[req.status] %></span><%= complaint_tag(req) %></span>

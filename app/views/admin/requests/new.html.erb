@@ -8,7 +8,11 @@
     <div>
       <p class="request-detail-eyebrow"><%= t("admin.request.new.eyebrow") %></p>
       <h1 class="request-detail-title"><%= t("admin.request.new.title") %></h1>
-      <p class="request-detail-subtitle"><%= t("admin.request.new.lede") %></p>
+      <% if @duplicated_from.present? %>
+        <p class="request-detail-subtitle"><%= t("admin.request.new.duplicate_lede", customer_id: @duplicated_from) %></p>
+      <% else %>
+        <p class="request-detail-subtitle"><%= t("admin.request.new.lede") %></p>
+      <% end %>
     </div>
     <div class="request-detail-actions">
       <%= link_to admin_requests_path, class: "btn btn-secondary" do %>
@@ -42,6 +46,10 @@
     <section class="form-section">
       <h2 class="form-section-title"><%= t("admin.request.new.section_contact") %></h2>
       <%= form.telephone_field :phone, label: t("admin.request.labels.phone"), placeholder: t("admin.request.new.phone_placeholder") %>
+      <label class="form-check">
+        <%= form.check_box :skip_phone_validation %>
+        <span><%= t("admin.request.labels.skip_phone_validation") %></span>
+      </label>
     </section>
 
     <section class="form-section">
@@ -88,6 +96,10 @@
       <label class="form-check">
         <%= form.check_box :bulk_price %>
         <span><%= t("admin.request.edit.bulk_price_label", rate: current_factory.price_per_kg_bulk, currency: "€") %></span>
+      </label>
+      <label class="form-check">
+        <%= form.check_box :complaint %>
+        <span><%= t("admin.request.labels.complaint_checkbox") %></span>
       </label>
       <div class="form-row form-row-1-1">
         <%= form.number_field :number_of_items, label: t("admin.request.labels.items"), placeholder: "—", min: 0, step: 1 %>

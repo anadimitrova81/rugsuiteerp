@@ -1,0 +1,18 @@
+# Strings for features ported from nexus-cleaning (2026-11 sync).
+---
+bg:
+  admin:
+    request:
+      actions:
+        delete: Изтрий
+        delete_admin_only: Само администратор може да изтрива поръчки.
+        delete_confirm: 'Изтрий поръчка #%{customer_id} безвъзвратно? Ще бъдат изтрити и изпратените за нея SMS.'
+        deleted: 'Поръчка #%{customer_id} е изтрита.'
+        duplicate: Дублирай
+      labels:
+        complaint: Рекламация
+        complaint_checkbox: Рекламация (безплатно — без SMS оферта и без плащане)
+        complaint_free: Рекламация — безплатно
+        skip_phone_validation: Не валидирай телефона (за чуждестранни или нестандартни номера)
+      new:
+        duplicate_lede: 'Копие на поръчка #%{customer_id} — данните на клиента са попълнени. Задайте дата на вземане и запишете.'
