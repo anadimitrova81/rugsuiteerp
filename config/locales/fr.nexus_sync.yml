@@ -2,6 +2,20 @@
 ---
 fr:
   admin:
+    reports:
+      couriers:
+        card: Carte
+        cash: Espèces
+        courier: Coursier
+        empty: Aucune commande livrée sur la période.
+        invoiced: Sur facture
+        meta: encaissé en espèces et par carte, plus facturé, par date de livraison
+        orders: Commandes
+        title: Livré par coursier
+        total: Total
+        unassigned: Sans coursier
+      kpi:
+        revenue_by_delivery_meta: des commandes livrées, par date de livraison
     request:
       actions:
         delete: Supprimer
@@ -26,6 +40,12 @@ fr:
       reverse_lane_success: 'Tournée du coursier inversée (arrêts : %{count}).'
       reverse_lane_title: Inverse l'ordre des arrêts — le dernier devient le premier
       reverse_lane_too_few: Il faut au moins deux arrêts pour inverser la tournée.
+    sms_log:
+      resend: Renvoyer
+      resend_confirm: Renvoyer le SMS au %{phone} ?
+      resend_failed: Le renvoi au %{phone} a échoué.
+      resend_no_amount: 'La commande #%{customer_id} n''a pas de montant — SMS non envoyé.'
+      resend_sent: SMS renvoyé au %{phone}.
     user:
       index:
         activate_title: Réactiver %{email}

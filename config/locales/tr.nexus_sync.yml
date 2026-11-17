@@ -2,6 +2,20 @@
 ---
 tr:
   admin:
+    reports:
+      couriers:
+        card: Kart
+        cash: Nakit
+        courier: Kurye
+        empty: Bu dönemde teslim edilen sipariş yok.
+        invoiced: Faturalı
+        meta: nakit ve kartla tahsil edilen ile faturalanan, teslim tarihine göre
+        orders: Siparişler
+        title: Kuryeye göre teslim edilen
+        total: Toplam
+        unassigned: Kurye yok
+      kpi:
+        revenue_by_delivery_meta: teslim edilen siparişlerden, teslim tarihine göre
     request:
       actions:
         delete: Sil
@@ -26,6 +40,12 @@ tr:
       reverse_lane_success: 'Kuryenin rotası ters çevrildi (durak: %{count}).'
       reverse_lane_title: Durak sırasını ters çevirir — son durak ilk olur
       reverse_lane_too_few: Rotayı ters çevirmek için en az iki durak gerekir.
+    sms_log:
+      resend: Tekrar gönder
+      resend_confirm: SMS %{phone} numarasına tekrar gönderilsin mi?
+      resend_failed: "%{phone} numarasına tekrar gönderim başarısız oldu."
+      resend_no_amount: "#%{customer_id} numaralı siparişin tutarı yok — SMS gönderilmedi."
+      resend_sent: SMS %{phone} numarasına tekrar gönderildi.
     user:
       index:
         activate_title: "%{email} hesabını etkinleştir"

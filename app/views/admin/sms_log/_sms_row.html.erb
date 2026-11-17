@@ -49,5 +49,11 @@
         <dd><pre class="sms-log-body"><%= notif.body %></pre></dd>
       </div>
     </dl>
+    <div class="sms-log-actions">
+      <%= button_to t("admin.sms_log.resend"), admin_resend_sms_path(notif), method: :post,
+                    class: "btn btn-secondary",
+                    disabled: current_factory.demo?,
+                    form: { data: { turbo_confirm: t("admin.sms_log.resend_confirm", phone: req.phone) } } %>
+    </div>
   </div>
 </details>

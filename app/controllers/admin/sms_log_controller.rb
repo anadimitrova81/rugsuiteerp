@@ -37,6 +37,20 @@ module Admin
       end
     end
 
+    # Sends the order's price quote again, rebuilt from its current data, so a
+    # corrected phone or amount goes out. Logged as a new entry.
+    def resend
+      request = Notification.find(params[:id]).request
+
+      if request.amount.nil?
+        redirect_to admin_sms_log_path, alert: t("admin.sms_log.resend_no_amount", customer_id: request.customer_id)
+      elsif Notification.deliver_price_quote(request).status == "sent"
+        redirect_to admin_sms_log_path, notice: t("admin.sms_log.resend_sent", phone: request.phone)
+      else
+        redirect_to admin_sms_log_path, alert: t("admin.sms_log.resend_failed", phone: request.phone)
+      end
+    end
+
     private
 
     def parse_date(value)

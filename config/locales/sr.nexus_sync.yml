@@ -2,6 +2,20 @@
 ---
 sr:
   admin:
+    reports:
+      couriers:
+        card: Картица
+        cash: Готовина
+        courier: Курир
+        empty: Нема испоручених поруџбина у периоду.
+        invoiced: По фактури
+        meta: наплаћено у готовини и картицом, плус фактурисано, по датуму испоруке
+        orders: Поруџбине
+        title: Испоручено по куририма
+        total: Укупно
+        unassigned: Без курира
+      kpi:
+        revenue_by_delivery_meta: од испоручених поруџбина, по датуму испоруке
     request:
       actions:
         delete: Обриши
@@ -26,6 +40,12 @@ sr:
       reverse_lane_success: 'Рута курира је обрнута (стајалишта: %{count}).'
       reverse_lane_title: Обрће редослед стајалишта — последње постаје прво
       reverse_lane_too_few: Потребна су најмање два стајалишта да би се рута обрнула.
+    sms_log:
+      resend: Пошаљи поново
+      resend_confirm: Поново послати SMS на %{phone}?
+      resend_failed: Поновно слање на %{phone} није успело.
+      resend_no_amount: 'Поруџбина #%{customer_id} нема износ — SMS није послат.'
+      resend_sent: SMS на %{phone} је поново послат.
     user:
       index:
         activate_title: Активирај %{email}

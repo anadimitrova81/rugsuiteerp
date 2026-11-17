@@ -2,6 +2,20 @@
 ---
 mk:
   admin:
+    reports:
+      couriers:
+        card: Со картичка
+        cash: Во готово
+        courier: Курир
+        empty: Нема доставени нарачки во периодот.
+        invoiced: Со фактура
+        meta: наплатено во готово и со картичка, плус фактурирано, по датум на испорака
+        orders: Нарачки
+        title: Доставено по курири
+        total: Вкупно
+        unassigned: Без курир
+      kpi:
+        revenue_by_delivery_meta: од доставени нарачки, по датум на испорака
     request:
       actions:
         delete: Избриши
@@ -26,6 +40,12 @@ mk:
       reverse_lane_success: 'Рутата на курирот е превртена (постојки: %{count}).'
       reverse_lane_title: Го превртува редоследот — последната постојка станува прва
       reverse_lane_too_few: Потребни се најмалку две постојки за да се преврти рутата.
+    sms_log:
+      resend: Испрати повторно
+      resend_confirm: Повторно испрати SMS до %{phone}?
+      resend_failed: Повторното испраќање до %{phone} не успеа.
+      resend_no_amount: 'Нарачката #%{customer_id} нема износ — SMS не е испратен.'
+      resend_sent: SMS до %{phone} е повторно испратен.
     user:
       index:
         activate_title: Активирај %{email}

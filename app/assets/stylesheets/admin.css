@@ -179,6 +179,8 @@
   word-break: break-word;
 }
 
+.sms-log-actions { display: flex; justify-content: flex-end; }
+
 .sms-log-body {
   margin: 0;
   padding: 14px 16px;
@@ -2829,3 +2831,19 @@
 .request-detail-actions form:last-child .btn-icon[data-tooltip]:hover::after {
   transform: translateY(0);
 }
+
+/* Reports: deliveries per courier */
+.report-table-wrapper { margin: 0; }
+.report-courier-table th.num,
+.report-courier-table td.num {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.report-courier-table td.report-courier-total { font-weight: 600; }
+.report-courier-table tfoot td {
+  border-top: 2px solid var(--color-border);
+  font-weight: 600;
+  color: var(--color-text);
+}
+.report-courier-unassigned { color: var(--color-text-muted); font-style: italic; }

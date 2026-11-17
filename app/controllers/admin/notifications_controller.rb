@@ -14,20 +14,9 @@ module Admin
       sent = 0
       failed = 0
       pending.find_each do |request|
-        body = Sms::PriceQuoteMessage.build(request)
-        begin
-          Sms::Sender.deliver(to: request.phone, body: body)
-          request.notifications.create!(
-            kind: "price_quote", channel: "sms", recipient: request.phone,
-            body: body, status: "sent", sent_at: Time.current,
-          )
+        if Notification.deliver_price_quote(request).status == "sent"
           sent += 1
-        rescue Sms::Sender::DeliveryError => e
-          Rails.logger.error("[price_quotes] failed ##{request.customer_id}: #{e.message}")
-          request.notifications.create!(
-            kind: "price_quote", channel: "sms", recipient: request.phone,
-            body: body, status: "failed", error_message: e.message, sent_at: Time.current,
-          )
+        else
           failed += 1
         end
       end

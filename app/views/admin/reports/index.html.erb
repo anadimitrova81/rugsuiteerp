@@ -49,7 +49,7 @@
     <div class="report-kpi report-kpi-accent">
       <span class="report-kpi-label"><%= t("admin.reports.kpi.revenue") %></span>
       <span class="report-kpi-value"><%= number_with_precision(@kpis[:revenue], precision: 2) %> <%= current_factory.currency %></span>
-      <span class="report-kpi-meta"><%= t("admin.reports.kpi.revenue_meta") %></span>
+      <span class="report-kpi-meta"><%= t("admin.reports.kpi.revenue_by_delivery_meta") %></span>
     </div>
     <div class="report-kpi">
       <span class="report-kpi-label"><%= t("admin.reports.kpi.cancelled") %></span>
@@ -153,6 +153,62 @@
       </div>
     <% else %>
       <p class="report-empty"><%= t("admin.reports.empty_completed") %></p>
+    <% end %>
+  </section>
+
+  <section class="report-card">
+    <header class="report-card-header">
+      <h2><%= t("admin.reports.couriers.title") %></h2>
+      <span class="report-card-meta"><%= t("admin.reports.couriers.meta") %></span>
+    </header>
+    <% if @courier_collections.any? %>
+      <% cur = current_factory.currency %>
+      <div class="requests-table-wrapper report-table-wrapper">
+        <table class="requests-table report-courier-table">
+          <thead>
+            <tr>
+              <th><%= t("admin.reports.couriers.courier") %></th>
+              <th class="num"><%= t("admin.reports.couriers.orders") %></th>
+              <th class="num"><%= t("admin.reports.couriers.cash") %></th>
+              <th class="num"><%= t("admin.reports.couriers.card") %></th>
+              <th class="num"><%= t("admin.reports.couriers.invoiced") %></th>
+              <th class="num"><%= t("admin.reports.couriers.total") %></th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @courier_collections.each do |row| %>
+              <tr>
+                <td>
+                  <% if row[:courier] %>
+                    <%= row[:courier].email %>
+                  <% else %>
+                    <span class="report-courier-unassigned"><%= t("admin.reports.couriers.unassigned") %></span>
+                  <% end %>
+                </td>
+                <td class="num"><%= row[:count] %></td>
+                <td class="num"><%= number_with_precision(row[:cash], precision: 2) %> <%= cur %></td>
+                <td class="num"><%= number_with_precision(row[:card], precision: 2) %> <%= cur %></td>
+                <td class="num"><%= number_with_precision(row[:invoiced], precision: 2) %> <%= cur %></td>
+                <td class="num report-courier-total"><%= number_with_precision(row[:total], precision: 2) %> <%= cur %></td>
+              </tr>
+            <% end %>
+          </tbody>
+          <% if @courier_collections.size > 1 %>
+            <tfoot>
+              <tr>
+                <td><%= t("admin.reports.couriers.total") %></td>
+                <td class="num"><%= @courier_collections.sum { |r| r[:count] } %></td>
+                <td class="num"><%= number_with_precision(@courier_collections.sum { |r| r[:cash] }, precision: 2) %> <%= cur %></td>
+                <td class="num"><%= number_with_precision(@courier_collections.sum { |r| r[:card] }, precision: 2) %> <%= cur %></td>
+                <td class="num"><%= number_with_precision(@courier_collections.sum { |r| r[:invoiced] }, precision: 2) %> <%= cur %></td>
+                <td class="num report-courier-total"><%= number_with_precision(@courier_collections.sum { |r| r[:total] }, precision: 2) %> <%= cur %></td>
+              </tr>
+            </tfoot>
+          <% end %>
+        </table>
+      </div>
+    <% else %>
+      <p class="report-empty"><%= t("admin.reports.couriers.empty") %></p>
     <% end %>
   </section>
 

@@ -19,7 +19,9 @@ module Admin
 
       range = since_at..until_at
       created_in_period = Request.where(created_at: range)
-      delivered_in_period = Request.where(status: "delivered", updated_at: range)
+      # Delivered orders count by their delivery date — the day the money is
+      # earned — so editing an old order later doesn't move it into this period.
+      delivered_in_period = Request.where(status: "delivered", delivery_at: range)
       cancelled_in_period = Request.where(status: "cancelled", updated_at: range)
 
       @kpis = {
@@ -39,6 +41,8 @@ module Admin
         weight: delivered_in_period.average(:weight)&.to_f,
         amount: delivered_in_period.average(:amount)&.to_f,
       }
+
+      @courier_collections = build_courier_collections(range)
 
       @daily_volume = build_daily(Request, range, start_date, end_date)
 
@@ -78,6 +82,32 @@ module Admin
         since_at = PERIODS[@period_key][:since].call
         [ since_at, nil, since_at.in_time_zone.to_date, Date.current ]
       end
+    end
+
+    # The period's deliveries per courier, by delivery date: what the courier
+    # collected in hand (cash / card — the same rules as their own "collected
+    # today" box) and what is billed by invoice instead, so the table adds up
+    # to the revenue KPI. Returns rows of
+    # { courier:, count:, cash:, card:, invoiced:, total: }, biggest total
+    # first; orders with no delivery courier recorded end up in a row with
+    # courier: nil.
+    def build_courier_collections(range)
+      delivered = Request.where(status: "delivered", delivery_at: range)
+      counts = delivered.group(:delivery_courier_id).count
+      return [] if counts.empty?
+
+      totals = delivered.group(:delivery_courier_id).sum(:amount)
+      collected = delivered.merge(Request.collected_by_courier)
+      cash = collected.where(paid_by_card: false).group(:delivery_courier_id).sum(:amount)
+      cards = collected.where(paid_by_card: true).group(:delivery_courier_id).sum(:amount)
+      couriers = User.where(id: counts.keys.compact).index_by(&:id)
+
+      counts.keys.map do |courier_id|
+        total = totals[courier_id].to_f
+        row = { courier: couriers[courier_id], count: counts[courier_id],
+                cash: cash[courier_id].to_f, card: cards[courier_id].to_f, total: total, }
+        row.merge(invoiced: (total - row[:cash] - row[:card]).round(2))
+      end.sort_by { |row| [-row[:total], row[:courier]&.email.to_s] }
     end
 
     def build_daily(relation, range, start_date, end_date)

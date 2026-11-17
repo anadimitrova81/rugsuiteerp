@@ -93,6 +93,7 @@ Rails.application.routes.draw do
     end
 
     get "sms_log", to: "sms_log#index", as: :sms_log
+    post "sms_log/:id/resend", to: "sms_log#resend", as: :resend_sms
 
     resource :settings, only: %i[show update]
     resource :subscription, only: %i[show update] do

@@ -2,6 +2,20 @@
 ---
 bg:
   admin:
+    reports:
+      couriers:
+        card: С карта
+        cash: В брой
+        courier: Куриер
+        empty: Няма доставени поръчки в периода.
+        invoiced: По фактура
+        meta: инкасирано в брой и с карта, плюс фактурираното, по дата на доставка
+        orders: Поръчки
+        title: Доставено по куриери
+        total: Общо
+        unassigned: Без куриер
+      kpi:
+        revenue_by_delivery_meta: от доставени поръчки, по дата на доставка
     request:
       actions:
         delete: Изтрий
@@ -26,6 +40,12 @@ bg:
       reverse_lane_success: 'Маршрутът на куриера е обърнат (спирки: %{count}).'
       reverse_lane_title: Обръща реда на спирките — последната става първа
       reverse_lane_too_few: Нужни са поне две спирки, за да се обърне маршрутът.
+    sms_log:
+      resend: Изпрати отново
+      resend_confirm: Изпрати отново SMS до %{phone}?
+      resend_failed: Повторното изпращане до %{phone} се провали.
+      resend_no_amount: 'Поръчка #%{customer_id} няма сума — SMS не е изпратен.'
+      resend_sent: SMS до %{phone} е изпратен отново.
     user:
       index:
         activate_title: Активирай %{email}

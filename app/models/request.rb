@@ -149,6 +149,11 @@ class Request < ApplicationRecord
   # gets none; nor do orders whose phone check was switched off (foreign or
   # non-standard numbers) — the SMS provider rejects those, so they'd only
   # clutter the send with failures.
+  # Money the courier takes in hand on delivery, versus orders billed by
+  # invoice ("pay by invoice").
+  scope :collected_by_courier, -> { where(pay_by_invoice: false) }
+  scope :billed_by_invoice, -> { where(pay_by_invoice: true) }
+
   scope :awaiting_price_notification,
         -> { where(status: "in_progress", pay_by_invoice: false, complaint: false, skip_phone_validation: false)
              .where("weight IS NOT NULL OR items_only = TRUE")

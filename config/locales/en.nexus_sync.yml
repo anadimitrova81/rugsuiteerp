@@ -2,6 +2,20 @@
 ---
 en:
   admin:
+    reports:
+      couriers:
+        card: Card
+        cash: Cash
+        courier: Courier
+        empty: No delivered orders in the period.
+        invoiced: By invoice
+        meta: collected in cash and by card, plus invoiced, by delivery date
+        orders: Orders
+        title: Delivered by courier
+        total: Total
+        unassigned: No courier
+      kpi:
+        revenue_by_delivery_meta: from delivered orders, by delivery date
     request:
       actions:
         delete: Delete
@@ -26,6 +40,12 @@ en:
       reverse_lane_success: 'Courier''s route reversed (stops: %{count}).'
       reverse_lane_title: Reverses the stop order — the last stop becomes the first
       reverse_lane_too_few: At least two stops are needed to reverse the route.
+    sms_log:
+      resend: Send again
+      resend_confirm: Send the SMS to %{phone} again?
+      resend_failed: Sending to %{phone} again failed.
+      resend_no_amount: 'Order #%{customer_id} has no amount — SMS not sent.'
+      resend_sent: SMS to %{phone} sent again.
     user:
       index:
         activate_title: Activate %{email}
