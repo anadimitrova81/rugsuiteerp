@@ -7,35 +7,11 @@ module Routes
   #   * Free, no quota, no key.
   #   * Doesn't account for traffic, one-way streets, road closures.
   #   * Distances use Haversine — straight-line, not driving distance.
-  # For ~10 stops in the Plovdiv area this gives a sensible order in practice;
+  # For ~10 stops in one town this gives a sensible order in practice;
   # couriers can always re-shuffle by following Google Maps' actual directions.
   class DailyRouteOptimizer
-    # The factory: с. Труд, ул. Карловско шосе 54A. Couriers start and
-    # end every route here, so this drives both the haversine fallback
-    # ordering and the origin/destination of the Google Directions call.
-    DEPOT = [42.2189958, 24.7289106].freeze
-    DEPOT_ADDRESS = "с. Труд, ул. Карловско шосе 54A".freeze
-
-    # Approximate centroids for served settlements. Used as a fallback when a
-    # request has no coordinate-form `verified_address`.
-    CITY_CENTROIDS = {
-      "Пловдив" => [42.1454, 24.7497],
-      "Асеновград" => [42.0117, 24.8740],
-      "Брани поле" => [42.0683, 24.6489],
-      "Брестник" => [42.0950, 24.7783],
-      "Брестовица" => [42.0656, 24.6094],
-      "Войводиново" => [42.2042, 24.7700],
-      "Злати трап" => [42.1408, 24.5694],
-      "Йоаким Груево" => [42.0953, 24.5825],
-      "Крумово" => [42.0792, 24.7878],
-      "Марково" => [42.0903, 24.6697],
-      "Перущица" => [42.0508, 24.5547],
-      "Първенец" => [42.0794, 24.6569],
-      "Строево" => [42.1875, 24.6253],
-      "Труд" => [42.2222, 24.7256],
-      "Храбрино" => [42.0233, 24.6303],
-      "Цалапица" => [42.1872, 24.5467],
-    }.freeze
+    # The depot (start and end of every route) and the per-city fallback
+    # coordinates come from the company's settings — see FactoryRoutePlanning.
 
     EARTH_RADIUS_KM = 6371.0
 
@@ -49,7 +25,7 @@ module Routes
     # distance/time when Google supplied them.
     def self.order_lane(stops)
       google = Google::Routes.optimize(stops: stops)
-      ordered = google&.ordered_stops || nearest_neighbour_order(stops)
+      ordered = google&.ordered_stops || nearest_neighbour_order(stops, origin: origin_for(stops))
 
       Request.transaction do
         ordered.each_with_index do |request, index|
@@ -64,29 +40,41 @@ module Routes
       }
     end
 
-    def self.nearest_neighbour_order(stops)
+    def self.nearest_neighbour_order(stops, origin:)
       remaining = stops.dup
       ordered = []
-      current = DEPOT
+      current = origin
 
       while remaining.any?
-        next_stop = remaining.min_by { |stop| haversine(current, coordinates_for(stop)) }
+        next_stop = remaining.min_by { |stop| haversine(current, coordinates_for(stop, origin: origin)) }
         ordered << next_stop
-        current = coordinates_for(next_stop)
+        current = coordinates_for(next_stop, origin: origin)
         remaining.delete(next_stop)
       end
 
       ordered
     end
 
-    # Coordinates used for routing this request. Falls back to the city centroid
-    # when no `verified_address` (lat,lng) has been pasted by the coordinator.
-    def self.coordinates_for(request)
-      if request.verified_address.to_s.match?(ApplicationHelper::COORDINATES_REGEX)
-        request.verified_address.split(",").map(&:to_f)
-      else
-        CITY_CENTROIDS[request.city] || DEPOT
+    # Where routes start and end: the company's depot (or the middle of its
+    # service area). With neither set yet, the middle of the pinned stops —
+    # and as a last resort a fixed point, which still yields a consistent
+    # order, just without a meaningful start.
+    def self.origin_for(stops, factory: Request.current_factory)
+      factory.route_origin || begin
+        pins = stops.filter_map { |s| pinned_coordinates(s) }
+        pins.any? ? [ pins.sum { |c| c[0] } / pins.size, pins.sum { |c| c[1] } / pins.size ] : [ 0.0, 0.0 ]
       end
+    end
+
+    def self.pinned_coordinates(request)
+      request.verified_address.split(",").map(&:to_f) if request.verified_address.to_s.match?(ApplicationHelper::COORDINATES_REGEX)
+    end
+
+    # Coordinates used for routing this request: the coordinator's pin
+    # (`verified_address` as lat,lng), else its city's coordinate from the
+    # company settings, else the route origin.
+    def self.coordinates_for(request, origin:, factory: Request.current_factory)
+      pinned_coordinates(request) || factory.coordinates_for_city(request.city) || origin
     end
 
     # Used by `nearest_neighbour_order` (the fallback ordering heuristic when
@@ -117,6 +105,8 @@ module Routes
     def run
       stops = open_stops_for(@date)
       return empty_result if stops.empty?
+
+      @origin = self.class.origin_for(stops)
 
       courier_ids = @courier_ids.presence || default_courier_ids
       return single_lane_run(stops) if courier_ids.size <= 1
@@ -187,15 +177,15 @@ module Routes
     def distribute_across_couriers(stops, courier_ids)
       remaining = stops.dup
       lanes = courier_ids.index_with { [] }
-      current_positions = courier_ids.index_with { DEPOT }
+      current_positions = courier_ids.index_with { @origin }
 
       while remaining.any?
         # Courier with fewest stops, ties broken by lower id for determinism.
         next_courier = courier_ids.min_by { |id| [lanes[id].size, id] }
         from = current_positions[next_courier]
-        stop = remaining.min_by { |s| self.class.haversine(from, self.class.coordinates_for(s)) }
+        stop = remaining.min_by { |s| self.class.haversine(from, coordinates_for(s)) }
         lanes[next_courier] << stop
-        current_positions[next_courier] = self.class.coordinates_for(stop)
+        current_positions[next_courier] = coordinates_for(stop)
         remaining.delete(stop)
       end
 
@@ -233,7 +223,7 @@ module Routes
         break if donor.size <= 1
 
         receiver_centre = centroid_of(lanes[receiver_id])
-        stop = donor.min_by { |s| [self.class.haversine(self.class.coordinates_for(s), receiver_centre), s.id] }
+        stop = donor.min_by { |s| [self.class.haversine(coordinates_for(s), receiver_centre), s.id] }
 
         new_donor = donor - [stop]
         new_receiver = lanes[receiver_id] + [stop]
@@ -254,21 +244,21 @@ module Routes
       return 0.0 if stops.empty?
 
       km = 0.0
-      current = DEPOT
+      current = @origin
       nearest_neighbour_order(stops).each do |stop|
-        coord = self.class.coordinates_for(stop)
+        coord = coordinates_for(stop)
         km += self.class.haversine(current, coord)
         current = coord
       end
-      km += self.class.haversine(current, DEPOT)
+      km += self.class.haversine(current, @origin)
 
       km * ESTIMATED_MINUTES_PER_KM + stops.size * STOP_SERVICE_MINUTES
     end
 
     def centroid_of(stops)
-      return DEPOT if stops.empty?
+      return @origin if stops.empty?
 
-      coords = stops.map { |s| self.class.coordinates_for(s) }
+      coords = stops.map { |s| coordinates_for(s) }
       [coords.sum { |c| c[0] } / coords.size, coords.sum { |c| c[1] } / coords.size]
     end
 
@@ -284,7 +274,11 @@ module Routes
     end
 
     def nearest_neighbour_order(stops)
-      self.class.nearest_neighbour_order(stops)
+      self.class.nearest_neighbour_order(stops, origin: @origin)
+    end
+
+    def coordinates_for(stop)
+      self.class.coordinates_for(stop, origin: @origin)
     end
   end
 end

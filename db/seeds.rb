@@ -29,6 +29,9 @@ demo_factory = Factory.find_or_create_by!(slug: DemoCompanySeeder::SLUG) do |f|
     Пловдив Асеновград Брестник Брестовица Войводиново Крумово Марково
     Перущица Първенец Строево Труд Храбрино Цалапица
   ]
+  # Pasted coordinates need no geocoding API key; city coordinates are
+  # geocoded on save when a key is configured.
+  f.depot_address = "42.2189958, 24.7289106"
 end
 
 # ---------- Acme (UK, en/GBP) ----------

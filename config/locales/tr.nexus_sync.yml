@@ -1,6 +1,10 @@
 # Strings for features ported from nexus-cleaning (2026-11 sync).
 ---
 tr:
+  activerecord:
+    attributes:
+      factory:
+        depot_address: Depo adresi
   admin:
     nav:
       heading_analytics: Analizler
@@ -41,6 +45,9 @@ tr:
         pick_up_at_not_working_day: 'çalışma günü değil — alım günlerimiz: %{days}'
     routes:
       balance_time: Süreyi dengele
+      depot_missing: Depo (rotaların başlangıç ve bitişi) ayarlanmadı; mesafeler ve süre dengeleme yaklaşıktır.
+      depot_missing_link: Ayarlar'dan belirleyin.
+      depot_not_set: Ayarlanmadı
       optimize_lane_button: Optimize et
       optimize_lane_confirm: Bu kuryenin durakları yeniden sıralanacak. Devam edilsin mi?
       optimize_lane_empty: Optimize edilecek durak yok.
@@ -49,6 +56,17 @@ tr:
       reverse_lane_success: 'Kuryenin rotası ters çevrildi (durak: %{count}).'
       reverse_lane_title: Durak sırasını ters çevirir — son durak ilk olur
       reverse_lane_too_few: Rotayı ters çevirmek için en az iki durak gerekir.
+    settings:
+      errors:
+        depot_not_found: bulunamadı. Adresi kontrol edin veya Google Haritalar'dan "enlem, boylam" yapıştırın.
+      fields:
+        depot_address: Depo adresi (rotaların başlangıç ve bitişi)
+      hints:
+        cities_unlocated: 'Rota planlaması için konum yok: %{cities}. Buradaki işaretsiz duraklar depodan planlanır.'
+        depot_address: Kuryeler buradan çıkar ve buraya döner. Bir adres girin veya Google Haritalar'dan "enlem, boylam" yapıştırın.
+        depot_address_located: 'Konum: %{coordinates}. Kuryeler buradan çıkar ve buraya döner.'
+      placeholders:
+        depot_address: Sanayi Cd. 5, İzmir — veya 38.4237, 27.1428
     sms_log:
       resend: Tekrar gönder
       resend_confirm: SMS %{phone} numarasına tekrar gönderilsin mi?

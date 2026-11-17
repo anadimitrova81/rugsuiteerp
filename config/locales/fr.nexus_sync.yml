@@ -1,6 +1,10 @@
 # Strings for features ported from nexus-cleaning (2026-11 sync).
 ---
 fr:
+  activerecord:
+    attributes:
+      factory:
+        depot_address: L'adresse du dépôt
   admin:
     nav:
       heading_analytics: Analyses
@@ -41,6 +45,9 @@ fr:
         pick_up_at_not_working_day: n'est pas un jour ouvré — nous collectons le %{days}
     routes:
       balance_time: Équilibrer le temps
+      depot_missing: 'Le dépôt (début et fin des tournées) n''est pas défini : les distances et l''équilibrage du temps sont approximatifs.'
+      depot_missing_link: Définissez-le dans Paramètres.
+      depot_not_set: Non défini
       optimize_lane_button: Optimiser
       optimize_lane_confirm: Les arrêts de ce coursier seront réordonnés. Continuer ?
       optimize_lane_empty: Aucun arrêt à optimiser.
@@ -49,6 +56,17 @@ fr:
       reverse_lane_success: 'Tournée du coursier inversée (arrêts : %{count}).'
       reverse_lane_title: Inverse l'ordre des arrêts — le dernier devient le premier
       reverse_lane_too_few: Il faut au moins deux arrêts pour inverser la tournée.
+    settings:
+      errors:
+        depot_not_found: est introuvable. Vérifiez l'adresse ou collez « latitude, longitude » depuis Google Maps.
+      fields:
+        depot_address: Adresse du dépôt (début et fin des tournées)
+      hints:
+        cities_unlocated: 'Pas de position pour les tournées : %{cities}. Les arrêts sans repère y sont planifiés depuis le dépôt.'
+        depot_address: Les coursiers partent d'ici et y reviennent. Saisissez une adresse ou collez « latitude, longitude » depuis Google Maps.
+        depot_address_located: Localisé à %{coordinates}. Les coursiers partent d'ici et y reviennent.
+      placeholders:
+        depot_address: 5 rue de l'Industrie, Lyon — ou 45.7640, 4.8357
     sms_log:
       resend: Renvoyer
       resend_confirm: Renvoyer le SMS au %{phone} ?

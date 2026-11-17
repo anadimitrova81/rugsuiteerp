@@ -1,6 +1,10 @@
 # Strings for features ported from nexus-cleaning (2026-11 sync).
 ---
 bg:
+  activerecord:
+    attributes:
+      factory:
+        depot_address: Адресът на базата
   admin:
     nav:
       heading_analytics: Анализи
@@ -41,6 +45,9 @@ bg:
         pick_up_at_not_working_day: не е работен ден — вземаме в %{days}
     routes:
       balance_time: Изравни времето
+      depot_missing: Базата (началото и краят на маршрутите) не е зададена, затова разстоянията и балансирането на времето са приблизителни.
+      depot_missing_link: Задайте я в Настройки.
+      depot_not_set: Не е зададена
       optimize_lane_button: Оптимизирай
       optimize_lane_confirm: Това ще преподреди спирките на този куриер. Продължи?
       optimize_lane_empty: Няма спирки за оптимизация.
@@ -49,6 +56,17 @@ bg:
       reverse_lane_success: 'Маршрутът на куриера е обърнат (спирки: %{count}).'
       reverse_lane_title: Обръща реда на спирките — последната става първа
       reverse_lane_too_few: Нужни са поне две спирки, за да се обърне маршрутът.
+    settings:
+      errors:
+        depot_not_found: не може да бъде намерен. Проверете адреса или поставете координати „ширина, дължина“ от Google Maps.
+      fields:
+        depot_address: Адрес на базата (начало и край на маршрутите)
+      hints:
+        cities_unlocated: 'Без местоположение за маршрутите: %{cities}. Спирките там без поставена точка се планират от базата.'
+        depot_address: Куриерите тръгват оттук и се връщат тук. Въведете адрес или поставете координати „ширина, дължина“ от Google Maps.
+        depot_address_located: Намерено на %{coordinates}. Куриерите тръгват оттук и се връщат тук.
+      placeholders:
+        depot_address: ул. Индустриална 5, Пловдив — или 42.1454, 24.7497
     sms_log:
       resend: Изпрати отново
       resend_confirm: Изпрати отново SMS до %{phone}?

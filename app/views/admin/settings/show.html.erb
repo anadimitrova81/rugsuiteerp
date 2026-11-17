@@ -120,6 +120,16 @@
           <button type="button" class="btn btn-secondary btn-sm" data-action="city-list#add"><%= t("admin.settings.add_city") %></button>
         </div>
 
+        <%= f.text_field :depot_address, label: t("admin.settings.fields.depot_address"),
+                                         placeholder: t("admin.settings.placeholders.depot_address"),
+                                         hint: (@factory.depot_configured? && !@factory.depot_address.to_s.match?(ApplicationHelper::COORDINATES_REGEX) ?
+                                                  t("admin.settings.hints.depot_address_located", coordinates: @factory.depot_coordinates.map { |c| c.round(5) }.join(", ")) :
+                                                  t("admin.settings.hints.depot_address")) %>
+        <% missing = @factory.service_cities - @factory.city_coordinates.keys %>
+        <% if missing.any? %>
+          <p class="form-hint settings-cities-unlocated"><%= t("admin.settings.hints.cities_unlocated", cities: missing.join(", ")) %></p>
+        <% end %>
+
         <%= f.text_field :business_hours, label: t("admin.settings.fields.business_hours"),
                                           hint: t("admin.settings.hints.business_hours") %>
         <%= f.text_field :pickup_window, label: t("admin.settings.fields.pickup_window"),

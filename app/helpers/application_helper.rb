@@ -270,11 +270,12 @@ module ApplicationHelper
     formatted = addresses.compact_blank.map(&:to_s)
     return nil if formatted.empty?
 
-    # Use the depot's coordinates, not DEPOT_ADDRESS — the address string
-    # ("с. Труд, …") fails Google's geocoder ("Address not found"), which would
-    # break the start/end of the route. Coordinates always resolve.
-    depot = Routes::DailyRouteOptimizer::DEPOT.join(",")
-    segments = [ depot, *formatted, depot ].map { |a| CGI.escape(a) }
+    # Start and end at the depot's coordinates, not its address — an address
+    # string can fail Google's geocoder ("Address not found"), which would
+    # break the start/end of the route. Coordinates always resolve. Without a
+    # depot set, the route simply runs from the first stop to the last.
+    depot = current_factory.depot_coordinates&.join(",")
+    segments = [ depot, *formatted, depot ].compact.map { |a| CGI.escape(a) }
     "https://www.google.com/maps/dir/#{segments.join('/')}?travelmode=driving"
   end
 

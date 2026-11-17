@@ -29,7 +29,7 @@ module Admin
       params.require(:factory).permit(
         :name, :legal_name, :phone, :email,
         :pickup_window, :business_hours, :same_day_cutoff_hour,
-        { service_cities: [] },
+        { service_cities: [] }, :depot_address,
         :facebook_url, :instagram_url, :viber_url, :whatsapp_url,
         :pricing_mode, :currency,
         :price_per_kg, :price_per_kg_bulk, :bulk_weight_threshold,

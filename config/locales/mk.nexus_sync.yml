@@ -1,6 +1,10 @@
 # Strings for features ported from nexus-cleaning (2026-11 sync).
 ---
 mk:
+  activerecord:
+    attributes:
+      factory:
+        depot_address: Адресата на базата
   admin:
     nav:
       heading_analytics: Анализи
@@ -41,6 +45,9 @@ mk:
         pick_up_at_not_working_day: не е работен ден — подигнуваме во %{days}
     routes:
       balance_time: Изедначи го времето
+      depot_missing: Базата (почеток и крај на рутите) не е поставена, па растојанијата и изедначувањето на времето се приближни.
+      depot_missing_link: Поставете ја во Поставки.
+      depot_not_set: Не е поставена
       optimize_lane_button: Оптимизирај
       optimize_lane_confirm: Ова ќе ги преуреди постојките на овој курир. Продолжи?
       optimize_lane_empty: Нема постојки за оптимизација.
@@ -49,6 +56,17 @@ mk:
       reverse_lane_success: 'Рутата на курирот е превртена (постојки: %{count}).'
       reverse_lane_title: Го превртува редоследот — последната постојка станува прва
       reverse_lane_too_few: Потребни се најмалку две постојки за да се преврти рутата.
+    settings:
+      errors:
+        depot_not_found: не може да се пронајде. Проверете ја адресата или залепете „ширина, должина“ од Google Maps.
+      fields:
+        depot_address: Адреса на базата (почеток и крај на рутите)
+      hints:
+        cities_unlocated: 'Без локација за рутите: %{cities}. Постојките таму без поставена точка се планираат од базата.'
+        depot_address: Куририте тргнуваат оттука и се враќаат тука. Внесете адреса или залепете „ширина, должина“ од Google Maps.
+        depot_address_located: Пронајдено на %{coordinates}. Куририте тргнуваат оттука и се враќаат тука.
+      placeholders:
+        depot_address: ул. Индустриска 5, Скопје — или 41.9981, 21.4254
     sms_log:
       resend: Испрати повторно
       resend_confirm: Повторно испрати SMS до %{phone}?

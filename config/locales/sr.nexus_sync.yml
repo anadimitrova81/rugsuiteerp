@@ -1,6 +1,10 @@
 # Strings for features ported from nexus-cleaning (2026-11 sync).
 ---
 sr:
+  activerecord:
+    attributes:
+      factory:
+        depot_address: Адреса базе
   admin:
     nav:
       heading_analytics: Анализе
@@ -41,6 +45,9 @@ sr:
         pick_up_at_not_working_day: није радни дан — преузимамо у %{days}
     routes:
       balance_time: Уједначи време
+      depot_missing: База (почетак и крај рута) није подешена, па су удаљености и уједначавање времена приближни.
+      depot_missing_link: Подесите је у Подешавањима.
+      depot_not_set: Није подешена
       optimize_lane_button: Оптимизуј
       optimize_lane_confirm: Ово ће преуредити стајалишта овог курира. Наставити?
       optimize_lane_empty: Нема стајалишта за оптимизацију.
@@ -49,6 +56,17 @@ sr:
       reverse_lane_success: 'Рута курира је обрнута (стајалишта: %{count}).'
       reverse_lane_title: Обрће редослед стајалишта — последње постаје прво
       reverse_lane_too_few: Потребна су најмање два стајалишта да би се рута обрнула.
+    settings:
+      errors:
+        depot_not_found: није пронађена. Проверите адресу или налепите „ширина, дужина“ из Google Maps-а.
+      fields:
+        depot_address: Адреса базе (почетак и крај рута)
+      hints:
+        cities_unlocated: 'Без локације за руте: %{cities}. Стајалишта тамо без пина планирају се од базе.'
+        depot_address: Курири крећу одавде и враћају се овде. Унесите адресу или налепите „ширина, дужина“ из Google Maps-а.
+        depot_address_located: Пронађено на %{coordinates}. Курири крећу одавде и враћају се овде.
+      placeholders:
+        depot_address: Индустријска 5, Нови Сад — или 45.2671, 19.8335
     sms_log:
       resend: Пошаљи поново
       resend_confirm: Поново послати SMS на %{phone}?

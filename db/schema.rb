@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_11_17_090300) do
+ActiveRecord::Schema[8.1].define(version: 2026_11_17_100000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -58,10 +58,14 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_17_090300) do
     t.decimal "bulk_area_threshold", precision: 10, scale: 2, default: "0.0", null: false
     t.decimal "bulk_weight_threshold", precision: 10, scale: 2, default: "0.0", null: false
     t.string "business_hours"
+    t.jsonb "city_coordinates", default: {}, null: false
     t.string "country_code", limit: 2, null: false
     t.datetime "created_at", null: false
     t.string "currency", limit: 3, default: "EUR", null: false
     t.string "default_locale", limit: 8, default: "en", null: false
+    t.string "depot_address"
+    t.decimal "depot_latitude", precision: 9, scale: 6
+    t.decimal "depot_longitude", precision: 9, scale: 6
     t.string "email"
     t.string "facebook_url"
     t.string "hero_tagline"

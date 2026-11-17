@@ -1,6 +1,10 @@
 # Strings for features ported from nexus-cleaning (2026-11 sync).
 ---
 en:
+  activerecord:
+    attributes:
+      factory:
+        depot_address: Depot address
   admin:
     nav:
       heading_analytics: Analytics
@@ -41,6 +45,9 @@ en:
         pick_up_at_not_working_day: isn't a working day — we collect on %{days}
     routes:
       balance_time: Balance time
+      depot_missing: The depot (where routes start and end) isn't set, so distances and time balancing are approximate.
+      depot_missing_link: Set it in Settings.
+      depot_not_set: Not set
       optimize_lane_button: Optimise
       optimize_lane_confirm: This will re-order this courier's stops. Continue?
       optimize_lane_empty: No stops to optimise.
@@ -49,6 +56,17 @@ en:
       reverse_lane_success: 'Courier''s route reversed (stops: %{count}).'
       reverse_lane_title: Reverses the stop order — the last stop becomes the first
       reverse_lane_too_few: At least two stops are needed to reverse the route.
+    settings:
+      errors:
+        depot_not_found: couldn't be found. Check the address, or paste "latitude, longitude" from Google Maps.
+      fields:
+        depot_address: Depot address (where routes start and end)
+      hints:
+        cities_unlocated: 'No location for route planning: %{cities}. Stops there without a pin are planned from the depot.'
+        depot_address: Couriers leave from and return here. Enter an address, or paste "latitude, longitude" from Google Maps.
+        depot_address_located: Located at %{coordinates}. Couriers leave from and return here.
+      placeholders:
+        depot_address: 12 Industrial Way, London — or 51.5072, -0.1276
     sms_log:
       resend: Send again
       resend_confirm: Send the SMS to %{phone} again?

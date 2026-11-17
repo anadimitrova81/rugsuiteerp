@@ -59,6 +59,18 @@
     </div>
   </header>
 
+  <% unless current_factory.depot_configured? %>
+    <div class="flash flash-alert flash-icon route-depot-missing">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      <span>
+        <%= t("admin.routes.depot_missing") %>
+        <% if current_admin&.admin? && !current_factory.demo? %>
+          <%= link_to t("admin.routes.depot_missing_link"), admin_settings_path(anchor: "pickup") %>
+        <% end %>
+      </span>
+    </div>
+  <% end %>
+
   <div class="route-lanes" data-controller="<%= "route-planner" unless current_factory.demo? %>"
        data-route-planner-reorder-url-value="<%= reorder_admin_route_path %>">
 
@@ -114,7 +126,7 @@
             <span class="status-badge route-planner-status route-planner-depot-tag"><%= t("admin.routes.depot_start") %></span>
             <div class="route-planner-info">
               <span class="route-planner-id"><%= t("admin.routes.depot_label") %></span>
-              <span class="route-planner-address"><%= Routes::DailyRouteOptimizer::DEPOT_ADDRESS %></span>
+              <span class="route-planner-address"><%= current_factory.depot_address.presence || t("admin.routes.depot_not_set") %></span>
             </div>
           </div>
         <% end %>
@@ -154,7 +166,7 @@
             <span class="status-badge route-planner-status route-planner-depot-tag"><%= t("admin.routes.depot_end") %></span>
             <div class="route-planner-info">
               <span class="route-planner-id"><%= t("admin.routes.depot_label") %></span>
-              <span class="route-planner-address"><%= Routes::DailyRouteOptimizer::DEPOT_ADDRESS %></span>
+              <span class="route-planner-address"><%= current_factory.depot_address.presence || t("admin.routes.depot_not_set") %></span>
             </div>
           </div>
         <% end %>

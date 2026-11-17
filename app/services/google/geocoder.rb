@@ -11,17 +11,22 @@ module Google
     Result = Struct.new(:formatted_address, :latitude, :longitude, :place_id, keyword_init: true)
 
     # Returns Result on success, nil if Google can't resolve the address.
-    # Constrained to Bulgaria via `components=country:BG` so a wrong city like
-    # "Berlin" doesn't accidentally match.
-    def self.find(address:, city:)
+    # Constrained to the company's country (`components=country:XX`) so a
+    # wrong city like "Berlin" doesn't accidentally match. Country and
+    # language default to the current tenant's.
+    def self.find(address:, city:, country: nil, language: nil)
       return nil unless api_key.present?
       return nil if address.blank?
 
+      tenant = ActsAsTenant.current_tenant
+      country = (country || tenant&.country_code).to_s.upcase.presence
+      language = (language || tenant&.default_locale).to_s.presence
+
       query = [address, city].compact_blank.join(", ")
-      cache_key = "geocoder/v1/#{Digest::SHA1.hexdigest(query.downcase)}"
+      cache_key = "geocoder/v3/#{country}/#{language}/#{Digest::SHA1.hexdigest(query.downcase)}"
 
       Rails.cache.fetch(cache_key, expires_in: CACHE_TTL) do
-        request_geocode(query)
+        request_geocode(query, country: country, language: language)
       end
     end
 
@@ -30,14 +35,12 @@ module Google
         ENV["GOOGLE_GEOCODING_API_KEY"]
     end
 
-    def self.request_geocode(query)
+    def self.request_geocode(query, country:, language:)
       uri = URI(ENDPOINT)
-      uri.query = URI.encode_www_form(
-        address: query,
-        components: "country:BG",
-        language: "bg",
-        key: api_key,
-      )
+      params = { address: query, key: api_key }
+      params[:components] = "country:#{country}" if country
+      params[:language] = language if language
+      uri.query = URI.encode_www_form(params)
 
       http = Net::HTTP.new(uri.host, uri.port)
       http.use_ssl = true
@@ -50,6 +53,11 @@ module Google
       case payload["status"]
       when "OK"
         result = payload["results"].first
+        # With nothing better, Google answers with the whole country
+        # ("United Kingdom") — that isn't a location we can route or
+        # validate against.
+        return nil if Array(result["types"]).include?("country")
+
         loc = result.dig("geometry", "location") || {}
         Result.new(
           formatted_address: result["formatted_address"],

@@ -1,4 +1,6 @@
 class Factory < ApplicationRecord
+  include FactoryRoutePlanning
+
   SLUG_REGEX = /\A[a-z0-9](?:[a-z0-9\-]{0,30}[a-z0-9])?\z/
   RESERVED_SLUGS = %w[www admin app api auth status mail email support help docs].freeze
   HEX_COLOR_REGEX = /\A#[0-9A-Fa-f]{6}\z/

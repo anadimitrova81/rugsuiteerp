@@ -11,8 +11,10 @@ module Google
   # and (b) report real driving distance + duration as opposed to our
   # straight-line Haversine fallback.
   #
-  # The factory (::Routes::DailyRouteOptimizer::DEPOT coordinates) is always
-  # origin AND destination — the courier starts and ends every route there.
+  # The company's depot (Settings → Pickup) is always origin AND destination —
+  # the courier starts and ends every route there. Without a depot there is
+  # no meaningful route to ask Google for, so these return nil and the
+  # caller falls back to the straight-line ordering.
   # See depot_waypoint for why we send coordinates, not the address string.
   #
   # ⚠ The API key (credentials:google_maps:directions_api_key) must have
@@ -38,6 +40,7 @@ module Google
     def self.request_route(stops:, optimize:)
       return nil if stops.empty?
       return nil unless api_key.present?
+      return nil unless depot_waypoint
 
       body = {
         origin:      depot_waypoint,
@@ -78,12 +81,12 @@ module Google
     end
 
     # The depot is always origin and destination. We send its coordinates
-    # rather than DEPOT_ADDRESS: the address string ("с. Труд, …") fails the
-    # Routes API geocoder ("Address not found"), which silently yields an empty
-    # response and no route. Coordinates always resolve.
+    # rather than the address string: an address can fail the Routes API
+    # geocoder ("Address not found"), which silently yields an empty response
+    # and no route. Coordinates always resolve.
     def self.depot_waypoint
-      lat, lng = ::Routes::DailyRouteOptimizer::DEPOT
-      { location: { latLng: { latitude: lat, longitude: lng } } }
+      lat, lng = ActsAsTenant.current_tenant&.depot_coordinates
+      { location: { latLng: { latitude: lat, longitude: lng } } } if lat
     end
 
     # Builds a Routes-API Waypoint for a Request. If the coordinator pasted a
@@ -99,7 +102,7 @@ module Google
         if address.present?
           { address: address }
         else
-          { address: ::Routes::DailyRouteOptimizer::DEPOT_ADDRESS }
+          depot_waypoint
         end
       end
     end
